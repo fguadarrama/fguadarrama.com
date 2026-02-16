@@ -49,6 +49,17 @@
     line-height: 1.65;
     font-size: 20px;
     -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  a, button, input, textarea, select {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
   }
 
   /* ---- NAV ---- */
@@ -250,6 +261,17 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.5rem 1.75rem;
+    transition: color 0.25s;
+  }
+  .pub-item.has-link { cursor: pointer; }
+  .pub-item.has-link:hover p,
+  .pub-item.has-link:hover a.pub-link {
+    color: #ED217C;
+  }
+  .pub-item a.pub-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.25s;
   }
   .pub-type {
     font-size: 0.82rem;
@@ -267,14 +289,6 @@
     font-size: 1.02rem;
     color: #4b5563;
     line-height: 1.7;
-  }
-  .pub-item a.doi-link {
-    color: var(--accent);
-    text-decoration: none;
-    transition: color 0.25s;
-  }
-  .pub-item a.doi-link:hover {
-    color: #ED217C;
   }
 
   /* ---- LANGUAGES ---- */
@@ -308,6 +322,11 @@
   }
   .copyright:hover {
     color: #ED217C;
+  }
+  .last-modified {
+    font-size: 0.7rem;
+    color: var(--border);
+    margin-top: 0.5rem;
   }
 
   /* ---- MOBILE ---- */
@@ -354,7 +373,7 @@
   }
 </style>
 </head>
-<body>
+<body oncopy="return false;" oncut="return false;">
 
 <!-- NAV -->
 <nav>
@@ -539,14 +558,14 @@
     <h2 class="section-title" data-en="Selected Publications" data-es="Publicaciones Selectas">Selected Publications</h2>
     <div class="pub-list">
 
-      <div class="pub-item fade-in">
+      <div class="pub-item has-link fade-in">
         <div class="pub-type" data-en="Editorial" data-es="Editorial">Editorial</div>
-        <p><strong>Guadarrama F</strong>, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. <a class="doi-link" href="https://doi.org/10.1016/j.ric.2025.100014" target="_blank">doi:10.1016/j.ric.2025.100014</a>.</p>
+        <p><a class="pub-link" href="https://doi.org/10.1016/j.ric.2025.100014" target="_blank"><strong>Guadarrama F</strong>, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. doi:10.1016/j.ric.2025.100014.</a></p>
       </div>
 
-      <div class="pub-item fade-in">
+      <div class="pub-item has-link fade-in">
         <div class="pub-type" data-en="Article" data-es="Artículo">Article</div>
-        <p>Gutiérrez Castillo A, Gutiérrez Castillo J, <strong>Guadarrama F</strong>. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. <a class="doi-link" href="https://doi.org/10.18502/jmehm.v13i22.4864" target="_blank">doi:10.18502/jmehm.v13i22.4864</a>.</p>
+        <p><a class="pub-link" href="https://doi.org/10.18502/jmehm.v13i22.4864" target="_blank">Gutiérrez Castillo A, Gutiérrez Castillo J, <strong>Guadarrama F</strong>. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. doi:10.18502/jmehm.v13i22.4864.</a></p>
       </div>
 
       <div class="pub-item fade-in">
@@ -571,6 +590,7 @@
 <!-- FOOTER -->
 <footer>
   <p class="copyright">&copy; <span id="copyright-year"></span> Francisco Guadarrama. All rights reserved.</p>
+  <p class="last-modified">Last modified on February 15, 2026, 11:54 PM</p>
 </footer>
 
 <!-- LIGHTBOX -->
