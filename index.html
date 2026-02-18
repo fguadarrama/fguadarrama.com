@@ -109,10 +109,12 @@
     align-items: center;
   }
   .nav-logo {
-    height: 28px;
+    height: 34px;
     width: auto;
     color: var(--accent);
     transition: color 0.2s;
+    pointer-events: none;
+    -webkit-touch-callout: none;
   }
   .nav-name:hover .nav-logo { color: var(--ink); }
   .nav-right { display: flex; align-items: center; gap: 1rem; }
@@ -440,7 +442,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-name" href="#"><svg class="nav-logo" viewBox="124.9 118.7 127.9 140.4" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" transform="matrix(0.13333 0 0 -0.13333 0 377.95)" d="m 1426.04,1083.84 v 355.85 h 354.9 c -4.12,-194.13 -160.9,-351.22 -354.9,-355.85 m -372.58,363.63 c 0,191.62 161.75,354.31 356.99,363.41 v -727.1 c -197.48,3.68 -356.99,165.36 -356.99,363.69 m 743.18,-2.9 c 0.02,0.97 0.1,1.93 0.1,2.9 h -0.1 v 7.8 h -370.6 v 356.01 c 0.54,0 1.09,0.04 1.66,0.04 h 343.06 v -15.68 h 15.57 v 46.95 h -15.57 v -15.69 h -360.31 v -0.4 c -95.59,-4.19 -186.02,-43.08 -256.15,-110.63 -75.08,-72.3 -116.45,-167.61 -116.45,-268.4 0,-206.94 166.54,-375.58 372.6,-379.28 v -60.59 h -16.66 v -15.588 h 46.99 v 15.588 h -14.74 v 60.65 c 202.59,4.63 366.36,168.71 370.48,371.44 h 0.12 v 4.88"/></svg></a>
+    <a class="nav-name" href="#"><svg class="nav-logo" draggable="false" oncontextmenu="return false;" viewBox="124.9 118.7 127.9 140.4" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" transform="matrix(0.13333 0 0 -0.13333 0 377.95)" d="m 1426.04,1083.84 v 355.85 h 354.9 c -4.12,-194.13 -160.9,-351.22 -354.9,-355.85 m -372.58,363.63 c 0,191.62 161.75,354.31 356.99,363.41 v -727.1 c -197.48,3.68 -356.99,165.36 -356.99,363.69 m 743.18,-2.9 c 0.02,0.97 0.1,1.93 0.1,2.9 h -0.1 v 7.8 h -370.6 v 356.01 c 0.54,0 1.09,0.04 1.66,0.04 h 343.06 v -15.68 h 15.57 v 46.95 h -15.57 v -15.69 h -360.31 v -0.4 c -95.59,-4.19 -186.02,-43.08 -256.15,-110.63 -75.08,-72.3 -116.45,-167.61 -116.45,-268.4 0,-206.94 166.54,-375.58 372.6,-379.28 v -60.59 h -16.66 v -15.588 h 46.99 v 15.588 h -14.74 v 60.65 c 202.59,4.63 366.36,168.71 370.48,371.44 h 0.12 v 4.88"/></svg></a>
     <div class="nav-right">
       <div class="nav-links">
         <a href="#experience" data-en="Experience" data-es="Experiencia">Experience</a>
