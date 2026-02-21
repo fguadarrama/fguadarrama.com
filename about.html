@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23104F55'/><text x='50' y='68' font-family='Ysabeau,sans-serif' font-size='48' font-weight='500' fill='white' text-anchor='middle'>FG</text></svg>">
-<title>FGC Logo — Particles</title>
+<title>De Me</title>
 <meta name="author" content="Francisco Guadarrama">
 <meta name="robots" content="noarchive">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
   /* ── Frosted glass card ────────────────────── */
   #bio-card {
     position: fixed;
-    bottom: 28px;
+    bottom: 42px;
     left: 50%;
     transform: translateX(-50%);
     width: 85%;
@@ -48,7 +48,7 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.3);
     z-index: 100;
     opacity: 0;
-    transition: opacity 1.8s ease;
+    transition: opacity 0.6s ease;
   }
   #bio-card.visible { opacity: 1; }
   #bio-text {
@@ -69,25 +69,30 @@
     opacity: 0.65;
   }
 
-  /* ── Footer inside card ────────────────────── */
-  #bio-footer {
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(255,255,255,0.3);
+  /* ── Footer at very bottom ─────────────────── */
+  #page-footer {
+    position: fixed;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
+    z-index: 100;
     font-family: 'Ysabeau', sans-serif;
+    opacity: 0;
+    transition: opacity 0.6s ease;
   }
+  #page-footer.visible { opacity: 1; }
   .copyright {
-    font-size: clamp(8px, 0.7vw, 10px);
-    color: rgba(26,26,46,0.45);
+    font-size: clamp(7.5px, 0.65vw, 9.5px);
+    color: rgba(26,26,46,0.35);
     cursor: default;
     transition: color 0.25s;
   }
   .copyright:hover { color: #ED217C; }
   .last-modified {
-    font-size: clamp(7px, 0.55vw, 8.5px);
-    color: rgba(26,26,46,0.2);
-    margin-top: 2px;
+    font-size: clamp(6.5px, 0.5vw, 8px);
+    color: rgba(26,26,46,0.18);
+    margin-top: 1px;
   }
 
   /* ── Boom: pure text, no box ───────────────── */
@@ -96,11 +101,8 @@
     top: 18px;
     right: 52px;
     z-index: 200;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-    outline: none;
+    padding: 0; margin: 0;
+    border: none; background: none; outline: none;
     -webkit-appearance: none;
     cursor: pointer;
     font-family: 'Ysabeau', sans-serif;
@@ -119,15 +121,10 @@
   /* Confetti pseudo-elements */
   #boom-btn:before,
   #boom-btn:after {
-    position: absolute;
-    content: "";
-    width: 400%;
-    left: 50%;
-    height: 300%;
-    transform: translateX(-50%);
-    z-index: -1;
-    background-repeat: no-repeat;
-    pointer-events: none;
+    position: absolute; content: "";
+    width: 400%; left: 50%; height: 300%;
+    transform: translateX(-50%); z-index: -1;
+    background-repeat: no-repeat; pointer-events: none;
   }
   #boom-btn:hover:before,
   #boom-btn.confetti-active:before {
@@ -172,20 +169,77 @@
     100% { background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%; background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
   }
 
+  /* ── Back button (CTA with arrow) ──────────── */
+  #back-btn {
+    position: fixed;
+    top: 18px;
+    left: 28px;
+    z-index: 200;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 0; margin: 0;
+    outline: none;
+    -webkit-appearance: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #back-btn.visible { opacity: 1; }
+  #back-btn .back-label {
+    position: relative;
+    font-family: 'Ysabeau', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    color: #353369;
+    transition: color 0.3s ease;
+  }
+  /* Underline animation */
+  #back-btn .back-label::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1.5px;
+    bottom: 0;
+    left: 0;
+    background-color: #353369;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out, background-color 0.3s ease;
+  }
+  #back-btn:hover .back-label::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+  /* Arrow */
+  #back-btn svg {
+    width: 20px;
+    height: 12px;
+    transform: translateX(8px);
+    transition: all 0.3s ease;
+  }
+  #back-btn:hover svg {
+    transform: translateX(0);
+  }
+  #back-btn:active svg {
+    transform: scale(0.9);
+  }
+
   /* ── Print protection ──────────────────────── */
   @media print {
     body { visibility: hidden; }
     body::after {
-      visibility: visible;
-      display: block;
-      position: absolute;
-      top: 50%; left: 50%;
+      visibility: visible; display: block;
+      position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
       font-family: 'Ysabeau', sans-serif;
-      font-size: 18px;
-      color: #01200F;
-      line-height: 1.8;
+      font-size: 18px; color: #01200F; line-height: 1.8;
     }
     :lang(en) body::after {
       content: "Please contact me directly at fgc[/@/]franciscoguadarrama[/dot/]com for a printable version.";
@@ -198,14 +252,21 @@
 </head>
 <body oncopy="return false;" oncut="return false;">
 
-<div id="bio-card">
-  <div id="bio-text"></div>
-  <div id="bio-footer">
-    <p class="copyright">&copy; <span id="copyright-year"></span> Francisco Guadarrama. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></p>
-    <p class="last-modified" data-en="Last modified on February 21, 2026, 12:00 AM" data-es="Última modificación: 21 de febrero de 2026, 12:00 AM">Last modified on February 21, 2026, 12:00 AM</p>
-  </div>
+<div id="bio-card"><div id="bio-text"></div></div>
+
+<div id="page-footer">
+  <p class="copyright">&copy; <span id="copyright-year"></span> <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></p>
+  <p class="last-modified" data-en="Last modified on February 20, 2026, 11:50 PM" data-es="Última modificación: 20 de febrero de 2026, 11:50 PM">Last modified on February 20, 2026, 11:50 PM</p>
 </div>
+
 <button id="boom-btn">boom!</button>
+
+<button id="back-btn" onclick="history.back()">
+  <svg viewBox="0 0 46 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0.292893 7.29289C-0.0976311 7.68342 -0.0976311 8.31658 0.292893 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292893 7.29289ZM46 7H1V9H46V7Z" fill="currentColor"/>
+  </svg>
+  <span class="back-label" id="back-label">Redire</span>
+</button>
 
 <svg id="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="124.9 118.7 127.9 140.4"
      draggable="false" oncontextmenu="return false;"
@@ -215,25 +276,32 @@
 </svg>
 
 <script>
-/* ── Dynamic copyright year ────────────────────────── */
-document.getElementById('copyright-year').textContent = new Date().getFullYear();
-
-/* ── Language detection & text ─────────────────────── */
-const TEXTS = {
-  es: `Soy Francisco, oncólogo en v\u00A00.98 rumbo a la versión\u00A01.0. Intento entender tanto a las células cancerígenas como al código fuente. Me acompañan Folfiri y Petri, oncogatos que proveen soporte técnico y ronroneos. Disfruto del té, el pan y la buena mesa (por supuesto, sin lácteos y sin bugs). También me gustan las novelas negras nórdicas y la música de cámara. Colecciono alebrijes, máscaras y acuarelas.`,
-  en: `I'm Francisco, an oncologist in version\u00A00.98, about to ship version\u00A01.0. I try to understand both cancer cells and source code. My partners in crime are Folfiri and Petri, two onc-cats who provide technical support and purrs. I enjoy tea, bread, and good food (dairy-and-bug free, of course!). I also like Nordic noir and chamber music. I collect Mexican alebrijes, masks, and watercolors.`,
-  la: `Franciscus sum, oncologus in versione\u00A00.98, in via ad versionem\u00A01.0. Conor intellegere et cellulas carcinomatosas et codicem fontem. Comitantur me Folfiri et Petri, onco-feles qui auxilium technicum praebent et murmurant. Fruor thea, pane, et cibo bono (sine lacte et sine insectis, scilicet). Amo etiam musicam nigram Nordicam et musicam cameralem. Colligo alebrijas, larvas, et aquarellas.`,
-};
-
-function detectLanguage() {
+/* ── Smart language detection ──────────────────────── */
+function getLang() {
   const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
   if (lang.startsWith('es')) return 'es';
   if (lang.startsWith('en')) return 'en';
   return 'la';
 }
 
+/* ── Smart page title ──────────────────────────────── */
+const TITLES = { es: 'Acerca de', en: 'About me', la: 'De Me' };
+document.title = TITLES[getLang()];
+
+/* ── Dynamic copyright year ────────────────────────── */
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+/* ── Bio text ──────────────────────────────────────── */
+const TEXTS = {
+  es: `Soy Francisco, oncólogo en v\u00A00.98 rumbo a la versión\u00A01.0. Intento entender tanto a las células cancerígenas como al código fuente. Me acompañan Folfiri y Petri, oncogatos que proveen soporte técnico y ronroneos. Disfruto del té, el pan y la buena mesa (por supuesto, sin lácteos y sin bugs). También me gustan las novelas negras nórdicas y la música de cámara. Colecciono alebrijes, máscaras y acuarelas.`,
+  en: `I'm Francisco, an oncologist in version\u00A00.98, about to ship version\u00A01.0. I try to understand both cancer cells and source code. My partners in crime are Folfiri and Petri, two onc-cats who provide technical support and purrs. I enjoy tea, bread, and good food (dairy-and-bug free, of course!). I also like Nordic noir and chamber music. I collect Mexican alebrijes, masks, and watercolors.`,
+  la: `Franciscus sum, oncologus in versione\u00A00.98, in via ad versionem\u00A01.0. Conor intellegere et cellulas carcinomatosas et codicem fontem. Comitantur me Folfiri et Petri, onco-feles qui auxilium technicum praebent et murmurant. Fruor thea, pane, et cibo bono (sine lacte et sine insectis, scilicet). Amo etiam musicam nigram Nordicam et musicam cameralem. Colligo alebrijas, larvas, et aquarellas.`,
+};
+
+const BACK_LABELS = { es: 'Regresar', en: 'Go back', la: 'Redire' };
+
 function setBioText() {
-  const lang = detectLanguage();
+  const lang = getLang();
   const el = document.getElementById('bio-text');
   document.documentElement.lang = lang === 'la' ? 'la' : lang;
 
@@ -243,14 +311,22 @@ function setBioText() {
     el.textContent = TEXTS[lang];
   }
 
-  // Set bilingual footer text
+  // Bilingual footer + back button
+  const dataLang = lang === 'la' ? 'en' : lang;
   document.querySelectorAll('[data-en]').forEach(el => {
-    const text = el.getAttribute('data-' + (lang === 'la' ? 'en' : lang));
+    const text = el.getAttribute('data-' + dataLang);
     if (text) el.innerHTML = text;
   });
 
-  setTimeout(() => document.getElementById('bio-card').classList.add('visible'), 2500);
-  setTimeout(() => document.getElementById('boom-btn').classList.add('visible'), 3000);
+  document.getElementById('back-label').textContent = BACK_LABELS[lang];
+
+  // Show UI fast — bio card at 400ms, buttons at 600ms
+  setTimeout(() => document.getElementById('bio-card').classList.add('visible'), 400);
+  setTimeout(() => {
+    document.getElementById('boom-btn').classList.add('visible');
+    document.getElementById('back-btn').classList.add('visible');
+    document.getElementById('page-footer').classList.add('visible');
+  }, 600);
 }
 
 /* ── Color cycle ───────────────────────────────────── */
@@ -284,7 +360,8 @@ let cardHeight = 0;
 
 function measureCard() {
   const card = document.getElementById('bio-card');
-  cardHeight = card.offsetHeight + 48;
+  const footer = document.getElementById('page-footer');
+  cardHeight = card.offsetHeight + footer.offsetHeight + 56;
 }
 
 function resize() {
@@ -312,13 +389,8 @@ function sampleLogoPoints(count) {
       const maxH = availH - padding * 2;
       const aspect = img.naturalWidth / img.naturalHeight;
       let w, h;
-      if (maxW / aspect <= maxH) {
-        w = maxW * CONFIG.logoScale;
-        h = w / aspect;
-      } else {
-        h = maxH * CONFIG.logoScale;
-        w = h * aspect;
-      }
+      if (maxW / aspect <= maxH) { w = maxW * CONFIG.logoScale; h = w / aspect; }
+      else { h = maxH * CONFIG.logoScale; w = h * aspect; }
 
       offscreen.width = Math.ceil(w); offscreen.height = Math.ceil(h);
       octx.drawImage(img, 0, 0, offscreen.width, offscreen.height);
@@ -362,14 +434,32 @@ function getCurrentColor(time) {
   return { r: Math.round(from.r + (to.r - from.r) * e), g: Math.round(from.g + (to.g - from.g) * e), b: Math.round(from.b + (to.b - from.b) * e) };
 }
 
-/* ── Boom button sync ──────────────────────────────── */
+/* ── Button color sync ─────────────────────────────── */
 const boomBtn = document.getElementById('boom-btn');
+const backBtn = document.getElementById('back-btn');
+const backLabel = document.getElementById('back-label');
 let lastBtnUpdate = 0;
-function updateBoomButton(color) {
+
+function updateButtons(color) {
   const now = performance.now();
   if (now - lastBtnUpdate < 80) return;
   lastBtnUpdate = now;
-  boomBtn.style.color = `rgb(${color.r},${color.g},${color.b})`;
+  const rgb = `rgb(${color.r},${color.g},${color.b})`;
+
+  // Boom button
+  boomBtn.style.color = rgb;
+
+  // Back button: text + arrow + underline
+  backLabel.style.color = rgb;
+  backBtn.querySelector('svg').style.color = rgb;
+  backLabel.style.setProperty('--underline-color', rgb);
+  // Update underline ::after via inline style trick
+  const styleEl = document.getElementById('dynamic-underline') || document.createElement('style');
+  styleEl.id = 'dynamic-underline';
+  styleEl.textContent = `#back-btn .back-label::after { background-color: ${rgb}; }`;
+  if (!styleEl.parentNode) document.head.appendChild(styleEl);
+
+  // Confetti colors
   const totalColors = COLOR_CYCLE.length;
   const totalCycle = totalColors * COLOR_DURATION;
   const time = (performance.now() - startTime) / 1000;
@@ -433,7 +523,7 @@ function animate() {
   const time = (performance.now() - startTime) / 1000;
   ctx.fillStyle = '#F5F7FD'; ctx.fillRect(0, 0, width, height);
   const color = getCurrentColor(time);
-  updateBoomButton(color);
+  updateButtons(color);
   for (const p of particles) { p.update(time); p.draw(ctx, color); }
   requestAnimationFrame(animate);
 }
