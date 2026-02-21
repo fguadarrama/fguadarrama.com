@@ -1,0 +1,455 @@
+<!-- © Francisco Guadarrama. All rights reserved. Unauthorized copying, reproduction, or distribution of any content on this site is strictly prohibited. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23104F55'/><text x='50' y='68' font-family='Ysabeau,sans-serif' font-size='48' font-weight='500' fill='white' text-anchor='middle'>FG</text></svg>">
+<title>FGC Logo — Particles</title>
+<meta name="author" content="Francisco Guadarrama">
+<meta name="robots" content="noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #F5F7FD;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  canvas {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: auto;
+  }
+
+  /* ── Frosted glass card ────────────────────── */
+  #bio-card {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 900px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.3);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 1.8s ease;
+  }
+  #bio-card.visible { opacity: 1; }
+  #bio-text {
+    font-family: 'Ysabeau', sans-serif;
+    font-size: clamp(10.5px, 1.1vw, 13.5px);
+    font-weight: 380;
+    line-height: 1.6;
+    color: #1a1a2e;
+    text-align: center;
+    letter-spacing: 0.01em;
+    text-shadow: 0 0 12px rgba(255,255,255,0.5);
+  }
+  #bio-text .latin-note {
+    display: block;
+    margin-top: 6px;
+    font-style: italic;
+    font-size: 0.85em;
+    opacity: 0.65;
+  }
+
+  /* ── Footer inside card ────────────────────── */
+  #bio-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    text-align: center;
+    font-family: 'Ysabeau', sans-serif;
+  }
+  .copyright {
+    font-size: clamp(8px, 0.7vw, 10px);
+    color: rgba(26,26,46,0.45);
+    cursor: default;
+    transition: color 0.25s;
+  }
+  .copyright:hover { color: #ED217C; }
+  .last-modified {
+    font-size: clamp(7px, 0.55vw, 8.5px);
+    color: rgba(26,26,46,0.2);
+    margin-top: 2px;
+  }
+
+  /* ── Boom: pure text, no box ───────────────── */
+  #boom-btn {
+    position: fixed;
+    top: 18px;
+    right: 52px;
+    z-index: 200;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    font-family: 'Ysabeau', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #353369;
+    line-height: 1;
+    transition: color 0.3s ease;
+    opacity: 0;
+    overflow: visible;
+  }
+  #boom-btn.visible { opacity: 1; transition: opacity 0.6s ease, color 0.3s ease; }
+  #boom-btn:active { transform: scale(0.94); }
+
+  /* Confetti pseudo-elements */
+  #boom-btn:before,
+  #boom-btn:after {
+    position: absolute;
+    content: "";
+    width: 400%;
+    left: 50%;
+    height: 300%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  #boom-btn:hover:before,
+  #boom-btn.confetti-active:before {
+    top: -200%;
+    background-image:
+      radial-gradient(circle, var(--boom-c1) 20%, transparent 20%),
+      radial-gradient(circle, transparent 20%, var(--boom-c2) 20%, transparent 30%),
+      radial-gradient(circle, var(--boom-c3) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c4) 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, var(--boom-c5) 15%, transparent 20%),
+      radial-gradient(circle, var(--boom-c6) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c1) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c3) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c5) 20%, transparent 20%);
+    background-size: 6% 6%, 10% 10%, 8% 8%, 10% 10%, 9% 9%, 6% 6%, 8% 8%, 6% 6%, 9% 9%;
+    background-position: 50% 120%;
+    animation: topBubbles 0.6s ease;
+  }
+  @keyframes topBubbles {
+    0%   { background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%; }
+    50%  { background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%; }
+    100% { background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%; background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+  }
+  #boom-btn:hover::after,
+  #boom-btn.confetti-active::after {
+    bottom: -200%;
+    background-image:
+      radial-gradient(circle, var(--boom-c2) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c4) 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, var(--boom-c6) 15%, transparent 20%),
+      radial-gradient(circle, var(--boom-c1) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c3) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c5) 20%, transparent 20%),
+      radial-gradient(circle, var(--boom-c2) 20%, transparent 20%);
+    background-size: 8% 8%, 10% 10%, 9% 9%, 10% 10%, 8% 8%, 10% 10%, 9% 9%;
+    background-position: 50% 0%;
+    animation: bottomBubbles 0.6s ease;
+  }
+  @keyframes bottomBubbles {
+    0%   { background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%; }
+    50%  { background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%; }
+    100% { background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%; background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+  }
+
+  /* ── Print protection ──────────────────────── */
+  @media print {
+    body { visibility: hidden; }
+    body::after {
+      visibility: visible;
+      display: block;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-family: 'Ysabeau', sans-serif;
+      font-size: 18px;
+      color: #01200F;
+      line-height: 1.8;
+    }
+    :lang(en) body::after {
+      content: "Please contact me directly at fgc[/@/]franciscoguadarrama[/dot/]com for a printable version.";
+    }
+    :lang(es) body::after {
+      content: "Por favor contáctame directamente a fgc[/@/]franciscoguadarrama[/dot/]com para una versión imprimible.";
+    }
+  }
+</style>
+</head>
+<body oncopy="return false;" oncut="return false;">
+
+<div id="bio-card">
+  <div id="bio-text"></div>
+  <div id="bio-footer">
+    <p class="copyright">&copy; <span id="copyright-year"></span> Francisco Guadarrama. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></p>
+    <p class="last-modified" data-en="Last modified on February 21, 2026, 12:00 AM" data-es="Última modificación: 21 de febrero de 2026, 12:00 AM">Last modified on February 21, 2026, 12:00 AM</p>
+  </div>
+</div>
+<button id="boom-btn">boom!</button>
+
+<svg id="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="124.9 118.7 127.9 140.4"
+     draggable="false" oncontextmenu="return false;"
+     style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none;-webkit-touch-callout:none;">
+  <path fill="#104F55" transform="matrix(0.13333 0 0 -0.13333 0 377.95)"
+        d="m 1426.04,1083.84 v 355.85 h 354.9 c -4.12,-194.13 -160.9,-351.22 -354.9,-355.85 m -372.58,363.63 c 0,191.62 161.75,354.31 356.99,363.41 v -727.1 c -197.48,3.68 -356.99,165.36 -356.99,363.69 m 743.18,-2.9 c 0.02,0.97 0.1,1.93 0.1,2.9 h -0.1 v 7.8 h -370.6 v 356.01 c 0.54,0 1.09,0.04 1.66,0.04 h 343.06 v -15.68 h 15.57 v 46.95 h -15.57 v -15.69 h -360.31 v -0.4 c -95.59,-4.19 -186.02,-43.08 -256.15,-110.63 -75.08,-72.3 -116.45,-167.61 -116.45,-268.4 0,-206.94 166.54,-375.58 372.6,-379.28 v -60.59 h -16.66 v -15.588 h 46.99 v 15.588 h -14.74 v 60.65 c 202.59,4.63 366.36,168.71 370.48,371.44 h 0.12 v 4.88" />
+</svg>
+
+<script>
+/* ── Dynamic copyright year ────────────────────────── */
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+/* ── Language detection & text ─────────────────────── */
+const TEXTS = {
+  es: `Soy Francisco, oncólogo en v\u00A00.98 rumbo a la versión\u00A01.0. Intento entender tanto a las células cancerígenas como al código fuente. Me acompañan Folfiri y Petri, oncogatos que proveen soporte técnico y ronroneos. Disfruto del té, el pan y la buena mesa (por supuesto, sin lácteos y sin bugs). También me gustan las novelas negras nórdicas y la música de cámara. Colecciono alebrijes, máscaras y acuarelas.`,
+  en: `I'm Francisco, an oncologist in version\u00A00.98, about to ship version\u00A01.0. I try to understand both cancer cells and source code. My partners in crime are Folfiri and Petri, two onc-cats who provide technical support and purrs. I enjoy tea, bread, and good food (dairy-and-bug free, of course!). I also like Nordic noir and chamber music. I collect Mexican alebrijes, masks, and watercolors.`,
+  la: `Franciscus sum, oncologus in versione\u00A00.98, in via ad versionem\u00A01.0. Conor intellegere et cellulas carcinomatosas et codicem fontem. Comitantur me Folfiri et Petri, onco-feles qui auxilium technicum praebent et murmurant. Fruor thea, pane, et cibo bono (sine lacte et sine insectis, scilicet). Amo etiam musicam nigram Nordicam et musicam cameralem. Colligo alebrijas, larvas, et aquarellas.`,
+};
+
+function detectLanguage() {
+  const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  if (lang.startsWith('es')) return 'es';
+  if (lang.startsWith('en')) return 'en';
+  return 'la';
+}
+
+function setBioText() {
+  const lang = detectLanguage();
+  const el = document.getElementById('bio-text');
+  document.documentElement.lang = lang === 'la' ? 'la' : lang;
+
+  if (lang === 'la') {
+    el.innerHTML = TEXTS.la + `<span class="latin-note">(Sorry, we couldn't find your set-up language. Latin is universal and we thought it might help!)</span>`;
+  } else {
+    el.textContent = TEXTS[lang];
+  }
+
+  // Set bilingual footer text
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const text = el.getAttribute('data-' + (lang === 'la' ? 'en' : lang));
+    if (text) el.innerHTML = text;
+  });
+
+  setTimeout(() => document.getElementById('bio-card').classList.add('visible'), 2500);
+  setTimeout(() => document.getElementById('boom-btn').classList.add('visible'), 3000);
+}
+
+/* ── Color cycle ───────────────────────────────────── */
+const COLOR_CYCLE = [
+  '#353369', '#5A689E', '#516AC8', '#380282',
+  '#FF2077', '#00804C', '#001F3F', '#BE4236',
+  '#216B88', '#F0A315', '#062540', '#DA6D09',
+  '#8B2635', '#797B84', '#FF5D73',
+];
+const COLOR_DURATION = 2.5;
+
+const CONFIG = {
+  particleCount: 2600,
+  particleSize: 1.1,
+  logoScale: 0.85,
+  mouseRadius: 55,
+  mouseForce: 0.5,
+  returnSpeed: 0.055,
+  damping: 0.6,
+  driftAmount: 8,
+  driftSpeed: 1.9,
+};
+
+/* ── Canvas setup ──────────────────────────────────── */
+const canvas = document.createElement('canvas');
+const ctx = canvas.getContext('2d');
+document.body.prepend(canvas);
+
+let width, height, particles = [], mouse = { x: -9999, y: -9999 };
+let cardHeight = 0;
+
+function measureCard() {
+  const card = document.getElementById('bio-card');
+  cardHeight = card.offsetHeight + 48;
+}
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  requestAnimationFrame(measureCard);
+}
+window.addEventListener('resize', () => { resize(); initParticles(); });
+resize();
+
+/* ── Sample points from SVG ───────────────────────── */
+function sampleLogoPoints(count) {
+  return new Promise(resolve => {
+    const offscreen = document.createElement('canvas');
+    const octx = offscreen.getContext('2d');
+    const img = new Image();
+    const svgEl = document.getElementById('logo-svg');
+    const svgData = new XMLSerializer().serializeToString(svgEl);
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+    img.onload = () => {
+      const availH = height - cardHeight;
+      const availW = width;
+      const padding = 20;
+      const maxW = availW - padding * 2;
+      const maxH = availH - padding * 2;
+      const aspect = img.naturalWidth / img.naturalHeight;
+      let w, h;
+      if (maxW / aspect <= maxH) {
+        w = maxW * CONFIG.logoScale;
+        h = w / aspect;
+      } else {
+        h = maxH * CONFIG.logoScale;
+        w = h * aspect;
+      }
+
+      offscreen.width = Math.ceil(w); offscreen.height = Math.ceil(h);
+      octx.drawImage(img, 0, 0, offscreen.width, offscreen.height);
+      const imageData = octx.getImageData(0, 0, offscreen.width, offscreen.height);
+      const data = imageData.data; const ow = offscreen.width, oh = offscreen.height;
+      const edgePixels = [], filledPixels = [];
+      for (let y = 1; y < oh - 1; y++) {
+        for (let x = 1; x < ow - 1; x++) {
+          const idx = (y * ow + x) * 4;
+          if (data[idx + 3] > 128) {
+            const t = data[((y-1)*ow+x)*4+3], b = data[((y+1)*ow+x)*4+3];
+            const l = data[(y*ow+(x-1))*4+3], r = data[(y*ow+(x+1))*4+3];
+            if (t < 128 || b < 128 || l < 128 || r < 128) edgePixels.push({ x, y });
+          }
+        }
+      }
+      for (let y = 0; y < oh; y += 3) for (let x = 0; x < ow; x += 3)
+        if (data[(y * ow + x) * 4 + 3] > 128) filledPixels.push({ x, y });
+
+      const edgeCount = Math.floor(count * 0.7), fillCount = count - edgeCount;
+      const points = [];
+      const offsetX = (availW - ow) / 2;
+      const offsetY = (availH - oh) / 2;
+      for (let i = 0; i < edgeCount; i++) { const p = edgePixels[Math.floor(Math.random() * edgePixels.length)]; points.push({ x: p.x + offsetX, y: p.y + offsetY }); }
+      for (let i = 0; i < fillCount; i++) { const p = filledPixels[Math.floor(Math.random() * filledPixels.length)]; points.push({ x: p.x + offsetX, y: p.y + offsetY }); }
+      resolve(points);
+    };
+  });
+}
+
+/* ── Color helpers ─────────────────────────────────── */
+function hexToRgb(hex) { const n = parseInt(hex.slice(1), 16); return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 }; }
+const cycleRgb = COLOR_CYCLE.map(hexToRgb);
+
+function getCurrentColor(time) {
+  const totalCycle = COLOR_CYCLE.length * COLOR_DURATION;
+  const t = (time % totalCycle) / COLOR_DURATION;
+  const idx = Math.floor(t), frac = t - idx;
+  const from = cycleRgb[idx % cycleRgb.length], to = cycleRgb[(idx + 1) % cycleRgb.length];
+  const e = frac < 0.5 ? 4 * frac * frac * frac : 1 - Math.pow(-2 * frac + 2, 3) / 2;
+  return { r: Math.round(from.r + (to.r - from.r) * e), g: Math.round(from.g + (to.g - from.g) * e), b: Math.round(from.b + (to.b - from.b) * e) };
+}
+
+/* ── Boom button sync ──────────────────────────────── */
+const boomBtn = document.getElementById('boom-btn');
+let lastBtnUpdate = 0;
+function updateBoomButton(color) {
+  const now = performance.now();
+  if (now - lastBtnUpdate < 80) return;
+  lastBtnUpdate = now;
+  boomBtn.style.color = `rgb(${color.r},${color.g},${color.b})`;
+  const totalColors = COLOR_CYCLE.length;
+  const totalCycle = totalColors * COLOR_DURATION;
+  const time = (performance.now() - startTime) / 1000;
+  const idx = Math.floor((time % totalCycle) / COLOR_DURATION);
+  for (let i = 0; i < 6; i++) boomBtn.style.setProperty(`--boom-c${i + 1}`, COLOR_CYCLE[(idx + i * 2) % totalColors]);
+}
+
+/* ── Particle class ───────────────────────────────── */
+class Particle {
+  constructor(targetX, targetY) {
+    this.targetX = targetX; this.targetY = targetY;
+    this.x = Math.random() * width; this.y = Math.random() * height;
+    this.vx = 0; this.vy = 0;
+    this.baseSize = Math.random() * CONFIG.particleSize + 0.4;
+    this.alpha = Math.random() * 0.5 + 0.5;
+    this.driftPhaseX1 = Math.random() * Math.PI * 2; this.driftPhaseY1 = Math.random() * Math.PI * 2;
+    this.driftPhaseX2 = Math.random() * Math.PI * 2; this.driftPhaseY2 = Math.random() * Math.PI * 2;
+    this.driftFreq1 = 0.3 + Math.random() * 0.7; this.driftFreq2 = 0.8 + Math.random() * 1.2;
+  }
+  scatter() {
+    this.x = Math.random() * width; this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 4; this.vy = (Math.random() - 0.5) * 4;
+  }
+  update(time) {
+    const spd = CONFIG.driftSpeed, amt = CONFIG.driftAmount;
+    const driftX = Math.sin(time * this.driftFreq1 * spd + this.driftPhaseX1) * amt + Math.sin(time * this.driftFreq2 * spd + this.driftPhaseX2) * (amt * 0.35);
+    const driftY = Math.cos(time * this.driftFreq1 * spd * 0.8 + this.driftPhaseY1) * amt + Math.cos(time * this.driftFreq2 * spd * 0.6 + this.driftPhaseY2) * (amt * 0.35);
+    const tx = this.targetX + driftX, ty = this.targetY + driftY;
+    const dx = this.x - mouse.x, dy = this.y - mouse.y, dist = Math.sqrt(dx * dx + dy * dy);
+    let fx = 0, fy = 0;
+    if (dist < CONFIG.mouseRadius && dist > 0) { const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius; fx = (dx / dist) * force * CONFIG.mouseForce; fy = (dy / dist) * force * CONFIG.mouseForce; }
+    this.vx += (tx - this.x) * CONFIG.returnSpeed + fx; this.vy += (ty - this.y) * CONFIG.returnSpeed + fy;
+    this.vx *= CONFIG.damping; this.vy *= CONFIG.damping;
+    this.x += this.vx; this.y += this.vy;
+  }
+  draw(ctx, color) {
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.baseSize, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},${this.alpha})`; ctx.fill();
+  }
+}
+
+/* ── Init ──────────────────────────────────────────── */
+async function initParticles() {
+  measureCard();
+  const points = await sampleLogoPoints(CONFIG.particleCount);
+  particles = points.map(p => new Particle(p.x, p.y));
+}
+
+/* ── Boom! ─────────────────────────────────────────── */
+boomBtn.addEventListener('click', () => {
+  for (const p of particles) p.scatter();
+  boomBtn.classList.remove('confetti-active');
+  void boomBtn.offsetWidth;
+  boomBtn.classList.add('confetti-active');
+  setTimeout(() => boomBtn.classList.remove('confetti-active'), 700);
+});
+
+/* ── Animation loop ───────────────────────────────── */
+let startTime = performance.now();
+function animate() {
+  const time = (performance.now() - startTime) / 1000;
+  ctx.fillStyle = '#F5F7FD'; ctx.fillRect(0, 0, width, height);
+  const color = getCurrentColor(time);
+  updateBoomButton(color);
+  for (const p of particles) { p.update(time); p.draw(ctx, color); }
+  requestAnimationFrame(animate);
+}
+
+/* ── Mouse tracking ────────────────────────────────── */
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchend', () => { mouse.x = -9999; mouse.y = -9999; });
+
+/* ── Disable right-click on canvas ─────────────────── */
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+/* ── Start ─────────────────────────────────────────── */
+setBioText();
+requestAnimationFrame(() => { initParticles().then(() => animate()); });
+</script>
+</body>
+</html>
