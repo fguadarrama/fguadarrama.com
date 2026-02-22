@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jabberwocky</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&family=Quattrocento+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hot-pink: #FF1D58;
+    --pink: #F75990;
+    --yellow: #FFF685;
+    --sky: #00DDFF;
+    --navy: #0049B7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: var(--navy);
+    font-family: 'Quattrocento Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── Magnifying glass cursor ── */
+  #cursor-wrap {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    /* offset so circle-centre lands on pointer tip */
+    transform: translate(-10px, -10px);
+  }
+  #cursor-wrap svg { display: block; overflow: visible; }
+  /* Only the circle (lens) changes colour; handle stays neutral */
+  #cursor-wrap .lens {
+    stroke: var(--yellow);
+    fill: rgba(255,246,133,0.07);
+    transition: stroke 0.2s ease, fill 0.2s ease;
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+  #cursor-wrap .handle { stroke: rgba(255,255,255,0.8); }
+
+  /* ── Vanta canvas (fixed background) ── */
+  #vanta-bg { position: fixed; inset: 0; z-index: 0; }
+
+  /* ── Soft blob layer ── */
+  .bg { position: fixed; inset: 0; overflow: hidden; z-index: 1; pointer-events: none; }
+  .blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(90px); opacity: 0.18;
+    animation: drift linear infinite;
+  }
+  .b1 { width:480px;height:480px;background:var(--hot-pink);top:-80px;left:-80px;animation-duration:20s; }
+  .b2 { width:360px;height:360px;background:var(--sky);top:45%;right:-80px;animation-duration:24s;animation-delay:-9s; }
+  .b3 { width:300px;height:300px;background:var(--yellow);bottom:-60px;left:32%;animation-duration:17s;animation-delay:-5s; }
+  @keyframes drift {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(55px,-35px) scale(1.08); }
+    66%      { transform: translate(-35px,55px) scale(0.93); }
+  }
+
+  /* ── Content ── */
+  main { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; padding: 80px 24px 60px; }
+
+  header { text-align: center; margin-bottom: 70px; }
+
+  .eyebrow {
+    font-family: 'Quattrocento Sans', sans-serif; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 0.38em;
+    text-transform: uppercase; color: var(--sky);
+    opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  h1 {
+    font-family: 'Red Hat Display', sans-serif; font-weight: 700;
+    font-size: clamp(4rem, 12vw, 7.5rem); line-height: 1;
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--pink) 50%, var(--sky) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; background-size: 200% 200%;
+    animation: gradShift 4s ease-in-out infinite, fadeUp 0.7s ease forwards 0.4s;
+    opacity: 0;
+  }
+  @keyframes gradShift {
+    0%,100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  .subtitle {
+    font-size: 1rem; color: rgba(255,255,255,0.5); margin-top: 10px;
+    opacity: 0; animation: fadeUp 0.6s ease forwards 0.6s;
+  }
+  .subtitle .kw { color: var(--yellow); font-weight: 700; }
+
+  /* ── Stanza cards ── */
+  .stanza {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 32px 40px; margin-bottom: 20px;
+    backdrop-filter: blur(12px);
+    /* Hidden until revealed by scroll (or first-card rule) */
+    opacity: 0; transform: translateY(40px);
+    transition: transform 0.5s cubic-bezier(.22,.68,0,1.2),
+                background 0.3s ease, border-color 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+  .stanza.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .stanza:hover {
+    background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  }
+
+  #poem-en .stanza:nth-child(1),
+  #poem-es .stanza:nth-child(1),
+  #poem-fr .stanza:nth-child(1),
+  #poem-la .stanza:nth-child(1) { border-left: 4px solid var(--hot-pink); }
+
+  #poem-en .stanza:nth-child(2),
+  #poem-es .stanza:nth-child(2),
+  #poem-fr .stanza:nth-child(2),
+  #poem-la .stanza:nth-child(2) { border-left: 4px solid var(--pink); }
+
+  #poem-en .stanza:nth-child(3),
+  #poem-es .stanza:nth-child(3),
+  #poem-fr .stanza:nth-child(3),
+  #poem-la .stanza:nth-child(3) { border-left: 4px solid var(--yellow); }
+
+  #poem-en .stanza:nth-child(4),
+  #poem-es .stanza:nth-child(4),
+  #poem-fr .stanza:nth-child(4),
+  #poem-la .stanza:nth-child(4) { border-left: 4px solid var(--sky); }
+
+  #poem-en .stanza:nth-child(5),
+  #poem-es .stanza:nth-child(5),
+  #poem-fr .stanza:nth-child(5),
+  #poem-la .stanza:nth-child(5) { border-left: 4px solid var(--hot-pink); }
+
+  #poem-en .stanza:nth-child(6),
+  #poem-es .stanza:nth-child(6),
+  #poem-fr .stanza:nth-child(6),
+  #poem-la .stanza:nth-child(6) { border-left: 4px solid var(--pink); }
+
+  #poem-en .stanza:nth-child(7),
+  #poem-es .stanza:nth-child(7),
+  #poem-fr .stanza:nth-child(7),
+  #poem-la .stanza:nth-child(7) { border-left: 4px solid var(--yellow); }
+
+  p.line { color: rgba(255,255,255,0.9); font-size: 1.15rem; line-height: 2; font-weight: 400; }
+  p.line .indent { display: inline-block; padding-left: 2em; }
+
+  /* Subtle ambient float on every poem line */
+  .stanza.visible p.line {
+    animation: textBreathe 6s ease-in-out infinite;
+  }
+  .stanza.visible p.line:nth-child(2) { animation-delay: 0.4s; }
+  .stanza.visible p.line:nth-child(3) { animation-delay: 0.8s; }
+  .stanza.visible p.line:nth-child(4) { animation-delay: 1.2s; }
+  @keyframes textBreathe {
+    0%,100% { transform: translateY(0px);   opacity: 0.88; }
+    50%      { transform: translateY(-2px);  opacity: 1; }
+  }
+
+  .wow {
+    color: var(--yellow); font-weight: 700;
+    display: inline-block; transition: transform 0.2s;
+  }
+  .wow:hover { transform: scale(1.15) rotate(-3deg); color: var(--hot-pink); }
+
+  .stanza.exclaim {
+    background: linear-gradient(135deg, rgba(255,29,88,0.15), rgba(0,221,255,0.1));
+    border-color: var(--hot-pink);
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center; margin-top: 70px; padding-bottom: 40px;
+    font-size: 1.1rem; color: rgba(255,255,255,0.6); font-weight: 600;
+    opacity: 0; animation: fadeUp 0.6s ease forwards 1.2s;
+  }
+  footer .heart { color: var(--hot-pink); display: inline-block; animation: heartbeat 1.4s ease-in-out infinite; }
+  @keyframes heartbeat {
+    0%         { transform: scale(1);    }
+    14%        { transform: scale(1.5);  }
+    28%        { transform: scale(1.2);  }
+    42%        { transform: scale(2);    }
+    70%,100%   { transform: scale(1);    }
+  }
+  footer a {
+    color: var(--sky); text-decoration: none; font-weight: 700;
+    border-bottom: 2px solid transparent; transition: border-color 0.2s, color 0.2s;
+  }
+  footer a:hover { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Floating stars ── */
+  .star { position: fixed; pointer-events: none; z-index: 1; opacity: 0; animation: starFloat linear infinite; }
+  @keyframes starFloat {
+    0%   { transform: translateY(100vh) rotate(0deg);  opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-20vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor: only the circle part (.lens) gets colour; the handle (.handle) stays neutral -->
+<div id="cursor-wrap">
+  <svg width="34" height="34" viewBox="0 0 24 24" fill="none"
+       stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+       xmlns="http://www.w3.org/2000/svg">
+    <circle cx="11" cy="11" r="8" class="lens"/>
+    <path d="m21 21-4.34-4.34" class="handle"/>
+  </svg>
+</div>
+
+<div id="vanta-bg"></div>
+<div class="bg">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<main>
+  <header>
+    <p class="eyebrow" id="eyebrow-text">Lewis Carroll · Through the Looking-Glass</p>
+    <h1>Jabberwocky</h1>
+    <p class="subtitle" id="subtitle-text">A poem of nonsense, bravery, and <span class="kw">vorpal</span> swords.</p>
+  </header>
+
+  <!-- ENGLISH -->
+  <div id="poem-en">
+    <div class="stanza">
+      <p class="line">'Twas <span class="wow">brillig</span>, and the <span class="wow">slithy toves</span></p>
+      <p class="line"><span class="indent">Did <span class="wow">gyre</span> and <span class="wow">gimble</span> in the <span class="wow">wabe</span>:</span></p>
+      <p class="line">All <span class="wow">mimsy</span> were the <span class="wow">borogoves</span>,</p>
+      <p class="line"><span class="indent">And the <span class="wow">mome raths outgrabe</span>.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">"Beware the <span class="wow">Jabberwock</span>, my son!</p>
+      <p class="line"><span class="indent">The jaws that bite, the claws that catch!</span></p>
+      <p class="line">Beware the <span class="wow">Jubjub</span> bird, and shun</p>
+      <p class="line"><span class="indent">The <span class="wow">frumious Bandersnatch</span>!"</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">He took his <span class="wow">vorpal</span> sword in hand;</p>
+      <p class="line"><span class="indent">Long time the <span class="wow">manxome</span> foe he sought—</span></p>
+      <p class="line">So rested he by the <span class="wow">Tumtum</span> tree</p>
+      <p class="line"><span class="indent">And stood awhile in thought.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">And, as in <span class="wow">uffish</span> thought he stood,</p>
+      <p class="line"><span class="indent">The <span class="wow">Jabberwock</span>, with eyes of flame,</span></p>
+      <p class="line">Came <span class="wow">whiffling</span> through the <span class="wow">tulgey</span> wood,</p>
+      <p class="line"><span class="indent">And <span class="wow">burbled</span> as it came!</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">One, two! One, two! And through and through</p>
+      <p class="line"><span class="indent">The <span class="wow">vorpal</span> blade went <span class="wow">snicker-snack</span>!</span></p>
+      <p class="line">He left it dead, and with its head</p>
+      <p class="line"><span class="indent">He went <span class="wow">galumphing</span> back.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">"And hast thou slain the <span class="wow">Jabberwock</span>?</p>
+      <p class="line"><span class="indent">Come to my arms, my <span class="wow">beamish</span> boy!</span></p>
+      <p class="line">O <span class="wow">frabjous</span> day! <span class="wow">Callooh! Callay!</span>"</p>
+      <p class="line"><span class="indent">He <span class="wow">chortled</span> in his joy.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">'Twas <span class="wow">brillig</span>, and the <span class="wow">slithy toves</span></p>
+      <p class="line"><span class="indent">Did <span class="wow">gyre</span> and <span class="wow">gimble</span> in the <span class="wow">wabe</span>:</span></p>
+      <p class="line">All <span class="wow">mimsy</span> were the <span class="wow">borogoves</span>,</p>
+      <p class="line"><span class="indent">And the <span class="wow">mome raths outgrabe</span>.</span></p>
+    </div>
+  </div>
+
+  <!-- SPANISH — based on Ramón Buckley's published translation (fair use scholarly remix) -->
+  <div id="poem-es" style="display:none">
+    <div class="stanza">
+      <p class="line"><span class="wow">Borgotaba</span>. Los <span class="wow">viscoleantes</span> toves</p>
+      <p class="line"><span class="indent"><span class="wow">rijando</span> en la solea, <span class="wow">tadralaban</span>;</span></p>
+      <p class="line"><span class="wow">Misébiles</span> estaban los <span class="wow">borgoves</span></p>
+      <p class="line"><span class="indent">Y algo <span class="wow">momios</span> los <span class="wow">verdos bratchilbaban</span>.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«¡Hijo, cuídate del <span class="wow">Jabberwock</span>!</p>
+      <p class="line"><span class="indent">¡Las mandíbulas que muerden, las garras que atrapan!</span></p>
+      <p class="line">¡Cuídate del ave <span class="wow">Jubjub</span> y esquiva</p>
+      <p class="line"><span class="indent">al <span class="wow">frumioso Bandersnatch</span>!»</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Empuñó su espada <span class="wow">vorpal</span> en mano;</p>
+      <p class="line"><span class="indent">largo tiempo al <span class="wow">manxioso</span> enemigo buscó—</span></p>
+      <p class="line">Luego descansó bajo el árbol <span class="wow">Tumtum</span></p>
+      <p class="line"><span class="indent">y un rato en sus pensamientos se quedó.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Y como en pensamientos <span class="wow">asperrantes</span> estaba,</p>
+      <p class="line"><span class="indent">el <span class="wow">Jabberwock</span>, con ojos llameantes,</span></p>
+      <p class="line">vino <span class="wow">resoplando</span> por el <span class="wow">tulgido</span> bosque</p>
+      <p class="line"><span class="indent">y <span class="wow">burbubramó</span> al llegar.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">¡Un, dos! ¡Un, dos! Y a través y a través</p>
+      <p class="line"><span class="indent">la espada <span class="wow">vorpal</span> hizo <span class="wow">trizas</span> al instante.</span></p>
+      <p class="line">Lo dejó muerto, y con su testa</p>
+      <p class="line"><span class="indent"><span class="wow">galofrando</span> regresó.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«¿Al <span class="wow">Jabberwock</span> has matado?</p>
+      <p class="line"><span class="indent">¡Ven a mis brazos, hijo <span class="wow">radioso</span>!</span></p>
+      <p class="line">¡Oh <span class="wow">frabjoso</span> día! ¡<span class="wow">Callú! ¡Callá</span>!»</p>
+      <p class="line"><span class="indent"><span class="wow">Cortuleó</span> en su alegría.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line"><span class="wow">Borgotaba</span>. Los <span class="wow">viscoleantes</span> toves</p>
+      <p class="line"><span class="indent"><span class="wow">rijando</span> en la solea, <span class="wow">tadralaban</span>;</span></p>
+      <p class="line"><span class="wow">Misébiles</span> estaban los <span class="wow">borgoves</span></p>
+      <p class="line"><span class="indent">Y algo <span class="wow">momios</span> los <span class="wow">verdos bratchilbaban</span>.</span></p>
+    </div>
+  </div>
+
+  <!-- FRENCH — Le Jaseroque by Frank L. Warrin, The New Yorker Jan 10 1931 (public domain) -->
+  <div id="poem-fr" style="display:none">
+    <div class="stanza">
+      <p class="line">Il <span class="wow">brilgue</span>: les <span class="wow">tôves lubricilleux</span></p>
+      <p class="line"><span class="indent">Se <span class="wow">gyrent</span> en vrillant dans le <span class="wow">guave</span>.</span></p>
+      <p class="line"><span class="wow">Enmîmés</span> sont les <span class="wow">gougebosqueux</span></p>
+      <p class="line"><span class="indent">Et le <span class="wow">mômerade horsgrave</span>.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«Garde-toi du <span class="wow">Jaseroque</span>, mon fils!</p>
+      <p class="line"><span class="indent">La gueule qui mord; la griffe qui prend!</span></p>
+      <p class="line">Garde-toi de l'oiseau Jube, évite</p>
+      <p class="line"><span class="indent">Le <span class="wow">frumieux Band-à-prend</span>!»</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Son glaive <span class="wow">vorpal</span> en main il va-</p>
+      <p class="line"><span class="indent">T-à la recherche du fauve <span class="wow">manscant</span>;</span></p>
+      <p class="line">Puis arrivé à l'arbre <span class="wow">Té-Té</span>,</p>
+      <p class="line"><span class="indent">Il y reste, réfléchissant.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Pendant qu'il pense, tout <span class="wow">uffusé</span>,</p>
+      <p class="line"><span class="indent">Le <span class="wow">Jaseroque</span>, à l'oeil flambant,</span></p>
+      <p class="line">Vient <span class="wow">siblant</span> par le bois <span class="wow">tullegeais</span>,</p>
+      <p class="line"><span class="indent">Et <span class="wow">burbule</span> en venant.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">Un deux, un deux, par le milieu,</p>
+      <p class="line"><span class="indent">Le glaive <span class="wow">vorpal</span> fait <span class="wow">pat-à-pan</span>!</span></p>
+      <p class="line">La bête défaite, avec sa tête,</p>
+      <p class="line"><span class="indent">Il rentre <span class="wow">gallomphant</span>.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«As-tu tué le <span class="wow">Jaseroque</span>?</p>
+      <p class="line"><span class="indent">Viens à mon coeur, fils <span class="wow">rayonnais</span>!</span></p>
+      <p class="line">Ô Jour <span class="wow">frabbejeais</span>! <span class="wow">Calleau! Callai!</span>»</p>
+      <p class="line"><span class="indent">Il <span class="wow">cortule</span> dans sa joie.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Il <span class="wow">brilgue</span>: les <span class="wow">tôves lubricilleux</span></p>
+      <p class="line"><span class="indent">Se <span class="wow">gyrent</span> en vrillant dans le <span class="wow">guave</span>.</span></p>
+      <p class="line"><span class="wow">Enmîmés</span> sont les <span class="wow">gougebosqueux</span></p>
+      <p class="line"><span class="indent">Et le <span class="wow">mômerade horsgrave</span>.</span></p>
+    </div>
+  </div>
+
+  <!-- LATIN — Hassard H. Dodgson, ca. 1871 (public domain) -->
+  <div id="poem-la" style="display:none">
+    <div class="stanza">
+      <p class="line">Hora aderat <span class="wow">briligi</span>. Nunc et <span class="wow">Slythia Tova</span></p>
+      <p class="line"><span class="indent">Plurima <span class="wow">gyrabant gymbolitare vabo</span>;</span></p>
+      <p class="line">Et <span class="wow">Borogovorum mimzebant</span> undique formae,</p>
+      <p class="line"><span class="indent"><span class="wow">Momiferique</span> omnes <span class="wow">exgrabure Rathi</span>.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«Cave, <span class="wow">Gaberbocchum</span> moneo tibi, nate, cavendum</p>
+      <p class="line"><span class="indent">(Unguibus ille rapit. Dentibus ille necat.)</span></p>
+      <p class="line">Et fuge <span class="wow">Jubbubum</span>, quo non infestior ales,</p>
+      <p class="line"><span class="indent">Et <span class="wow">Bandersnatcham</span>, quae fremit usque, cave.»</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Ille autem gladium <span class="wow">vorpalem</span> cepit, et hostem</p>
+      <p class="line"><span class="indent"><span class="wow">Manxonium</span> longa sedulitate petit;</span></p>
+      <p class="line">Tum sub <span class="wow">Tumtummi</span> requiescens arboris umbra</p>
+      <p class="line"><span class="indent">Stabat tranquillus, multa animo meditans.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Dum requiescebat meditans <span class="wow">uffishia</span>, monstrum</p>
+      <p class="line"><span class="indent">Praesens! ecce! oculis <span class="wow">Gaberbocchus</span> flammans,</span></p>
+      <p class="line">Per silvam <span class="wow">tulgidam</span> venit <span class="wow">sibilare</span>,</p>
+      <p class="line"><span class="indent">Et <span class="wow">burbulavit</span> dum veniebat.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">Semel atque iterum! Vorpali</p>
+      <p class="line"><span class="indent">Mucrone hic illuc <span class="wow">snicsnacat</span> ense:</span></p>
+      <p class="line">Tum, capite absecto, <span class="wow">galumphat</span> maximus heros,</p>
+      <p class="line"><span class="indent">Et caput exsangue portat ad usque Patrem.</span></p>
+    </div>
+    <div class="stanza exclaim">
+      <p class="line">«Et <span class="wow">Gaberbocchum</span> jugulasti? venit ad me,</p>
+      <p class="line"><span class="indent">O nate! O <span class="wow">beamice</span>! o care! o meus!</span></p>
+      <p class="line">O dies <span class="wow">frabjosa</span>! <span class="wow">Calloo! Callay!</span>»</p>
+      <p class="line"><span class="indent"><span class="wow">Cortulavit</span> laetus.</span></p>
+    </div>
+    <div class="stanza">
+      <p class="line">Hora aderat <span class="wow">briligi</span>. Nunc et <span class="wow">Slythia Tova</span></p>
+      <p class="line"><span class="indent">Plurima <span class="wow">gyrabant gymbolitare vabo</span>;</span></p>
+      <p class="line">Et <span class="wow">Borogovorum mimzebant</span> undique formae,</p>
+      <p class="line"><span class="indent"><span class="wow">Momiferique</span> omnes <span class="wow">exgrabure Rathi</span>.</span></p>
+    </div>
+  </div>
+
+  <footer>
+    Made with <span class="heart">♥</span> by <a href="https://fguadarrama.com/about">Fran</a>
+  </footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+<script>
+// ── Language detection ──
+(function () {
+  const raw = (navigator.language || navigator.userLanguage || 'en').toLowerCase().split('-')[0];
+  const lang = ['en','es','fr'].includes(raw) ? raw : 'la';
+
+  const i18n = {
+    eyebrow: {
+      en: 'Lewis Carroll · Through the Looking-Glass',
+      es: 'Lewis Carroll · A través del espejo',
+      fr: 'Lewis Carroll · De l\'autre côté du miroir',
+      la: 'Lewis Carroll · Per Speculum'
+    },
+    subtitle: {
+      en: 'A poem of nonsense, bravery, and <span class="kw">vorpal</span> swords.',
+      es: 'Un poema de disparate, valentía y espadas <span class="kw">vorpales</span>.',
+      fr: 'Un poème de fantaisie, de bravoure et d\'épées <span class="kw">vorpales</span>.',
+      la: 'Carmen ineptiarum, virtutis et gladiorum <span class="kw">vorpalium</span>.'
+    }
+  };
+
+  document.getElementById('eyebrow-text').textContent = i18n.eyebrow[lang];
+  document.getElementById('subtitle-text').innerHTML  = i18n.subtitle[lang];
+
+  ['en','es','fr','la'].forEach(l => {
+    const el = document.getElementById('poem-' + l);
+    if (el) el.style.display = l === lang ? '' : 'none';
+  });
+})();
+
+// ── Magnifying glass cursor ──
+const cursorWrap = document.getElementById('cursor-wrap');
+const lensEl     = cursorWrap.querySelector('.lens');
+const lensColors = ['#FFF685', '#FF1D58', '#F75990', '#00DDFF'];
+let   lensIdx    = 0;
+
+document.addEventListener('mousemove', e => {
+  cursorWrap.style.left = e.clientX + 'px';
+  cursorWrap.style.top  = e.clientY + 'px';
+});
+
+// ── Click: cycle lens colour + burst ──
+document.addEventListener('click', e => {
+  lensIdx = (lensIdx + 1) % lensColors.length;
+  lensEl.style.stroke = lensColors[lensIdx];
+  lensEl.style.fill   = lensColors[lensIdx] + '18';
+
+  for (let i = 0; i < 8; i++) {
+    const dot   = document.createElement('div');
+    const angle = (i / 8) * Math.PI * 2;
+    const dist  = 50 + Math.random() * 40;
+    dot.style.cssText = `
+      position:fixed;left:${e.clientX}px;top:${e.clientY}px;
+      width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:9999;
+      background:${lensColors[i % lensColors.length]};
+      transform:translate(-50%,-50%);
+      transition:transform .5s ease,opacity .5s ease;
+    `;
+    document.body.appendChild(dot);
+    requestAnimationFrame(() => {
+      dot.style.transform = `translate(calc(-50% + ${Math.cos(angle)*dist}px),calc(-50% + ${Math.sin(angle)*dist}px))`;
+      dot.style.opacity   = '0';
+    });
+    setTimeout(() => dot.remove(), 600);
+  }
+});
+
+// ── Vanta birds ──
+VANTA.BIRDS({
+  el: '#vanta-bg',
+  THREE: THREE,
+  mouseControls: true,
+  touchControls: true,
+  gyroControls: false,
+  backgroundColor: 0x0049B7,
+  color1: 0xFF1D58,
+  color2: 0x00DDFF,
+  birdSize: 1.4,
+  wingSpan: 28,
+  speedLimit: 5,
+  separation: 55,
+  alignment: 50,
+  cohesion: 50,
+  quantity: 3
+});
+
+// ── Scroll reveal: first card instant, rest on scroll ──
+const stanzas = document.querySelectorAll('.stanza');
+
+// Show first card right away (no scroll needed)
+if (stanzas[0]) stanzas[0].classList.add('visible');
+
+// Rest appear as they enter the viewport
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.18, rootMargin: '0px 0px -40px 0px' });
+
+stanzas.forEach((s, i) => { if (i > 0) obs.observe(s); });
+
+// ── Floating stars ──
+const starChars  = ['✦','✧','★','✩','·'];
+const starColors = ['#FF1D58','#F75990','#FFF685','#00DDFF'];
+function spawnStar() {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+  s.style.cssText = `
+    left:${Math.random()*100}vw;
+    font-size:${10 + Math.random()*16}px;
+    color:${starColors[Math.floor(Math.random()*4)]};
+    animation-duration:${9 + Math.random()*12}s;
+    animation-delay:${Math.random()*4}s;
+  `;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 22000);
+}
+setInterval(spawnStar, 1400);
+for (let i = 0; i < 6; i++) spawnStar();
+</script>
+</body>
+</html>
