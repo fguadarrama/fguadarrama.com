@@ -27,20 +27,89 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org/",
-  "@type": "Person",
-  "name": "Francisco Guadarrama",
-  "url": "https://fguadarrama.com",
-  "image": "",
-  "sameAs": [
-    "https://linkedin.com/in/FranciscoGuadarrama",
-    "https://franciscoguadarrama.carrd.co/",
-    "https://franciscoguadarrama.com/",
-    "https://www.franciscoguadarrama.com/",
-    "https://dr-fg.com/",
-    "https://www.dr-fg.com/",
-    "https://en-franciscoguadarrama.carrd.co"
-  ],
-  "jobTitle": "Medical Oncologist"
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://fguadarrama.com/#person",
+      "name": "Francisco Guadarrama",
+      "alternateName": "Francisco Guadarrama Conzuelo",
+      "url": "https://fguadarrama.com",
+      "jobTitle": "Medical Oncologist",
+      "worksFor": [
+        {
+          "@type": "MedicalOrganization",
+          "name": "Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán",
+          "alternateName": "INCMNSZ"
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Internal Medicine Fellow",
+          "startDate": "2020",
+          "endDate": "2024",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Hospital Regional de Alta Especialidad del Bajío",
+            "alternateName": "HRAEB"
+          }
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Physician",
+          "startDate": "2017",
+          "endDate": "2020",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Compañeros en Salud",
+            "alternateName": "Partners In Health Mexico",
+            "url": "https://companerosensalud.mx/"
+          }
+        }
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Nacional Autónoma de México",
+          "alternateName": "UNAM"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Tecnológico de Monterrey",
+          "alternateName": "ITESM"
+        }
+      ],
+      "knowsAbout": [
+        "Medical Oncology",
+        "Oncology",
+        "Internal Medicine",
+        "Clinical Research"
+      ],
+      "sameAs": [
+        "https://orcid.org/0000-0003-2241-0791",
+        "https://scholar.google.com/citations?user=YVW4b40AAAAJ",
+        "https://github.com/fguadarrama/",
+        "https://linkedin.com/in/FranciscoGuadarrama",
+        "https://franciscoguadarrama.carrd.co/",
+        "https://en-franciscoguadarrama.carrd.co",
+        "https://dr-fg.com/"
+      ]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Euthanasia and physician-assisted suicide: a systematic review of medical students’ attitudes in the last 10 years",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7839145/",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Breast cancer and health inequalities: Another never ending story?",
+      "url": "https://www.sciencedirect.com/science/article/pii/S003483762500470X",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    }
+  ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
