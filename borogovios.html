@@ -4,12 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jabberwocky</title>
+<meta name="description" id="meta-desc" content="Jabberwocky by Lewis Carroll — a poem of nonsense, bravery, and vorpal swords.">
+<meta property="og:title" content="Jabberwocky · Lewis Carroll">
+<meta property="og:description" id="og-desc" content="Jabberwocky by Lewis Carroll — a poem of nonsense, bravery, and vorpal swords.">
+<meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&family=Quattrocento+Sans:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --hot-pink: #FF1D58;
     --pink: #F75990;
-    --yellow: #FFF685;
+    --yellow: #DBE64C;
     --sky: #00DDFF;
     --navy: #0049B7;
   }
@@ -75,7 +79,9 @@
 
   h1 {
     font-family: 'Red Hat Display', sans-serif; font-weight: 700;
-    font-size: clamp(4rem, 12vw, 7.5rem); line-height: 1;
+    font-size: clamp(3.5rem, 10vw, 7rem); line-height: 1.1;
+    padding: 0.1em 0.05em;
+    overflow: visible;
     background: linear-gradient(135deg, var(--yellow) 0%, var(--pink) 50%, var(--sky) 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text; background-size: 200% 200%;
@@ -160,8 +166,8 @@
   .stanza.visible p.line:nth-child(3) { animation-delay: 0.8s; }
   .stanza.visible p.line:nth-child(4) { animation-delay: 1.2s; }
   @keyframes textBreathe {
-    0%,100% { transform: translateY(0px);   opacity: 0.88; }
-    50%      { transform: translateY(-2px);  opacity: 1; }
+    0%,100% { transform: translateY(0px)  scale(1);     opacity: 1; }
+    50%      { transform: translateY(-5px) scale(1.018); opacity: 1; }
   }
 
   .wow {
@@ -433,7 +439,16 @@
   const raw = (navigator.language || navigator.userLanguage || 'en').toLowerCase().split('-')[0];
   const lang = ['en','es','fr'].includes(raw) ? raw : 'la';
 
+  // Set html lang attribute
+  document.documentElement.lang = lang;
+
   const i18n = {
+    title: {
+      en: 'Jabberwocky · Lewis Carroll',
+      es: 'El Jabberwocky · Lewis Carroll',
+      fr: 'Le Jaseroque · Lewis Carroll',
+      la: 'Gaberbocchus · Lewis Carroll'
+    },
     eyebrow: {
       en: 'Lewis Carroll · Through the Looking-Glass',
       es: 'Lewis Carroll · A través del espejo',
@@ -445,8 +460,23 @@
       es: 'Un poema de disparate, valentía y espadas <span class="kw">vorpales</span>.',
       fr: 'Un poème de fantaisie, de bravoure et d\'épées <span class="kw">vorpales</span>.',
       la: 'Carmen ineptiarum, virtutis et gladiorum <span class="kw">vorpalium</span>.'
+    },
+    description: {
+      en: 'Jabberwocky by Lewis Carroll — a classic nonsense poem of bravery, vorpal swords, and the fearsome Jabberwock. From Through the Looking-Glass (1871).',
+      es: 'El Jabberwocky de Lewis Carroll — un clásico poema de disparate, valentía, espadas vorpales y el temible Jabberwock. De A través del espejo (1871).',
+      fr: 'Le Jaseroque de Lewis Carroll — un poème nonsensique classique de bravoure, d\'épées vorpales et du redoutable Jaseroque. Tiré de De l\'autre côté du miroir (1871).',
+      la: 'Gaberbocchus a Ludovico Carrollio — carmen ineptiarum de virtute, gladiis vorpalibus et horribili Gaberboccho. Ex libro Per Speculum (MDCCCLXXI).'
     }
   };
+
+  // Page title
+  document.title = i18n.title[lang];
+
+  // Meta description
+  const metaDesc = document.getElementById('meta-desc');
+  const ogDesc   = document.getElementById('og-desc');
+  if (metaDesc) metaDesc.setAttribute('content', i18n.description[lang]);
+  if (ogDesc)   ogDesc.setAttribute('content',   i18n.description[lang]);
 
   document.getElementById('eyebrow-text').textContent = i18n.eyebrow[lang];
   document.getElementById('subtitle-text').innerHTML  = i18n.subtitle[lang];
