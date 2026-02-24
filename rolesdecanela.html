@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles Residentes de Oncología 2026–2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0d1b2a; --teal:#1a7a78; --teal-light:#2ab5b0; --gold:#c8973a;
+    --cream:#f4f1ec; --white:#fff; --gray:#6b7280; --light:#eaf4f3;
+    --border:#d1e8e7; --shadow:0 4px 24px rgba(13,27,42,.08);
+    --colA:#1a7a78; --colB:#7c3aed; --colU:#c8973a;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;overflow-x:hidden}
+
+  header{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .bg-circle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(26,122,120,.22)0%,transparent 70%);animation:pulse 6s ease-in-out infinite}
+  .bg-circle.c1{width:420px;height:420px;top:-120px;right:-80px}
+  .bg-circle.c2{width:280px;height:280px;bottom:-60px;right:30%;animation-delay:2s}
+  .header-inner{max-width:1100px;margin:0 auto;padding:48px 32px 40px;position:relative;z-index:2}
+  .header-badge{display:inline-block;background:var(--teal);color:#fff;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+  h1{font-size:clamp(26px,4.5vw,44px);line-height:1.15;font-weight:700}
+  h1 span{color:var(--teal-light)}
+  .header-meta{margin-top:12px;font-size:13px;color:rgba(255,255,255,.5)}
+  .header-meta strong{color:var(--gold);font-weight:500}
+
+  .tabs-wrap{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:100;overflow-x:auto;scrollbar-width:none}
+  .tabs-wrap::-webkit-scrollbar{display:none}
+  .tabs{display:flex;max-width:1100px;margin:0 auto;padding:0 24px;gap:2px}
+  .tab{flex-shrink:0;padding:13px 18px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
+  .tab:hover{color:rgba(255,255,255,.75)}
+  .tab.active{color:var(--teal-light);border-bottom-color:var(--teal-light)}
+
+  main{max-width:1100px;margin:0 auto;padding:36px 32px 80px}
+  .section{display:none;animation:fadeSlide .3s ease both}
+  .section.active{display:block}
+
+  .section-title{font-size:22px;font-weight:700;color:var(--navy);margin-bottom:5px}
+  .section-desc{font-size:13.5px;color:var(--gray);margin-bottom:22px}
+  .divider{height:2px;background:linear-gradient(to right,var(--teal),transparent);margin-bottom:24px;border-radius:2px}
+
+  /* LEVEL GROUPS */
+  .level-group{margin-bottom:30px}
+  .level-heading{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .level-heading::after{content:'';flex:1;height:1px;background:var(--border)}
+  .level-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .dot-r3{background:var(--teal)}.dot-r2{background:#7c3aed}.dot-r1{background:var(--gold)}
+
+  /* RESIDENT CARDS */
+  .res-card{background:#fff;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:10px}
+  .res-card-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
+  .res-card-header:hover{background:#fafefe}
+  .avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;color:#fff;letter-spacing:0}
+  .r3 .avatar{background:linear-gradient(135deg,#1a7a78,#2ab5b0)}
+  .r2 .avatar{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+  .r1 .avatar{background:linear-gradient(135deg,#c8973a,#f59e0b)}
+  .res-name{font-weight:600;font-size:14px;flex:1}
+  .card-level{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;flex-shrink:0}
+  .r3 .card-level{background:#e0f4f3;color:var(--teal)}
+  .r2 .card-level{background:#ede9fe;color:#7c3aed}
+  .r1 .card-level{background:#fef3c7;color:#92400e}
+  .chevron{width:18px;height:18px;color:var(--gray);transition:transform .3s;flex-shrink:0;margin-left:6px}
+  .res-card.open .chevron{transform:rotate(180deg)}
+  .res-body{display:none;border-top:1px solid var(--border);padding:16px 18px}
+  .res-card.open .res-body{display:block;animation:fadeSlide .25s ease both}
+
+  /* MONTH PICKER */
+  .month-picker{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .mp-btn{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#f8fdfc;color:var(--navy);transition:all .15s;font-family:'DM Sans',sans-serif}
+  .mp-btn:hover{background:var(--light);border-color:var(--teal)}
+  .mp-btn.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+  /* DAY SCHEDULE */
+  .day-schedule{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  @media(max-width:700px){.day-schedule{grid-template-columns:1fr 1fr}}
+  .day-col{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+  .day-hdr{background:var(--navy);color:#fff;text-align:center;padding:6px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .day-content{padding:9px;font-size:12px;line-height:1.5;min-height:44px;background:var(--light);color:var(--navy)}
+
+  /* TABLES */
+  .tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+  .styled-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:500px}
+  .styled-table th{background:var(--navy);color:#fff;padding:10px 13px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.5px;white-space:nowrap}
+  .styled-table td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+  .styled-table tr:last-child td{border-bottom:none}
+  .styled-table tr:hover td{background:var(--light)}
+  .styled-table tr:nth-child(even) td{background:#fafefe}
+  .styled-table tr:nth-child(even):hover td{background:var(--light)}
+  .td-name{font-weight:600}
+
+  /* TAGS */
+  .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;margin:2px 2px 2px 0}
+  .tag-torax{background:#fff3e0;color:#e65100;border:1px solid #ffb74d}
+  .tag-neuro{background:#e8eaf6;color:#3949ab;border:1px solid #9fa8da}
+  .tag-ext{background:#fce4ec;color:#c62828;border:1px solid #ef9a9a}
+
+  /* PISO */
+  .piso-month-card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
+  .piso-month-name{background:var(--navy);color:#fff;padding:10px 16px;font-weight:700;font-size:13px}
+  .piso-teams{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0}
+  @media(max-width:700px){.piso-teams{grid-template-columns:1fr}}
+  .team-block{padding:12px 14px}
+  .team-block:not(:last-child){border-right:1px solid var(--border)}
+  .team-A{border-top:3px solid var(--colA)}
+  .team-B{border-top:3px solid var(--colB)}
+  .team-U{border-top:3px solid var(--colU)}
+  .team-title{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:8px;display:inline-block}
+  .team-A .team-title{background:#e0f4f3;color:var(--colA)}
+  .team-B .team-title{background:#ede9fe;color:var(--colB)}
+  .team-U .team-title{background:#fef3c7;color:var(--colU)}
+  .team-lead{font-weight:700;font-size:13px;padding:3px 0;border-bottom:1px solid var(--border);margin-bottom:5px}
+  .team-member{font-size:12.5px;padding:2px 0;color:#374151}
+  .note-small{font-size:10.5px;color:#9ca3af;font-style:italic}
+  .revisor-line{margin-top:8px;padding-top:6px;border-top:1px dashed var(--border);font-size:11.5px}
+  .revisor-line strong{color:var(--navy)}
+
+  /* UFU */
+  .ufu-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:680px){.ufu-layout{grid-template-columns:1fr}}
+  .ufu-col-header{border-radius:10px 10px 0 0;padding:14px 18px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;color:#fff}
+  .ufu-col-header.pink{background:linear-gradient(135deg,#c2185b,#e91e8c)}
+  .ufu-col-header.blue{background:linear-gradient(135deg,#1565c0,#1976d2)}
+  .ufu-month-group{border-left:3px solid}
+  .ufu-month-group.pink-b{border-color:#e91e8c;background:#fdf4fb}
+  .ufu-month-group.blue-b{border-color:#1565c0;background:#f0f7ff}
+  .ufu-month-label{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-bottom:1px solid rgba(0,0,0,.07)}
+  .ufu-month-label.pink-c{color:#e91e8c;background:#fde4f2}
+  .ufu-month-label.blue-c{color:#1565c0;background:#daeeff}
+  .ufu-entry{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid rgba(0,0,0,.06);font-size:12.5px}
+  .ufu-entry:last-child{border-bottom:none}
+  .ufu-date-badge{font-size:10.5px;font-weight:700;min-width:68px}
+  .ufu-date-badge.pink-c{color:#e91e8c}
+  .ufu-date-badge.blue-c{color:#1565c0}
+
+  /* NAVIDAD */
+  .navidad-wrap{position:relative;overflow:hidden}
+  .watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:clamp(28px,6vw,58px);font-weight:900;color:rgba(180,0,0,.12);white-space:nowrap;pointer-events:none;z-index:10;text-transform:uppercase;letter-spacing:3px;width:110%;text-align:center}
+  .nav-teams-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative;z-index:1}
+  @media(max-width:600px){.nav-teams-grid{grid-template-columns:1fr}}
+  .nav-team-card{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+  .nav-team-header{padding:11px 15px;font-weight:700;font-size:13px;color:#fff}
+  .nav-team-header.eqa{background:linear-gradient(135deg,#1a7a78,#2ab5b0)}
+  .nav-team-header.eqb{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+  .nav-team-header.urg{background:linear-gradient(135deg,#c8973a,#f59e0b)}
+  .nav-team-header.hdd{background:linear-gradient(135deg,#1e3a5c,#2d5a8e)}
+  .nav-team-body{background:#fff;padding:10px 15px}
+  .nav-member{padding:4px 0;font-size:13px;border-bottom:1px solid var(--border)}
+  .nav-member:last-child{border-bottom:none}
+
+  /* CALENDAR */
+  .cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:750px){.cal-grid{grid-template-columns:repeat(2,1fr)}}
+  .cal-month{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  .cal-month-name{background:var(--navy);color:#fff;text-align:center;padding:9px;font-weight:700;font-size:12.5px}
+  .cal-days-header{display:grid;grid-template-columns:repeat(7,1fr);background:#1e3a5c}
+  .cal-day-label{text-align:center;font-size:9px;font-weight:700;color:rgba(255,255,255,.6);padding:5px 2px}
+  .cal-days{display:grid;grid-template-columns:repeat(7,1fr);padding:5px;gap:2px}
+  .cal-day{text-align:center;padding:3px 1px;font-size:11px;border-radius:50%;min-height:24px;line-height:18px}
+  .cal-day.weekend{color:#b0b8c1}
+  .cal-day.holiday-yellow{background:#fffacd;color:#7c5c00;font-weight:700;border:1px solid #f5e100}
+  .cal-day.holiday-green{background:#d9ead3;color:#276221;font-weight:700;border:1px solid #8bc34a}
+  .cal-day.congress-blue{background:#cfe2f3;color:#1565c0;font-weight:700;border:1px solid #90caf9}
+  .cal-day.congress-orange{background:#fce5cd;color:#b45309;font-weight:700;border:1px solid #ffcc80}
+  .cal-day.congress-asco{background:#ead1dc;color:#880e4f;font-weight:700;border:1px solid #f48fb1}
+  .cal-legend{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;background:#fff;border-radius:10px;border:1px solid var(--border);margin-bottom:18px;font-size:12px}
+  .leg-item{display:flex;align-items:center;gap:6px}
+  .leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+  .congress-events{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:14px}
+  .congress-row{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px}
+  .congress-row:last-child{border-bottom:none}
+  .congress-name{font-weight:700;min-width:60px}
+
+  /* DIRECTORIO */
+  .dir-section{margin-bottom:24px}
+  .dir-level-header{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:10px 16px;border-radius:8px 8px 0 0;color:#fff}
+  .dir-level-header.r3-h{background:linear-gradient(135deg,#1a7a78,#2ab5b0)}
+  .dir-level-header.r2-h{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+  .dir-level-header.r1-h{background:linear-gradient(135deg,#c8973a,#f59e0b)}
+  .dir-level-header.maom-h{background:linear-gradient(135deg,#1e3a5c,#2d5a8e)}
+  .dir-level-header.fellow-h{background:linear-gradient(135deg,#388e3c,#66bb6a)}
+  .dir-card{background:#fff;border:1px solid var(--border);border-top:none;padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:13px;border-bottom:1px solid var(--border)}
+  .dir-card:last-child{border-bottom:none;border-radius:0 0 8px 8px}
+  .dir-name{grid-column:1/-1;font-weight:700;font-size:14px;color:var(--navy);padding-bottom:4px;border-bottom:1px solid var(--border);margin-bottom:4px}
+  .dir-field{display:flex;flex-direction:column;gap:1px}
+  .dir-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray)}
+  .dir-value{font-size:12.5px}
+  .dir-value a{color:var(--teal);text-decoration:none}
+  .dir-value a:hover{text-decoration:underline}
+  @media(max-width:600px){.dir-card{grid-template-columns:1fr}}
+
+  /* VACACIONES tags */
+  .vac-tags{display:flex;flex-wrap:wrap;gap:4px}
+
+  /* ANIMATIONS */
+  .stagger>*{opacity:0;animation:fadeSlide .3s ease forwards}
+  .stagger>*:nth-child(1){animation-delay:.04s}.stagger>*:nth-child(2){animation-delay:.08s}
+  .stagger>*:nth-child(3){animation-delay:.12s}.stagger>*:nth-child(4){animation-delay:.16s}
+  .stagger>*:nth-child(5){animation-delay:.20s}.stagger>*:nth-child(6){animation-delay:.24s}
+  .stagger>*:nth-child(7){animation-delay:.28s}.stagger>*:nth-child(8){animation-delay:.32s}
+  .stagger>*:nth-child(9){animation-delay:.36s}.stagger>*:nth-child(10){animation-delay:.40s}
+  .stagger>*:nth-child(11){animation-delay:.44s}.stagger>*:nth-child(12){animation-delay:.48s}
+  .stagger>*:nth-child(13){animation-delay:.52s}
+
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
+
+  footer{text-align:center;padding:22px;font-size:11.5px;color:var(--gray);border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bg-circle c1"></div><div class="bg-circle c2"></div>
+  <div class="header-inner">
+    <div class="header-badge">INCMNSZ · Oncología Médica</div>
+    <h1>Roles de Residentes<br>de <span>Oncología Médica</span></h1>
+    <div class="header-meta">Periodo <strong>2026 – 2027</strong></div>
+  </div>
+</header>
+
+<nav class="tabs-wrap">
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('roster',this)">Residentes</div>
+    <div class="tab" onclick="showTab('piso',this)">Piso y Urgencias</div>
+    <div class="tab" onclick="showTab('vacaciones',this)">Vacaciones</div>
+    <div class="tab" onclick="showTab('ufu',this)">UFU / UFCM</div>
+    <div class="tab" onclick="showTab('navidad',this)">División Navideña</div>
+    <div class="tab" onclick="showTab('calendario',this)">Oncalendario</div>
+    <div class="tab" onclick="showTab('directorio',this)">Directorio</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ RESIDENTES ═══════════ -->
+<section id="roster" class="section active">
+  <div class="section-title">Residentes — Agenda Mensual</div>
+  <div class="section-desc">Selecciona el mes para ver actividades por día de la semana</div>
+  <div class="divider"></div>
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r3"></span>R3 — Tercer Año</div>
+    <div class="stagger" id="r3-cards"></div>
+  </div>
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r2"></span>R2 — Segundo Año</div>
+    <div class="stagger" id="r2-cards"></div>
+  </div>
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r1"></span>R1 — Primer Año</div>
+    <div class="stagger" id="r1-cards"></div>
+  </div>
+</section>
+
+<!-- ═══════════ PISO ═══════════ -->
+<section id="piso" class="section">
+  <div class="section-title">Piso y Urgencias</div>
+  <div class="section-desc">Composición mensual de equipos · <span style="color:var(--colA);font-weight:700">Equipo A</span> · <span style="color:var(--colB);font-weight:700">Equipo B</span> · <span style="color:var(--colU);font-weight:700">Urgencias</span></div>
+  <div class="divider"></div>
+  <div id="piso-container"></div>
+</section>
+
+<!-- ═══════════ VACACIONES ═══════════ -->
+<section id="vacaciones" class="section">
+  <div class="section-title">Calendario de Vacaciones</div>
+  <div class="section-desc">Dos períodos de 14 días por residente · Año académico 2026–2027</div>
+  <div class="divider"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;font-size:12.5px;align-items:center">
+    <strong>Leyenda:</strong>
+    <span class="tag tag-torax">🫁 INCAN Tórax</span>
+    <span class="tag tag-neuro">🧠 Neuro-Onco INNN</span>
+    <span class="tag tag-ext">🌍 Rotación extranjero</span>
+  </div>
+
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r3"></span>R3</div>
+    <div class="tbl-wrap"><table class="styled-table">
+      <thead><tr><th>Residente</th><th>Período 1</th><th>Período 2</th><th>Rotaciones externas</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Francisco Guadarrama Conzuelo</td><td>20–31 abr</td><td>—</td>
+          <td><div class="vac-tags"><span class="tag tag-torax">🫁 INCAN Tórax (ago)</span><span class="tag tag-neuro">🧠 Neuro INNN (oct)</span></div></td></tr>
+        <tr><td class="td-name">Cecilia Ximénez Camilli</td><td>06–17 abr</td><td>19–30 oct</td>
+          <td><div class="vac-tags"><span class="tag tag-torax">🫁 INCAN Tórax (may)</span><span class="tag tag-neuro">🧠 Neuro INNN (jul)</span></div></td></tr>
+        <tr><td class="td-name">Brenda Jiménez Franco</td><td>04–17 may</td><td>02–15 nov</td>
+          <td><div class="vac-tags"><span class="tag tag-neuro">🧠 Neuro INNN (ago)</span><span class="tag tag-torax">🫁 INCAN Tórax (sep)</span></div></td></tr>
+        <tr><td class="td-name">Juan Carlos Núñez Hernández</td><td>20–30 jul</td><td>18–31 ene</td>
+          <td><div class="vac-tags"><span class="tag tag-torax">🫁 INCAN Tórax (jun)</span><span class="tag tag-neuro">🧠 Neuro INNN (sep)</span><span class="tag tag-ext">🌍 Rot. extranjero (ago)</span></div></td></tr>
+        <tr><td class="td-name">Luis Carlos Zambrano Amastha</td><td>15–26 jun</td><td>14–25 sep</td>
+          <td><div class="vac-tags"><span class="tag tag-torax">🫁 INCAN Tórax (jul)</span><span class="tag tag-neuro">🧠 Neuro INNN (nov)</span></div></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r2"></span>R2</div>
+    <div class="tbl-wrap"><table class="styled-table">
+      <thead><tr><th>Residente</th><th>Período 1</th><th>Período 2</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Roberto González Salazar</td><td>06–19 jul</td><td>07–20 dic</td></tr>
+        <tr><td class="td-name">Melissa Nefertiti Martínez Márquez</td><td>18–31 may</td><td>04–17 ene</td></tr>
+        <tr><td class="td-name">Alberto Galeana Pavón</td><td>03–16 ago</td><td>18–29 ene 2027</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="level-group">
+    <div class="level-heading"><span class="level-dot dot-r1"></span>R1</div>
+    <div class="tbl-wrap"><table class="styled-table">
+      <thead><tr><th>Residente</th><th>Período 1</th><th>Período 2</th></tr></thead>
+      <tbody>
+        <tr><td class="td-name">Eduardo Gutiérrez León</td><td>01–14 jun</td><td>30 nov–13 dic</td></tr>
+        <tr><td class="td-name">Jorge Humberto Hernández Félix</td><td>03–16 ago</td><td>01–14 feb</td></tr>
+        <tr><td class="td-name">César Adolfo Nieves Pérez</td><td>18–31 may</td><td>06–19 jul</td></tr>
+        <tr><td class="td-name">Lenny Nadia Gallardo Alvado</td><td>01–14 jun</td><td>19 oct–01 nov</td></tr>
+        <tr><td class="td-name">Abel Estuardo Pérez Mijangos</td><td>05–18 oct</td><td>04–17 ene</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ═══════════ UFU / UFCM ═══════════ -->
+<section id="ufu" class="section">
+  <div class="section-title">UFU · UFCM — Distribución Anual</div>
+  <div class="section-desc">UFCM (Cáncer de Mama · viernes) · UFU (Urooncología · viernes alternos)</div>
+  <div class="divider"></div>
+  <div class="ufu-layout" id="ufu-layout"></div>
+</section>
+
+<!-- ═══════════ NAVIDAD ═══════════ -->
+<section id="navidad" class="section">
+  <div class="section-title">División Navideña 2026</div>
+  <div class="section-desc">Cobertura 21 de diciembre 2026 al 01 de enero 2027</div>
+  <div class="divider"></div>
+  <div class="navidad-wrap">
+    <div class="watermark">Pendiente de modificaciones</div>
+    <div class="nav-teams-grid">
+      <div class="nav-team-card">
+        <div class="nav-team-header eqa">🎄 Equipo A — 21–26 dic</div>
+        <div class="nav-team-body">
+          <div class="nav-member">Francisco Guadarrama <span style="font-size:11px;color:var(--gray)">R3</span></div>
+          <div class="nav-member">Brenda Jiménez Franco <span style="font-size:11px;color:var(--gray)">R3</span></div>
+          <div class="nav-member">Juan Carlos Núñez <span style="font-size:11px;color:var(--gray)">R3</span></div>
+        </div>
+      </div>
+      <div class="nav-team-card">
+        <div class="nav-team-header eqb">🎆 Equipo B — 28 dic–01 ene</div>
+        <div class="nav-team-body">
+          <div class="nav-member">Cecilia Ximénez Camilli <span style="font-size:11px;color:var(--gray)">R3</span></div>
+          <div class="nav-member">Luis Carlos Zambrano <span style="font-size:11px;color:var(--gray)">R3</span></div>
+          <div class="nav-member">Roberto González <span style="font-size:11px;color:var(--gray)">R2</span></div>
+        </div>
+      </div>
+      <div class="nav-team-card">
+        <div class="nav-team-header urg">🚨 Urgencias</div>
+        <div class="nav-team-body">
+          <div class="nav-member">Melissa Martínez <span style="font-size:11px;color:var(--gray)">R2</span></div>
+        </div>
+      </div>
+      <div class="nav-team-card">
+        <div class="nav-team-header hdd">🏥 HDD</div>
+        <div class="nav-team-body">
+          <div class="nav-member">Según equipo asignado por fecha</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:16px;position:relative;z-index:1">
+      <div style="padding:12px 16px;font-weight:700;border-bottom:1px solid var(--border)">Consultas de temporada</div>
+      <div class="tbl-wrap" style="border:none">
+        <table class="styled-table">
+          <thead><tr><th>Día</th><th>Fecha</th><th>Consulta</th></tr></thead>
+          <tbody>
+            <tr><td>Lunes</td><td>21 dic</td><td>HDLM / HDD</td></tr>
+            <tr><td>Martes</td><td>23 dic</td><td>Sesión UFCM / HDD</td></tr>
+            <tr><td>Jueves</td><td>25 dic</td><td>—</td></tr>
+            <tr><td>Lunes</td><td>28 dic</td><td>HDLM / HDD</td></tr>
+            <tr><td>Martes</td><td>30 dic</td><td>Sesión UFCM / HDD</td></tr>
+            <tr><td>Viernes</td><td>01 ene</td><td>HDD</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ONCALENDARIO ═══════════ -->
+<section id="calendario" class="section">
+  <div class="section-title">Oncalendario 2026–2027</div>
+  <div class="section-desc">Días feriados, semana santa y congresos</div>
+  <div class="divider"></div>
+  <div class="cal-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#fffacd;border:1px solid #f5e100"></div>Día feriado</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#d9ead3;border:1px solid #8bc34a"></div>Semana Santa</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#ead1dc;border:1px solid #f48fb1"></div>ASCO</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#cfe2f3;border:1px solid #90caf9"></div>ESMO Madrid</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fce5cd;border:1px solid #ffcc80"></div>SMeO Guadalajara</div>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+  <div class="congress-events">
+    <div class="congress-row"><div class="congress-name" style="color:#880e4f">ASCO</div><div>29 mayo – 2 junio 2026 · Chicago, EUA</div></div>
+    <div class="congress-row"><div class="congress-name" style="color:#b45309">SMeO</div><div>4–7 noviembre 2026 · Guadalajara, México</div></div>
+    <div class="congress-row"><div class="congress-name" style="color:#1565c0">ESMO</div><div>23–28 octubre 2026 · Madrid, España</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ DIRECTORIO ═══════════ -->
+<section id="directorio" class="section">
+  <div class="section-title">Directorio</div>
+  <div class="section-desc">Residentes, fellows y médicos adscritos — Oncología Médica INCMNSZ</div>
+  <div class="divider"></div>
+
+  <div class="dir-section">
+    <div class="dir-level-header r3-h">Residentes R3</div>
+    <div class="dir-card"><div class="dir-name">Francisco Ángel Guadarrama Conzuelo</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:francisco.guadarrama@incmnsz.mx">francisco.guadarrama@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 8600 8180</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11313884 — ITESM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Cecilia Ximénez Camilli</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:ceciximenez@gmail.com">ceciximenez@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">52 442 432 9909</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12202578 — Univ. Anáhuac</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Brenda Jiménez Franco</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:breki.jf@gmail.com">breki.jf@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">52 735 144 0051</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11549130 — IPN</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Juan Carlos Núñez Hernández</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:juancarlos.nh95@gmail.com">juancarlos.nh95@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">22 2708 6210</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11795824 — UPAEP</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Luis Carlos Zambrano Amastha</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:luisczambrano2024@gmail.com">luisczambrano2024@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">57 300 752 7006</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">—</span></div>
+    </div>
+  </div>
+
+  <div class="dir-section">
+    <div class="dir-level-header r2-h">Residentes R2</div>
+    <div class="dir-card"><div class="dir-name">Roberto González Salazar</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:gonzalezrob97@gmail.com">gonzalezrob97@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">645 107 4811</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13434374 — Univ. de Sonora</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Melissa Nefertiti Martínez Márquez</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:melissa2405mqz@gmail.com">melissa2405mqz@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">56 1747 2110</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13231835 — IPN</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Alberto Galeana Pavón</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:agaleana0412@gmail.com">agaleana0412@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4567 7242</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13557765 — IPN</span></div>
+    </div>
+  </div>
+
+  <div class="dir-section">
+    <div class="dir-level-header r1-h">Residentes R1</div>
+    <div class="dir-card"><div class="dir-name">Eduardo Gutiérrez León</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:gutierrezleoneduardo@gmail.com">gutierrezleoneduardo@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4175 3613</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12136045 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Jorge Humberto Hernández Félix</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:jorge.hernandezf@incmnsz.mx">jorge.hernandezf@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">87 1138 5176</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13040824 — UAC</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">César Adolfo Nieves Pérez</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:nievescesar96@gmail.com">nievescesar96@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">662 229 8640</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12659247 — UAG</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Lenny Nadia Gallardo Alvado</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:dra.ngallardoal@gmail.com">dra.ngallardoal@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 3702 1118</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">7177073 — Univ. de Cochabamba</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Abel Estuardo Pérez Mijangos</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:aeperezmed@gmail.com">aeperezmed@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">502 5018 7290</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">—</span></div>
+    </div>
+  </div>
+
+  <div class="dir-section">
+    <div class="dir-level-header fellow-h">Fellows</div>
+    <div class="dir-card"><div class="dir-name">Dra. Sofía Alejandra Méndez Bribiesca <span style="font-size:11px;color:var(--gray);font-weight:400">— Fellow Urooncología (FUO)</span></div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:sofita.mb@gmail.com">sofita.mb@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 3700 3948</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">12054986 — ITESM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. María Fernanda Tress Uc <span style="font-size:11px;color:var(--gray);font-weight:400">— Fellow Oncogine (FOGI)</span></div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:marientress@gmail.com">marientress@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">271 103 9903</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">10857643 — UV</span></div>
+    </div>
+  </div>
+
+  <div class="dir-section">
+    <div class="dir-level-header maom-h">Médicos Adscritos (MAOM)</div>
+    <div class="dir-card"><div class="dir-name">Dr. Eucario León Rodríguez</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:eucario.leonr@incmnsz.mx">eucario.leonr@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 1798 6570</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">0313543 — UNAM</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">3412444 — CMO</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Yanin Chávarri Guerra</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:yaninchg@gmail.com">yaninchg@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5412 8608</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">3323064 — Univ. Anáhuac</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">5687382 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. María Teresa Bourlon de los Ríos</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:maitebourlon@gmail.com">maitebourlon@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5438 6271</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">5272265 — Univ. Panamericana</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">09167584 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dr. Ildefonso Roberto de la Peña López</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:rdelap70@yahoo.com.mx">rdelap70@yahoo.com.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 2755 9893</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">2119098 — Univ. Anáhuac</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">7817917 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dr. Héctor de la Mora Molina</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:hectordelamora@hotmail.com">hectordelamora@hotmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4592 8256</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">6851047 — UG</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10958061 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dr. Fidel David Huitzil Meléndez</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:david.huitzilm@incmnsz.mx">david.huitzilm@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4897 3245</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">2631958 — UNAM</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">4412383 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Vanessa Rosas Camargo</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:mas_util21@yahoo.com.mx">mas_util21@yahoo.com.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 1292 3409</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">5140174 — UNAM</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">8536941 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Mónica Isabel Meneses Medina</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:mimm2404@hotmail.com">mimm2404@hotmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4949 4388</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">6923896 — UG</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10999810 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Haydée Cristina Verduzco Aguirre</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:haydee.verduzcoa@incmnsz.mx">haydee.verduzcoa@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 1636 1699</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">8979174 — UANL</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">11974925 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Bertha Alejandra Martínez Cannon</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:amtzcannon@gmail.com">amtzcannon@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 8016 9840</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">9781876 — ITESM</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">13589728 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Zuleyma Nieto García</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:nigz.med@hotmail.com">nigz.med@hotmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5102 4989</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">7721355 — BUAP</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">11557249 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dra. Yuly Andrea Remolina Bonilla</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:yaremolinab@gmail.com">yaremolinab@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 6611 8021</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">10865505 — Univ. de Colombia</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10996219 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dr. Eduardo González Ochoa</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:eduardo.glezo89@gmail.com">eduardo.glezo89@gmail.com</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">33 1000 7799</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">08791943 — UG</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">12366554 — UNAM</span></div>
+    </div>
+    <div class="dir-card"><div class="dir-name">Dr. Sergio Contreras Garduño</div>
+      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:sergio.contrerasg@incmnsz.mx">sergio.contrerasg@incmnsz.mx</a></span></div>
+      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">722 160 0588</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">11045619 — UAEMEX</span></div>
+      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">14872005 — UNAM</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>Roles 2026 – 2027</footer>
+
+<script>
+// ══════════════════════════════════════════
+// TAB SWITCHING
+// ══════════════════════════════════════════
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// SCHEDULE DATA — extracted directly from Excel
+// Index: 0=Mar 1=Abr 2=May 3=Jun 4=Jul 5=Ago 6=Sep 7=Oct 8=Nov 9=Dic 10=Ene 11=Feb
+// Keys: L=Lunes Ma=Martes Mi=Miércoles J=Jueves V=Viernes
+// ══════════════════════════════════════════
+const MONTHS = ['Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero'];
+
+const schedData = {
+  // ── R3 ──
+  FG: [
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
+    {L:'Vacaciones 20–31',   Ma:'Vigilancias 06–17 / Vacaciones 20–31',  Mi:'Vacaciones 20–31',J:'Vigilancias 06–17 / Vacaciones 20–31',  V:'Vacaciones 20–31'},
+    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigilancias 20–30 jul',   Mi:'HDD + Preco',    J:'HDD + Preco / Vigilancias 20–30 jul',    V:'Uro (Bourlon) 01–20 jul'},
+    {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    {L:'—',                  Ma:'Vacaciones 02–13 / Vigilancias 14–30',  Mi:'—',              J:'Vacaciones 02–13 / Vigilancias 14–30',   V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
+    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
+  ],
+  CX: [
+    {L:'Apoyo cta. Chávarri',Ma:'????',                                  Mi:'????',           J:'????',                                   V:'????'},
+    {L:'Vacaciones 06–17',   Ma:'Vacaciones 06–17 / Vigil. 20–30',       Mi:'Vacaciones 06–17',J:'Vacaciones 06–17 / Vigil. 20–30',      V:'Vacaciones 06–17'},
+    {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigilancias',             Mi:'HDD + Preco / Vigilancias',J:'HDD + Preco / Vigilancias',   V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 14–25',           Mi:'HDD + Preco / Vigil. 14–25',J:'HDD + Preco / Vigil. 14–25', V:'Mama (Martínez) 01–14 sep'},
+    {L:'Vacaciones 19–30',   Ma:'Vigil. 01–18 / Vacac. 19–30',          Mi:'Vacaciones 19–30',J:'Vigil. 01–18 / Vacac. 19–30',          V:'Mama (Martínez)'},
+    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
+    {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
+  ],
+  BJ: [
+    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
+    {L:'Vacac. 04–17 / Vigil. 18–31',Ma:'Vacac. 04–17 / Vigil. 18–31', Mi:'Vacac. 04–17 / Vigil. 18–31',J:'Vacac. 04–17 / Vigil. 18–31',V:'Vacac. 04–17 / Vigil. 18–31'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 15–26',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 15–26',             V:'Uro (Bourlon) 01–15 jun'},
+    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    {L:'Vigil. 14–30',       Ma:'Vacac. 02–15 / Vigil. 14–30',          Mi:'Vigil. 14–30',   J:'Vacac. 02–15 / Vigil. 14–30',            V:'Vigil. 14–30'},
+    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
+  ],
+  JC: [
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 04–17',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 04–17',             V:'Mixtos (DLP) 18–30'},
+    {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    {L:'Vacaciones 20–30',   Ma:'Vigil. 01–20 / Vacac. 20–30',          Mi:'Vacaciones 20–30',J:'Vigil. 01–20 / Vacac. 20–30',           V:'Vacaciones 20–30'},
+    {L:'Rot. extranjero',    Ma:'Rot. extranjero',                       Mi:'Rot. extranjero',J:'Rot. extranjero',                        V:'Rot. extranjero'},
+    {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 02–13',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 02–13',             V:'Mixtos (DLP) 14–30'},
+    {L:'Apoyo cta. Chávarri',Ma:'????',                                  Mi:'????',           J:'????',                                   V:'????'},
+    {L:'Vacaciones 18–31',   Ma:'Vigil. 01–17 / Vacac. 18–31',          Mi:'Vacaciones 18–31',J:'Vigil. 01–17 / Vacac. 18–31',           V:'Vacaciones 18–31'},
+    {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
+  ],
+  LC: [
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Uro (Bourlon)'},
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
+    {L:'Vacaciones 15–26',   Ma:'Vigil. / Vacac. 15–26',                 Mi:'Vacaciones 15–26',J:'Vigil. / Vacac. 15–26',                 V:'Vacaciones 15–26'},
+    {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'Vacaciones 14–25',   Ma:'Vigil. / Vacac. 14–25',                 Mi:'Vacaciones 14–25',J:'Vigil. / Vacac. 14–25',                 V:'Vacaciones 14–25'},
+    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 19–30',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 19–30',             V:'01–18 oct: —'},
+    {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
+  ],
+  // ── R2 ──
+  // Ma/J = 'Revisión de piso' when assigned to a team that month, '—' otherwise
+  // RG piso: [U,B,—,A,A,—,B,B,—,A,—,B]
+  RG: [
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Vacac. 06–19 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (HDLM)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Vacac. 07–20 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+  ],
+  // MM piso: [—,U,B,—,B,B,—,A,A,—,A,A]
+  MM: [
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Vacac. 18–31 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (HDLM)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Vacac. 04–17 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+  ],
+  // AG piso: [B,—,U,B,—,A,A,—,B,B,B,—]
+  AG: [
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Vacac. 03–16 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM) / Vacac. 18–29', Ma:'Revisión de piso', Mi:'Gastro (Huitzil) / Vacac.', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+  ],
+  // ── R1 ── (all months have piso, so Ma=J='Revisión de piso' always)
+  // EG: Historia Clínica Mama on specific Tuesdays per Excel — but source is piso, so Ma = Revisión de piso
+  EG: [
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Vacac. 01–14 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Gastro (HDLM)', J:'Revisión de piso', V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Vacac. 30nov–13dic / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+  ],
+  JH: [
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Vacac. 03–16 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mixtos DLP'},
+  ],
+  CN: [
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM) / Vacac. 18–31', Ma:'Revisión de piso', Mi:'Uro (Bourlon) / Vacac. 18–31', J:'Revisión de piso', V:'Mama (Martínez) / Vacac.'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Vacac. 06–19 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+  ],
+  LG: [
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Vacac. 19oct–01nov / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Uro (Bourlon) / Vacac.'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+  ],
+  AE: [
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Vacac. 05–18 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    {L:'Vacac. 04–17 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+  ],
+};
+
+const residents = [
+  {id:'FG',name:'Francisco Ángel Guadarrama Conzuelo',lvl:'R3',grp:'r3'},
+  {id:'CX',name:'Cecilia Ximénez Camilli',lvl:'R3',grp:'r3'},
+  {id:'BJ',name:'Brenda Jiménez Franco',lvl:'R3',grp:'r3'},
+  {id:'JC',name:'Juan Carlos Núñez Hernández',lvl:'R3',grp:'r3'},
+  {id:'LC',name:'Luis Carlos Zambrano Amastha',lvl:'R3',grp:'r3'},
+  {id:'RG',name:'Roberto González Salazar',lvl:'R2',grp:'r2'},
+  {id:'MM',name:'Melissa Nefertiti Martínez Márquez',lvl:'R2',grp:'r2'},
+  {id:'AG',name:'Alberto Galeana Pavón',lvl:'R2',grp:'r2'},
+  {id:'EG',name:'Eduardo Gutiérrez León',lvl:'R1',grp:'r1'},
+  {id:'JH',name:'Jorge Humberto Hernández Félix',lvl:'R1',grp:'r1'},
+  {id:'CN',name:'César Adolfo Nieves Pérez',lvl:'R1',grp:'r1'},
+  {id:'LG',name:'Lenny Nadia Gallardo Alvado',lvl:'R1',grp:'r1'},
+  {id:'AE',name:'Abel Estuardo Pérez Mijangos',lvl:'R1',grp:'r1'},
+];
+
+const DAYS = ['L','Ma','Mi','J','V'];
+const DAYLABELS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const opened = new Set();
+
+residents.forEach(r => {
+  const c = document.getElementById(`${r.grp}-cards`);
+  const card = document.createElement('div');
+  card.className = `res-card ${r.grp}`;
+  card.innerHTML = `
+    <div class="res-card-header">
+      <div class="avatar">${r.id}</div>
+      <div class="res-name">${r.name}</div>
+      <div class="card-level">${r.lvl}</div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="res-body">
+      <div class="month-picker" id="mp-${r.id}"></div>
+      <div class="day-schedule" id="ds-${r.id}">
+        ${DAYLABELS.map(d=>`<div class="day-col"><div class="day-hdr">${d}</div><div class="day-content" id="dc-${r.id}-${d.substring(0,2).replace('Mi','Mi').replace('Lu','L')}">—</div></div>`).join('')}
+      </div>
+    </div>`;
+
+  // Fix day IDs to match DAYS keys
+  const dayCells = card.querySelectorAll('.day-content');
+  DAYS.forEach((k,i) => dayCells[i].id = `dc-${r.id}-${k}`);
+
+  card.querySelector('.res-card-header').onclick = function() {
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open');
+    if (!wasOpen && !opened.has(r.id)) {
+      opened.add(r.id);
+      buildPicker(r.id);
+    }
+  };
+  c.appendChild(card);
+});
+
+function buildPicker(id) {
+  const picker = document.getElementById(`mp-${id}`);
+  picker.innerHTML = '';
+  MONTHS.forEach((m,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'mp-btn' + (i===0?' active':'');
+    btn.textContent = m.substring(0,3);
+    btn.title = m;
+    btn.onclick = e => { e.stopPropagation(); renderSched(id,i); };
+    picker.appendChild(btn);
+  });
+  renderSched(id, 0);
+}
+
+function renderSched(id, mi) {
+  const s = schedData[id][mi] || {};
+  DAYS.forEach(k => {
+    const el = document.getElementById(`dc-${id}-${k}`);
+    if (el) el.textContent = s[k] || '—';
+  });
+  document.querySelectorAll(`#mp-${id} .mp-btn`).forEach((b,i) => b.classList.toggle('active', i===mi));
+}
+
+// ══════════════════════════════════════════
+// PISO DATA — exact from Excel, exact names
+// ══════════════════════════════════════════
+const pisoData = [
+  { m:'Marzo',
+    A:{ lead:'Francisco Guadarrama', r1s:['Jorge Hernández'], rev:'Dra. Chávarri' },
+    B:{ lead:'Alberto Galeana', r1s:['Eduardo Gutiérrez','Lenny Nadia Gallardo'], rev:'Dr. De la Mora' },
+    U:{ members:['Roberto González','Abel Estuardo Pérez','César Nieves'], rev:'Dra. Martínez Cannon' }},
+  { m:'Abril',
+    A:{ lead:'Brenda Jiménez Franco', r1s:['Abel Estuardo Pérez'], rev:'Dra. Martínez Cannon' },
+    B:{ lead:'Roberto González', r1s:['Eduardo Gutiérrez','César Nieves'], rev:'Dr. Huitzil' },
+    U:{ members:['Melissa Martínez','Lenny Nadia Gallardo','Jorge Hernández'], rev:'Dra. Meneses' }},
+  { m:'Mayo',
+    A:{ lead:'Luis Carlos Zambrano', r1s:['Lenny Nadia Gallardo'], rev:'Dra. Meneses' },
+    B:{ lead:'Melissa Martínez (vacac. 18–31)', r1s:['Jorge Hernández','Abel Estuardo Pérez'], rev:'Dr. De la Mora' },
+    U:{ members:['Alberto Galeana','Eduardo Gutiérrez','César Nieves (vacac. 18–31)'], rev:'Dra. Bourlon' }},
+  { m:'Junio',
+    A:{ lead:'Roberto González', r1s:['César Nieves','Lenny N. Gallardo (hasta 14 jun)'], rev:'Dr. De la Peña' },
+    B:{ lead:'Alberto Galeana', r1s:['Abel Estuardo Pérez','Eduardo Gutiérrez (hasta 14 jun)'], rev:'Dra. Bourlon' },
+    U:{ members:['Jorge Hernández'], rev:'Dr. Huitzil' }},
+  { m:'Julio',
+    A:{ lead:'Roberto González (vacac. 06–19)', r1s:['Jorge Hernández','Abel Estuardo Pérez'], rev:'Dr. De la Peña' },
+    B:{ lead:'Melissa Martínez', r1s:['Lenny Nadia Gallardo','César Nieves (vacac. 06–19)'], rev:'Dr. De la Mora' },
+    U:{ members:['Eduardo Gutiérrez'], rev:'Dra. Chávarri' }},
+  { m:'Agosto',
+    A:{ lead:'Alberto Galeana (vacac. 03–16)', r1s:['César Nieves','Eduardo Gutiérrez'], rev:'Dr. De la Mora' },
+    B:{ lead:'Melissa Martínez', r1s:['Lenny Nadia Gallardo','Jorge Hernández (vacac. 03–16)'], rev:'Dra. Martínez Cannon' },
+    U:{ members:['Abel Estuardo Pérez'], rev:'Dra. Meneses' }},
+  { m:'Septiembre',
+    A:{ lead:'Alberto Galeana', r1s:['Abel Estuardo Pérez','Jorge Hernández'], rev:'Dra. Meneses' },
+    B:{ lead:'Roberto González', r1s:['Eduardo Gutiérrez','César Nieves'], rev:'Dra. Chávarri' },
+    U:{ members:['Lenny Nadia Gallardo'], rev:'Dr. Huitzil' }},
+  { m:'Octubre',
+    A:{ lead:'Melissa Martínez', r1s:['Lenny N. Gallardo (vacac. 19 oct–1 nov)','Abel Estuardo Pérez (vacac. 05–18)'], rev:'Dr. De la Peña' },
+    B:{ lead:'Roberto González', r1s:['Jorge Hernández','Eduardo Gutiérrez'], rev:'Dra. Bourlon' },
+    U:{ members:['César Nieves'], rev:'Dr. De la Mora' }},
+  { m:'Noviembre',
+    A:{ lead:'Melissa Martínez', r1s:['César Nieves','Lenny Nadia Gallardo'], rev:'Dra. Martínez Cannon' },
+    B:{ lead:'Alberto Galeana', r1s:['Abel Estuardo Pérez','Jorge Hernández'], rev:'Dra. Meneses' },
+    U:{ members:['Eduardo Gutiérrez'], rev:'Dra. Bourlon' }},
+  { m:'Diciembre',
+    A:{ lead:'Roberto González (vacac. 07–20)', r1s:['Eduardo Gutiérrez (vacac. 30 nov–13 dic)','César Nieves'], rev:'Dra. Chávarri' },
+    B:{ lead:'Alberto Galeana', r1s:['Lenny Nadia Gallardo','Abel Estuardo Pérez'], rev:'Dr. Huitzil' },
+    U:{ members:['Jorge Hernández'], rev:'Dr. De la Peña' }},
+  { m:'Enero',
+    A:{ lead:'Melissa Martínez (vacac. 04–17)', r1s:['Jorge Hernández','Eduardo Gutiérrez'], rev:'pendiente' },
+    B:{ lead:'Alberto Galeana (vacac. 18–29)', r1s:['César Nieves','Abel Estuardo Pérez (vacac. 04–17)'], rev:'pendiente' },
+    U:{ members:['Lenny Nadia Gallardo'], rev:'pendiente' }},
+  { m:'Febrero',
+    A:{ lead:'Melissa Martínez', r1s:['Lenny Nadia Gallardo','Jorge Hernández (vacac. 01–14)'], rev:'pendiente' },
+    B:{ lead:'Roberto González', r1s:['Eduardo Gutiérrez','César Nieves'], rev:'pendiente' },
+    U:{ members:['Abel Estuardo Pérez'], rev:'pendiente' }},
+];
+
+const pisoC = document.getElementById('piso-container');
+pisoData.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'piso-month-card';
+  el.innerHTML = `
+    <div class="piso-month-name">${d.m}</div>
+    <div class="piso-teams">
+      <div class="team-block team-A">
+        <div class="team-title">Equipo A</div>
+        <div class="team-lead">${d.A.lead}</div>
+        ${d.A.r1s.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        <div class="revisor-line">Revisor: <strong>${d.A.rev}</strong></div>
+      </div>
+      <div class="team-block team-B">
+        <div class="team-title">Equipo B</div>
+        <div class="team-lead">${d.B.lead}</div>
+        ${d.B.r1s.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        <div class="revisor-line">Revisor: <strong>${d.B.rev}</strong></div>
+      </div>
+      <div class="team-block team-U">
+        <div class="team-title">Urgencias</div>
+        ${d.U.members.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        <div class="revisor-line">Revisor: <strong>${d.U.rev}</strong></div>
+      </div>
+    </div>`;
+  pisoC.appendChild(el);
+});
+
+// ══════════════════════════════════════════
+// UFU / UFCM — from Excel "UFU UFCM." sheet
+// ══════════════════════════════════════════
+const ufcmData = [
+  {m:'Marzo',    entries:[{d:'03 mar',p:'Melissa Martínez'},{d:'10 mar',p:'Melissa Martínez'},{d:'17 mar',p:'Melissa Martínez'},{d:'24 mar',p:'Melissa Martínez'},{d:'31 mar',p:'Melissa Martínez'}]},
+  {m:'Abril',    entries:[{d:'07 abr',p:'Alberto Galeana'},{d:'14 abr',p:'Alberto Galeana'},{d:'21 abr',p:'Alberto Galeana'},{d:'28 abr',p:'Alberto Galeana'}]},
+  {m:'Mayo',     entries:[{d:'05 may',p:'Roberto González'},{d:'12 may',p:'Roberto González'},{d:'19 may',p:'Roberto González'},{d:'26 may',p:'Roberto González'}]},
+  {m:'Junio',    entries:[{d:'02 jun',p:'Melissa Martínez'},{d:'09 jun',p:'Melissa Martínez'},{d:'16 jun',p:'Melissa Martínez'},{d:'23 jun',p:'Melissa Martínez'},{d:'30 jun',p:'Melissa Martínez'}]},
+  {m:'Julio',    entries:[{d:'07 jul',p:'Alberto Galeana'},{d:'14 jul',p:'Alberto Galeana'},{d:'21 jul',p:'Alberto Galeana'},{d:'28 jul',p:'Alberto Galeana'}]},
+  {m:'Agosto',   entries:[{d:'04 ago',p:'Roberto González'},{d:'11 ago',p:'Roberto González'},{d:'18 ago',p:'Roberto González'},{d:'25 ago',p:'Roberto González'}]},
+  {m:'Septiembre',entries:[{d:'01 sep',p:'Melissa Martínez'},{d:'08 sep',p:'Melissa Martínez'},{d:'15 sep',p:'Melissa Martínez'},{d:'22 sep',p:'Melissa Martínez'},{d:'29 sep',p:'Melissa Martínez'}]},
+  {m:'Octubre',  entries:[{d:'06 oct',p:'Alberto Galeana'},{d:'13 oct',p:'Alberto Galeana'},{d:'20 oct',p:'Alberto Galeana'},{d:'27 oct',p:'Alberto Galeana'}]},
+  {m:'Noviembre',entries:[{d:'03 nov',p:'Roberto González'},{d:'10 nov',p:'Roberto González'},{d:'17 nov',p:'Roberto González'},{d:'24 nov',p:'Roberto González'}]},
+  {m:'Diciembre',entries:[{d:'01 dic',p:'Melissa Martínez'},{d:'08 dic',p:'Melissa Martínez'},{d:'15 dic',p:'Melissa Martínez'},{d:'22 dic',p:'Melissa Martínez'},{d:'29 dic',p:'Melissa Martínez'}]},
+  {m:'Enero',    entries:[{d:'05 ene',p:'Roberto González'},{d:'12 ene',p:'Roberto González'},{d:'19 ene',p:'Roberto González'},{d:'26 ene',p:'Roberto González'}]},
+  {m:'Febrero',  entries:[{d:'02 feb',p:'Alberto Galeana'},{d:'09 feb',p:'Alberto Galeana'},{d:'16 feb',p:'Alberto Galeana'},{d:'23 feb',p:'Alberto Galeana'}]},
+];
+// UFU alternates: Roberto/Alberto/Melissa rotating biweekly
+const ufuData = [
+  {m:'Marzo',    entries:[{d:'03 mar',p:'Alberto Galeana'},{d:'17 mar',p:'Alberto Galeana'},{d:'31 mar',p:'Alberto Galeana'}]},
+  {m:'Abril',    entries:[{d:'07 abr',p:'Roberto González'},{d:'21 abr',p:'Roberto González'}]},
+  {m:'Mayo',     entries:[{d:'05 may',p:'Melissa Martínez'},{d:'19 may',p:'Alberto Galeana'}]},
+  {m:'Junio',    entries:[{d:'02 jun',p:'Alberto Galeana'},{d:'16 jun',p:'Alberto Galeana'},{d:'30 jun',p:'Alberto Galeana'}]},
+  {m:'Julio',    entries:[{d:'07 jul',p:'Melissa Martínez'},{d:'21 jul',p:'Roberto González'},{d:'28 jul',p:'Roberto González'}]},
+  {m:'Agosto',   entries:[{d:'04 ago',p:'Melissa Martínez'},{d:'18 ago',p:'Melissa Martínez'}]},
+  {m:'Septiembre',entries:[{d:'01 sep',p:'Alberto Galeana'},{d:'15 sep',p:'Alberto Galeana'},{d:'29 sep',p:'Alberto Galeana'}]},
+  {m:'Octubre',  entries:[{d:'06 oct',p:'Roberto González'},{d:'20 oct',p:'Roberto González'}]},
+  {m:'Noviembre',entries:[{d:'03 nov',p:'Melissa Martínez'},{d:'17 nov',p:'Melissa Martínez'}]},
+  {m:'Diciembre',entries:[{d:'01 dic',p:'Alberto Galeana'},{d:'15 dic',p:'Alberto Galeana'},{d:'29 dic',p:'Alberto Galeana'}]},
+  {m:'Enero',    entries:[{d:'05 ene',p:'Alberto Galeana'},{d:'19 ene',p:'Melissa Martínez'}]},
+  {m:'Febrero',  entries:[{d:'02 feb',p:'Roberto González'},{d:'16 feb',p:'Roberto González'}]},
+];
+
+const ufl = document.getElementById('ufu-layout');
+const ufcmCol = document.createElement('div');
+ufcmCol.innerHTML = '<div class="ufu-col-header pink">🌸 UFCM — Cáncer de Mama</div>';
+const ufuCol = document.createElement('div');
+ufuCol.innerHTML = '<div class="ufu-col-header blue">🔵 UFU — Urooncología</div>';
+
+ufcmData.forEach((mg,i) => {
+  const g1 = document.createElement('div');
+  g1.className = 'ufu-month-group pink-b';
+  g1.innerHTML = `<div class="ufu-month-label pink-c">${mg.m}</div>`;
+  mg.entries.forEach(e => {
+    g1.innerHTML += `<div class="ufu-entry"><span class="ufu-date-badge pink-c">${e.d}</span><span>${e.p}</span></div>`;
+  });
+  ufcmCol.appendChild(g1);
+
+  const uM = ufuData[i];
+  const g2 = document.createElement('div');
+  g2.className = 'ufu-month-group blue-b';
+  g2.innerHTML = `<div class="ufu-month-label blue-c">${uM.m}</div>`;
+  uM.entries.forEach(e => {
+    g2.innerHTML += `<div class="ufu-entry"><span class="ufu-date-badge blue-c">${e.d}</span><span>${e.p}</span></div>`;
+  });
+  ufuCol.appendChild(g2);
+});
+ufl.appendChild(ufcmCol);
+ufl.appendChild(ufuCol);
+
+// ══════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════
+const holidays = {
+  '2026-03-16':'holiday-yellow','2026-03-30':'holiday-green','2026-03-31':'holiday-green',
+  '2026-04-01':'holiday-green','2026-04-02':'holiday-yellow','2026-04-03':'holiday-yellow',
+  '2026-04-04':'holiday-yellow','2026-05-01':'holiday-yellow','2026-05-05':'holiday-yellow',
+  '2026-05-10':'holiday-yellow',
+  '2026-05-29':'congress-asco','2026-05-30':'congress-asco','2026-05-31':'congress-asco',
+  '2026-06-01':'congress-asco','2026-06-02':'congress-asco',
+  '2026-06-11':'holiday-yellow','2026-09-16':'holiday-yellow','2026-10-12':'holiday-yellow',
+  '2026-10-23':'congress-blue','2026-10-24':'congress-blue','2026-10-25':'congress-blue',
+  '2026-10-26':'congress-blue','2026-10-27':'congress-blue','2026-10-28':'congress-blue',
+  '2026-11-02':'holiday-yellow',
+  '2026-11-04':'congress-orange','2026-11-05':'congress-orange','2026-11-06':'congress-orange','2026-11-07':'congress-orange',
+  '2026-11-16':'holiday-yellow',
+  '2026-12-24':'holiday-yellow','2026-12-25':'holiday-yellow','2026-12-31':'holiday-yellow',
+  '2027-01-01':'holiday-yellow',
+};
+const calMonths=[
+  {y:2026,mo:2,n:'Marzo 2026'},{y:2026,mo:3,n:'Abril 2026'},{y:2026,mo:4,n:'Mayo 2026'},
+  {y:2026,mo:5,n:'Junio 2026'},{y:2026,mo:6,n:'Julio 2026'},{y:2026,mo:7,n:'Agosto 2026'},
+  {y:2026,mo:8,n:'Sep 2026'},{y:2026,mo:9,n:'Oct 2026'},{y:2026,mo:10,n:'Nov 2026'},
+  {y:2026,mo:11,n:'Dic 2026'},{y:2027,mo:0,n:'Enero 2027'},{y:2027,mo:1,n:'Feb 2027'},
+];
+const cg = document.getElementById('cal-grid');
+calMonths.forEach(cm => {
+  const div = document.createElement('div');
+  div.className = 'cal-month';
+  const fd = new Date(cm.y,cm.mo,1).getDay();
+  const dim = new Date(cm.y,cm.mo+1,0).getDate();
+  let h = `<div class="cal-month-name">${cm.n}</div>
+  <div class="cal-days-header">${['Do','Lu','Ma','Mi','Ju','Vi','Sa'].map(d=>`<div class="cal-day-label">${d}</div>`).join('')}</div>
+  <div class="cal-days">`;
+  for(let i=0;i<fd;i++) h+=`<div class="cal-day"></div>`;
+  for(let d=1;d<=dim;d++){
+    const ds=`${cm.y}-${String(cm.mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow=new Date(cm.y,cm.mo,d).getDay();
+    let cls='cal-day'+(dow===0||dow===6?' weekend':'');
+    if(holidays[ds]) cls+=' '+holidays[ds];
+    h+=`<div class="${cls}">${d}</div>`;
+  }
+  h+='</div>';
+  div.innerHTML=h;
+  cg.appendChild(div);
+});
+</script>
+</body>
+</html>
