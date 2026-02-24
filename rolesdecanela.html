@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy:#0d1b2a; --teal:#1a7a78; --teal-light:#2ab5b0; --gold:#c8973a;
-    --cream:#f4f1ec; --white:#fff; --gray:#6b7280; --light:#eaf4f3;
+    --navy:#0F1939; --teal:#1a7a78; --teal-light:#2ab5b0; --gold:#c8973a;
+    --bg:#F8F7F5; --white:#fff; --gray:#6b7280; --light:#eaf4f3;
     --border:#d1e8e7; --shadow:0 4px 24px rgba(13,27,42,.08);
     --colA:#1a7a78; --colB:#7c3aed; --colU:#c8973a;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;overflow-x:hidden}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;overflow-x:hidden}
 
   header{background:var(--navy);color:#fff;position:relative;overflow:hidden}
   .bg-circle{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(26,122,120,.22)0%,transparent 70%);animation:pulse 6s ease-in-out infinite}
@@ -173,22 +173,35 @@
   .congress-row:last-child{border-bottom:none}
   .congress-name{font-weight:700;min-width:60px}
 
-  /* DIRECTORIO */
-  .dir-section{margin-bottom:24px}
-  .dir-level-header{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:10px 16px;border-radius:8px 8px 0 0;color:#fff}
+
+  /* Directorio collapsible */
+  .dir-section{margin-bottom:20px}
+  .dir-level-header{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:9px 14px;border-radius:7px 7px 0 0;color:#fff}
   .dir-level-header.r3-h{background:linear-gradient(135deg,#1a7a78,#2ab5b0)}
   .dir-level-header.r2-h{background:linear-gradient(135deg,#7c3aed,#a855f7)}
   .dir-level-header.r1-h{background:linear-gradient(135deg,#c8973a,#f59e0b)}
   .dir-level-header.maom-h{background:linear-gradient(135deg,#1e3a5c,#2d5a8e)}
   .dir-level-header.fellow-h{background:linear-gradient(135deg,#388e3c,#66bb6a)}
-  .dir-card{background:#fff;border:1px solid var(--border);border-top:none;padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;font-size:13px;border-bottom:1px solid var(--border)}
-  .dir-card:last-child{border-bottom:none;border-radius:0 0 8px 8px}
-  .dir-name{grid-column:1/-1;font-weight:700;font-size:14px;color:var(--navy);padding-bottom:4px;border-bottom:1px solid var(--border);margin-bottom:4px}
+  .dir-card{background:#fff;border:1px solid var(--border);border-top:none;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+  .dir-card:last-child{border-radius:0 0 7px 7px}
+  .dir-card-head{display:flex;align-items:center;padding:11px 14px;gap:10px;user-select:none}
+  .dir-card-head:hover{background:var(--light)}
+  .dir-card-name{font-weight:600;font-size:13px;flex:1;color:var(--navy)}
+  .dir-chevron{width:15px;height:15px;color:var(--gray);transition:transform .25s;flex-shrink:0}
+  .dir-card.open .dir-chevron{transform:rotate(180deg)}
+  .dir-body{display:none;padding:10px 14px 13px;border-top:1px solid var(--border);background:#F8F7F5}
+  .dir-card.open .dir-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;animation:fadeSlide .2s ease both}
+  @media(max-width:560px){.dir-card.open .dir-body{grid-template-columns:1fr}}
   .dir-field{display:flex;flex-direction:column;gap:1px}
-  .dir-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray)}
-  .dir-value{font-size:12.5px}
+  .dir-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray)}
+  .dir-value{font-size:12px;color:var(--navy)}
   .dir-value a{color:var(--teal);text-decoration:none}
   .dir-value a:hover{text-decoration:underline}
+  .copy-row{grid-column:1/-1;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+  .copy-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font-family:'DM Sans',sans-serif;transition:all .15s}
+  .copy-btn:hover{background:var(--teal);color:#fff}
+  .copy-btn.copied{background:var(--teal);color:#fff}
+
   @media(max-width:600px){.dir-card{grid-template-columns:1fr}}
 
   /* VACACIONES tags */
@@ -208,22 +221,67 @@
   @keyframes pulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.08);opacity:1}}
 
   footer{text-align:center;padding:22px;font-size:11.5px;color:var(--gray);border-top:1px solid var(--border)}
+
+  /* Consultation colors */
+  .cc-chavarri,.cc-mama,.cc-ufcm{background:#FF2077!important;color:#fff!important}
+  .cc-huitzil{background:#516AC8!important;color:#fff!important}
+  .cc-dlm{background:#00804C!important;color:#fff!important}
+  .cc-meneses{background:#DA6D09!important;color:#fff!important}
+  .cc-bourlon{background:#0049B7!important;color:#fff!important}
+  .cc-dlp{background:#FFF685!important;color:#0F1939!important}
+  .cc-piso{background:#88EEEE!important;color:#0F1939!important}
+  .cc-oncogen{background:#74C365!important;color:#0F1939!important}
+
+  .nav-banner{background:linear-gradient(135deg,#7b0000,#cc0000,#ff4444);color:#fff;border-radius:10px;padding:16px 24px;margin-bottom:18px;text-align:center;position:relative;overflow:hidden;box-shadow:0 0 28px rgba(200,0,0,.45)}
+  .nav-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.12) 50%,transparent 100%);animation:shimmer 2.2s ease-in-out infinite}
+  @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .nav-banner-title{font-size:clamp(13px,2.2vw,18px);font-weight:800;letter-spacing:.3px;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+  .nav-banner-sub{font-size:12px;margin-top:5px;opacity:.92;font-weight:400}
+
+  /* ACADÉMICO */
+  .acad-module{margin-bottom:22px}
+  .acad-mod-title{background:var(--navy);color:#fff;padding:10px 15px;border-radius:7px 7px 0 0;font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px}
+  .acad-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 7px 7px;overflow:hidden;font-size:12px}
+  .acad-table th{background:#1e3a5c;color:#fff;padding:8px 12px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.5px}
+  .acad-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.4}
+  .acad-table tr:last-child td{border-bottom:none}
+  .acad-table tr:nth-child(even) td{background:#fafefe}
+  .acad-table tr:hover td{background:var(--light)}
+  .acad-date{font-size:10.5px;color:var(--gray);white-space:nowrap;min-width:70px}
+  .badge{display:inline-block;border-radius:12px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap}
+  .badge-bib{background:#e0f4f3;color:var(--teal);border:1px solid var(--teal-light)}
+  .badge-tarea{background:#ede9fe;color:#7c3aed;border:1px solid #a855f7}
+  .badge-pato{background:#fef3c7;color:#92400e;border:1px solid #f59e0b}
+  .badge-examen{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-size:11px;padding:3px 10px}
+  .row-exam td{background:#fff5f5!important;font-weight:700}
+
+  /* Day badges */
+  .day-badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:9.5px;font-weight:800;letter-spacing:.5px;margin-right:3px}
+  .day-mar{background:#e0f4f3;color:#1a7a78}
+  .day-mie{background:#ede9fe;color:#7c3aed}
+  .day-jue{background:#fef3c7;color:#92400e}
+  .day-vie{background:#fee2e2;color:#991b1b}
+  .sem-text{font-size:12px;line-height:1.4;color:var(--navy)}
+  .badge-sem{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#e0f4f3;color:#1a7a78;border:1px solid #2ab5b0}
+
+  .cc-vigilancias{background:#5A689E!important;color:#fff!important}
+  .cc-hdd{background:#fcd5ce!important;color:#0F1939!important}
+
+  .badge-esp{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#f3f4f6;color:#374151;border:1px solid #d1d5db}
+  .badge-pato{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #f59e0b}
+  .badge-bib{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#e0f4f3;color:#1a7a78;border:1px solid #2ab5b0}
+  .badge-tarea{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#ede9fe;color:#7c3aed;border:1px solid #a855f7}
+  .badge-examen{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+  .badge-sem{display:inline-block;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;background:#e0f4f3;color:#1a7a78;border:1px solid #2ab5b0}
+  .acad-row-exam td{background:#fff5f5!important;font-weight:600}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="bg-circle c1"></div><div class="bg-circle c2"></div>
-  <div class="header-inner">
-    <div class="header-badge">INCMNSZ · Oncología Médica</div>
-    <h1>Roles de Residentes<br>de <span>Oncología Médica</span></h1>
-    <div class="header-meta">Periodo <strong>2026 – 2027</strong></div>
-  </div>
-</header>
-
 <nav class="tabs-wrap">
   <div class="tabs">
     <div class="tab active" onclick="showTab('roster',this)">Residentes</div>
+    <div class="tab" onclick="showTab('academico',this)">Actividades académicas</div>
     <div class="tab" onclick="showTab('piso',this)">Piso y Urgencias</div>
     <div class="tab" onclick="showTab('vacaciones',this)">Vacaciones</div>
     <div class="tab" onclick="showTab('ufu',this)">UFU / UFCM</div>
@@ -252,6 +310,17 @@
     <div class="level-heading"><span class="level-dot dot-r1"></span>R1 — Primer Año</div>
     <div class="stagger" id="r1-cards"></div>
   </div>
+</section>
+
+<!-- ═══════════ ACADÉMICO ═══════════ -->
+<section id="academico" class="section">
+  <div class="section-title">Actividades Académicas 2026–2027</div>
+  <div class="section-desc">Seminarios, tareas bibliográficas, temas de patología y exámenes</div>
+  <div class="divider"></div>
+  <div style="background:linear-gradient(135deg,#e0f4f3,#f8fdfc);border:1px solid var(--teal-light);border-radius:9px;padding:13px 16px;margin-bottom:18px;font-size:12.5px;line-height:1.6;color:var(--navy)">
+    📌 <strong style="color:var(--teal)">Nota sobre temas de patología:</strong> Los temas de patología se asignarán a lo largo del año a partir de los casos interesantes que surjan en la consulta y se informarán con oportunidad. Las fechas indicadas son tentativas y sujetas a ajustes según la dinámica del servicio.
+  </div>
+  <div id="acad-container"></div>
 </section>
 
 <!-- ═══════════ PISO ═══════════ -->
@@ -333,6 +402,10 @@
   <div class="section-title">División Navideña 2026</div>
   <div class="section-desc">Cobertura 21 de diciembre 2026 al 01 de enero 2027</div>
   <div class="divider"></div>
+      <div class="nav-banner">
+      <div class="nav-banner-title">⚠️ División preliminar — sujeta a cambios</div>
+      <div class="nav-banner-sub">La versión definitiva se publicará en noviembre de 2026</div>
+    </div>
   <div class="navidad-wrap">
     <div class="watermark">Pendiente de modificaciones</div>
     <div class="nav-teams-grid">
@@ -407,187 +480,9 @@
 <!-- ═══════════ DIRECTORIO ═══════════ -->
 <section id="directorio" class="section">
   <div class="section-title">Directorio</div>
-  <div class="section-desc">Residentes, fellows y médicos adscritos — Oncología Médica INCMNSZ</div>
+  <div class="section-desc">Haz clic en un nombre para ver los datos completos · Botón 📋 copia nombre y cédula(s)</div>
   <div class="divider"></div>
-
-  <div class="dir-section">
-    <div class="dir-level-header r3-h">Residentes R3</div>
-    <div class="dir-card"><div class="dir-name">Francisco Ángel Guadarrama Conzuelo</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:francisco.guadarrama@incmnsz.mx">francisco.guadarrama@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 8600 8180</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11313884 — ITESM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Cecilia Ximénez Camilli</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:ceciximenez@gmail.com">ceciximenez@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">52 442 432 9909</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12202578 — Univ. Anáhuac</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Brenda Jiménez Franco</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:breki.jf@gmail.com">breki.jf@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">52 735 144 0051</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11549130 — IPN</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Juan Carlos Núñez Hernández</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:juancarlos.nh95@gmail.com">juancarlos.nh95@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">22 2708 6210</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">11795824 — UPAEP</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Luis Carlos Zambrano Amastha</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:luisczambrano2024@gmail.com">luisczambrano2024@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">57 300 752 7006</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">—</span></div>
-    </div>
-  </div>
-
-  <div class="dir-section">
-    <div class="dir-level-header r2-h">Residentes R2</div>
-    <div class="dir-card"><div class="dir-name">Roberto González Salazar</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:gonzalezrob97@gmail.com">gonzalezrob97@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">645 107 4811</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13434374 — Univ. de Sonora</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Melissa Nefertiti Martínez Márquez</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:melissa2405mqz@gmail.com">melissa2405mqz@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">56 1747 2110</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13231835 — IPN</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Alberto Galeana Pavón</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:agaleana0412@gmail.com">agaleana0412@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4567 7242</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13557765 — IPN</span></div>
-    </div>
-  </div>
-
-  <div class="dir-section">
-    <div class="dir-level-header r1-h">Residentes R1</div>
-    <div class="dir-card"><div class="dir-name">Eduardo Gutiérrez León</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:gutierrezleoneduardo@gmail.com">gutierrezleoneduardo@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4175 3613</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12136045 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Jorge Humberto Hernández Félix</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:jorge.hernandezf@incmnsz.mx">jorge.hernandezf@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">87 1138 5176</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">13040824 — UAC</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">César Adolfo Nieves Pérez</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:nievescesar96@gmail.com">nievescesar96@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">662 229 8640</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">12659247 — UAG</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Lenny Nadia Gallardo Alvado</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:dra.ngallardoal@gmail.com">dra.ngallardoal@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 3702 1118</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">7177073 — Univ. de Cochabamba</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Abel Estuardo Pérez Mijangos</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:aeperezmed@gmail.com">aeperezmed@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">502 5018 7290</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula</span><span class="dir-value">—</span></div>
-    </div>
-  </div>
-
-  <div class="dir-section">
-    <div class="dir-level-header fellow-h">Fellows</div>
-    <div class="dir-card"><div class="dir-name">Dra. Sofía Alejandra Méndez Bribiesca <span style="font-size:11px;color:var(--gray);font-weight:400">— Fellow Urooncología (FUO)</span></div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:sofita.mb@gmail.com">sofita.mb@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 3700 3948</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">12054986 — ITESM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. María Fernanda Tress Uc <span style="font-size:11px;color:var(--gray);font-weight:400">— Fellow Oncogine (FOGI)</span></div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:marientress@gmail.com">marientress@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">271 103 9903</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">10857643 — UV</span></div>
-    </div>
-  </div>
-
-  <div class="dir-section">
-    <div class="dir-level-header maom-h">Médicos Adscritos (MAOM)</div>
-    <div class="dir-card"><div class="dir-name">Dr. Eucario León Rodríguez</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:eucario.leonr@incmnsz.mx">eucario.leonr@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 1798 6570</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">0313543 — UNAM</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">3412444 — CMO</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Yanin Chávarri Guerra</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:yaninchg@gmail.com">yaninchg@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5412 8608</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">3323064 — Univ. Anáhuac</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">5687382 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. María Teresa Bourlon de los Ríos</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:maitebourlon@gmail.com">maitebourlon@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5438 6271</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">5272265 — Univ. Panamericana</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">09167584 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dr. Ildefonso Roberto de la Peña López</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:rdelap70@yahoo.com.mx">rdelap70@yahoo.com.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 2755 9893</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">2119098 — Univ. Anáhuac</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">7817917 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dr. Héctor de la Mora Molina</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:hectordelamora@hotmail.com">hectordelamora@hotmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4592 8256</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">6851047 — UG</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10958061 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dr. Fidel David Huitzil Meléndez</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:david.huitzilm@incmnsz.mx">david.huitzilm@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4897 3245</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">2631958 — UNAM</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">4412383 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Vanessa Rosas Camargo</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:mas_util21@yahoo.com.mx">mas_util21@yahoo.com.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 1292 3409</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">5140174 — UNAM</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">8536941 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Mónica Isabel Meneses Medina</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:mimm2404@hotmail.com">mimm2404@hotmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 4949 4388</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">6923896 — UG</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10999810 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Haydée Cristina Verduzco Aguirre</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:haydee.verduzcoa@incmnsz.mx">haydee.verduzcoa@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 1636 1699</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">8979174 — UANL</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">11974925 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Bertha Alejandra Martínez Cannon</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:amtzcannon@gmail.com">amtzcannon@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">81 8016 9840</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">9781876 — ITESM</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">13589728 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Zuleyma Nieto García</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:nigz.med@hotmail.com">nigz.med@hotmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 5102 4989</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">7721355 — BUAP</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">11557249 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dra. Yuly Andrea Remolina Bonilla</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:yaremolinab@gmail.com">yaremolinab@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">55 6611 8021</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">10865505 — Univ. de Colombia</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">10996219 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dr. Eduardo González Ochoa</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:eduardo.glezo89@gmail.com">eduardo.glezo89@gmail.com</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">33 1000 7799</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">08791943 — UG</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">12366554 — UNAM</span></div>
-    </div>
-    <div class="dir-card"><div class="dir-name">Dr. Sergio Contreras Garduño</div>
-      <div class="dir-field"><span class="dir-label">Correo</span><span class="dir-value"><a href="mailto:sergio.contrerasg@incmnsz.mx">sergio.contrerasg@incmnsz.mx</a></span></div>
-      <div class="dir-field"><span class="dir-label">Celular</span><span class="dir-value">722 160 0588</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Medicina</span><span class="dir-value">11045619 — UAEMEX</span></div>
-      <div class="dir-field"><span class="dir-label">Cédula Oncología</span><span class="dir-value">14872005 — UNAM</span></div>
-    </div>
-  </div>
+  <div id="dir-container"></div>
 </section>
 </main>
 
@@ -628,7 +523,7 @@ const schedData = {
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   CX: [
-    {L:'Apoyo cta. Chávarri',Ma:'????',                                  Mi:'????',           J:'????',                                   V:'????'},
+    {L:'Apoyo consulta - Dra. Chávarri',Ma:'—',Mi:'—',J:'—',V:'—'},
     {L:'Vacaciones 06–17',   Ma:'Vacaciones 06–17 / Vigil. 20–30',       Mi:'Vacaciones 06–17',J:'Vacaciones 06–17 / Vigil. 20–30',      V:'Vacaciones 06–17'},
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
     {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
@@ -665,7 +560,7 @@ const schedData = {
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
     {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
     {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 02–13',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 02–13',             V:'Mixtos (DLP) 14–30'},
-    {L:'Apoyo cta. Chávarri',Ma:'????',                                  Mi:'????',           J:'????',                                   V:'????'},
+    {L:'Apoyo consulta - Dra. Chávarri',Ma:'—',Mi:'—',J:'—',V:'—'},
     {L:'Vacaciones 18–31',   Ma:'Vigil. 01–17 / Vacac. 18–31',          Mi:'Vacaciones 18–31',J:'Vigil. 01–17 / Vacac. 18–31',           V:'Vacaciones 18–31'},
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
@@ -804,7 +699,16 @@ const schedData = {
   ],
 };
 
-const residents = [
+
+  // Short display names for Residentes tab
+  const shortNames = {
+    FG:'Francisco Guadarrama', CX:'Cecilia Ximénez', BJ:'Brenda Jiménez',
+    JC:'Juan Carlos Núñez', LC:'Luis Carlos Zambrano', RG:'Roberto González',
+    MM:'Melissa Martínez', AG:'Alberto Galeana', EG:'Eduardo Gutiérrez',
+    JH:'Jorge Hernández', CN:'César Nieves', LG:'Lenny Gallardo', AE:'Abel Pérez',
+  };
+
+  const residents = [
   {id:'FG',name:'Francisco Ángel Guadarrama Conzuelo',lvl:'R3',grp:'r3'},
   {id:'CX',name:'Cecilia Ximénez Camilli',lvl:'R3',grp:'r3'},
   {id:'BJ',name:'Brenda Jiménez Franco',lvl:'R3',grp:'r3'},
@@ -831,7 +735,7 @@ residents.forEach(r => {
   card.innerHTML = `
     <div class="res-card-header">
       <div class="avatar">${r.id}</div>
-      <div class="res-name">${r.name}</div>
+      <div class="res-name">${shortNames[r.id]}</div>
       <div class="card-level">${r.lvl}</div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
@@ -871,11 +775,90 @@ function buildPicker(id) {
   renderSched(id, 0);
 }
 
+
+  function colorClass(day, val) {
+    const v = val.toLowerCase();
+    if (/chávarri|chavarri|apoyo consulta/.test(v)) return 'cc-chavarri';
+    if (/mama.*mart[ií]|martínez.*mama/.test(v)) return 'cc-mama';
+    if (/ufcm/.test(v)) return 'cc-ufcm';
+    if ((day==='L'||day==='Mi') && /huitzil/.test(v)) return 'cc-huitzil';
+    if ((day==='L'||day==='Mi') && /(hdlm|de la mora)/.test(v)) return 'cc-dlm';
+    if ((day==='Ma'||day==='J') && /meneses/.test(v)) return 'cc-meneses';
+    if ((day==='Mi'||day==='V') && /bourlon/.test(v)) return 'cc-bourlon';
+    if ((day==='Mi'||day==='V') && /uro\s*\(bourlon\)/.test(v)) return 'cc-bourlon';
+    if ((day==='Mi'||day==='V') && /(dlp|mixtos)/.test(v)) return 'cc-dlp';
+    if ((day==='Ma'||day==='J') && /revisión de piso/.test(v)) return 'cc-piso';
+    if (day==='J' && /oncogenética/.test(v)) return 'cc-oncogen';
+    return '';
+  }
+
+  
+// Maps a value to a CSS class for consultation color coding
+function getCellColorClass(day, val) {
+  const v = val.toLowerCase();
+  if (!v || v === '—') return '';
+  if (/chávarri|chavarri|apoyo consulta/.test(v)) return 'cc-chavarri';
+  if (/mama.*mart|ufcm/.test(v)) return 'cc-mama';
+  if ((day==='L'||day==='Mi') && /huitzil/.test(v)) return 'cc-huitzil';
+  if ((day==='L'||day==='Mi') && /hdlm|de la mora/.test(v)) return 'cc-dlm';
+  if ((day==='Ma'||day==='J') && /meneses/.test(v)) return 'cc-meneses';
+  if ((day==='Mi'||day==='V') && /bourlon|uro\s*\(b/.test(v)) return 'cc-bourlon';
+  if ((day==='Mi'||day==='V') && /dlp|mixtos/.test(v)) return 'cc-dlp';
+  if ((day==='Ma'||day==='J') && /revisión de piso/.test(v)) return 'cc-piso';
+  if (day==='J' && /oncogenética/.test(v)) return 'cc-oncogen';
+  if (/vigilancia/.test(v)) return 'cc-vigilancias';
+  if (/hdd|preconsulta|preco/.test(v)) return 'cc-hdd';
+  return '';
+}
+
+const COLOR_HEX = {
+  'cc-chavarri':'#FF2077','cc-mama':'#FF2077','cc-ufcm':'#FF2077',
+  'cc-huitzil':'#516AC8','cc-dlm':'#00804C','cc-meneses':'#DA6D09',
+  'cc-bourlon':'#0049B7','cc-dlp':'#FFF685','cc-piso':'#88EEEE',
+  'cc-oncogen':'#74C365','cc-vigilancias':'#5A689E','cc-hdd':'#fcd5ce'
+};
+const DARK_TEXT = new Set(['cc-dlp','cc-piso','cc-oncogen','cc-hdd']);
+
+function renderDayCell(el, day, val) {
+  el.innerHTML = '';
+  el.className = 'day-content';
+  el.style.background = '';
+  el.style.color = '';
+  if (!val || val === '—') { el.textContent = '—'; return; }
+
+  // Split on ' / ' for dual-activity cells
+  const parts = val.split(' / ');
+  if (parts.length >= 2) {
+    const classes = parts.map(p => getCellColorClass(day, p.trim()));
+    const unique = [...new Set(classes.filter(Boolean))];
+    if (unique.length >= 2) {
+      const c1 = COLOR_HEX[unique[0]] || '#eee';
+      const c2 = COLOR_HEX[unique[1]] || '#ddd';
+      el.style.background = `linear-gradient(150deg, ${c1} 48%, ${c2} 52%)`;
+      el.innerHTML = parts.map((p, i) => {
+        const cls = getCellColorClass(day, p.trim());
+        const textColor = DARK_TEXT.has(cls) ? '#0F1939' : '#ffffff';
+        return `<div style="font-size:10.5px;line-height:1.3;color:${textColor};text-shadow:0 0 3px rgba(0,0,0,.3);padding:1px 0">${p.trim()}</div>`;
+      }).join('');
+      return;
+    }
+  }
+
+  // Single color
+  el.textContent = val;
+  const cc = getCellColorClass(day, val);
+  if (cc) el.classList.add(cc);
+}
+
 function renderSched(id, mi) {
   const s = schedData[id][mi] || {};
   DAYS.forEach(k => {
     const el = document.getElementById(`dc-${id}-${k}`);
-    if (el) el.textContent = s[k] || '—';
+    if (!el) return;
+    const val = s[k] || '—';
+    el.style.background = '';
+    el.style.color = '';
+    renderDayCell(el, k, val);
   });
   document.querySelectorAll(`#mp-${id} .mp-btn`).forEach((b,i) => b.classList.toggle('active', i===mi));
 }
@@ -934,8 +917,35 @@ const pisoData = [
     U:{ members:['Abel Estuardo Pérez'], rev:'pendiente' }},
 ];
 
+// Detect R2/R3 by checking against known R2/R3 names
+const r2r3Prefixes = ['Roberto González','Melissa Martínez','Alberto Galeana',
+  'Francisco Guadarrama','Brenda Jiménez','Luis Carlos Zambrano','Cecilia Ximénez','Juan Carlos Núñez'];
+function isR2R3(name) { return r2r3Prefixes.some(p => name.startsWith(p)); }
+
+// Pad members list to minCount with invisible placeholders for alignment
+function padMembers(members, minCount) {
+  const result = [...members];
+  while (result.length < minCount) result.push(null);
+  return result;
+}
+
 const pisoC = document.getElementById('piso-container');
 pisoData.forEach(d => {
+  // For Urgencias: find leader (highest hierarchy = R2/R3 if present, else first R1)
+  const urgLeader = d.U.members.find(m => isR2R3(m)) || d.U.members[0];
+  const urgOthers = d.U.members.filter(m => m !== urgLeader);
+
+  // Max members across teams for alignment (team-lead counts as 1, r1s + lead = total)
+  const maxA = 1 + d.A.r1s.length;
+  const maxB = 1 + d.B.r1s.length;
+  const maxU = d.U.members.length;
+  const maxRows = Math.max(maxA, maxB, maxU);
+
+  // Pad r1s for A and B
+  const padA = padMembers(d.A.r1s, maxRows - 1);
+  const padB = padMembers(d.B.r1s, maxRows - 1);
+  const urgOthersPad = padMembers(urgOthers, maxRows - 1);
+
   const el = document.createElement('div');
   el.className = 'piso-month-card';
   el.innerHTML = `
@@ -944,18 +954,19 @@ pisoData.forEach(d => {
       <div class="team-block team-A">
         <div class="team-title">Equipo A</div>
         <div class="team-lead">${d.A.lead}</div>
-        ${d.A.r1s.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        ${padA.map(x => x ? `<div class="team-member">${x}</div>` : `<div class="team-member" style="visibility:hidden">—</div>`).join('')}
         <div class="revisor-line">Revisor: <strong>${d.A.rev}</strong></div>
       </div>
       <div class="team-block team-B">
         <div class="team-title">Equipo B</div>
         <div class="team-lead">${d.B.lead}</div>
-        ${d.B.r1s.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        ${padB.map(x => x ? `<div class="team-member">${x}</div>` : `<div class="team-member" style="visibility:hidden">—</div>`).join('')}
         <div class="revisor-line">Revisor: <strong>${d.B.rev}</strong></div>
       </div>
       <div class="team-block team-U">
         <div class="team-title">Urgencias</div>
-        ${d.U.members.map(x=>`<div class="team-member">${x}</div>`).join('')}
+        <div class="team-lead">${urgLeader}</div>
+        ${urgOthersPad.map(x => x ? `<div class="team-member">${x}</div>` : `<div class="team-member" style="visibility:hidden">—</div>`).join('')}
         <div class="revisor-line">Revisor: <strong>${d.U.rev}</strong></div>
       </div>
     </div>`;
@@ -1068,6 +1079,472 @@ calMonths.forEach(cm => {
   div.innerHTML=h;
   cg.appendChild(div);
 });
+
+// ═══════════ DIRECTORIO JS ═══════════
+const dirData = {
+  r3: {label:'Residentes R3', cls:'r3-h', people:[
+    {name:'Francisco Ángel Guadarrama Conzuelo', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:francisco.guadarrama@incmnsz.mx">francisco.guadarrama@incmnsz.mx</a>'},
+       {l:'Celular',v:'81 8600 8180'},
+       {l:'Cédula profesional',v:'11313884 — ITESM'},
+     ], copy:'Francisco Ángel Guadarrama Conzuelo | Cédula profesional: 11313884 (ITESM)'},
+    {name:'Cecilia Ximénez Camilli', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:ceciximenez@gmail.com">ceciximenez@gmail.com</a>'},
+       {l:'Celular',v:'44 2432 9909'},
+       {l:'Cédula profesional',v:'12202578 — Univ. Anáhuac'},
+     ], copy:'Cecilia Ximénez Camilli | Cédula profesional: 12202578 (Univ. Anáhuac)'},
+    {name:'Brenda Jiménez Franco', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:breki.jf@gmail.com">breki.jf@gmail.com</a>'},
+       {l:'Celular',v:'73 5144 0051'},
+       {l:'Cédula profesional',v:'11549130 — IPN'},
+     ], copy:'Brenda Jiménez Franco | Cédula profesional: 11549130 (IPN)'},
+    {name:'Juan Carlos Núñez Hernández', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:juancarlos.nh95@gmail.com">juancarlos.nh95@gmail.com</a>'},
+       {l:'Celular',v:'22 2708 6210'},
+       {l:'Cédula profesional',v:'11795824 — UPAEP'},
+     ], copy:'Juan Carlos Núñez Hernández | Cédula profesional: 11795824 (UPAEP)'},
+    {name:'Luis Carlos Zambrano Amastha', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:luisczambrano2024@gmail.com">luisczambrano2024@gmail.com</a>'},
+       {l:'Celular',v:'57 300 752 7006'},
+       {l:'Cédula profesional',v:'—'},
+     ], copy:'Luis Carlos Zambrano Amastha | Cédula profesional: — '},
+  ]},
+  r2: {label:'Residentes R2', cls:'r2-h', people:[
+    {name:'Roberto González Salazar', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:gonzalezrob97@gmail.com">gonzalezrob97@gmail.com</a>'},
+       {l:'Celular',v:'64 5107 4811'},
+       {l:'Cédula profesional',v:'13434374 — Univ. de Sonora'},
+     ], copy:'Roberto González Salazar | Cédula profesional: 13434374 (Univ. de Sonora)'},
+    {name:'Melissa Nefertiti Martínez Márquez', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:melissa2405mqz@gmail.com">melissa2405mqz@gmail.com</a>'},
+       {l:'Celular',v:'56 1747 2110'},
+       {l:'Cédula profesional',v:'13231835 — IPN'},
+     ], copy:'Melissa Nefertiti Martínez Márquez | Cédula profesional: 13231835 (IPN)'},
+    {name:'Alberto Galeana Pavón', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:agaleana0412@gmail.com">agaleana0412@gmail.com</a>'},
+       {l:'Celular',v:'55 4567 7242'},
+       {l:'Cédula profesional',v:'13557765 — IPN'},
+     ], copy:'Alberto Galeana Pavón | Cédula profesional: 13557765 (IPN)'},
+  ]},
+  r1: {label:'Residentes R1', cls:'r1-h', people:[
+    {name:'Eduardo Gutiérrez León', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:gutierrezleoneduardo@gmail.com">gutierrezleoneduardo@gmail.com</a>'},
+       {l:'Celular',v:'55 4175 3613'},
+       {l:'Cédula profesional',v:'12136045 — UNAM'},
+     ], copy:'Eduardo Gutiérrez León | Cédula profesional: 12136045 (UNAM)'},
+    {name:'Jorge Humberto Hernández Félix', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:jorge.hernandezf@incmnsz.mx">jorge.hernandezf@incmnsz.mx</a>'},
+       {l:'Celular',v:'87 1138 5176'},
+       {l:'Cédula profesional',v:'13040824 — UAC'},
+     ], copy:'Jorge Humberto Hernández Félix | Cédula profesional: 13040824 (UAC)'},
+    {name:'César Adolfo Nieves Pérez', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:nievescesar96@gmail.com">nievescesar96@gmail.com</a>'},
+       {l:'Celular',v:'66 2229 8640'},
+       {l:'Cédula profesional',v:'12659247 — UAG'},
+     ], copy:'César Adolfo Nieves Pérez | Cédula profesional: 12659247 (UAG)'},
+    {name:'Lenny Nadia Gallardo Alvado', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:dra.ngallardoal@gmail.com">dra.ngallardoal@gmail.com</a>'},
+       {l:'Celular',v:'55 3702 1118'},
+       {l:'Cédula profesional',v:'7177073 — Univ. de Cochabamba'},
+     ], copy:'Lenny Nadia Gallardo Alvado | Cédula profesional: 7177073 (Univ. de Cochabamba)'},
+    {name:'Abel Estuardo Pérez Mijangos', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:aeperezmed@gmail.com">aeperezmed@gmail.com</a>'},
+       {l:'Celular',v:'502 5018 7290'},
+       {l:'Cédula profesional',v:'—'},
+     ], copy:'Abel Estuardo Pérez Mijangos | Cédula profesional: — '},
+  ]},
+  fellows: {label:'Fellows', cls:'fellow-h', people:[
+    {name:'Dra. Sofía Alejandra Méndez Bribiesca — Fellow Urooncología (FUO)', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:sofita.mb@gmail.com">sofita.mb@gmail.com</a>'},
+       {l:'Celular',v:'55 3700 3948'},
+       {l:'Cédula profesional',v:'12054986 — ITESM'},
+     ], copy:'Dra. Sofía Alejandra Méndez Bribiesca | Cédula profesional: 12054986 (ITESM)'},
+    {name:'Dra. María Fernanda Tress Uc — Fellow Oncología Gastrointestinal (FOGI)', type:'resident',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:marientress@gmail.com">marientress@gmail.com</a>'},
+       {l:'Celular',v:'27 1103 9903'},
+       {l:'Cédula profesional',v:'10857643 — UV'},
+     ], copy:'Dra. María Fernanda Tress Uc | Cédula profesional: 10857643 (UV)'},
+  ]},
+  maom: {label:'Médicos Adscritos (MAOM)', cls:'maom-h', people:[
+    {name:'Dr. Eucario León Rodríguez', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:eucario.leonr@incmnsz.mx">eucario.leonr@incmnsz.mx</a>'},
+       {l:'Celular',v:'55 1798 6570'},
+       {l:'Cédula prof. (Medicina)',v:'0313543 — UNAM'},
+       {l:'Cédula prof. (Oncología)',v:'3412444 — CMO'},
+     ], copy:'Dr. Eucario León Rodríguez | C.P. Medicina: 0313543 (UNAM) | C.P. Oncología: 3412444 (CMO)'},
+    {name:'Dra. Yanin Chávarri Guerra', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:yaninchg@gmail.com">yaninchg@gmail.com</a>'},
+       {l:'Celular',v:'55 5412 8608'},
+       {l:'Cédula prof. (Medicina)',v:'3323064 — Univ. Anáhuac'},
+       {l:'Cédula prof. (Oncología)',v:'5687382 — UNAM'},
+     ], copy:'Dra. Yanin Chávarri Guerra | C.P. Medicina: 3323064 (Anáhuac) | C.P. Oncología: 5687382 (UNAM)'},
+    {name:'Dra. María Teresa Bourlon de los Ríos', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:maitebourlon@gmail.com">maitebourlon@gmail.com</a>'},
+       {l:'Celular',v:'55 5438 6271'},
+       {l:'Cédula prof. (Medicina)',v:'5272265 — Univ. Panamericana'},
+       {l:'Cédula prof. (Oncología)',v:'09167584 — UNAM'},
+     ], copy:'Dra. María Teresa Bourlon de los Ríos | C.P. Medicina: 5272265 (UP) | C.P. Oncología: 09167584 (UNAM)'},
+    {name:'Dr. Ildefonso Roberto de la Peña López', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:rdelap70@yahoo.com.mx">rdelap70@yahoo.com.mx</a>'},
+       {l:'Celular',v:'55 2755 9893'},
+       {l:'Cédula prof. (Medicina)',v:'2119098 — Univ. Anáhuac'},
+       {l:'Cédula prof. (Oncología)',v:'7817917 — UNAM'},
+     ], copy:'Dr. Ildefonso Roberto de la Peña López | C.P. Medicina: 2119098 (Anáhuac) | C.P. Oncología: 7817917 (UNAM)'},
+    {name:'Dr. Héctor de la Mora Molina', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:hectordelamora@hotmail.com">hectordelamora@hotmail.com</a>'},
+       {l:'Celular',v:'55 4592 8256'},
+       {l:'Cédula prof. (Medicina)',v:'6851047 — UG'},
+       {l:'Cédula prof. (Oncología)',v:'10958061 — UNAM'},
+     ], copy:'Dr. Héctor de la Mora Molina | C.P. Medicina: 6851047 (UG) | C.P. Oncología: 10958061 (UNAM)'},
+    {name:'Dr. Fidel David Huitzil Meléndez', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:david.huitzilm@incmnsz.mx">david.huitzilm@incmnsz.mx</a>'},
+       {l:'Celular',v:'55 4897 3245'},
+       {l:'Cédula prof. (Medicina)',v:'2631958 — UNAM'},
+       {l:'Cédula prof. (Oncología)',v:'4412383 — UNAM'},
+     ], copy:'Dr. Fidel David Huitzil Meléndez | C.P. Medicina: 2631958 (UNAM) | C.P. Oncología: 4412383 (UNAM)'},
+    {name:'Dra. Vanessa Rosas Camargo', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:mas_util21@yahoo.com.mx">mas_util21@yahoo.com.mx</a>'},
+       {l:'Celular',v:'55 1292 3409'},
+       {l:'Cédula prof. (Medicina)',v:'5140174 — UNAM'},
+       {l:'Cédula prof. (Oncología)',v:'8536941 — UNAM'},
+     ], copy:'Dra. Vanessa Rosas Camargo | C.P. Medicina: 5140174 (UNAM) | C.P. Oncología: 8536941 (UNAM)'},
+    {name:'Dra. Mónica Isabel Meneses Medina', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:mimm2404@hotmail.com">mimm2404@hotmail.com</a>'},
+       {l:'Celular',v:'55 4949 4388'},
+       {l:'Cédula prof. (Medicina)',v:'6923896 — UG'},
+       {l:'Cédula prof. (Oncología)',v:'10999810 — UNAM'},
+     ], copy:'Dra. Mónica Isabel Meneses Medina | C.P. Medicina: 6923896 (UG) | C.P. Oncología: 10999810 (UNAM)'},
+    {name:'Dra. Haydée Cristina Verduzco Aguirre', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:haydee.verduzcoa@incmnsz.mx">haydee.verduzcoa@incmnsz.mx</a>'},
+       {l:'Celular',v:'81 1636 1699'},
+       {l:'Cédula prof. (Medicina)',v:'8979174 — UANL'},
+       {l:'Cédula prof. (Oncología)',v:'11974925 — UNAM'},
+     ], copy:'Dra. Haydée Cristina Verduzco Aguirre | C.P. Medicina: 8979174 (UANL) | C.P. Oncología: 11974925 (UNAM)'},
+    {name:'Dra. Bertha Alejandra Martínez Cannon', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:amtzcannon@gmail.com">amtzcannon@gmail.com</a>'},
+       {l:'Celular',v:'81 8016 9840'},
+       {l:'Cédula prof. (Medicina)',v:'9781876 — ITESM'},
+       {l:'Cédula prof. (Oncología)',v:'13589728 — UNAM'},
+     ], copy:'Dra. Bertha Alejandra Martínez Cannon | C.P. Medicina: 9781876 (ITESM) | C.P. Oncología: 13589728 (UNAM)'},
+    {name:'Dra. Zuleyma Nieto García', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:nigz.med@hotmail.com">nigz.med@hotmail.com</a>'},
+       {l:'Celular',v:'55 5102 4989'},
+       {l:'Cédula prof. (Medicina)',v:'7721355 — BUAP'},
+       {l:'Cédula prof. (Oncología)',v:'11557249 — UNAM'},
+     ], copy:'Dra. Zuleyma Nieto García | C.P. Medicina: 7721355 (BUAP) | C.P. Oncología: 11557249 (UNAM)'},
+    {name:'Dra. Yuly Andrea Remolina Bonilla', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:yaremolinab@gmail.com">yaremolinab@gmail.com</a>'},
+       {l:'Celular',v:'55 6611 8021'},
+       {l:'Cédula prof. (Medicina)',v:'10865505 — Univ. de Colombia'},
+       {l:'Cédula prof. (Oncología)',v:'10996219 — UNAM'},
+     ], copy:'Dra. Yuly Andrea Remolina Bonilla | C.P. Medicina: 10865505 (Colombia) | C.P. Oncología: 10996219 (UNAM)'},
+    {name:'Dr. Eduardo González Ochoa', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:eduardo.glezo89@gmail.com">eduardo.glezo89@gmail.com</a>'},
+       {l:'Celular',v:'33 1000 7799'},
+       {l:'Cédula prof. (Medicina)',v:'08791943 — UG'},
+       {l:'Cédula prof. (Oncología)',v:'12366554 — UNAM'},
+     ], copy:'Dr. Eduardo González Ochoa | C.P. Medicina: 08791943 (UG) | C.P. Oncología: 12366554 (UNAM)'},
+    {name:'Dr. Sergio Contreras Garduño', type:'maom',
+     fields:[
+       {l:'Correo',v:'<a href="mailto:sergio.contrerasg@incmnsz.mx">sergio.contrerasg@incmnsz.mx</a>'},
+       {l:'Celular',v:'72 2160 0588'},
+       {l:'Cédula prof. (Medicina)',v:'11045619 — UAEMEX'},
+       {l:'Cédula prof. (Oncología)',v:'14872005 — UNAM'},
+     ], copy:'Dr. Sergio Contreras Garduño | C.P. Medicina: 11045619 (UAEMEX) | C.P. Oncología: 14872005 (UNAM)'},
+  ]},
+};
+
+function buildDir() {
+  const c = document.getElementById('dir-container');
+  if (!c) return;
+  Object.values(dirData).forEach(group => {
+    const sec = document.createElement('div');
+    sec.style.marginBottom = '20px';
+    let h = `<div class="dir-level-header ${group.cls}">${group.label}</div>`;
+    group.people.forEach((p, idx) => {
+      const bodyId = `dir-body-${group.cls}-${idx}`;
+      let fields = p.fields.map(f => `<div class="dir-field"><span class="dir-label">${f.l}</span><span class="dir-value">${f.v}</span></div>`).join('');
+      const copyStr = p.copy.replace(/'/g, "\'");
+      fields += `<div class="copy-row"><button class="copy-btn" onclick="event.stopPropagation();copyDir(this,'${copyStr}')">📋 Copiar nombre y cédula(s)</button></div>`;
+      h += `<div class="dir-card" onclick="toggleDir(this,'${bodyId}')">
+        <div class="dir-card-head">
+          <span class="dir-card-name">${p.name}</span>
+          <svg class="dir-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="dir-body" id="${bodyId}">${fields}</div>
+      </div>`;
+    });
+    sec.innerHTML = h;
+    c.appendChild(sec);
+  });
+}
+
+function toggleDir(card, bodyId) {
+  card.classList.toggle('open');
+}
+
+function copyDir(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copiar nombre y cédula(s)'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copiar nombre y cédula(s)'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+buildDir();
+
+// ═══════════ ACADÉMICO JS ═══════════
+const modules = [
+  {title:"\ud83d\udd2c Introducci\u00f3n y Radiooncolog\u00eda", rows:[
+    {"date": "03 mar 2026", "day": "Mar", "type": "seminario", "sem": "Introducción al curso (Cecilia, Luis Carlos, Francisco)", "pato": "", "pato_asign": ""},
+    {"date": "04 mar 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Cancelada", "note": "Taller: Entrega de malas noticias (Psicología) · 9–10:30 am"},
+    {"date": "05 mar 2026", "day": "Jue", "type": "especial", "note": "Taller de oncogeriatría — Dra. Paty Navarrete · 10 am"},
+    {"date": "10 mar 2026", "day": "Mar", "type": "seminario", "sem": "Melissa Martínez: Urgencias oncológicas", "pato": "Patología", "pato_asign": "Cancelada"},
+    {"date": "11 mar 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Cancelada", "note": "Estadística 1 · 9 am"},
+    {"date": "17 mar 2026", "day": "Mar", "type": "seminario", "sem": "Radiooncología I: Principios y generalidades · 13 hrs", "pato": "", "pato_asign": ""},
+    {"date": "18 mar 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Cancelada", "note": "Estadística 2 · 9 am"},
+    {"date": "19 mar 2026", "day": "Jue", "type": "especial", "note": "Te acompañamos · 1–2 pm"},
+    {"date": "24 mar 2026", "day": "Mar", "type": "seminario", "sem": "Francisco Guadarrama: Tratamiento sistémico en sarcomas de tejidos blandos y óseos", "pato": "Patología", "pato_asign": "Alberto Galeana"},
+    {"date": "25 mar 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Eduardo Gutiérrez", "note": "Radiooncología II: Radioterapia en urgencias · 10 am"},
+    {"date": "27 mar 2026", "day": "Vie", "type": "examen", "exam": "Examen: Radiooncología y urgencias"},
+  ]},
+  {title:"\ud83d\udce6 M\u00f3dulo 1 \u00b7 Tumores de t\u00f3rax", rows:[
+    {"date": "31 mar 2026", "day": "Mar", "type": "seminario", "sem": "Cecilia Ximénez: Tratamiento sistémico en cáncer de pulmón de células no pequeñas (CPCNP) metastásico", "pato": "", "pato_asign": ""},
+    {"date": "01 abr 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Lenny Nadia Gallardo", "note": ""},
+    {"date": "07 abr 2026", "day": "Mar", "type": "seminario", "sem": "Alberto Galeana: Tratamiento sistémico de cáncer de células pequeñas pulmonar metastásico", "pato": "", "pato_asign": ""},
+    {"date": "08 abr 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Abel Estuardo Pérez", "note": ""},
+    {"date": "14 abr 2026", "day": "Mar", "type": "seminario", "sem": "Roberto González: Tratamiento sistémico de mesotelioma avanzado", "pato": "Patología", "pato_asign": "Melissa Martínez"},
+    {"date": "15 abr 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Roberto González", "note": ""},
+    {"date": "21 abr 2026", "day": "Mar", "type": "seminario", "sem": "Eduardo Gutiérrez: Apoptosis y vías de muerte celular aplicado a cáncer de pulmón", "pato": "", "pato_asign": ""},
+    {"date": "22 abr 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Melissa Martínez", "note": ""},
+    {"date": "24 abr 2026", "day": "Vie", "type": "examen", "exam": "Examen: Tumores de tórax"},
+    {"date": "28 abr 2026", "day": "Mar", "type": "seminario", "sem": "Jorge Hernández: Transición epitelio-mesénquima aplicada al cáncer de pulmón y su relación con EGFR mutado", "pato": "Patología", "pato_asign": "Eduardo Gutiérrez"},
+    {"date": "29 abr 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Jorge Hernández", "note": ""},
+  ]},
+  {title:"\ud83d\udde3\ufe0f M\u00f3dulo 2 \u00b7 Tumores de cabeza y cuello", rows:[
+    {"date": "05 may 2026", "day": "Mar", "type": "seminario", "sem": "Juan Carlos Núñez: Tratamiento de inducción y adyuvancia en tumores de cavidad oral y orofaringe", "pato": "", "pato_asign": ""},
+    {"date": "06 may 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Alberto Galeana", "note": ""},
+    {"date": "12 may 2026", "day": "Mar", "type": "seminario", "sem": "Luis Carlos Zambrano: Tratamiento sistémico en tumores de cabeza y cuello metastásicos", "pato": "Patología", "pato_asign": "Jorge Hernández"},
+    {"date": "13 may 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Lenny Nadia Gallardo", "note": ""},
+    {"date": "19 may 2026", "day": "Mar", "type": "seminario", "sem": "Lenny Nadia Gallardo: Microambiente tumoral e inmunidad antitumoral en tumores de cabeza y cuello", "pato": "", "pato_asign": ""},
+    {"date": "20 may 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Roberto González", "note": ""},
+    {"date": "26 may 2026", "day": "Mar", "type": "seminario", "sem": "Abel Estuardo Pérez: Protooncogenes con aplicación a tumores de cabeza y cuello asociados a VPH", "pato": "Patología", "pato_asign": "Lenny Nadia Gallardo"},
+    {"date": "27 may 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "29 may 2026", "day": "Vie", "type": "examen", "exam": "Examen: Tumores de cabeza y cuello"},
+  ]},
+  {title:"\ud83c\udf97\ufe0f M\u00f3dulo 3 \u00b7 C\u00e1ncer de mama", rows:[
+    {"date": "02 jun 2026", "day": "Mar", "type": "seminario", "sem": "Brenda Jiménez: Tratamiento sistémico de cáncer de mama localizado y localmente avanzado RH+/HER2–", "pato": "", "pato_asign": ""},
+    {"date": "03 jun 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Melissa Martínez", "note": ""},
+    {"date": "09 jun 2026", "day": "Mar", "type": "seminario", "sem": "Roberto González: Tratamiento sistémico de cáncer de mama avanzado RH+/HER2–", "pato": "Patología", "pato_asign": "César Nieves"},
+    {"date": "10 jun 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Alberto Galeana", "note": ""},
+    {"date": "16 jun 2026", "day": "Mar", "type": "seminario", "sem": "César Nieves: Ciclo celular y señalización del eje ER–Cyclin D–CDK4/6–RB aplicado a cáncer de mama", "pato": "", "pato_asign": ""},
+    {"date": "17 jun 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "César Nieves", "note": ""},
+    {"date": "23 jun 2026", "day": "Mar", "type": "seminario", "sem": "Radiooncología: Radioterapia en cáncer de mama localizado y localmente avanzado", "pato": "Patología", "pato_asign": "Abel Estuardo Pérez"},
+    {"date": "24 jun 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Lenny Nadia Gallardo", "note": ""},
+    {"date": "30 jun 2026", "day": "Mar", "type": "seminario", "sem": "Eduardo Gutiérrez: Vía de señalización ER–PI3K–AKT–mTOR aplicada a cáncer de mama", "pato": "", "pato_asign": ""},
+    {"date": "01 jul 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "03 jul 2026", "day": "Vie", "type": "examen", "exam": "Examen: Cáncer de mama RH+/HER2–"},
+    {"date": "07 jul 2026", "day": "Mar", "type": "seminario", "sem": "Alberto Galeana: Tratamiento sistémico de cáncer de mama localizado y localmente avanzado HER2+", "pato": "", "pato_asign": ""},
+    {"date": "08 jul 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Jorge Hernández", "note": ""},
+    {"date": "14 jul 2026", "day": "Mar", "type": "seminario", "sem": "Melissa Martínez: Tratamiento sistémico de cáncer de mama avanzado HER2+", "pato": "Patología", "pato_asign": "Alberto Galeana"},
+    {"date": "15 jul 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "21 jul 2026", "day": "Mar", "type": "seminario", "sem": "Jorge Hernández: Receptores tirosina-quinasa y señalización oncogénica en HER2", "pato": "Patología", "pato_asign": "Roberto González"},
+    {"date": "22 jul 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Abel Estuardo Pérez", "note": ""},
+    {"date": "28 jul 2026", "day": "Mar", "type": "seminario", "sem": "Lenny Nadia Gallardo: Inmunología tumoral y anticuerpos conjugados", "pato": "", "pato_asign": ""},
+    {"date": "29 jul 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Roberto González", "note": ""},
+    {"date": "04 ago 2026", "day": "Mar", "type": "seminario", "sem": "Abel Estuardo Pérez: Amplificación génica y adicción oncogénica", "pato": "", "pato_asign": ""},
+    {"date": "05 ago 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "César Nieves", "note": ""},
+    {"date": "07 ago 2026", "day": "Vie", "type": "examen", "exam": "Examen: Cáncer de mama HER2+"},
+    {"date": "11 ago 2026", "day": "Mar", "type": "seminario", "sem": "Juan Carlos Núñez: Tratamiento sistémico de cáncer de mama localizado y localmente avanzado TNBC", "pato": "Patología", "pato_asign": "Melissa Martínez"},
+    {"date": "12 ago 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Lenny Nadia Gallardo", "note": ""},
+    {"date": "18 ago 2026", "day": "Mar", "type": "seminario", "sem": "Cecilia Ximénez: Tratamiento sistémico de cáncer de mama avanzado triple negativo (TNBC)", "pato": "", "pato_asign": ""},
+    {"date": "19 ago 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Melissa Martínez", "note": ""},
+    {"date": "25 ago 2026", "day": "Mar", "type": "seminario", "sem": "Jorge Hernández: Defectos en reparación del ADN y recombinación homóloga (HRD) aplicados a cáncer de mama", "pato": "Patología", "pato_asign": "Eduardo Gutiérrez"},
+    {"date": "26 ago 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Alberto Galeana", "note": ""},
+    {"date": "28 ago 2026", "day": "Vie", "type": "examen", "exam": "Examen: Cáncer de mama triple negativo"},
+  ]},
+  {title:"\ud83d\udd2c M\u00f3dulo 4 \u00b7 Tumores gastrointestinales", rows:[
+    {"date": "01 sep 2026", "day": "Mar", "type": "seminario", "sem": "Francisco Guadarrama: Cáncer de esófago localmente avanzado", "pato": "", "pato_asign": ""},
+    {"date": "02 sep 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "08 sep 2026", "day": "Mar", "type": "seminario", "sem": "Roberto González: Cáncer gástrico localmente avanzado", "pato": "Patología", "pato_asign": "Jorge Hernández"},
+    {"date": "09 sep 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Abel Estuardo Pérez", "note": ""},
+    {"date": "15 sep 2026", "day": "Mar", "type": "seminario", "sem": "Melissa Martínez: Cáncer de vía biliar avanzado", "pato": "", "pato_asign": ""},
+    {"date": "16 sep 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Jorge Hernández", "note": ""},
+    {"date": "22 sep 2026", "day": "Mar", "type": "seminario", "sem": "César Nieves: Metaplasia, displasia y reprogramación epitelial aplicada a cáncer gastrointestinal", "pato": "Patología", "pato_asign": "César Nieves"},
+    {"date": "23 sep 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Melissa Martínez", "note": ""},
+    {"date": "29 sep 2026", "day": "Mar", "type": "seminario", "sem": "Abel Estuardo Pérez: Inestabilidad genómica y reparación del ADN (biomarcación CPS) aplicada a tumores gastrointestinales", "pato": "", "pato_asign": ""},
+    {"date": "30 sep 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Roberto González", "note": ""},
+    {"date": "02 oct 2026", "day": "Vie", "type": "examen", "exam": "Examen: Tubo digestivo alto (esófago, estómago y vía biliar)"},
+    {"date": "06 oct 2026", "day": "Mar", "type": "seminario", "sem": "Lenny Nadia Gallardo: Carcinogénesis multietapa — secuencia adenoma–carcinoma y vía RAS–RAF–MAPK", "pato": "", "pato_asign": ""},
+    {"date": "07 oct 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "César Nieves", "note": ""},
+    {"date": "13 oct 2026", "day": "Mar", "type": "seminario", "sem": "Luis Carlos Zambrano: Cáncer de colon — tratamiento sistémico perioperatorio", "pato": "Patología", "pato_asign": "Lenny Nadia Gallardo"},
+    {"date": "14 oct 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Jorge Hernández", "note": ""},
+    {"date": "20 oct 2026", "day": "Mar", "type": "seminario", "sem": "Brenda Jiménez: Cáncer de colon avanzado — tratamiento sistémico", "pato": "", "pato_asign": ""},
+    {"date": "21 oct 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Abel Estuardo Pérez", "note": ""},
+    {"date": "27 oct 2026", "day": "Mar", "type": "seminario", "sem": "Alberto Galeana: Neoadyuvancia en cáncer de recto localizado y localmente avanzado", "pato": "Patología", "pato_asign": "Abel Estuardo Pérez"},
+    {"date": "28 oct 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "César Nieves", "note": ""},
+    {"date": "30 oct 2026", "day": "Vie", "type": "examen", "exam": "Examen: Colon, recto y páncreas"},
+    {"date": "03 nov 2026", "day": "Mar", "type": "especial", "note": "SMeO — sin sesión académica (Congreso Nacional en Guadalajara)"},
+    {"date": "04 nov 2026", "day": "Mié", "type": "especial", "note": "SMeO — sin sesión académica"},
+    {"date": "10 nov 2026", "day": "Mar", "type": "seminario", "sem": "Dr. Gabutti: Terapia locorregional en cáncer de hígado", "pato": "Patología", "pato_asign": "Roberto González"},
+    {"date": "11 nov 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Melissa Martínez", "note": ""},
+    {"date": "17 nov 2026", "day": "Mar", "type": "seminario", "sem": "Roberto González: Cáncer de páncreas localmente avanzado — tratamiento sistémico", "pato": "", "pato_asign": ""},
+    {"date": "18 nov 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Alberto Galeana", "note": ""},
+    {"date": "24 nov 2026", "day": "Mar", "type": "seminario", "sem": "Eduardo Gutiérrez: Cáncer de páncreas avanzado — tratamiento sistémico", "pato": "Patología", "pato_asign": "Melissa Martínez"},
+    {"date": "25 nov 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "01 dic 2026", "day": "Mar", "type": "seminario", "sem": "Jorge Hernández: Tratamiento sistémico en hepatocarcinoma BCLC B y C (incluye indicaciones de trasplante)", "pato": "", "pato_asign": ""},
+    {"date": "02 dic 2026", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "César Nieves", "note": ""},
+    {"date": "08 dic 2026", "day": "Mar", "type": "seminario", "sem": "", "pato": "Patología", "pato_asign": "Melissa Martínez"},
+    {"date": "09 dic 2026", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Abel Estuardo Pérez", "note": "César Nieves: Melanoma avanzado (sesión especial)"},
+    {"date": "15 dic 2026", "day": "Mar", "type": "biblio", "biblio": "Bibliográfica", "asign": "(pendiente)", "note": ""},
+    {"date": "16 dic 2026", "day": "Mié", "type": "especial", "note": "Lenny Nadia Gallardo: Tratamiento sistémico en tumores del sistema nervioso central"},
+    {"date": "29 dic 2026", "day": "Mar", "type": "especial", "note": "Festivos de fin de año"},
+  ]},
+  {title:"\ud83d\udd35 M\u00f3dulo 5 \u00b7 Urooncolog\u00eda", rows:[
+    {"date": "12 ene 2027", "day": "Mar", "type": "seminario", "sem": "Alberto Galeana: Cáncer de próstata resistente a la castración — tratamiento sistémico", "pato": "Patología", "pato_asign": "Jorge Hernández"},
+    {"date": "13 ene 2027", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Alberto Galeana", "note": ""},
+    {"date": "19 ene 2027", "day": "Mar", "type": "seminario", "sem": "Abel Estuardo Pérez: Tumor germinal no seminoma estadio clínico III — tratamiento sistémico y quirúrgico", "pato": "", "pato_asign": ""},
+    {"date": "20 ene 2027", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "César Nieves", "note": ""},
+    {"date": "26 ene 2027", "day": "Mar", "type": "seminario", "sem": "Melissa Martínez: Cáncer renal de células claras en enfermedad avanzada — tratamiento sistémico", "pato": "Patología", "pato_asign": "César Nieves"},
+    {"date": "27 ene 2027", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Eduardo Gutiérrez", "note": ""},
+    {"date": "29 ene 2027", "day": "Jue", "type": "examen", "exam": "Examen: Urooncología"},
+  ]},
+  {title:"\ud83c\udf97\ufe0f M\u00f3dulo 6 \u00b7 Ginecolog\u00eda oncol\u00f3gica", rows:[
+    {"date": "02 feb 2027", "day": "Mar", "type": "seminario", "sem": "Eduardo Gutiérrez: Cáncer de endometrio avanzado — tratamiento sistémico", "pato": "", "pato_asign": ""},
+    {"date": "03 feb 2027", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "Roberto González", "note": ""},
+    {"date": "09 feb 2027", "day": "Mar", "type": "seminario", "sem": "César Nieves: Cáncer cervicouterino avanzado — tratamiento sistémico", "pato": "Patología", "pato_asign": "Lenny Nadia Gallardo"},
+    {"date": "10 feb 2027", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Abel Estuardo Pérez", "note": ""},
+    {"date": "16 feb 2027", "day": "Mar", "type": "seminario", "sem": "Lenny Nadia Gallardo: Cáncer de ovario — tratamiento perioperatorio y sistémico", "pato": "", "pato_asign": ""},
+    {"date": "17 feb 2027", "day": "Mié", "type": "biblio", "biblio": "Tarea", "asign": "César Nieves", "note": ""},
+    {"date": "23 feb 2027", "day": "Mar", "type": "seminario", "sem": "Abel Estuardo Pérez: Neoplasia trofoblástica gestacional", "pato": "Patología", "pato_asign": "Alberto Galeana"},
+    {"date": "24 feb 2027", "day": "Mié", "type": "biblio", "biblio": "Bibliográfica", "asign": "Melissa Martínez", "note": ""},
+    {"date": "26 feb 2027", "day": "Vie", "type": "examen", "exam": "Examen: Ginecología oncológica"},
+  ]},
+];
+
+function badgeHtml(tipo) {
+  if (!tipo) return '';
+  if (tipo==='EXAMEN') return '<span class="badge badge-examen">⚠️ Examen</span>';
+  if (tipo==='Bibliográfica') return '<span class="badge badge-bib">📚 Bibliográfica</span>';
+  if (tipo==='Tarea') return '<span class="badge badge-tarea">✏️ Tarea</span>';
+  if (tipo==='Patología') return '<span class="badge badge-pato">🔬 Patología</span>';
+  return '';
+}
+
+function buildAcad() {
+  const c = document.getElementById('acad-container');
+  if (!c) return;
+
+  const dayLabel = {Mar:'Martes', Mié:'Miércoles', Jue:'Jueves', Vie:'Viernes'};
+  const dayClass = {Mar:'day-mar', Mié:'day-mie', Jue:'day-jue', Vie:'day-vie'};
+
+  modules.forEach(mod => {
+    const wrap = document.createElement('div');
+    wrap.className = 'acad-module';
+
+    const rows = mod.rows.map(r => {
+      const isExam    = r.type === 'examen';
+      const isSem     = r.type === 'seminario';
+      const isBiblio  = r.type === 'biblio';
+      const isEsp     = r.type === 'especial';
+
+      const dayBadge = r.day
+        ? `<span class="day-badge ${dayClass[r.day]||''}">${dayLabel[r.day]||r.day}</span>`
+        : '';
+
+      let semCell = '';
+      let actCell = '';
+      let asignCell = '';
+      let rowClass = '';
+
+      if (isExam) {
+        rowClass = 'acad-row-exam';
+        semCell = `<strong>${r.exam}</strong>`;
+        actCell = '<span class="badge-examen">⚠️ Examen</span>';
+        asignCell = '';
+      } else if (isSem) {
+        // Seminario: always Tuesdays 1pm
+        // Show seminario text; if patología also on same day, show as second badge
+        semCell = r.sem
+          ? `<div class="sem-text">${r.sem}</div>`
+          : '<span style="color:#9ca3af;font-style:italic">Por definir</span>';
+        actCell = '<span class="badge-sem">🎓 Seminario · 1 pm</span>';
+        if (r.pato) {
+          actCell += `<div style="margin-top:4px"><span class="badge-pato">🔬 Patología · mañana</span></div>`;
+          asignCell = `<div style="font-size:11.5px;color:#374151">${r.pato_asign}</div>`;
+        }
+      } else if (isBiblio) {
+        const badge = r.biblio === 'Bibliográfica'
+          ? '<span class="badge-bib">📖 Bibliográfica · mañana</span>'
+          : '<span class="badge-tarea">📝 Tarea · mañana</span>';
+        actCell = badge;
+        asignCell = r.asign || '';
+        if (r.note) {
+          semCell = `<span style="font-size:11.5px;font-style:italic;color:#374151">${r.note}</span>`;
+        }
+      } else if (isEsp) {
+        actCell = '<span class="badge-esp">📌 Actividad especial</span>';
+        semCell = `<span style="font-size:11.5px;color:#374151">${r.note||''}</span>`;
+      }
+
+      return `<tr class="${rowClass}">
+        <td class="acad-date">${dayBadge}<br><span style="font-size:11px;color:#6b7280">${r.date}</span></td>
+        <td>${semCell}</td>
+        <td>${actCell}</td>
+        <td>${asignCell}</td>
+      </tr>`;
+    }).join('');
+
+    wrap.innerHTML = `
+      <div class="acad-module-title">${mod.title}</div>
+      <table class="acad-table">
+        <thead><tr>
+          <th style="min-width:100px">Día</th>
+          <th>Contenido</th>
+          <th style="min-width:195px">Tipo de actividad</th>
+          <th style="min-width:140px">Asignado a</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    c.appendChild(wrap);
+  });
+}
+buildAcad();
+
 </script>
 </body>
 </html>
