@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indicaciones Oncológicas · INCMNSZ</title>
+<title>Plantilla de indicaciones de quimioterapia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -67,19 +67,49 @@
   .hl{background:rgba(200,151,58,.25);color:#7c5c00;border-radius:2px;padding:0 2px}
 
   /* MAIN */
-  main{flex:1;overflow-y:auto;background:var(--bg)}
+  main{flex:1;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
   main::-webkit-scrollbar{width:4px}
   main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-  .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:40px;gap:10px;opacity:.5}
+  .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:40px;gap:10px;opacity:.5}
   .welcome-icon{font-size:40px;margin-bottom:6px}
   .welcome h2{font-size:20px;font-weight:700;color:var(--navy)}
   .welcome p{font-size:13px;color:var(--gray);max-width:300px;line-height:1.6}
 
   /* SCHEME VIEW */
-  .scheme-view{display:none;padding:28px 36px;max-width:820px;animation:fadeSlide .25s ease both}
-  .scheme-view.visible{display:block}
-  @keyframes fadeSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .scheme-view{display:none;flex-direction:column;flex:1;padding:28px 36px 20px;overflow:hidden}
+  .scheme-view.visible{display:flex}
+
+  /* Entry animations — rotated via JS */
+  @keyframes anim-fadeUp   {from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+  @keyframes anim-fadeDown {from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)}}
+  @keyframes anim-fadeLeft {from{opacity:0;transform:translateX(14px)} to{opacity:1;transform:translateX(0)}}
+  @keyframes anim-zoomIn   {from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)}}
+  @keyframes anim-flipUp   {from{opacity:0;transform:perspective(400px) rotateX(6deg) translateY(8px)} to{opacity:1;transform:perspective(400px) rotateX(0) translateY(0)}}
+  .scheme-anim-fadeUp   {animation:anim-fadeUp   .28s cubic-bezier(.22,1,.36,1) both}
+  .scheme-anim-fadeDown {animation:anim-fadeDown .28s cubic-bezier(.22,1,.36,1) both}
+  .scheme-anim-fadeLeft {animation:anim-fadeLeft .28s cubic-bezier(.22,1,.36,1) both}
+  .scheme-anim-zoomIn   {animation:anim-zoomIn   .25s cubic-bezier(.22,1,.36,1) both}
+  .scheme-anim-flipUp   {animation:anim-flipUp   .3s  cubic-bezier(.22,1,.36,1) both}
+
+  /* Breadcrumb & title stagger */
+  .scheme-breadcrumb{animation:anim-fadeUp .22s .05s both}
+  .scheme-title      {animation:anim-fadeUp .24s .10s both}
+  .code-block        {animation:anim-fadeUp .28s .16s both}
+
+  @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+
+  /* Copy button flare */
+  @keyframes rippleOut{0%{transform:scale(0);opacity:.55}100%{transform:scale(2.8);opacity:0}}
+  @keyframes flashGreen{0%,100%{background:var(--teal)}40%{background:#0d9e6e}}
+  .copy-ripple{position:absolute;width:100%;height:100%;border-radius:inherit;background:rgba(26,200,160,.45);pointer-events:none;animation:rippleOut .55s ease-out forwards}
+
+  .scheme-item{transition:all .15s cubic-bezier(.4,0,.2,1)}
+  .cat-header{transition:background .15s,transform .1s}
+  .cat-header:active{transform:scale(.98)}
+  .copy-btn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(13,27,42,.12)}
+  .copy-btn:active{transform:scale(.96)}
+  .copy-btn.copied{animation:flashGreen .6s ease}
 
   .scheme-breadcrumb{font-size:10.5px;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
   .scheme-breadcrumb span{color:var(--teal)}
@@ -92,6 +122,10 @@
     border-radius:10px;
     overflow:hidden;
     box-shadow:0 2px 12px rgba(13,27,42,.07);
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    min-height:0;
   }
   .code-topbar{
     background:#e8edf5;
@@ -109,13 +143,15 @@
     font-family:'JetBrains Mono',monospace;
     font-size:12.5px;
     line-height:1.85;
-    color:#1e293b;
-    overflow-x:auto;
+    color:#353369;
+    overflow-y:auto;
+    overflow-x:hidden;
     white-space:pre-wrap;
     word-break:break-word;
+    flex:1;
   }
-  .code-body::-webkit-scrollbar{height:3px}
-  .code-body::-webkit-scrollbar-thumb{background:#cdd5e0}
+  .code-body::-webkit-scrollbar{width:4px}
+  .code-body::-webkit-scrollbar-thumb{background:#c1cbd9;border-radius:2px}
 
   /* Uniform text color in code block */
   .tok-institution{color:#353369;font-size:11px;letter-spacing:.04em;opacity:.45}
@@ -135,9 +171,7 @@
   <div class="bg-circle c2"></div>
   <div class="header-inner">
     <div class="header-text">
-      <div class="header-badge">INCMNSZ</div>
-      <div class="header-title">Indicaciones <span>Oncológicas</span></div>
-      <div class="header-meta">Departamento de Oncología Médica &nbsp;·&nbsp; <strong>Residentes</strong></div>
+      <div class="header-title">Plantilla de indicaciones de <span>quimioterapia</span></div>
     </div>
   </div>
 </header>
@@ -145,7 +179,7 @@
 <div class="leyenda-bar">
   <span class="leyenda-label">Leyenda BH</span>
   <span class="leyenda-text" id="leyendaText">Se aprueba el esquema previa BH si Hb &gt;9 g/dL, Neu &gt;1.5 x 10^3/µL, y Plaq &gt;100 x 10^3/µL. En caso de no cumplir con alguno de estos parámetros, favor de comunicarse con el residente de Oncología Médica de guardia previo a su administración.</span>
-  <button class="leyenda-copy-btn" onclick="copyLeyenda()" id="leyendaCopyBtn">Copiar</button>
+  <button class="leyenda-copy-btn" onclick="copyLeyenda()" id="leyendaCopyBtn">📋 Copiar</button>
 </div>
 
 <div class="layout">
@@ -236,7 +270,13 @@ function buildNav(filter) {
       <span class="cat-count">${filtered.length}</span>
       <svg class="cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
     `;
-    hdr.addEventListener('click', () => section.classList.toggle('open'));
+    hdr.addEventListener('click', () => {
+      const wasOpen = section.classList.contains('open');
+      // close all open sections
+      nav.querySelectorAll('.cat-section.open').forEach(s => s.classList.remove('open'));
+      // if it wasn't open, open it now
+      if (!wasOpen) section.classList.add('open');
+    });
 
     const list = document.createElement('div');
     list.className = 'scheme-list';
@@ -362,21 +402,30 @@ function formatContent(text) {
   return cleaned.split('\n').map(formatLine).join('');
 }
 
+const ANIM_CLASSES = ['scheme-anim-fadeUp','scheme-anim-fadeLeft','scheme-anim-zoomIn','scheme-anim-fadeDown','scheme-anim-flipUp'];
+let _animIdx = 0;
+
 function showScheme(cat, scheme) {
   welcomeScreen.style.display = 'none';
   schemeView.classList.add('visible');
-  schemeView.style.display = 'block';
+  schemeView.style.display = 'flex';
+
+  // Pick next animation in rotation
+  const animClass = ANIM_CLASSES[_animIdx % ANIM_CLASSES.length];
+  _animIdx++;
 
   schemeView.innerHTML = `
-    <div class="scheme-breadcrumb">
+    <div class="scheme-breadcrumb ${animClass}">
       ${escHtml(cat)}
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       <span>${escHtml(scheme.name)}</span>
     </div>
-    <div class="scheme-title">${escHtml(scheme.name)}</div>
-    <div class="code-block">
+    <div class="scheme-title ${animClass}" style="animation-delay:.08s">
+      ${escHtml(scheme.name)}
+    </div>
+    <div class="code-block ${animClass}" style="animation-delay:.15s">
       <div class="code-topbar">
-        <button class="code-copy-btn" id="schemeCopyBtn" onclick="copyScheme()">Copiar indicaciones</button>
+        <button class="code-copy-btn" id="schemeCopyBtn" onclick="copyScheme()">📋 Copiar indicaciones</button>
       </div>
       <div class="code-body" id="schemeBody">${formatContent(scheme.content)}</div>
     </div>
@@ -400,8 +449,9 @@ function copyLeyenda() {
   if (!el) return;
   navigator.clipboard.writeText(el.innerText).then(() => {
     const btn = document.getElementById('leyendaCopyBtn');
-    btn.textContent = 'Copiado';
-    setTimeout(() => btn.textContent = 'Copiar', 2000);
+    triggerCopyFlare(btn);
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
   });
 }
 
