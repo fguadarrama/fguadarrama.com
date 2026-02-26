@@ -888,7 +888,7 @@ function indFormatLine(line) {
 function indFormatContent(text) {
   // Clean backslash-dot artefacts from markdown escaping (e.g. "Día 1\." → "Día 1.")
   const cleaned = text.replace(/\\\./g, '.').replace(/\.$/gm, '.');
-  return cleaned.split('\n').map(formatLine).join('');
+  return cleaned.split('\n').map(indFormatLine).join('');
 }
 
 const IND_ANIM_CLASSES = ['scheme-anim-fadeUp','scheme-anim-fadeLeft','scheme-anim-zoomIn','scheme-anim-fadeDown','scheme-anim-flipUp'];
@@ -900,7 +900,7 @@ function indShowScheme(cat, scheme) {
   indSchemeView.style.display = 'flex';
 
   // Pick next animation in rotation
-  const animClass = IND_ANIM_CLASSES[_indAnimIdx % ANIM_CLASSES.length];
+  const animClass = IND_ANIM_CLASSES[_indAnimIdx % IND_ANIM_CLASSES.length];
   _indAnimIdx++;
 
   indSchemeView.innerHTML = `
@@ -914,9 +914,9 @@ function indShowScheme(cat, scheme) {
     </div>
     <div class="code-block ${animClass}" style="animation-delay:.15s">
       <div class="code-topbar">
-        <button class="code-copy-btn" id="schemeCopyBtn" onclick="indCopyScheme()">📋 Copiar indicaciones</button>
+        <button class="code-copy-btn" id="indSchemeCopyBtn" onclick="indCopyScheme()">📋 Copiar indicaciones</button>
       </div>
-      <div class="code-body" id="schemeBody">${indFormatContent(scheme.content)}</div>
+      <div class="code-body" id="indSchemeBody">${indFormatContent(scheme.content)}</div>
     </div>
   `;
 
