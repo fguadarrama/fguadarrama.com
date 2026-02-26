@@ -202,7 +202,7 @@
   .copy-row{grid-column:1/-1;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
   .copy-btn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font-family:'DM Sans',sans-serif;transition:all .15s}
   .copy-btn:hover{background:var(--teal);color:#fff}
-  .copy-btn.copied{background:var(--teal);color:#fff}
+  .copy-btn.copied{background:#0d9e6e;color:#fff;border-color:#0d9e6e;box-shadow:0 0 0 3px rgba(13,158,110,.35),0 0 12px rgba(13,158,110,.4)}
 
   @media(max-width:600px){.dir-card{grid-template-columns:1fr}}
 
@@ -623,8 +623,9 @@
     justify-content:flex-end;
     border-bottom:1px solid #cdd5e0;
   }
-  .code-copy-btn{background:#fff;border:1.5px solid #cdd5e0;color:#4b5563;padding:4px 13px;border-radius:5px;font-size:10.5px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+  .code-copy-btn{background:#fff;border:1.5px solid #cdd5e0;color:#4b5563;padding:4px 13px;border-radius:5px;font-size:10.5px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
   .code-copy-btn:hover{border-color:var(--teal);color:var(--teal)}
+  .code-copy-btn.copied{background:#0d9e6e;color:#fff;border-color:#0d9e6e;box-shadow:0 0 0 3px rgba(13,158,110,.35),0 0 12px rgba(13,158,110,.4)}
 
   .code-body{
     padding:20px 24px;
@@ -923,26 +924,6 @@ function indShowScheme(cat, scheme) {
   indMainEl.scrollTop = 0;
 }
 
-function indCopyScheme() {
-  const body = document.getElementById('indSchemeBody');
-  if (!body) return;
-  const text = body.innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('indSchemeCopyBtn');
-    if (btn) { btn.textContent = 'Copiado'; setTimeout(() => btn.textContent = 'Copiar', 2000); }
-  });
-}
-
-function indCopyLeyenda() {
-  const el = document.getElementById('indLeyendaText');
-  if (!el) return;
-  navigator.clipboard.writeText(el.innerText).then(() => {
-    const btn = document.getElementById('indLeyendaCopyBtn');
-    indTriggerCopyFlare(btn);
-    btn.textContent = '✅ Copiado';
-    setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
-  });
-}
 
 indSearchInput.addEventListener('input', () => indBuildNav(indSearchInput.value));
 
@@ -952,6 +933,85 @@ const first = indNav.querySelector('.cat-section');
 if (first) first.classList.add('open');
 
 })();
+</script>
+<script>
+function indCopyScheme() {
+  const body = document.getElementById('indSchemeBody');
+  if (!body) return;
+  const text = body.innerText;
+  const btn = document.getElementById('indSchemeCopyBtn');
+  function onCopied() {
+    if (!btn) return;
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    btn.style.background = '#0d9e6e';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#0d9e6e';
+    btn.style.boxShadow = '0 0 0 3px rgba(13,158,110,.35), 0 0 12px rgba(13,158,110,.4)';
+    setTimeout(() => {
+      btn.textContent = '📋 Copiar indicaciones';
+      btn.classList.remove('copied');
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+      btn.style.boxShadow = '';
+    }, 2000);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      onCopied();
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    onCopied();
+  }
+}
+
+function indTriggerCopyFlare(btn) {
+  if (!btn) return;
+  btn.style.background = '#0d9e6e';
+  btn.style.color = '#fff';
+  btn.style.borderColor = '#0d9e6e';
+  btn.style.boxShadow = '0 0 0 3px rgba(13,158,110,.35), 0 0 12px rgba(13,158,110,.4)';
+  setTimeout(() => {
+    btn.style.background = '';
+    btn.style.color = '';
+    btn.style.borderColor = '';
+    btn.style.boxShadow = '';
+  }, 2000);
+}
+
+function indCopyLeyenda() {
+  const el = document.getElementById('indLeyendaText');
+  if (!el) return;
+  const text = el.innerText;
+  const btn = document.getElementById('indLeyendaCopyBtn');
+  function onCopied() {
+    indTriggerCopyFlare(btn);
+    if (btn) {
+      btn.textContent = '✅ Copiado';
+      setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
+    }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      onCopied();
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    onCopied();
+  }
+}
 </script>
 </section>
 </main>
