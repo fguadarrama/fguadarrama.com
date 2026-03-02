@@ -1042,195 +1042,351 @@ const MONTHS = ['Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Oc
 const schedData = {
   // ── R3 ──
   FG: [
-    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
-    {L:'Vacaciones 20–31',   Ma:'Vigilancias 06–17 / Vacaciones 20–31',  Mi:'Vacaciones 20–31',J:'Vigilancias 06–17 / Vacaciones 20–31',  V:'Vacaciones 20–31'},
-    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigilancias 20–30 jul',   Mi:'HDD + Preco',    J:'HDD + Preco / Vigilancias 20–30 jul',    V:'Uro (Bourlon) 01–20 jul'},
+    // Marzo
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Uro (Bourlon)'},
+    // Abril
+    {L:'Vacaciones 20–31',   Ma:'Vigil. 06–17 / Vacac. 20–31',          Mi:'Vacaciones 20–31',J:'Vigil. 06–17 / Vacac. 20–31',           V:'Vigil. 06–17 / Vacac. 20–31'},
+    // Mayo
+    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Junio
+    {L:'—',                  Ma:'Vigilancias',                            Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Julio
+    {L:'HDD + Preco / Vigil. 20–30 jul', Ma:'HDD + Preco / Vigil. 20–30 jul', Mi:'HDD + Preco / Vigil. 20–30 jul', J:'HDD + Preco / Vigil. 20–30 jul', V:'Uro (Bourlon) 01–20 jul'},
+    // Agosto
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Septiembre
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Octubre
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
-    {L:'—',                  Ma:'Vacaciones 02–13 / Vigilancias 14–30',  Mi:'—',              J:'Vacaciones 02–13 / Vigilancias 14–30',   V:'—'},
+    // Noviembre
+    {L:'—',                  Ma:'Vacac. 02–13 / Vigil. 14–30',          Mi:'—',              J:'Vacac. 02–13 / Vigil. 14–30',            V:'Vacac. 02–13 / Vigil. 14–30'},
+    // Diciembre
     {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
+    // Enero
     {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    // Febrero
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   CX: [
-    {L:'Apoyo consulta - Dra. Chávarri',Ma:'—',Mi:'—',J:'—',V:'—'},
-    {L:'Vacaciones 06–17',   Ma:'Vacaciones 06–17 / Vigil. 20–30',       Mi:'Vacaciones 06–17',J:'Vacaciones 06–17 / Vigil. 20–30',      V:'Vacaciones 06–17'},
+    // Marzo
+    {L:'Apoyo consulta Chávarri', Ma:'Rot. interna Cx oncológica',       Mi:'Rot. interna Cx oncológica', J:'—',                          V:'Mixtos (DLP)'},
+    // Abril
+    {L:'Vacaciones 06–17',   Ma:'Vigil. 20–30 / Vacac. 06–17',          Mi:'Vacaciones 06–17',J:'Vigil. 20–30 / Vacac. 06–17',           V:'Vigil. 20–30 / Vacac. 06–17'},
+    // Mayo
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
-    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
+    // Junio
+    {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre / Rot. interna Huitzil'},
+    // Julio
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigilancias',             Mi:'HDD + Preco / Vigilancias',J:'HDD + Preco / Vigilancias',   V:'—'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 14–25',           Mi:'HDD + Preco / Vigil. 14–25',J:'HDD + Preco / Vigil. 14–25', V:'Mama (Martínez) 01–14 sep'},
-    {L:'Vacaciones 19–30',   Ma:'Vigil. 01–18 / Vacac. 19–30',          Mi:'Vacaciones 19–30',J:'Vigil. 01–18 / Vacac. 19–30',          V:'Mama (Martínez)'},
-    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Agosto
+    {L:'HDD + Preco / Vigilancias', Ma:'HDD + Preco / Vigilancias',     Mi:'HDD + Preco / Vigilancias', J:'HDD + Preco / Vigilancias',   V:'HDD + Preco / Vigilancias'},
+    // Septiembre
+    {L:'HDD + Preco / Vigil. 14–25', Ma:'HDD + Preco / Vigil. 14–25',  Mi:'HDD + Preco / Vigil. 14–25', J:'HDD + Preco / Vigil. 14–25', V:'Mama (Martínez) 01–14 / HDD + Preco Vigil. 14–25'},
+    // Octubre
+    {L:'Vacaciones 19–30',   Ma:'Vigil. 01–18 / Vacac. 19–30',          Mi:'Vacaciones 19–30',J:'Vigil. 01–18 / Vacac. 19–30',           V:'Mama (Martínez) / Vacac. 19–30'},
+    // Noviembre
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Diciembre
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Enero
     {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
+    // Febrero
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   BJ: [
-    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Mixtos (DLP)'},
-    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
-    {L:'Vacac. 04–17 / Vigil. 18–31',Ma:'Vacac. 04–17 / Vigil. 18–31', Mi:'Vacac. 04–17 / Vigil. 18–31',J:'Vacac. 04–17 / Vigil. 18–31',V:'Vacac. 04–17 / Vigil. 18–31'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 15–26',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 15–26',             V:'Uro (Bourlon) 01–15 jun'},
-    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Marzo
+    {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Uro (Bourlon)'},
+    // Abril
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Mama (Martínez)'},
+    // Mayo
+    {L:'Vacac. 04–17 / Vigil. 18–31', Ma:'Vacac. 04–17 / Vigil. 18–31', Mi:'Vacac. 04–17 / Vigil. 18–31', J:'Vacac. 04–17 / Vigil. 18–31', V:'Vacac. 04–17 / Vigil. 18–31'},
+    // Junio
+    {L:'HDD + Preco / Vigil. 15–26', Ma:'HDD + Preco / Vigil. 15–26',  Mi:'HDD + Preco / Vigil. 15–26', J:'HDD + Preco / Vigil. 15–26', V:'Uro (Bourlon) 01–15 jun'},
+    // Julio
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Agosto
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    // Septiembre
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
+    // Octubre
     {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
-    {L:'Vigil. 14–30',       Ma:'Vacac. 02–15 / Vigil. 14–30',          Mi:'Vigil. 14–30',   J:'Vacac. 02–15 / Vigil. 14–30',            V:'Vigil. 14–30'},
-    {L:'Vigilancias',        Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Noviembre
+    {L:'Vigil. 14–30',       Ma:'Vacac. 02–15 / Vigil. 14–30',          Mi:'Vigil. 14–30',   J:'Vacac. 02–15 / Vigil. 14–30',            V:'Vacac. 02–15 / Vigil. 14–30'},
+    // Diciembre
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Enero
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Febrero
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   JC: [
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 04–17',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 04–17',             V:'Mixtos (DLP) 18–30'},
+    // Marzo
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Abril
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Mayo
+    {L:'HDD + Preco / Vigil. 04–17', Ma:'HDD + Preco / Vigil. 04–17',  Mi:'HDD + Preco / Vigil. 04–17', J:'HDD + Preco / Vigil. 04–17', V:'Mixtos (DLP) 18–30'},
+    // Junio
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
-    {L:'Vacaciones 20–30',   Ma:'Vigil. 01–20 / Vacac. 20–30',          Mi:'Vacaciones 20–30',J:'Vigil. 01–20 / Vacac. 20–30',           V:'Vacaciones 20–30'},
+    // Julio
+    {L:'Vacaciones 20–30',   Ma:'Vigil. 01–20 / Vacac. 20–30',          Mi:'Vacaciones 20–30',J:'Vigil. 01–20 / Vacac. 20–30',           V:'Vigil. 01–20 / Vacac. 20–30'},
+    // Agosto
     {L:'Rot. extranjero',    Ma:'Rot. extranjero',                       Mi:'Rot. extranjero',J:'Rot. extranjero',                        V:'Rot. extranjero'},
+    // Septiembre
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 02–13',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 02–13',             V:'Mixtos (DLP) 14–30'},
-    {L:'Apoyo consulta - Dra. Chávarri',Ma:'—',Mi:'—',J:'—',V:'—'},
-    {L:'Vacaciones 18–31',   Ma:'Vigil. 01–17 / Vacac. 18–31',          Mi:'Vacaciones 18–31',J:'Vigil. 01–17 / Vacac. 18–31',           V:'Vacaciones 18–31'},
+    // Octubre
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Noviembre
+    {L:'HDD + Preco / Vigil. 02–13', Ma:'HDD + Preco / Vigil. 02–13',  Mi:'HDD + Preco / Vigil. 02–13', J:'HDD + Preco / Vigil. 02–13', V:'Mixtos (DLP) 14–30'},
+    // Diciembre
+    {L:'Apoyo consulta Chávarri', Ma:'Por definir',                      Mi:'Por definir',    J:'Por definir',                            V:'Vigilancias 01–15'},
+    // Enero
+    {L:'Vacaciones 18–31',   Ma:'Vigil. 01–17 / Vacac. 18–31',          Mi:'Vacaciones 18–31',J:'Vigil. 01–17 / Vacac. 18–31',           V:'Vigil. 01–17 / Vacac. 18–31'},
+    // Febrero
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   LC: [
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Marzo
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Abril
     {L:'HDD + Preco',        Ma:'HDD + Preco',                           Mi:'HDD + Preco',    J:'HDD + Preco',                            V:'Uro (Bourlon)'},
-    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Cubre piso'},
-    {L:'Vacaciones 15–26',   Ma:'Vigil. / Vacac. 15–26',                 Mi:'Vacaciones 15–26',J:'Vigil. / Vacac. 15–26',                 V:'Vacaciones 15–26'},
+    // Mayo
+    {L:'Cubre piso',         Ma:'Cubre piso',                            Mi:'Cubre piso',     J:'Cubre piso',                             V:'Mama (Martínez)'},
+    // Junio
+    {L:'Vacaciones 15–26',   Ma:'Vigil. / Vacac. 15–26',                 Mi:'Vacaciones 15–26',J:'Vigil. / Vacac. 15–26',                 V:'Vigil. / Vacac. 15–26'},
+    // Julio
     {L:'INCAN Tórax',        Ma:'INCAN Tórax',                           Mi:'INCAN Tórax',    J:'INCAN Tórax',                            V:'INCAN Tórax'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Agosto
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Septiembre
     {L:'Vacaciones 14–25',   Ma:'Vigil. / Vacac. 14–25',                 Mi:'Vacaciones 14–25',J:'Vigil. / Vacac. 14–25',                 V:'Vacaciones 14–25'},
-    {L:'HDD + Preco',        Ma:'HDD + Preco / Vigil. 19–30',           Mi:'HDD + Preco',    J:'HDD + Preco / Vigil. 19–30',             V:'01–18 oct: —'},
+    // Octubre
+    {L:'HDD + Preco / Vigil. 19–30', Ma:'HDD + Preco / Vigil. 19–30',  Mi:'HDD + Preco / Vigil. 19–30', J:'HDD + Preco / Vigil. 19–30', V:'HDD + Preco / Vigil. 19–30'},
+    // Noviembre
     {L:'Neuro INNN',         Ma:'Neuro INNN',                            Mi:'Neuro INNN',     J:'Neuro INNN',                             V:'Neuro INNN'},
+    // Diciembre
     {L:'Mes libre',          Ma:'Mes libre',                             Mi:'Mes libre',      J:'Mes libre',                              V:'Mes libre'},
-    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'—'},
+    // Enero
+    {L:'—',                  Ma:'Vigilancias',                           Mi:'—',              J:'Vigilancias',                            V:'Vigilancias'},
+    // Febrero
     {L:'Consejo',            Ma:'Consejo',                               Mi:'Consejo',        J:'Consejo',                                V:'Consejo'},
   ],
   // ── R2 ──
-  // Ma/J = 'Revisión de piso' when assigned to a team that month, '—' otherwise
-  // RG piso: [U,B,—,A,A,—,B,B,—,A,—,B]
+  // Ma = Revisión de piso (+ Historia Clínica Mama if marked in Excel Tuesday rows)
+  // J = Revisión de piso (+ Oncogenética (Chávarri) if marked in Excel Thursday rows)
+  // '-' in Excel Tuesday/Thursday = just Revisión de piso; specific activity = Revisión de piso + activity
   RG: [
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Vacac. 06–19 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (HDLM)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Vacac. 07–20 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
+    // Marzo – Ma: J='-'  → just piso; J: J='-' → just piso
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Abril
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Mayo
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Junio
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Julio
+    {L:'Vacac. 06–19 / Gastro (Huitzil)', Ma:'Revisión de piso',        Mi:'Vacac. 06–19 / Gastro (HDLM)', J:'Revisión de piso',         V:'Vacac. 06–19 / Uro (Bourlon)'},
+    // Agosto
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Septiembre
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Octubre
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Noviembre
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Diciembre
+    {L:'Vacac. 07–20 / Gastro (HDLM)', Ma:'Revisión de piso',           Mi:'Vacac. 07–18 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 07–20 / Uro (Bourlon)'},
+    // Enero
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Febrero
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mama (Martínez)'},
   ],
-  // MM piso: [—,U,B,—,B,B,—,A,A,—,A,A]
   MM: [
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Vacac. 18–31 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (HDLM)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Vacac. 04–17 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    // Marzo
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Abril
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Mayo
+    {L:'Vacac. 18–31 / Gastro (Huitzil)', Ma:'Revisión de piso',        Mi:'Vacac. 18–31 / Gastro (HDLM)', J:'Revisión de piso / Vacac. 18–31', V:'Vacac. 18–31 / Uro (Bourlon)'},
+    // Junio
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Julio
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Agosto
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso + Cubre piso',         V:'Mixtos (DLP)'},
+    // Septiembre
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Octubre
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Noviembre
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Diciembre
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Enero
+    {L:'Vacac. 04–15 / Mama (Chávarri)', Ma:'Revisión de piso',         Mi:'Vacac. 04–17 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 04–17 / Mama (Martínez)'},
+    // Febrero
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
   ],
-  // AG piso: [B,—,U,B,—,A,A,—,B,B,B,—]
   AG: [
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Vacac. 03–16 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM) / Vacac. 18–29', Ma:'Revisión de piso', Mi:'Gastro (Huitzil) / Vacac.', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gine (Martínez)',    Ma:'—',                 Mi:'Mixtos (DLP)',     J:'Oncogenética (Chávarri)', V:'UFCM'},
+    // Marzo
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Abril
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Mayo
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Junio
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Julio
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Agosto
+    {L:'Vacac. 03–16 / Gastro (Huitzil)', Ma:'Revisión de piso',        Mi:'Vacac. 03–16 / Uro (Bourlon)', J:'Revisión de piso',         V:'Vacac. 03–16 / Mama (Martínez)'},
+    // Septiembre
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Octubre
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
+    // Noviembre
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Diciembre
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Enero
+    {L:'Vacac. 18–29 / Gastro (HDLM)', Ma:'Revisión de piso',           Mi:'Vacac. 18–29 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 18–29 / Uro (Bourlon)'},
+    // Febrero
+    {L:'Gine (Martínez)',    Ma:'Revisión de piso',                      Mi:'Mixtos (DLP)',     J:'Revisión de piso + Oncogenética (Chávarri)', V:'UFCM'},
   ],
-  // ── R1 ── (all months have piso, so Ma=J='Revisión de piso' always)
-  // EG: Historia Clínica Mama on specific Tuesdays per Excel — but source is piso, so Ma = Revisión de piso
+  // ── R1 ──
+  // Ma = Revisión de piso + Historia Clínica Mama when marked; J = Revisión de piso (no Thursday data for R1 in Excel)
   EG: [
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Vacac. 01–14 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Gastro (HDLM)', J:'Revisión de piso', V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Vacac. 30nov–13dic / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    // Marzo – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Abril – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Mayo – Ma='Historia Clínica Mama'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Junio – Ma='-'
+    {L:'Vacac. 01–14 / Gastro (Huitzil)', Ma:'Revisión de piso',        Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Julio – Ma='Historia Clínica Mama'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (Huitzil)', J:'Revisión de piso',                  V:'Uro (Bourlon)'},
+    // Agosto – Ma='-'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Septiembre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Octubre – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Noviembre – Ma='Historia Clínica Mama'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Diciembre – Ma='-'
+    {L:'Vacac. 30nov–13dic / Gastro (Huitzil)', Ma:'Revisión de piso',  Mi:'Vacac. 01–13 / Uro (Bourlon)', J:'Revisión de piso',          V:'Vacac. 01–13 / Mama (Martínez)'},
+    // Enero – Ma=''
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Febrero – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
   ],
   JH: [
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Vacac. 03–16 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Mixtos DLP'},
+    // Marzo – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Abril – Ma='Historia Clínica Mama'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Mayo – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Junio – Ma='Historia Clínica Mama'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (Huitzil)', J:'Revisión de piso',                  V:'Mama (Martínez)'},
+    // Julio – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Agosto – Ma='-'
+    {L:'Vacac. 03–16 / Gastro (HDLM)', Ma:'Revisión de piso',           Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Vacac. 03–16 / Uro (Bourlon)'},
+    // Septiembre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Octubre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Noviembre – Ma='-'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Diciembre – Ma='Historia Clínica Mama'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (Huitzil)', J:'Revisión de piso',                  V:'Mixtos (DLP)'},
+    // Enero – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Febrero – Ma='-'
+    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso',         Mi:'Vacac. 01–14 / Uro (Bourlon)', J:'Revisión de piso',          V:'Vacac. 01–14 / Mixtos (DLP)'},
   ],
   CN: [
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM) / Vacac. 18–31', Ma:'Revisión de piso', Mi:'Uro (Bourlon) / Vacac. 18–31', J:'Revisión de piso', V:'Mama (Martínez) / Vacac.'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Vacac. 06–19 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
+    // Marzo – Ma='Historia Clínica Mama'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (HDLM)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Abril – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Mayo – Ma='Historia Clínica Mama / Vacac. 18–31'
+    {L:'Vacac. 18–31 / Gastro (HDLM)', Ma:'Revisión de piso + Hist. Clín. Mama / Vacac. 18–31', Mi:'Vacac. 18–31 / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. 18–31 / Mama (Martínez)'},
+    // Junio – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Julio – Ma='-'
+    {L:'Vacac. 06–19 / Mama (Chávarri)', Ma:'Revisión de piso',         Mi:'Vacac. 06–19 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 06–19 / Mama (Martínez)'},
+    // Agosto – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Septiembre – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Octubre – Ma='Historia Clínica Mama'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (HDLM)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Noviembre – Ma='-'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Diciembre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Enero – Ma=''
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Febrero – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
   ],
   LG: [
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Uro (Bourlon)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Vacac. 19oct–01nov / Mama (Chávarri)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Uro (Bourlon) / Vacac.'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
+    // Marzo – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Abril – Ma='Historia Clínica Mama'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (HDLM)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Mayo – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Junio – Ma='-'
+    {L:'Vacac. 01–14 / Mama (Chávarri)', Ma:'Revisión de piso',         Mi:'Vacac. 01–14 / Uro (Bourlon)', J:'Revisión de piso',          V:'Vacac. 01–14 / Uro (Bourlon)'},
+    // Julio – Ma='-'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Agosto – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Septiembre – Ma='Historia Clínica Mama'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Octubre – Ma='-'
+    {L:'Vacac. 19oct–01nov / Mama (Chávarri)', Ma:'Revisión de piso',   Mi:'Vacac. 19oct–01nov / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. 19oct–01nov / Uro (Bourlon)'},
+    // Noviembre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Diciembre – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Enero – Ma='Historia Clínica Mama'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Febrero – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
   ],
   AE: [
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Mama (Martínez)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Vacac. 05–18 / Gastro (Huitzil)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',  Mi:'Gastro (HDLM)',    J:'Revisión de piso',  V:'Mixtos (DLP)'},
-    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',  Mi:'Uro (Bourlon)',    J:'Revisión de piso',  V:'Uro (Bourlon)'},
-    {L:'Vacac. 04–17 / Gastro (HDLM)', Ma:'Revisión de piso', Mi:'Vacac. / Gastro (Huitzil)', J:'Revisión de piso', V:'Vacac. / Uro (Bourlon)'},
-    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',  Mi:'Gastro (Huitzil)', J:'Revisión de piso',  V:'Mama (Martínez)'},
+    // Marzo – Ma='Historia Clínica Mama'
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Abril – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Mayo – Ma='-'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Junio – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Julio – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Agosto – Ma='Historia Clínica Mama'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Uro (Bourlon)', J:'Revisión de piso',                     V:'Mama (Martínez)'},
+    // Septiembre – Ma=''
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso',                      Mi:'Gastro (Huitzil)', J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Octubre – Ma='-'
+    {L:'Vacac. 05–18 / Gastro (Huitzil)', Ma:'Revisión de piso',        Mi:'Vacac. 05–18 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 05–18 / Uro (Bourlon)'},
+    // Noviembre – Ma=''
+    {L:'Gastro (HDLM)',      Ma:'Revisión de piso',                      Mi:'Gastro (HDLM)',    J:'Revisión de piso',                     V:'Mixtos (DLP)'},
+    // Diciembre – Ma='-'
+    {L:'Gastro (Huitzil)',   Ma:'Revisión de piso',                      Mi:'Uro (Bourlon)',    J:'Revisión de piso',                     V:'Uro (Bourlon)'},
+    // Enero – Ma=''
+    {L:'Vacac. 04–17 / Gastro (HDLM)', Ma:'Revisión de piso',           Mi:'Vacac. 04–17 / Gastro (Huitzil)', J:'Revisión de piso',      V:'Vacac. 04–17 / Uro (Bourlon)'},
+    // Febrero – Ma='Historia Clínica Mama'
+    {L:'Mama (Chávarri)',    Ma:'Revisión de piso + Historia Clínica Mama', Mi:'Gastro (Huitzil)', J:'Revisión de piso',                  V:'Mama (Martínez)'},
   ],
 };
+
 
 
   // Short display names for Residentes tab
