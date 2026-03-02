@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Roles Residentes de Oncología 2026–2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -34,6 +37,10 @@
   .tab{flex-shrink:0;padding:13px 18px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;font-family:'DM Sans',sans-serif}
   .tab:hover{color:rgba(255,255,255,.75)}
   .tab.active{color:var(--teal-light);border-bottom-color:var(--teal-light)}
+  .refresh-btn{display:flex;align-items:center;justify-content:center;padding:13px 14px !important;color:rgba(255,255,255,.4) !important;border-bottom:3px solid transparent !important;transition:all .2s}
+  .refresh-btn:hover{color:rgba(255,255,255,.9) !important}
+  .refresh-btn svg{transition:transform .3s}
+  .refresh-btn:hover svg{transform:rotate(-45deg)}
 
   main{max-width:1100px;margin:0 auto;padding:36px 32px 80px}
   .section{display:none;animation:fadeSlide .3s ease both}
@@ -292,6 +299,9 @@
     <div class="tab" onclick="showTab('calendario',this)">Oncalendario</div>
     <div class="tab" onclick="showTab('directorio',this)">Directorio</div>
     <div class="tab" onclick="showTab('indicaciones',this)">Indicaciones</div>
+    <div class="tab refresh-btn" onclick="forceUpdate()" title="Buscar actualizaciones">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+    </div>
   </div>
 </nav>
 
@@ -2273,6 +2283,11 @@ function buildAcad() {
 }
 buildAcad();
 
+</script>
+<script>
+function forceUpdate() {
+  window.location.href = window.location.pathname + '?t=' + Date.now();
+}
 </script>
 </body>
 </html>
