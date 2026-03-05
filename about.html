@@ -249,7 +249,7 @@
 
 <div id="page-footer">
   <p class="copyright">&copy; <span id="copyright-year"></span> <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></p>
-  <p class="last-modified" data-en="Last modified on February 21, 2026, 6:50 PM" data-es="Última modificación: 21 de febrero de 2026, 6:50 PM">Last modified on February 21, 2026, 6:50 PM</p>
+  <p class="last-modified" data-en="Last modified on March 5, 2026, 12:25 AM" data-es="Última modificación: 5 de marzo de 2026, 12:25 AM">Last modified on March 5, 2026, 12:25 AM</p>
 </div>
 
 <button id="boom-btn">boom!</button>
@@ -282,9 +282,9 @@ document.title = TITLES[getLang()];
 document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
 const TEXTS = {
-  es: `Soy Francisco, oncólogo en v\u00A00.98 rumbo a la versión\u00A01.0. Intento entender tanto a las células cancerígenas como al código fuente. Me acompañan Folfiri y Petri, oncogatos que proveen soporte técnico y ronroneos. Disfruto del té, el pan y la buena mesa (por supuesto, sin lácteos y sin bugs). También me gustan las novelas negras nórdicas y la música de cámara. Colecciono alebrijes, máscaras y acuarelas.`,
-  en: `I'm Francisco, an oncologist in version\u00A00.98, about to ship version\u00A01.0. I try to understand both cancer cells and source code. My partners in crime are Folfiri and Petri, two onc-cats who provide technical support and purrs. I enjoy tea, bread, and good food (dairy-and-bug free, of course!). I also like Nordic noir and chamber music. I collect Mexican alebrijes, masks, and watercolor paintings.`,
-  la: `Franciscus sum, oncologus in versione\u00A00.98, in via ad versionem\u00A01.0. Conor intellegere et cellulas carcinomatosas et codicem fontem. Comitantur me Folfiri et Petri, onco-feles qui auxilium technicum praebent et murmurant. Fruor thea, pane, et cibo bono (sine lacte et sine insectis, scilicet). Amo etiam musicam nigram Nordicam et musicam cameralem. Colligo alebrijas, larvas, et aquarellas.`,
+  es: `Soy Francisco, casi-oncólogo. Me gusta el té, el pan, las novelas nórdicas de crímenes y la música de cámara. Detesto los lácteos con todo mi ser. Colecciono alebrijes, máscaras y acuarelas. Folfiri y Petri habitualmente ronronean a mi lado.`,
+  en: `I am Francisco, quasi-oncologist. I like tea, bread, Nordic crime novels and chamber music. I hate dairy products with all my heart. I collect alebrijes, masks and watercolor paintings. Folfiri and Petri usually purr next to me.`,
+  la: `Franciscus sum, medicus et quasi oncologist. Mihi placet tea, panis, Nordic sceleris conscripserit et thalamum musicam. Lacticiniis odi toto pectore. Colligo alebrijes, larvas et acquerellos. Folfiri et Petri plerumque purr iuxta me.`,
 };
 const BACK_LABELS = { es: 'Regresar', en: 'Go back', la: 'Redire' };
 
@@ -541,6 +541,7 @@ function initBgParticles() {
 /* ── Boom! ─────────────────────────────────────────── */
 boomBtn.addEventListener('click', () => {
   for (const p of particles) p.scatter();
+  initBgParticles();
   boomBtn.classList.remove('confetti-active');
   void boomBtn.offsetWidth;
   boomBtn.classList.add('confetti-active');
