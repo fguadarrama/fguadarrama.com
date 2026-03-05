@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Política de Privacidad — Castor copiador</title>
+    <style>
+        /* ── Reset & base ──────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "JetBrains Mono", system-ui, sans-serif;
+            line-height: 1.7;
+            color: #1e293b;
+            background: #f8fafc;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+            padding: 2.5rem 2rem;
+        }
+
+        /* ── Typography ─────────────────────────────────── */
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: .25rem;
+        }
+
+        .subtitle {
+            font-size: .95rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 2rem;
+            margin-bottom: .5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: .3rem;
+        }
+
+        p,
+        li {
+            font-size: .95rem;
+            color: #475569;
+        }
+
+        ul {
+            padding-left: 1.4rem;
+            margin: .5rem 0 1rem;
+        }
+
+        li {
+            margin-bottom: .35rem;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        strong {
+            color: #1e293b;
+        }
+
+        .effective-date {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: .85rem;
+            padding: .25rem .75rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: .75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-size: .93rem;
+            color: #1e40af;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 1rem;
+            color: #8a7d74;
+            font-weight: 500;
+        }
+
+        footer .heart {
+            color: #e25555;
+            display: inline-block;
+            animation: heartbeat 1.4s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%         { transform: scale(1);   }
+            14%        { transform: scale(1.5); }
+            28%        { transform: scale(1.2); }
+            42%        { transform: scale(2);   }
+            70%, 100%  { transform: scale(1);   }
+        }
+
+        footer a {
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid transparent;
+            transition: border-color .2s, color .2s;
+        }
+
+        footer a:hover {
+            color: #5a4a3e;
+            border-bottom-color: #5a4a3e;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Política de Privacidad</h1>
+        <p class="subtitle">Castor copiador — Extensión para Google Chrome</p>
+        <span class="effective-date">Fecha de vigencia: 5 de marzo de 2026</span>
+
+        <!-- ─── INTRO ────────────────────────────────────── -->
+        <div class="highlight-box">
+            <strong>Resumen:</strong> Esta extensión <strong>no recopila, almacena ni transmite</strong> ningún dato
+            personal ni información de salud. Toda la información se procesa localmente en tu navegador.
+        </div>
+
+        <!-- ─── 1. PURPOSE ───────────────────────────────── -->
+        <h2>1. Propósito de la extensión</h2>
+        <p>
+            <strong>Castor copiador</strong> es una herramienta de productividad clínica diseñada
+            para leer los resultados de laboratorio, formatearlos
+            como texto clínico abreviado y permitir al usuario copiarlo al portapapeles del sistema
+            para permitir una utilización más eficiente de su tiempo.
+        </p>
+
+        <!-- ─── 2. DATA COLLECTION ───────────────────────── -->
+        <h2>2. Datos que recopilamos</h2>
+        <p><strong>Ninguno.</strong> Esta extensión:</p>
+        <ul>
+            <li><strong>No recopila</strong> información personal identificable (nombre, correo electrónico, dirección,
+                etc.).</li>
+            <li><strong>No recopila</strong> datos de salud, resultados de laboratorio ni información clínica.</li>
+            <li><strong>No almacena</strong> datos de ningún tipo — ni localmente ni en servidores externos.</li>
+            <li><strong>No transmite</strong> datos a ningún servidor, servicio en la nube ni tercero.</li>
+            <li><strong>No utiliza</strong> cookies, almacenamiento local (<em>localStorage</em>), bases de datos del
+                navegador ni ninguna otra forma de persistencia.</li>
+            <li><strong>No contiene</strong> rastreadores, <em>analytics</em> ni código de terceros.</li>
+        </ul>
+
+        <!-- ─── 3. PERMISSIONS ───────────────────────────── -->
+        <h2>3. Permisos y justificación</h2>
+        <p>La extensión solicita los siguientes permisos mínimos del navegador:</p>
+        <ul>
+            <li>
+                <strong><code>activeTab</code></strong> — Permite a la extensión acceder al contenido de la pestaña
+                activa <em>únicamente</em> cuando el usuario hace clic en el icono de la extensión. Este permiso
+                se limita a la pestaña actual y no otorga acceso a otras pestañas, historial ni navegación.
+            </li>
+            <li>
+                <strong><code>scripting</code></strong> — Permite inyectar un <em>script</em> de solo lectura en la
+                pestaña activa para extraer el contenido visible de la tabla de resultados de laboratorio del portal
+                INCMNSZ. El <em>script</em> solo lee el DOM (<em>Document Object Model</em>) de la página; no modifica,
+                elimina ni envía datos fuera de la pestaña.
+            </li>
+        </ul>
+
+        <!-- ─── 4. HOW IT WORKS ──────────────────────────── -->
+        <h2>4. Cómo funciona el procesamiento</h2>
+        <p>Todo el procesamiento ocurre <strong>localmente</strong> dentro de tu navegador:</p>
+        <ul>
+            <li>Cuando presionas <em>"Generar texto"</em>, el <em>script</em> lee la tabla de resultados visible en la
+                pestaña activa.</li>
+            <li>Los datos se formatean como texto clínico abreviado directamente en la memoria del navegador.</li>
+            <li>El texto formateado se muestra en el <em>popup</em> de la extensión.</li>
+            <li>Al presionar <em>"Copiar al portapapeles"</em>, el texto se copia al portapapeles del sistema operativo.
+            </li>
+            <li><strong>Ningún dato sale de tu navegador.</strong> No se realizan solicitudes de red ni comunicación con
+                servidores externos.</li>
+        </ul>
+
+        <!-- ─── 5. DATA SHARING ──────────────────────────── -->
+        <h2>5. Compartición de datos con terceros</h2>
+        <p>
+            Esta extensión <strong>no comparte, vende, transfiere ni divulga</strong> datos a terceros de ninguna forma,
+            ya que no recopila ni almacena datos en primer lugar.
+        </p>
+
+        <!-- ─── 6. REMOTE CODE ───────────────────────────── -->
+        <h2>6. Código remoto</h2>
+        <p>
+            La extensión <strong>no carga ni ejecuta código remoto</strong>. Todo el código fuente se incluye
+            completamente dentro del paquete de la extensión y se ejecuta localmente.
+        </p>
+
+        <!-- ─── 7. SENSITIVE DATA ────────────────────────── -->
+        <h2>7. Datos sensibles y de salud</h2>
+        <p>
+            Aunque la extensión interactúa con páginas que contienen resultados de laboratorio (información
+            de salud), la extensión <strong>no almacena, transmite ni retiene</strong> estos datos de ninguna
+            manera. Los resultados son leídos y formateados <em>en tiempo real</em> dentro de la memoria
+            temporal del navegador y <strong>se descartan automáticamente</strong> al cerrar el <em>popup</em>
+            de la extensión.
+        </p>
+
+        <!-- ─── 8. CHILDREN ──────────────────────────────── -->
+        <h2>8. Menores de edad</h2>
+        <p>
+            Esta extensión no está dirigida a menores de 13 años y no recopila datos de ningún
+            usuario, independientemente de su edad.
+        </p>
+
+        <!-- ─── 9. SECURITY ──────────────────────────────── -->
+        <h2>9. Seguridad</h2>
+        <p>
+            Al no recopilar ni almacenar datos, la exposición a riesgos de seguridad se minimiza.
+            La extensión opera con los <strong>permisos mínimos necesarios</strong> y solo accede al
+            contenido de la pestaña activa bajo acción explícita del usuario.
+        </p>
+
+        <!-- ─── 10. CHANGES ──────────────────────────────── -->
+        <h2>10. Cambios a esta política</h2>
+        <p>
+            Nos reservamos el derecho de actualizar esta política de privacidad. Cualquier cambio
+            se publicará en esta misma página con una nueva fecha de vigencia. Si se introducen
+            cambios sustanciales, se notificará a los usuarios a través de la actualización de la
+            extensión.
+        </p>
+
+        <!-- ─── 11. CONTACT ──────────────────────────────── -->
+        <h2>11. Contacto</h2>
+        <p>
+            Si tienes preguntas o inquietudes sobre esta política de privacidad, puedes contactarnos:
+        </p>
+        <button id="contactBtn" style="display:inline-flex;align-items:center;gap:.5rem;margin-top:.75rem;padding:.6rem 1.2rem;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-family:inherit;cursor:pointer;transition:background .2s">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+            Enviar correo electrónico
+        </button>
+
+        <footer id="footer-trigger">
+            Made with <span class="heart">♥</span> by <a href="https://fguadarrama.com/about">Fran</a>
+        </footer>
+    </div>
+
+    <script>
+    const b = document.getElementById('contactBtn');
+    b.addEventListener('click', function() {
+        const p = [109,111,99,46,107,99,117,100,64,99,103,97,102];
+        window.location.href = 'mailto:' + p.reverse().map(function(c){return String.fromCharCode(c)}).join('');
+    });
+    </script>
+</body>
+
+</html>
