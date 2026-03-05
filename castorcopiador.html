@@ -26,7 +26,7 @@
       width: 100%;
     }
 
-    /* --- Header / Hero --- */
+    /* --- Hero --- */
     .hero {
       text-align: center;
       margin-bottom: 2.4rem;
@@ -131,12 +131,41 @@
       transform: translateY(-1px);
     }
 
-    .footer-note {
+    /* --- Footer --- */
+    footer {
       text-align: center;
-      margin-top: 1.6rem;
-      font-size: .88rem;
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      font-size: 1rem;
       color: #8a7d74;
-      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    footer .heart {
+      color: #e25555;
+      display: inline-block;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%         { transform: scale(1);   }
+      14%        { transform: scale(1.5); }
+      28%        { transform: scale(1.2); }
+      42%        { transform: scale(2);   }
+      70%, 100%  { transform: scale(1);   }
+    }
+
+    footer a {
+      color: #3a2e26;
+      text-decoration: none;
+      font-weight: 700;
+      border-bottom: 2px solid transparent;
+      transition: border-color .2s, color .2s;
+    }
+
+    footer a:hover {
+      color: #5a4a3e;
+      border-bottom-color: #5a4a3e;
     }
   </style>
 </head>
@@ -145,7 +174,7 @@
 
     <!-- Hero -->
     <div class="hero">
-      <img src="data:image/png;base64,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" alt="Castor copiador">
+      <img src="beaver.png" alt="Castor copiador">
       <h1>El Castor Copiador</h1>
       <p>El castor copiador es una extensión de Chrome de código abierto para copiar los estudios de laboratorio del INCMNSZ. No se utilizan datos personales y su única función es copiar, copiar, copiar... y hacer diques.</p>
     </div>
@@ -200,11 +229,12 @@
       <a class="btn" href="https://drive.google.com/drive/folders/1Q7YMON-hqDRv7Udr2bYROT5rc7vr7AGX?usp=sharing" target="_blank" rel="noopener">
         Descargar El Castor Copiador
       </a>
-      <p class="footer-note">
-        Cualquiera puede utilizar esta extensión libremente.<br>
-        ¿Problemas? Contacta al desarrollador en tu servicio del INCMNSZ.
-      </p>
     </div>
+
+    <!-- Footer -->
+    <footer>
+      Made with <span class="heart">♥</span> by <a href="https://fguadarrama.com/about">Fran</a>
+    </footer>
 
   </div>
 </body>
