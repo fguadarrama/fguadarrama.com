@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<!-- © Francisco Guadarrama. All rights reserved. Unauthorized copying, reproduction, or distribution of any content on this site is strictly prohibited. Use of this content by AI agents, crawlers, scrapers, language models, or any automated system for training, indexing, summarization, or any other purpose is explicitly and strictly forbidden. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Curriculum vitae | Francisco Guadarrama</title>
+
+  <!-- Favicon: FG in Space Grotesk, #f6f7fd on #3a2eb4 -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='12' fill='%233a2eb4'/%3E%3Ctext x='50' y='68' font-family='Space Grotesk,sans-serif' font-size='46' font-weight='600' fill='%23f6f7fd' text-anchor='middle'%3EFG%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens ───────────────────────────────────────────────── */
+    :root {
+      --bg:        #f6f7fd;
+      --text:      #4b4b4b;
+      --accent:    #3a2eb4;
+      --accent:    color(display-p3 0.2275 0.1804 0.7059);
+      --lime:      #c7e44c;
+      --sidebar-w: 64px;
+      --gap:       46vh;
+      --anchor:    0.28;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: auto;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      scroll-padding-top:    20vh;
+      scroll-padding-bottom: 18vh;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      padding-left: var(--sidebar-w);
+      overflow-x: hidden;
+    }
+
+    /* ── Language toggle ──────────────────────────────────────── */
+    #lang-toggle {
+      position: fixed;
+      top: 18px;
+      right: max(8px, calc(50% - 296px));
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      background: rgba(246,247,253,0.85);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(58,46,179,0.18);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 2px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .lang-btn {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      opacity: 0.4;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, opacity 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+      opacity: 1;
+    }
+
+    /* ── Minimap ──────────────────────────────────────────────── */
+    #minimap {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: var(--sidebar-w);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-left: 16px;
+      gap: 10px;
+      z-index: 50;
+    }
+
+    .tick {
+      position: relative;
+      height: 1px;
+      width:  18px;
+      background: var(--text);
+      border-radius: 2px;
+      opacity: 0.2;
+      cursor: pointer;
+      transition: width .3s ease, height .3s ease, opacity .3s ease,
+                  background .3s ease, box-shadow .3s ease;
+    }
+
+    /* Invisible hit area: extends 10px above/below and across the full sidebar */
+    .tick::after {
+      content: '';
+      position: absolute;
+      top:    -10px;
+      bottom: -10px;
+      left:   -16px;
+      right:  -32px;
+    }
+
+    .tick.tick-near {
+      width:   26px;
+      height:  1px;
+      opacity: 0.45;
+      background: var(--accent);
+      box-shadow: 0 0 6px 1px rgba(58, 46, 179, 0.35);
+    }
+
+    @keyframes tick-pulse {
+      0%, 100% { transform: scaleX(1);       opacity: 1;    }
+      50%       { transform: scaleX(1.0395);  opacity: 0.85; }
+    }
+
+    .tick.tick-active {
+      width:           38px;
+      height:          2px;
+      opacity:         1;
+      background:      var(--accent);
+      box-shadow:      none;
+      transform-origin: left center;
+      transition:      none;
+      animation:       tick-pulse 2.4s ease-in-out infinite;
+    }
+
+    .tick-year {
+      position: absolute;
+      left: calc(100% + 7px);
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      opacity: 0;
+      color: var(--text);
+      transition: opacity .2s ease, color .2s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tick.tick-active .tick-year {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .tick:not(.tick-active):hover {
+      width:   26px;
+      opacity: 0.55;
+      background: var(--text);
+    }
+    .tick:not(.tick-active):hover .tick-year {
+      opacity: 0.65;
+    }
+
+    /* ── Safety zones ─────────────────────────────────────────── */
+    #safe-top, #safe-bottom {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      z-index: 48;
+      pointer-events: none;
+    }
+    #safe-top {
+      top: 0;
+      height: 20vh;
+      background: linear-gradient(to bottom, var(--bg) 60%, transparent 100%);
+    }
+    #safe-bottom {
+      bottom: 0;
+      height: 18vh;
+      background: linear-gradient(to top, var(--bg) 60%, transparent 100%);
+    }
+
+    /* ── Dot ──────────────────────────────────────────────────── */
+    #dot-positioner {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 45;
+      pointer-events: none;
+      transition: transform .5s cubic-bezier(.5, 1.5, .4, 1);
+    }
+
+    #title-dot {
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width .2s ease, height .2s ease,
+                  border-radius .2s ease, background .3s ease;
+    }
+
+    #title-dot.jumping { border-radius: 8px; }
+    #title-dot.landing { border-radius: 8px; }
+
+    /* ── Main content ─────────────────────────────────────────── */
+    main {
+      position: relative;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 30vh 24px 70vh;
+    }
+
+    /* ── Sections ─────────────────────────────────────────────── */
+    .section {
+      margin-bottom: var(--gap);
+      position: relative;
+      padding-left: 32px;
+      scroll-snap-align: start;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: opacity .35s ease, transform .45s cubic-bezier(.4,0,.2,1),
+                  background .3s ease;
+    }
+    .section.active::before {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    /* ── Category tag ─────────────────────────────────────────── */
+    .section-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.55;
+      margin-bottom: 4px;
+    }
+
+    h2.section-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      transition: color .3s ease;
+    }
+    .section.active h2.section-title { color: var(--accent); }
+
+    .section-date {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text);
+      opacity: .4;
+      margin-bottom: 6px;
+    }
+
+    .section-org {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .section-body {
+      font-size: 15px;
+      font-weight: 300;
+      color: #6e6e6e;
+      max-width: 480px;
+      line-height: 1.75;
+    }
+
+    /* ── Highlight word ───────────────────────────────────────── */
+    mark.hl {
+      display: inline-block;
+      background: #c7e44c;
+      background: color(display-p3 0.7804 0.8941 0.2980);
+      color: #000;
+      font-weight: 600;
+      border: 2px solid #000;
+      border-radius: 0;
+      padding: 0 7px 1px;
+      box-shadow: 3px 3px 0 #000;
+      margin-bottom: 2px;
+      vertical-align: baseline;
+      line-height: inherit;
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      body            { padding-left: 0; }
+      #minimap        { display: none; }
+      #dot-positioner { display: none; }
+      .section        { padding-left: 0; }
+      .section::before{ display: none; }
+      #lang-toggle    { top: 12px; right: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="safe-top"    aria-hidden="true"></div>
+  <div id="safe-bottom" aria-hidden="true"></div>
+
+  <nav id="minimap" aria-hidden="true"></nav>
+
+  <div id="dot-positioner" aria-hidden="true">
+    <div id="title-dot"></div>
+  </div>
+
+  <!-- Language toggle -->
+  <div id="lang-toggle" role="group" aria-label="Language / Idioma">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn"        id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+
+  <main id="main">
+
+    <!-- ── 0 · EXPERIENCE: Chief Resident ── -->
+    <section class="section" id="s0">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Mar 2024 – Present" data-es="Mar 2024 – Presente">Mar 2024 – Present</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Medical Oncology Trainee &amp; Chief Resident"
+            data-es="Residente de Oncología Médica y Jefe de Residentes">Medical Oncology Trainee &amp; Chief Resident</h2>
+      </div>
+      <div class="section-org">Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán — Tlalpan, CDMX</div>
+      <p class="section-body"
+         data-en="Academic coordination, supervision of junior trainees, and operational support at <mark class=&quot;hl&quot;>Mexico's top referral center</mark>. Active participation in multidisciplinary oncology care and complex clinical decision-making."
+         data-es="Coordinación académica, supervisión de residentes y apoyo operativo en el <mark class=&quot;hl&quot;>principal centro de referencia</mark> de México. Participación en oncología multidisciplinaria y toma de decisiones clínicas complejas.">Academic coordination, supervision of junior trainees, and operational support at <mark class="hl">Mexico's top referral center</mark>. Active participation in multidisciplinary oncology care and complex clinical decision-making.</p>
+    </section>
+
+    <!-- ── 1 · EXPERIENCE: Internal Medicine Residency ── -->
+    <section class="section" id="s1">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Mar 2020 – Feb 2024" data-es="Mar 2020 – Feb 2024">Mar 2020 – Feb 2024</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Internal Medicine Residency"
+            data-es="Residencia en Medicina Interna">Internal Medicine Residency</h2>
+      </div>
+      <div class="section-org">Hospital Regional de Alta Especialidad del Bajío — León, Guanajuato</div>
+      <p class="section-body"
+         data-en="Specialist training at a tertiary referral hospital. Frontline clinical care during the <mark class=&quot;hl&quot;>COVID-19 pandemic</mark>. Academic accreditation by UNAM. Final GPA: 9.43/10."
+         data-es="Formación especializada en hospital universitario de tercer nivel. Atención clínica de primera línea durante la <mark class=&quot;hl&quot;>pandemia de COVID-19</mark>. Acreditación académica por la UNAM. Promedio final: 9.43/10.">Specialist training at a tertiary referral hospital. Frontline clinical care during the <mark class="hl">COVID-19 pandemic</mark>. Academic accreditation by UNAM. Final GPA: 9.43/10.</p>
+    </section>
+
+    <!-- ── 2 · EXPERIENCE: Clinical Instructor ── -->
+    <section class="section" id="s2">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Mar 2020 – Feb 2024" data-es="Mar 2020 – Feb 2024">Mar 2020 – Feb 2024</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Clinical Instructor in Internal Medicine"
+            data-es="Profesor Clínico de Medicina Interna">Clinical Instructor in Internal Medicine</h2>
+      </div>
+      <div class="section-org">Universidad de Guanajuato — León, Guanajuato</div>
+      <p class="section-body"
+         data-en="Supervised and mentored <mark class=&quot;hl&quot;>undergraduate medical students</mark>, coordinated hospital rotations, and liaised with clinical services to ensure training quality."
+         data-es="Supervisión y mentoría de <mark class=&quot;hl&quot;>estudiantes de medicina</mark>, coordinación de rotaciones hospitalarias y vinculación con servicios clínicos para asegurar la calidad de la formación.">Supervised and mentored <mark class="hl">undergraduate medical students</mark>, coordinated hospital rotations, and liaised with clinical services to ensure training quality.</p>
+    </section>
+
+    <!-- ── 3 · EDUCATION: Specialist Training UNAM ── -->
+    <section class="section" id="s3">
+      <span class="section-tag"
+            data-en="Education" data-es="Educación">Education</span>
+      <span class="section-date"
+            data-en="Mar 2020 – Feb 2024" data-es="Mar 2020 – Feb 2024">Mar 2020 – Feb 2024</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Specialist Training in Internal Medicine"
+            data-es="Especialidad en Medicina Interna">Specialist Training in Internal Medicine</h2>
+      </div>
+      <div class="section-org">Universidad Nacional Autónoma de México — Ciudad de México</div>
+      <p class="section-body"
+         data-en="Certified by the <mark class=&quot;hl&quot;>Mexican Board of Internal Medicine</mark>. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital."
+         data-es="Certificado por el <mark class=&quot;hl&quot;>Consejo Mexicano de Medicina Interna</mark>. Tesis: Impacto de la pandemia de COVID-19 en el perfil clínico de pacientes masculinos con tumores de células germinales atendidos en un hospital de referencia de tercer nivel.">Certified by the <mark class="hl">Mexican Board of Internal Medicine</mark>. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital.</p>
+    </section>
+
+    <!-- ── 4 · EXPERIENCE: Research Assistant PIH ── -->
+    <section class="section" id="s4">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Sep 2019 – Mar 2020" data-es="Sep 2019 – Mar 2020">Sep 2019 – Mar 2020</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Research Assistant"
+            data-es="Asistente de Investigación">Research Assistant</h2>
+      </div>
+      <div class="section-org">Compañeros en Salud · Partners In Health Mexico — Capitán Luis A. Vidal, Chiapas</div>
+      <p class="section-body"
+         data-en="Evaluation of a shared medical appointments programme for <mark class=&quot;hl&quot;>type 2 diabetes</mark> in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health."
+         data-es="Evaluación de un programa de consultas médicas grupales para <mark class=&quot;hl&quot;>diabetes tipo 2</mark> en entornos con recursos limitados. Colaboración internacional con la Escuela de Salud Pública T.H. Chan de Harvard.">Evaluation of a shared medical appointments programme for <mark class="hl">type 2 diabetes</mark> in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health.</p>
+    </section>
+
+    <!-- ── 5 · EXPERIENCE: Research Assistant UAEMéx ── -->
+    <section class="section" id="s5">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Mar 2019 – Mar 2020" data-es="Mar 2019 – Mar 2020">Mar 2019 – Mar 2020</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Research Assistant"
+            data-es="Asistente de Investigación">Research Assistant</h2>
+      </div>
+      <div class="section-org">UAEMéx — Toluca, Estado de México</div>
+      <p class="section-body"
+         data-en="Postgraduate <mark class=&quot;hl&quot;>neurochemistry research</mark> with murine models for behavioural assessment in memory maze paradigms."
+         data-es="Investigación de posgrado en <mark class=&quot;hl&quot;>neuroquímica</mark> con modelos murinos para evaluación conductual en paradigmas de laberintos de memoria.">Postgraduate <mark class="hl">neurochemistry research</mark> with murine models for behavioural assessment in memory maze paradigms.</p>
+    </section>
+
+    <!-- ── 6 · EXPERIENCE: Physician PIH ── -->
+    <section class="section" id="s6">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Jul 2017 – Aug 2018" data-es="Jul 2017 – Ago 2018">Jul 2017 – Aug 2018</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Physician"
+            data-es="Médico">Physician</h2>
+      </div>
+      <div class="section-org">Compañeros en Salud · Partners In Health Mexico — Capitán Luis A. Vidal, Chiapas</div>
+      <p class="section-body"
+         data-en="Full medical and operational responsibility for a <mark class=&quot;hl&quot;>rural health clinic</mark>. Over 3,100 medical consultations and community health campaigns under highly resource-constrained settings."
+         data-es="Responsabilidad médica y operativa de una <mark class=&quot;hl&quot;>clínica rural</mark>. Más de 3,100 consultas individuales y campañas de salud comunitaria bajo condiciones de recursos altamente limitados.">Full medical and operational responsibility for a <mark class="hl">rural health clinic</mark>. Over 3,100 medical consultations and community health campaigns under highly resource-constrained settings.</p>
+    </section>
+
+    <!-- ── 7 · EXPERIENCE: Figure 1 ── -->
+    <section class="section" id="s7">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Oct 2015 – Jul 2017" data-es="Oct 2015 – Jul 2017">Oct 2015 – Jul 2017</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Independent Contractor"
+            data-es="Contratista Independiente">Independent Contractor</h2>
+      </div>
+      <div class="section-org">Figure 1 — Toronto, Canada</div>
+      <p class="section-body"
+         data-en="Medical <mark class=&quot;hl&quot;>translation and localization</mark> of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup."
+         data-es="<mark class=&quot;hl&quot;>Traducción y localización médica</mark> de contenido clínico e interfaces de usuario para mercados hispanohablantes en una startup de salud digital en etapa temprana.">Medical <mark class="hl">translation and localization</mark> of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup.</p>
+    </section>
+
+    <!-- ── 8 · EXPERIENCE: Lab Instructor Tec ── -->
+    <section class="section" id="s8">
+      <span class="section-tag"
+            data-en="Experience" data-es="Experiencia">Experience</span>
+      <span class="section-date"
+            data-en="Aug 2014 – Dec 2015" data-es="Ago 2014 – Dic 2015">Aug 2014 – Dec 2015</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Tissue Biology Laboratory Instructor"
+            data-es="Instructor de Laboratorio de Biología Tisular">Tissue Biology Laboratory Instructor</h2>
+      </div>
+      <div class="section-org">Tecnológico de Monterrey — Monterrey, Nuevo León</div>
+      <p class="section-body"
+         data-en="Designed <mark class=&quot;hl&quot;>laboratory activities</mark> and assessment tools for undergraduate students. Supported transition to blended and virtual laboratory instruction."
+         data-es="Diseño de <mark class=&quot;hl&quot;>actividades de laboratorio</mark> e instrumentos de evaluación para estudiantes de pregrado. Apoyo en la transición a instrucción de laboratorio mixta y virtual.">Designed <mark class="hl">laboratory activities</mark> and assessment tools for undergraduate students. Supported transition to blended and virtual laboratory instruction.</p>
+    </section>
+
+    <!-- ── 9 · EDUCATION: Medical Degree ── -->
+    <section class="section" id="s9">
+      <span class="section-tag"
+            data-en="Education" data-es="Educación">Education</span>
+      <span class="section-date"
+            data-en="Aug 2011 – Aug 2018" data-es="Ago 2011 – Ago 2018">Aug 2011 – Aug 2018</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Medical Degree"
+            data-es="Médico Cirujano">Medical Degree</h2>
+      </div>
+      <div class="section-org">Tecnológico de Monterrey — Monterrey, Nuevo León</div>
+      <p class="section-body"
+         data-en="<mark class=&quot;hl&quot;>Merit-based scholarship</mark>. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Community health brigades in underserved urban settings."
+         data-es="<mark class=&quot;hl&quot;>Beca académica por mérito</mark>. Formación clínica en centros de referencia y alto volumen en México. Rotación clínica internacional en España. Brigadas de salud comunitaria en entornos urbanos marginados."><mark class="hl">Merit-based scholarship</mark>. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Community health brigades in underserved urban settings.</p>
+    </section>
+
+    <!-- ── 10 · EDUCATION: Bilingual High School ── -->
+    <section class="section" id="s10">
+      <span class="section-tag"
+            data-en="Education" data-es="Educación">Education</span>
+      <span class="section-date"
+            data-en="2008 – 2011" data-es="2008 – 2011">2008 – 2011</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Bilingual High School"
+            data-es="Preparatoria Bilingüe">Bilingual High School</h2>
+      </div>
+      <div class="section-org">Tecnológico de Monterrey — Campus Toluca</div>
+      <p class="section-body"
+         data-en="Member of <mark class=&quot;hl&quot;>PARA</mark> (High Academic Performance Programme). Graduated summa cum laude under a merit-based scholarship."
+         data-es="Miembro del programa <mark class=&quot;hl&quot;>PARA</mark> (Programa de Alta Rendimiento Académico). Graduado summa cum laude con beca académica por mérito.">Member of <mark class="hl">PARA</mark> (High Academic Performance Programme). Graduated summa cum laude under a merit-based scholarship.</p>
+    </section>
+
+    <!-- ── 11 · PERSONAL: Birth ── -->
+    <section class="section" id="s11">
+      <span class="section-tag"
+            data-en="Personal" data-es="Personal">Personal</span>
+      <span class="section-date"
+            data-en="1993" data-es="1993">1993</span>
+      <div class="section-heading">
+        <h2 class="section-title"
+            data-en="Born in Toluca"
+            data-es="Nacimiento en Toluca">Born in Toluca</h2>
+      </div>
+      <div class="section-org">Toluca, Estado de México</div>
+      <p class="section-body"
+         data-en="Born in <mark class=&quot;hl&quot;>Toluca</mark>, Estado de México."
+         data-es="Nacimiento en <mark class=&quot;hl&quot;>Toluca</mark>, Estado de México.">Born in <mark class="hl">Toluca</mark>, Estado de México.</p>
+    </section>
+
+  </main>
+
+  <script>
+    /* ── Language system ───────────────────────────────────────── */
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+
+      // Update all elements that have data-en / data-es attributes
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (text !== null) el.innerHTML = text;
+      });
+    }
+
+    /* ── DOM refs ──────────────────────────────────────────────── */
+    const mainEl    = document.getElementById('main');
+    const minimapEl = document.getElementById('minimap');
+    const dotPos    = document.getElementById('dot-positioner');
+    const dotEl     = document.getElementById('title-dot');
+
+    const realSecs = Array.from(mainEl.querySelectorAll('.section'));
+    const N        = realSecs.length;
+
+    /* ── Anchor: must match scroll-padding-top on html (20vh) ──── */
+    const ANCHOR = () => window.innerHeight * 0.20;
+
+    /* ── Apply CSS scroll-snap margins ─────────────────────────── */
+    function applySnapMargins() {
+      realSecs.forEach(s => {
+        s.style.scrollMarginTop = '0px';
+        s.style.scrollSnapAlign = 'start';
+      });
+    }
+    applySnapMargins();
+
+    /* ── Cap-height measurement ─────────────────────────────────── */
+    function measureCapHeight(h2) {
+      const style   = getComputedStyle(h2);
+      const fSize   = parseFloat(style.fontSize);
+      const fFamily = style.fontFamily;
+      const fWeight = style.fontWeight;
+      const letter  = (h2.textContent.trim()[0] || 'A').toUpperCase();
+
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.ceil(fSize * 2);
+        canvas.height = Math.ceil(fSize * 2);
+        const ctx = canvas.getContext('2d');
+        ctx.font = `${fWeight} ${fSize}px ${fFamily}`;
+        ctx.fillStyle = '#000';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(letter, 0, fSize * 1.2);
+
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        let top = canvas.height, bottom = 0;
+        for (let y = 0; y < canvas.height; y++) {
+          for (let x = 0; x < canvas.width; x++) {
+            if (data[(y * canvas.width + x) * 4 + 3] > 10) {
+              if (y < top)    top    = y;
+              if (y > bottom) bottom = y;
+            }
+          }
+        }
+        if (top < bottom) return bottom - top;
+      } catch (_) { /* canvas unavailable */ }
+
+      return Math.round(fSize * 0.72);
+    }
+
+    /* ── Build minimap ticks ────────────────────────────────────── */
+    function extractYear(sec) {
+      const m = sec.querySelector('.section-date').textContent.match(/\d{4}/);
+      return m ? m[0] : '';
+    }
+
+    const ticks = realSecs.map((sec, i) => {
+      const t = document.createElement('div');
+      t.className = 'tick';
+      t.setAttribute('role', 'button');
+      t.setAttribute('aria-label', `Go to ${extractYear(sec)}`);
+
+      const yr = document.createElement('span');
+      yr.className   = 'tick-year';
+      yr.textContent = extractYear(sec);
+      t.appendChild(yr);
+
+      t.addEventListener('click', () => {
+        scrollToSection(sec, false);
+        activateSection(i, true);
+      });
+
+      minimapEl.appendChild(t);
+      return t;
+    });
+
+    /* ── Minimap position ───────────────────────────────────────── */
+    function positionMinimap(idx) {
+      const GAP = 10;
+      const H   = i => Math.abs(i - idx) === 0 ? 2 : 1;
+      let offset = 0;
+      for (let i = 0; i < idx; i++) offset += H(i) + GAP;
+      offset += H(idx) / 2;
+      minimapEl.style.top       = (ANCHOR() - offset) + 'px';
+      minimapEl.style.transform = 'none';
+    }
+
+    function styleMinimapTicks(idx) {
+      ticks.forEach((t, i) => {
+        const d = Math.abs(i - idx);
+        t.classList.remove('tick-active', 'tick-near');
+        if (d === 0) t.classList.add('tick-active');
+        else if (d === 1) t.classList.add('tick-near');
+      });
+    }
+
+    /* ── Scroll helpers ─────────────────────────────────────────── */
+    function scrollToSection(sec, instant) {
+      const lbl  = sec.querySelector('.section-date');
+      const rect = lbl.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + rect.top + rect.height / 2 - ANCHOR(),
+        behavior: instant ? 'instant' : 'smooth'
+      });
+    }
+
+    /* ── Dot helpers ────────────────────────────────────────────── */
+    function setDotSize(section) {
+      const h2   = section.querySelector('h2');
+      const cap  = measureCapHeight(h2);
+      const size = Math.max(cap, 10);
+      dotEl.style.width  = size + 'px';
+      dotEl.style.height = size + 'px';
+      dotEl.dataset.size = size;
+      dotEl.style.setProperty('--jump-h', Math.round(size * 2.6) + 'px');
+      dotEl.style.setProperty('--land-w', Math.round(size * 1.7) + 'px');
+    }
+
+    function snapDot(section) {
+      const h2   = section.querySelector('h2');
+      const rect = h2.getBoundingClientRect();
+      const size = parseFloat(dotEl.dataset.size) || 16;
+      const x = rect.left - size / 2 - 10;
+      const y = rect.top  + rect.height / 2;
+      dotPos.style.transition = 'none';
+      dotPos.style.left       = x + 'px';
+      dotPos.style.transform  = `translateY(${y}px)`;
+      dotPos.offsetHeight;
+      dotPos.style.transition = '';
+    }
+
+    /* ── Squash-and-stretch ─────────────────────────────────────── */
+    let jt1, jt2;
+    function triggerJump() {
+      clearTimeout(jt1); clearTimeout(jt2);
+      const size = parseFloat(dotEl.dataset.size) || 16;
+      dotEl.style.width  = Math.round(size * 0.4) + 'px';
+      dotEl.style.height = Math.round(size * 2.6) + 'px';
+      dotEl.classList.add('jumping');
+
+      jt1 = setTimeout(() => {
+        dotEl.classList.replace('jumping', 'landing');
+        dotEl.style.width  = Math.round(size * 1.7) + 'px';
+        dotEl.style.height = Math.round(size * 0.5) + 'px';
+
+        jt2 = setTimeout(() => {
+          dotEl.classList.remove('landing');
+          dotEl.style.width  = size + 'px';
+          dotEl.style.height = size + 'px';
+        }, 160);
+      }, 250);
+    }
+
+    /* ── State ──────────────────────────────────────────────────── */
+    let activeIdx = 0;
+
+    function findClosest() {
+      const a = ANCHOR();
+      let best = activeIdx, bestD = Infinity;
+      realSecs.forEach((s, i) => {
+        const r    = s.querySelector('.section-date').getBoundingClientRect();
+        const dist = Math.abs(r.top + r.height / 2 - a);
+        if (dist < bestD) { bestD = dist; best = i; }
+      });
+      return best;
+    }
+
+    function activateSection(idx, animate) {
+      activeIdx = ((idx % N) + N) % N;
+      const section = realSecs[activeIdx];
+
+      realSecs.forEach((s, i) => s.classList.toggle('active', i === activeIdx));
+      positionMinimap(activeIdx);
+      styleMinimapTicks(activeIdx);
+      setDotSize(section);
+
+      if (animate) {
+        const departureY = (() => {
+          const m = dotPos.style.transform.match(/translateY\(([^)]+)px\)/);
+          return m ? parseFloat(m[1]) : ANCHOR();
+        })();
+        const departureX = parseFloat(dotPos.style.left) || 0;
+
+        dotPos.style.transition = 'none';
+        dotPos.style.left       = departureX + 'px';
+        dotPos.style.transform  = `translateY(${departureY}px)`;
+        dotPos.offsetHeight;
+
+        requestAnimationFrame(() => {
+          dotPos.style.transition = '';
+          const h2   = section.querySelector('h2');
+          const rect = h2.getBoundingClientRect();
+          const size = parseFloat(dotEl.dataset.size) || 16;
+          dotPos.style.left      = (rect.left - size / 2 - 10) + 'px';
+          dotPos.style.transform = `translateY(${rect.top + rect.height / 2}px)`;
+          triggerJump();
+        });
+      } else {
+        snapDot(section);
+      }
+    }
+
+    function onScrollEnd() {
+      const closest = findClosest();
+      activateSection(closest, closest !== activeIdx);
+      setTimeout(() => snapDot(realSecs[activeIdx]), 580);
+    }
+
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', onScrollEnd, { passive: true });
+    } else {
+      let debTimer;
+      window.addEventListener('scroll', () => {
+        clearTimeout(debTimer);
+        debTimer = setTimeout(onScrollEnd, 150);
+      }, { passive: true });
+    }
+
+    /* ── Wrap-around via scroll intent ─────────────────────────── */
+    let wrapCooldown = false;
+
+    function triggerWrap(toIdx) {
+      if (wrapCooldown) return;
+      wrapCooldown = true;
+      activateSection(toIdx, true);
+      setTimeout(() => {
+        scrollToSection(realSecs[toIdx], true);
+        setTimeout(() => {
+          snapDot(realSecs[activeIdx]);
+          wrapCooldown = false;
+        }, 80);
+      }, 60);
+    }
+
+    window.addEventListener('wheel', e => {
+      if (wrapCooldown) return;
+      if (activeIdx === N - 1 && e.deltaY > 0) {
+        e.preventDefault();
+        triggerWrap(0);
+      } else if (activeIdx === 0 && e.deltaY < 0) {
+        e.preventDefault();
+        triggerWrap(N - 1);
+      }
+    }, { passive: false });
+
+    let touchStartY = null;
+    window.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', e => {
+      if (touchStartY === null || wrapCooldown) return;
+      const delta = touchStartY - e.changedTouches[0].clientY;
+      touchStartY = null;
+      if (Math.abs(delta) < 30) return;
+      if (activeIdx === N - 1 && delta > 0) triggerWrap(0);
+      else if (activeIdx === 0 && delta < 0) triggerWrap(N - 1);
+    }, { passive: true });
+
+    /* ── Keyboard navigation ────────────────────────────────────── */
+    let kbLock = false;
+    window.addEventListener('keydown', e => {
+      if (!['ArrowDown','ArrowUp','PageDown','PageUp'].includes(e.key)) return;
+      e.preventDefault();
+      if (kbLock) return;
+      kbLock = true;
+
+      const dir  = (e.key === 'ArrowDown' || e.key === 'PageDown') ? 1 : -1;
+      const next = ((activeIdx + dir) % N + N) % N;
+
+      scrollToSection(realSecs[next], false);
+      activateSection(next, true);
+
+      setTimeout(() => {
+        snapDot(realSecs[activeIdx]);
+        kbLock = false;
+      }, 600);
+    });
+
+    /* ── Resize ─────────────────────────────────────────────────── */
+    window.addEventListener('resize', () => {
+      applySnapMargins();
+      positionMinimap(activeIdx);
+      setDotSize(realSecs[activeIdx]);
+      requestAnimationFrame(() => snapDot(realSecs[activeIdx]));
+    });
+
+    /* ── Init ───────────────────────────────────────────────────── */
+    window.addEventListener('load', () => {
+      activateSection(0, false);
+      scrollToSection(realSecs[0], true);
+    });
+  </script>
+</body>
+</html>
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  CHANGELOG — Francisco Timeline                                              ║
+║                                                                              ║
+║  HOW TO ADD AN ENTRY:                                                        ║
+║  1. Copy the template block below.                                           ║
+║  2. Fill in: agent, app, timestamp (Mexico City = UTC-6).                   ║
+║  3. Paste at the BOTTOM of ENTRIES, preserving order.                       ║
+║  4. Timestamp format: YYYY-MM-DD HH:MM (UTC-6)                              ║
+║                                                                              ║
+║  ── ENTRY TEMPLATE ──────────────────────────────────────────────────────── ║
+║  Date:    YYYY-MM-DD HH:MM (UTC-6)                                          ║
+║  Agent:   <name or model>                                                   ║
+║  App:     <tool used>                                                       ║
+║  Changes:                                                                   ║
+║    - <what and why>                                                         ║
+║  ─────────────────────────────────────────────────────────────────────────  ║
+║                                                                              ║
+║  ── ENTRIES ─────────────────────────────────────────────────────────────── ║
+║                                                                              ║
+║  Date:    2026-03-13 21:00 (UTC-6)                                          ║
+║  Agent:   Claude Sonnet 4.6 (Anthropic)                                     ║
+║  App:     Claude.ai — chat interface                                         ║
+║  Changes:                                                                   ║
+║    - Initial build. Minimap sidebar, jumping dot, accent border,            ║
+║      highlight words, scroll snap, infinite loop. Space Grotesk font.       ║
+║                                                                              ║
+║  Date:    2026-03-14 04:10 (UTC-6)                                          ║
+║  Agent:   Claude Sonnet 4.6 (Anthropic)                                     ║
+║  App:     Claude.ai — chat interface                                         ║
+║  Changes:                                                                   ║
+║    - FIX: Highlight border/shadow changed to #000 at 100% opacity.          ║
+║    - FIX: Wrap-around lag eliminated.                                        ║
+║    - REMOVED: Accent color picker.                                           ║
+║    - CHANGED: Dot size set dynamically by JS via canvas cap-height.         ║
+║    - NEW: Minimap ticks are now interactive (click + hover year label).     ║
+║                                                                              ║
+║  Date:    2026-03-14 00:20 (UTC-6)                                          ║
+║  Agent:   Claude Sonnet 4.6 (Anthropic)                                     ║
+║  App:     Claude.ai — chat interface                                         ║
+║  Changes:                                                                   ║
+║    - NEW: Safety zones (gradient fade at top/bottom edges).                 ║
+║    - FIX: Loop wrap via wheel/touch intent listeners.                        ║
+║                                                                              ║
+║  Date:    2026-03-14 02:55 (UTC-6)                                          ║
+║  Agent:   Claude Sonnet 4.6 (Anthropic)                                     ║
+║  App:     Claude.ai — chat interface                                         ║
+║  Changes:                                                                   ║
+║    - FIX: Safety zones via scroll-padding-top/bottom on html.               ║
+║    - ANCHOR updated to 0.20 to match scroll-padding-top.                    ║
+║                                                                              ║
+║  Date:    2026-03-15 (UTC-6)                                                ║
+║  Agent:   Claude Sonnet 4.6 (Anthropic)                                     ║
+║  App:     Claude.ai — chat interface                                         ║
+║  Changes:                                                                   ║
+║    - CONTENT: Sections replaced with CV data from fguadarrama.com.          ║
+║    - NEW: EN/ES language toggle with data-en/data-es attributes.            ║
+║    - NEW: Category badge (.section-tag) per section.                        ║
+║    - NEW: Favicon FG in Space Grotesk, #f6f7fd on #3a2eb4.                 ║
+║    - NEW: Title "Curriculum vitae | Francisco Guadarrama".                  ║
+║    - NEW: Tick hit area expanded via ::after pseudo-element.                ║
+║    - NEW: tick-active pulse animation 38px → 39.5px via scaleX.            ║
+║    - FIX: --accent and mark.hl background in Display P3 for P3 displays.   ║
+║    - FIX: section-body opacity replaced with direct color to fix mark.hl.  ║
+║    - ADD: Bilingual High School 2008-2011, Birth 1993 entries.              ║
+║    - FIX: Chronological order (present → past) corrected.                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
