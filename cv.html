@@ -321,13 +321,132 @@
       opacity: 1;
     }
 
+    /* ── Mobile ───────────────────────────────────────────────── */
     @media (max-width: 480px) {
-      body            { padding-left: 0; }
+      html {
+        scroll-padding-top:    14vh;
+        scroll-padding-bottom: 12vh;
+      }
+
+      body {
+        padding-left: 0;
+        padding-top: 72px;
+      }
+
+      /* Hide vertical sidebar and dot */
       #minimap        { display: none; }
       #dot-positioner { display: none; }
       .section        { padding-left: 0; }
       .section::before{ display: none; }
-      #lang-toggle    { top: 12px; right: 4px; }
+
+      /* Toggle: top-right on mobile */
+      #lang-toggle {
+        top: 14px;
+        left: auto;
+        right: 16px;
+      }
+
+      /* Horizontal minimap */
+      #minimap-h {
+        display: flex;
+      }
+
+      /* Reduce top safe zone on mobile */
+      #safe-top  { height: 14vh; }
+      #safe-bottom { height: 12vh; }
+    }
+
+    /* ── Horizontal minimap (mobile only) ────────────────────── */
+    #minimap-h {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 50;
+      align-items: flex-start;  /* ticks alineados desde arriba */
+      justify-content: center;
+      gap: 10px;
+      padding-top: 20px;        /* espacio de seguridad arriba */
+      background: linear-gradient(to bottom, var(--bg) 65%, transparent 100%);
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      #minimap-h { display: flex; }
+    }
+
+    .tick-h {
+      position: relative;
+      width:  1px;
+      height: 18px;
+      background: var(--text);
+      border-radius: 2px;
+      opacity: 0.2;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: height .3s ease, width .3s ease, opacity .3s ease,
+                  background .3s ease, box-shadow .3s ease;
+    }
+
+    /* Invisible hit area: extends left/right and upward */
+    .tick-h::after {
+      content: '';
+      position: absolute;
+      left:   -10px;
+      right:  -10px;
+      top:    -16px;
+      bottom: -4px;
+    }
+
+    .tick-h.tick-near {
+      height: 26px;
+      width:  1px;
+      opacity: 0.45;
+      background: var(--accent);
+      box-shadow: 0 0 6px 1px rgba(58, 46, 179, 0.35);
+    }
+
+    .tick-h-year {
+      position: absolute;
+      top: calc(100% + 5px);   /* debajo del tick */
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      opacity: 0;
+      color: var(--text);
+      transition: opacity .2s ease, color .2s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tick-h.tick-active .tick-h-year {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .tick-h:not(.tick-active):hover .tick-h-year {
+      opacity: 0.65;
+    }
+
+    @keyframes tick-h-pulse {
+      0%, 100% { transform: scaleY(1);       opacity: 1;    }
+      50%       { transform: scaleY(1.0395);  opacity: 0.85; }
+    }
+
+    .tick-h.tick-active {
+      width:            2px;
+      height:           38px;
+      opacity:          1;
+      background:       var(--accent);
+      box-shadow:       none;
+      transform-origin: top center;  /* crece hacia abajo */
+      transition:       none;
+      animation:        tick-h-pulse 2.4s ease-in-out infinite;
     }
   </style>
 </head>
@@ -336,7 +455,8 @@
   <div id="safe-top"    aria-hidden="true"></div>
   <div id="safe-bottom" aria-hidden="true"></div>
 
-  <nav id="minimap" aria-hidden="true"></nav>
+  <nav id="minimap"   aria-hidden="true"></nav>
+  <nav id="minimap-h" aria-hidden="true"></nav>
 
   <div id="dot-positioner" aria-hidden="true">
     <div id="title-dot"></div>
@@ -655,6 +775,38 @@
       return t;
     });
 
+    /* ── Build horizontal minimap ticks (mobile) ────────────────── */
+    const minimapHEl = document.getElementById('minimap-h');
+
+    const ticksH = realSecs.map((sec, i) => {
+      const t = document.createElement('div');
+      t.className = 'tick-h';
+      t.setAttribute('role', 'button');
+      t.setAttribute('aria-label', `Go to ${extractYear(sec)}`);
+
+      const yr = document.createElement('span');
+      yr.className   = 'tick-h-year';
+      yr.textContent = extractYear(sec);
+      t.appendChild(yr);
+
+      t.addEventListener('click', () => {
+        scrollToSection(sec, false);
+        activateSection(i, true);
+      });
+
+      minimapHEl.appendChild(t);
+      return t;
+    });
+
+    function styleMinimapHorizontalTicks(idx) {
+      ticksH.forEach((t, i) => {
+        const d = Math.abs(i - idx);
+        t.classList.remove('tick-active', 'tick-near');
+        if (d === 0) t.classList.add('tick-active');
+        else if (d === 1) t.classList.add('tick-near');
+      });
+    }
+
     /* ── Minimap position ───────────────────────────────────────── */
     function positionMinimap(idx) {
       const GAP = 10;
@@ -673,6 +825,7 @@
         if (d === 0) t.classList.add('tick-active');
         else if (d === 1) t.classList.add('tick-near');
       });
+      styleMinimapHorizontalTicks(idx);
     }
 
     /* ── Scroll helpers ─────────────────────────────────────────── */
