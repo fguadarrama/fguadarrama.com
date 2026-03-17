@@ -242,25 +242,51 @@ canvas#main { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1;
   color:rgba(255,255,255,.85);
   cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  transition:background .2s, box-shadow .2s, transform .12s, border-color .2s;
+  transition:background .2s, box-shadow .2s, transform .18s cubic-bezier(.34,1.56,.64,1), border-color .2s, width .18s, height .18s;
   user-select:none; outline:none;
   filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));
 }
-.reveal-btn svg { width:28px; height:28px; flex-shrink:0; }
+.reveal-btn svg { width:28px; height:28px; flex-shrink:0; transition:width .18s, height .18s; }
 .reveal-btn:hover {
+  width:72px; height:72px;
   background:rgba(255,255,255,.16);
   border-color:rgba(255,255,255,.38);
   box-shadow:0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22);
-  transform:translateY(-2px) scale(1.05);
+  transform:translateY(-2px);
 }
+.reveal-btn:hover svg { width:32px; height:32px; }
 .reveal-btn:active { transform:scale(.95); }
-/* ON state — portrait is showing */
+/* ON state — #3A2EB4 with P3 */
 .reveal-btn.on {
-  background:rgba(199,228,76,.22);
-  border-color:rgba(199,228,76,.55);
-  box-shadow:0 0 24px rgba(199,228,76,.35), 0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
-  color:rgba(199,228,76,.95);
+  width:72px; height:72px;
+  background: #3A2EB4;
+  background: color(display-p3 0.18 0.15 0.68);
+  border-color: #C7E44C;
+  border-color: color(display-p3 0.75 0.89 0.22);
+  box-shadow:0 0 28px rgba(58,46,180,.6), 0 8px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2);
+  color: #C7E44C;
+  color: color(display-p3 0.75 0.89 0.22);
 }
+.reveal-btn.on svg { width:32px; height:32px; stroke: #C7E44C; stroke: color(display-p3 0.75 0.89 0.22); }
+.reveal-btn.on:hover {
+  width:78px; height:78px;
+  background: color(display-p3 0.22 0.18 0.78);
+  border-color: #C7E44C;
+  border-color: color(display-p3 0.75 0.89 0.22);
+  box-shadow:0 0 36px rgba(58,46,180,.75), 0 12px 40px rgba(0,0,0,.4);
+  color: #C7E44C;
+  color: color(display-p3 0.75 0.89 0.22);
+}
+.reveal-btn.on:hover svg { width:34px; height:34px; stroke: #C7E44C; stroke: color(display-p3 0.75 0.89 0.22); }
+
+/* Hover (idle state) — lime border and icon */
+.reveal-btn:not(.on):hover {
+  border-color: #C7E44C;
+  border-color: color(display-p3 0.75 0.89 0.22);
+  color: #C7E44C;
+  color: color(display-p3 0.75 0.89 0.22);
+}
+.reveal-btn:not(.on):hover svg { stroke: #C7E44C; stroke: color(display-p3 0.75 0.89 0.22); }
 
 @media(max-width:600px){
   .ui{padding:12px 10px 0;} .tool{padding:6px 14px;font-size:.74rem;}
@@ -320,6 +346,7 @@ let revealAlpha=0, portraitVisible=false;
 // Assembly animation state
 let assemblyParticles=[], assemblyRunning=false, assemblyDone=false, assemblyFrame=0;
 let fadeAlpha=0; // fade-in after assembly completes
+let floatParticles=[]; // sparse particles over the finished portrait
 // Two independent phase counters for organic morphing
 let blobPhaseA=0, blobPhaseB=Math.PI*1.3;
 let frameCount=0, lastFpsTime=performance.now();
@@ -624,7 +651,7 @@ document.getElementById("boomBtn").addEventListener("click",()=>{
   portraitVisible=false;
   revealBtn.classList.remove("on");
   revealAlpha=0;
-  assemblyRunning=false; assemblyDone=false; assemblyParticles=[]; fadeAlpha=0; assemblyFrame=0;
+  assemblyRunning=false; assemblyDone=false; assemblyParticles=[]; floatParticles=[]; fadeAlpha=0; assemblyFrame=0;
   shatterImage(srcImg);
   if(bgImgReady) buildBgParticles();
 });
@@ -706,7 +733,7 @@ revealBtn.addEventListener("click",()=>{
   } else {
     // OFF: scatter portrait particles back, hide PNG
     assemblyRunning=false; assemblyDone=false;
-    assemblyParticles=[];
+    assemblyParticles=[]; floatParticles=[];
     fadeAlpha=0;
     alboroto();
   }
@@ -781,6 +808,69 @@ function buildBgParticles(){
   }
 }
 
+// ══ FLOAT PARTICLES — sparse, small, slow; appear over the PNG when fully loaded ══
+function buildFloatParticles(){
+  if(!srcImg || !pW) return;
+  floatParticles=[];
+
+  // Draw srcImg onto a dedicated offscreen canvas at portrait scale
+  // srcImg was loaded with crossOrigin="anonymous" so getImageData is safe
+  const foc=document.createElement("canvas");
+  foc.width=pW; foc.height=pH;
+  const fctx=foc.getContext("2d");
+  fctx.drawImage(srcImg, 0, 0, pW, pH);
+  let imgData;
+  try{
+    imgData=fctx.getImageData(0,0,pW,pH).data;
+  } catch(e){
+    // CORS tainted — fall back to white particles on oval
+    const gap=10;
+    const pcx=pW/2, pcy=pH/2, prx=pW*0.44, pry=pH*0.47;
+    for(let ty=0;ty<pH;ty+=gap){
+      for(let tx=0;tx<pW;tx+=gap){
+        const pdx=(tx-pcx)/prx, pdy=(ty-pcy)/pry;
+        if(pdx*pdx+pdy*pdy>1) continue;
+        floatParticles.push({
+          x:pX+tx, y:pY+ty, ox:pX+tx, oy:pY+ty, vx:0, vy:0,
+          size:1.0+Math.random()*3.5,
+          color:"rgba(220,220,220,0.9)",
+          wanderAngle:Math.random()*Math.PI*2,
+          wanderSpeed:0.006+Math.random()*0.009,
+          spring:0.003+Math.random()*0.002,
+          friction:0.985+Math.random()*0.01,
+          opacity:0
+        });
+      }
+    }
+    return;
+  }
+
+  // Grid sample with oval mask — gap=10
+  const gap=10;
+  const pcx=pW/2, pcy=pH/2, prx=pW*0.44, pry=pH*0.47;
+  for(let ty=0;ty<pH;ty+=gap){
+    for(let tx=0;tx<pW;tx+=gap){
+      const idx=(ty*pW+tx)*4;
+      const r=imgData[idx], g=imgData[idx+1], b=imgData[idx+2], a=imgData[idx+3];
+      if(a<80) continue;
+      const pdx=(tx-pcx)/prx, pdy=(ty-pcy)/pry;
+      if(pdx*pdx+pdy*pdy>1) continue;
+      floatParticles.push({
+        x:pX+tx, y:pY+ty,
+        ox:pX+tx, oy:pY+ty,
+        vx:0, vy:0,
+        size:1.0+Math.random()*3.5,  // 1–4.5px, matches rest of canvas
+        color:`rgba(${r},${g},${b},0.9)`,
+        wanderAngle:Math.random()*Math.PI*2,
+        wanderSpeed:0.006+Math.random()*0.009,
+        spring:0.003+Math.random()*0.002,
+        friction:0.985+Math.random()*0.01,
+        opacity:0
+      });
+    }
+  }
+}
+
 // ══ RENDER ══
 function render(){
   blobPhaseA += 0.022;
@@ -814,6 +904,10 @@ function render(){
     fadeAlpha=1.0;
   } else if(!portraitVisible){
     fadeAlpha=0; assemblyDone=false; assemblyFrame=0;
+  }
+  // Build float particles the moment fadeAlpha reaches 1.0
+  if(fadeAlpha >= 1.0 && portraitVisible && floatParticles.length===0 && pW>0){
+    buildFloatParticles();
   }
 
 
@@ -856,6 +950,32 @@ function render(){
     ctx.globalCompositeOperation = "source-over";
     ctx.drawImage(revealCvs, 0, 0);
     ctx.globalAlpha = 1;
+  }
+
+  // ── Float particles: drawn LAST so they are always on top of the PNG ──
+  if(floatParticles.length > 0 && fadeAlpha >= 0.98){
+    for(let i=0;i<floatParticles.length;i++){
+      const p=floatParticles[i];
+      p.opacity=Math.min(1, p.opacity+0.015);
+      p.wanderAngle+=p.wanderSpeed;
+      p.vx+=Math.cos(p.wanderAngle)*0.09;
+      p.vy+=Math.sin(p.wanderAngle)*0.09;
+      p.vx+=(p.ox-p.x)*p.spring;
+      p.vy+=(p.oy-p.y)*p.spring;
+      p.vx*=p.friction; p.vy*=p.friction;
+      p.x+=p.vx; p.y+=p.vy;
+    }
+    // Draw in a separate pass after all other compositing is done
+    ctx.globalCompositeOperation="source-over";
+    for(let i=0;i<floatParticles.length;i++){
+      const p=floatParticles[i];
+      ctx.globalAlpha=p.opacity*0.85;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size/2, 0, Math.PI*2);
+      ctx.fillStyle=p.color;
+      ctx.fill();
+    }
+    ctx.globalAlpha=1;
   }
 
   // FPS (internal only, not shown in UI)
