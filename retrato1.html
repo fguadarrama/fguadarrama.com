@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<!-- © Francisco Guadarrama. All rights reserved. Unauthorized copying, reproduction, or distribution of any content on this site is strictly prohibited. -->
+<meta name="description" content="Francisco Guadarrama, MD - Oncology access, health system strengthening, and value-based decision-making">
+<meta name="author" content="Francisco Guadarrama">
+<link rel="canonical" href="https://fguadarrama.com">
+<meta property="og:title" content="Francisco Guadarrama">
+<meta property="og:description" content="Francisco Guadarrama, MD - Oncology access, health system strengthening, and value-based decision-making">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fguadarrama.com">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Francisco Guadarrama">
+<meta name="twitter:description" content="Francisco Guadarrama, MD - Oncology access, health system strengthening, and value-based decision-making">
+<meta name="robots" content="index, follow, noarchive">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://fguadarrama.com/#person",
+      "name": "Francisco Guadarrama",
+      "alternateName": "Francisco Guadarrama Conzuelo",
+      "disambiguatingDescription": "Medical Oncologist and Internal Medicine Physician. Not to be confused with anesthesiologist Dr. Francisco Guadarrama Quijada, gynecologist Dr. Francisco Rafael Guadarrama Sanchez, or Oscar Francisco Guadarrama Morales.",
+      "url": "https://fguadarrama.com",
+      "jobTitle": "Medical Oncologist",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Board Certification",
+        "name": "Certified in Internal Medicine",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Consejo Mexicano de Medicina Interna, A.C."
+        }
+      },
+      "worksFor": [
+        {
+          "@type": "MedicalOrganization",
+          "name": "Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán",
+          "alternateName": "INCMNSZ"
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Internal Medicine Fellow",
+          "startDate": "2020",
+          "endDate": "2024",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Hospital Regional de Alta Especialidad del Bajío",
+            "alternateName": "HRAEB"
+          }
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Physician",
+          "startDate": "2017",
+          "endDate": "2020",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Compañeros en Salud",
+            "alternateName": "Partners In Health Mexico",
+            "url": "https://companerosensalud.mx/"
+          }
+        }
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Nacional Autónoma de México",
+          "alternateName": "UNAM"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Tecnológico de Monterrey",
+          "alternateName": "ITESM"
+        }
+      ],
+      "knowsAbout": [
+        "Medical Oncology",
+        "Oncology",
+        "Internal Medicine",
+        "Clinical Research"
+      ],
+      "sameAs": [
+        "https://orcid.org/0000-0003-2241-0791",
+        "https://www.wikidata.org/wiki/Q91155903",
+        "https://scholar.google.com/citations?user=YVW4b40AAAAJ",
+        "https://www.researchgate.net/profile/Francisco-Guadarrama-Conzuelo",
+        "https://github.com/fguadarrama/",
+        "https://linkedin.com/in/FranciscoGuadarrama",
+        "https://franciscoguadarrama.carrd.co/",
+        "https://en-franciscoguadarrama.carrd.co",
+        "https://dr-fg.com/"
+      ]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7839145/",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Breast cancer and health inequalities: Another never ending story?",
+      "url": "https://www.sciencedirect.com/science/article/pii/S003483762500470X",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    }
+  ]
+}
+</script>
+<!-- Inspired by https://codepen.io/fyildiz1974/pen/ByzvNEo by Fatih YILDIZ -->
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<title>Retrato | Francisco Guadarrama 📷</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%233A2EB4'/><text x='50' y='70' font-family='Ysabeau,Georgia,serif' font-size='46' font-weight='700' fill='%23f6f7fd' text-anchor='middle' dominant-baseline='auto'>FG</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700;800&family=Ysabeau:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* Inspired by https://codepen.io/fyildiz1974/pen/ByzvNEo by Fatih YILDIZ */
+
+:root {
+  --blue:  #3A2EB4;
+  --lime:  #C7E44C;
+  --cream: #F6F2F1;
+  --bg:    #08080c;
+}
+@supports (color: color(display-p3 0 0 0)) {
+  :root {
+    --blue:  color(display-p3 0.18 0.15 0.68);
+    --lime:  color(display-p3 0.75 0.89 0.22);
+    --cream: color(display-p3 0.96 0.95 0.94);
+    --bg:    color(display-p3 0.024 0.024 0.035);
+  }
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body {
+  width:100vw; height:100vh; overflow:hidden;
+  background:var(--bg);
+  font-family:"Space Grotesk",system-ui,sans-serif;
+  color:var(--cream); user-select:none;
+}
+canvas#main { position:fixed; top:0; left:0; width:100%; height:100%; z-index:1; cursor:default; }
+
+/* ── UI ── */
+.ui {
+  position:fixed; z-index:10; width:100%; height:100%;
+  display:flex; flex-direction:column; justify-content:space-between; align-items:center;
+  pointer-events:none; padding:20px 24px 0;
+}
+
+/* Top: buttons only */
+.top { text-align:center; pointer-events:auto; }
+
+.tools { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; }
+
+/* ── Unified button style ── */
+.tool {
+  padding:10px 20px; border-radius:24px;
+  border:1px solid rgba(58,46,180,.45);
+  background:rgba(58,46,180,.18);
+  color:rgba(246,242,241,.65);
+  font-size:.82rem; font-weight:600; font-family:inherit;
+  cursor:pointer;
+  transition:background .18s ease, border-color .18s ease,
+             color .18s ease, box-shadow .18s ease, transform .1s ease;
+  letter-spacing:.3px; backdrop-filter:blur(10px);
+  display:flex; align-items:center; gap:5px;
+  outline:none;
+}
+/* hover */
+.tool:hover {
+  background:rgba(58,46,180,.42);
+  border-color:rgba(58,46,180,.85);
+  color:var(--cream);
+  box-shadow:0 0 16px rgba(58,46,180,.45);
+  transform:translateY(-1px);
+}
+/* physically pressed */
+.tool:active {
+  transform:translateY(1px) scale(.97);
+  box-shadow:0 0 6px rgba(58,46,180,.3);
+}
+/* currently selected mode */
+.tool.active {
+  background:rgba(58,46,180,.65);
+  border-color:rgba(58,46,180,1);
+  color:var(--cream);
+  box-shadow:0 0 20px rgba(58,46,180,.55), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.tool svg { width:13px; height:13px; flex-shrink:0; }
+
+
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:70px; left:50%;
+  transform:translateX(-50%) translateY(16px) scale(.95);
+  background:rgba(58,46,180,.88); backdrop-filter:blur(16px);
+  border:1px solid rgba(199,228,76,.2); padding:8px 18px;
+  border-radius:12px; font-size:.74rem; font-weight:600;
+  opacity:0; transition:all .35s cubic-bezier(.34,1.56,.64,1);
+  z-index:50; pointer-events:none; letter-spacing:.2px;
+  color: #C7E44C; color: color(display-p3 0.75 0.89 0.22);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
+
+/* ── LOADING ── */
+.loading {
+  position:fixed; inset:0; z-index:300;
+  background:rgba(8,8,20,.96);
+  display:none; align-items:center; justify-content:center;
+  flex-direction:column; gap:12px;
+}
+.loading.active { display:flex; }
+.loading-spinner {
+  width:38px; height:38px; border-radius:50%;
+  border:3px solid rgba(58,46,180,.3);
+  border-top-color: #C7E44C;
+  border-top-color: color(display-p3 0.75 0.89 0.22);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin { to{ transform:rotate(360deg); } }
+.loading p { font-size:.78rem; opacity:.4; font-weight:300; }
+
+/* Reveal button — frosted glass circle */
+.reveal-btn {
+  width:64px; height:64px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  border-top-color:rgba(255,255,255,.4);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:0 8px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15);
+  color:rgba(255,255,255,.85);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s, box-shadow .2s, transform .12s, border-color .2s;
+  user-select:none; outline:none;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));
+}
+.reveal-btn svg { width:28px; height:28px; flex-shrink:0; }
+.reveal-btn:hover {
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.38);
+  box-shadow:0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.22);
+  transform:translateY(-2px) scale(1.05);
+}
+.reveal-btn:active { transform:scale(.95); }
+/* ON state — portrait is showing */
+.reveal-btn.on {
+  background:rgba(199,228,76,.22);
+  border-color:rgba(199,228,76,.55);
+  box-shadow:0 0 24px rgba(199,228,76,.35), 0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
+  color:rgba(199,228,76,.95);
+}
+
+@media(max-width:600px){
+  .ui{padding:12px 10px 0;} .tool{padding:6px 14px;font-size:.74rem;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="main"></canvas>
+
+<div class="ui">
+  <div class="top" style="pointer-events:auto;">
+    <button class="tool" id="boomBtn" style="font-family:'Ysabeau',serif;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+      </svg>
+      boom!
+    </button>
+  </div>
+  <div class="bottom" style="padding-bottom:24px; pointer-events:auto; display:flex; gap:14px; justify-content:center; align-items:center;">
+    <button class="reveal-btn" id="revealBtn" title="Mostrar / ocultar retrato">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 18a2 2 0 0 0-4 0"/>
+        <path d="m19 11-2.11-6.657a2 2 0 0 0-2.752-1.148l-1.276.61A2 2 0 0 1 12 4H8.5a2 2 0 0 0-1.925 1.456L5 11"/>
+        <path d="M2 11h20"/>
+        <circle cx="17" cy="18" r="3"/>
+        <circle cx="7" cy="18" r="3"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="loading" id="loading"><div class="loading-spinner"></div><p>Fragmentando…</p></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// Última modificación: Lunes 16 de marzo de 2026, 23:15h
+// Inspired by https://codepen.io/fyildiz1974/pen/ByzvNEo by Fatih YILDIZ
+
+// ══ CANVASES ══
+const cvs      = document.getElementById("main");
+const ctx      = cvs.getContext("2d");
+const trailCvs = document.createElement("canvas");
+const trailCtx = trailCvs.getContext("2d");
+const revealCvs= document.createElement("canvas");
+const revealCtx= revealCvs.getContext("2d");
+// Background abstract image — rendered as particles, sits below portrait layer
+const bgCvs= document.createElement("canvas");
+const bgCtx= bgCvs.getContext("2d");
+
+let W, H;
+let particles=[], bgParticles=[], mode="blow";
+let mx=0, my=0, isPointerDown=false, mouseInCanvas=false, srcImg=null;
+let pX=0, pY=0, pW=0, pH=0;
+let bgImg=null, bgImgReady=false; // abstract background image
+let revealAlpha=0, portraitVisible=false;
+// Assembly animation state
+let assemblyParticles=[], assemblyRunning=false, assemblyDone=false, assemblyFrame=0;
+let fadeAlpha=0; // fade-in after assembly completes
+// Two independent phase counters for organic morphing
+let blobPhaseA=0, blobPhaseB=Math.PI*1.3;
+let frameCount=0, lastFpsTime=performance.now();
+
+// Blob radius: 1.75× the previous 38px
+const BLOB_R = 67;
+
+function resize(){
+  W=window.innerWidth; H=window.innerHeight;
+  cvs.width=W; cvs.height=H;
+  trailCvs.width=W; trailCvs.height=H;
+  revealCvs.width=W; revealCvs.height=H;
+  bgCvs.width=W; bgCvs.height=H;
+  if(srcImg&&pW>0) drawRevealCanvas();
+  if(bgImgReady) buildBgParticles();
+}
+window.addEventListener("resize",()=>{ resize(); if(srcImg) shatterImage(srcImg); });
+resize();
+mx=W/2; my=H/2;
+
+function drawRevealCanvas(){
+  revealCtx.clearRect(0,0,W,H);
+  if(!srcImg||!pW) return;
+
+  // Draw portrait
+  revealCtx.drawImage(srcImg,pX,pY,pW,pH);
+
+  // Apply oval vignette: destination-in with a radial oval gradient
+  // This makes the portrait look like a classic oval portrait miniature
+  const cx = pX + pW/2, cy = pY + pH/2;
+  const rx = pW * 0.42, ry = pH * 0.47; // oval radii
+
+  // Save and scale to make the gradient oval-shaped
+  revealCtx.save();
+  revealCtx.translate(cx, cy);
+  revealCtx.scale(1, ry/rx); // squish vertically to make oval
+
+  const ovalGrad = revealCtx.createRadialGradient(0, 0, rx*0.55, 0, 0, rx);
+  ovalGrad.addColorStop(0,   "rgba(0,0,0,1)");
+  ovalGrad.addColorStop(0.7, "rgba(0,0,0,1)");
+  ovalGrad.addColorStop(1,   "rgba(0,0,0,0)");
+
+  revealCtx.globalCompositeOperation = "destination-in";
+  revealCtx.fillStyle = ovalGrad;
+  revealCtx.beginPath();
+  revealCtx.arc(0, 0, rx, 0, Math.PI*2);
+  revealCtx.fill();
+  revealCtx.restore();
+  revealCtx.globalCompositeOperation = "source-over";
+}
+
+function drawBgCanvas(){ /* bg is rendered as particles now */ }
+
+// ══ BLOB PATH ══
+// Produces a fully organic closed shape.
+// Key: the radial gradient used to feather the edges is computed
+// with MAX radius = BLOB_R * 1.0 so the fill exactly fills the clip path,
+// leaving NO gap between the blob outline and the portrait reveal.
+function blobPath(c, cx, cy, r, pA, pB){
+  const N=12;
+  const pts=[];
+  for(let i=0;i<N;i++){
+    const angle=(i/N)*Math.PI*2 - Math.PI/2;
+    const noise =
+      Math.sin(angle*2 + pA*0.9)  * 0.20 +
+      Math.sin(angle*3 - pB*1.3)  * 0.13 +
+      Math.sin(angle*5 + pA*0.5)  * 0.07 +
+      Math.cos(angle*2 - pB*0.7)  * 0.09 +
+      Math.sin(angle*4 + pA*1.2)  * 0.05;
+    pts.push({
+      x: cx + Math.cos(angle)*r*(1+noise),
+      y: cy + Math.sin(angle)*r*(1+noise)
+    });
+  }
+  c.beginPath();
+  for(let i=0;i<N;i++){
+    const cur=pts[i], nxt=pts[(i+1)%N];
+    const mx2=(cur.x+nxt.x)/2, my2=(cur.y+nxt.y)/2;
+    if(i===0) c.moveTo(mx2,my2); else c.lineTo(mx2,my2);
+    c.quadraticCurveTo(nxt.x,nxt.y,
+      (nxt.x+pts[(i+2)%N].x)/2,(nxt.y+pts[(i+2)%N].y)/2);
+  }
+  c.closePath();
+}
+
+// ══ PARTICLE ══
+class Particle{
+  constructor(x,y,ox,oy,r,g,b,size){
+    this.x=x; this.y=y; this.originX=ox; this.originY=oy;
+    this.r=r; this.g=g; this.b=b;
+    this.size=size; this.baseSize=size;
+    this.vx=0; this.vy=0;
+    this.friction=0.92+Math.random()*.04;
+    this.springStrength=0.008+Math.random()*.008;
+    this.wanderAngle=Math.random()*Math.PI*2;
+    this.wanderSpeed=0.02+Math.random()*.02;
+    this.opacity=0; this.targetOpacity=1;
+    this.isBg=false; // set to true for background particles
+  }
+  update(){
+    this.opacity+=(this.targetOpacity-this.opacity)*.05;
+    if(mode==="freeze"){
+      this.vx*=.85; this.vy*=.85;
+      this.x+=this.vx; this.y+=this.vy;
+      return;
+    }
+    this.vx+=(this.originX-this.x)*this.springStrength;
+    this.vy+=(this.originY-this.y)*this.springStrength;
+    this.wanderAngle+=this.wanderSpeed;
+    this.vx+=Math.cos(this.wanderAngle)*.05;
+    this.vy+=Math.sin(this.wanderAngle)*.05;
+    if(isPointerDown||mode==="magnet"){
+      const mdx=this.x-mx, mdy=this.y-my;
+      const dist=Math.sqrt(mdx*mdx+mdy*mdy);
+      const radius=mode==="blow"?140:mode==="magnet"?200:0;
+      if(dist<radius&&dist>0){
+        const force=(radius-dist)/radius, ang=Math.atan2(mdy,mdx);
+        if(mode==="blow"&&isPointerDown){
+          const pw=force*force*8;
+          this.vx+=Math.cos(ang)*pw; this.vy+=Math.sin(ang)*pw;
+          this.size=this.baseSize*(1+force*.8);
+        } else if(mode==="magnet"){
+          this.vx-=Math.cos(ang)*force*2; this.vy-=Math.sin(ang)*force*2;
+          this.size=this.baseSize*(1-force*.3);
+        }
+      } else { this.size+=(this.baseSize-this.size)*.1; }
+    } else { this.size+=(this.baseSize-this.size)*.1; }
+
+    // Hover: bg particles get tornado (attract), portrait particles unaffected
+    if(!isPointerDown && mouseInCanvas && mode!=="freeze" && this.isBg){
+      const hdx=this.x-mx, hdy=this.y-my;
+      const hd=Math.sqrt(hdx*hdx+hdy*hdy);
+      const hRadius=200; // same as magnet radius
+      if(hd<hRadius && hd>0){
+        const hforce=(hRadius-hd)/hRadius;
+        const hang=Math.atan2(hdy,hdx);
+        // Attract (tornado) — pull toward mouse
+        this.vx-=Math.cos(hang)*hforce*2;
+        this.vy-=Math.sin(hang)*hforce*2;
+        this.size=this.baseSize*(1-hforce*0.3);
+      }
+    }
+    this.vx*=this.friction; this.vy*=this.friction;
+    this.x+=this.vx; this.y+=this.vy;
+  }
+  draw(c){
+    c.globalAlpha=this.opacity;
+    c.fillStyle=`rgb(${this.r},${this.g},${this.b})`;
+    const s=Math.max(.8,this.size),half=s/2,rad=s>4?2:1;
+    c.beginPath();
+    c.moveTo(this.x-half+rad,this.y-half);
+    c.lineTo(this.x+half-rad,this.y-half);
+    c.quadraticCurveTo(this.x+half,this.y-half,this.x+half,this.y-half+rad);
+    c.lineTo(this.x+half,this.y+half-rad);
+    c.quadraticCurveTo(this.x+half,this.y+half,this.x+half-rad,this.y+half);
+    c.lineTo(this.x-half+rad,this.y+half);
+    c.quadraticCurveTo(this.x-half,this.y+half,this.x-half,this.y+half-rad);
+    c.lineTo(this.x-half,this.y-half+rad);
+    c.quadraticCurveTo(this.x-half,this.y-half,this.x-half+rad,this.y-half);
+    c.fill();
+    c.globalAlpha=1;
+  }
+}
+
+// ══ SHATTER ══
+function shatterImage(img){
+  document.getElementById("loading").classList.add("active");
+  mode="blow";
+
+  setTimeout(()=>{
+    particles=[];
+    const scale=Math.min((W*.72)/img.width,(H*.68)/img.height,1);
+    const iw=Math.floor(img.width*scale), ih=Math.floor(img.height*scale);
+    const ox=Math.floor((W-iw)/2), oy=Math.floor((H-ih)/2);
+    pX=ox; pY=oy; pW=iw; pH=ih;
+    drawRevealCanvas();
+
+    const oc=document.createElement("canvas"); oc.width=iw; oc.height=ih;
+    const octx=oc.getContext("2d"); octx.drawImage(img,0,0,iw,ih);
+    const imgData=octx.getImageData(0,0,iw,ih).data;
+
+    const gray=new Float32Array(iw*ih);
+    for(let i=0;i<iw*ih;i++){const idx=i*4;gray[i]=.299*imgData[idx]+.587*imgData[idx+1]+.114*imgData[idx+2];}
+
+    const edge=new Float32Array(iw*ih); let eMax=0;
+    for(let y=1;y<ih-1;y++){
+      for(let x=1;x<iw-1;x++){
+        const g=(r,c)=>gray[r*iw+c];
+        const gx=-g(y-1,x-1)+g(y-1,x+1)-2*g(y,x-1)+2*g(y,x+1)-g(y+1,x-1)+g(y+1,x+1);
+        const gy=-g(y-1,x-1)-2*g(y-1,x)-g(y-1,x+1)+g(y+1,x-1)+2*g(y+1,x)+g(y+1,x+1);
+        const mag=Math.sqrt(gx*gx+gy*gy);
+        edge[y*iw+x]=mag; if(mag>eMax)eMax=mag;
+      }
+    }
+    if(eMax>0) for(let i=0;i<edge.length;i++) edge[i]/=eMax;
+
+    const edgeBlur=new Float32Array(iw*ih), blurR=5;
+    for(let y=0;y<ih;y++){
+      for(let x=0;x<iw;x++){
+        let sum=0,cnt=0;
+        for(let dy=-blurR;dy<=blurR;dy++){
+          for(let dx=-blurR;dx<=blurR;dx++){
+            const ny=y+dy,nx=x+dx;
+            if(ny>=0&&ny<ih&&nx>=0&&nx<iw){sum+=edge[ny*iw+nx];cnt++;}
+          }
+        }
+        edgeBlur[y*iw+x]=sum/cnt;
+      }
+    }
+
+    const MIN_SIZE=1.2, MAX_SIZE=5.0;
+    const targetParticles=Math.min(10000,Math.max(3000,(iw*ih)/16));
+    const gap=Math.max(2,Math.floor(Math.sqrt((iw*ih)/targetParticles)));
+
+    for(let y=0;y<ih;y+=gap){
+      for(let x=0;x<iw;x+=gap){
+        const i=(y*iw+x)*4;
+        const r=imgData[i],g=imgData[i+1],b=imgData[i+2],a=imgData[i+3];
+        if(a<128) continue;
+        // Skip pixels outside the portrait oval — makes particles form an oval shape
+        const pcx=iw/2, pcy=ih/2, prx=iw*0.44, pry=ih*0.47;
+        const pdx=(x-pcx)/prx, pdy=(y-pcy)/pry;
+        if(pdx*pdx+pdy*pdy>1) continue;
+        const detail=Math.min(1,edgeBlur[y*iw+x]*3.5);
+        const pSize=MAX_SIZE-detail*(MAX_SIZE-MIN_SIZE);
+        const px=ox+x, py=oy+y;
+        const side=Math.random(); let sx,sy;
+        if(side<.25){sx=Math.random()*W;sy=-50;}
+        else if(side<.5){sx=Math.random()*W;sy=H+50;}
+        else if(side<.75){sx=-50;sy=Math.random()*H;}
+        else{sx=W+50;sy=Math.random()*H;}
+        const p=new Particle(sx,sy,px,py,r,g,b,pSize);
+        p.vx=(px-sx)*.01+(Math.random()-.5)*2;
+        p.vy=(py-sy)*.01+(Math.random()-.5)*2;
+        particles.push(p);
+      }
+    }
+
+    trailCtx.fillStyle="#08080c";
+    trailCtx.fillRect(0,0,W,H);
+    document.getElementById("loading").classList.remove("active");
+
+  },100);
+}
+
+function shatterImageFallback(img){
+  document.getElementById("loading").classList.add("active");
+  mode="blow";
+  setTimeout(()=>{
+    particles=[];
+    const scale=Math.min((W*.72)/img.width,(H*.68)/img.height,1);
+    const iw=Math.floor(img.width*scale), ih=Math.floor(img.height*scale);
+    const ox=Math.floor((W-iw)/2), oy=Math.floor((H-ih)/2);
+    pX=ox; pY=oy; pW=iw; pH=ih;
+    drawRevealCanvas();
+    const gap=4;
+    for(let y=0;y<ih;y+=gap){
+      for(let x=0;x<iw;x+=gap){
+        const px=ox+x, py=oy+y;
+        const side=Math.random(); let sx,sy;
+        if(side<.25){sx=Math.random()*W;sy=-50;}
+        else if(side<.5){sx=Math.random()*W;sy=H+50;}
+        else if(side<.75){sx=-50;sy=Math.random()*H;}
+        else{sx=W+50;sy=Math.random()*H;}
+        const p=new Particle(sx,sy,px,py,200,200,200,3.5);
+        p.vx=(px-sx)*.01+(Math.random()-.5)*2;
+        p.vy=(py-sy)*.01+(Math.random()-.5)*2;
+        particles.push(p);
+      }
+    }
+    trailCtx.fillStyle="#08080c";
+    trailCtx.fillRect(0,0,W,H);
+    document.getElementById("loading").classList.remove("active");
+  },100);
+}
+
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  clearTimeout(t._to); t._to=setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+// ══ LOAD IMAGE ══
+const PORTRAIT_URL="https://fguadarrama.com/Portrait_nbg.png";
+function loadImage(url){
+  document.getElementById("loading").classList.add("active");
+  const img=new Image();
+  img.crossOrigin="anonymous";
+  img.onload=()=>{ srcImg=img; shatterImage(img); };
+  img.onerror=()=>{
+    const img2=new Image();
+    img2.onload=()=>{ srcImg=img2; shatterImageFallback(img2); };
+    img2.onerror=()=>{ document.getElementById("loading").classList.remove("active"); showToast("No se pudo cargar la imagen"); };
+    img2.src=url;
+  };
+  img.src=url;
+}
+
+// ══ BOOM ══
+document.getElementById("boomBtn").addEventListener("click",()=>{
+  if(!srcImg) return;
+  portraitVisible=false;
+  revealBtn.classList.remove("on");
+  revealAlpha=0;
+  assemblyRunning=false; assemblyDone=false; assemblyParticles=[]; fadeAlpha=0; assemblyFrame=0;
+  shatterImage(srcImg);
+  if(bgImgReady) buildBgParticles();
+});
+
+// ══ ALBOROTO — scatter portrait particles from edges (like initial load) ══
+function alboroto(){
+  particles.forEach(p=>{
+    const side=Math.random(); let sx,sy;
+    if(side<.25){sx=Math.random()*W;sy=-50;}
+    else if(side<.5){sx=Math.random()*W;sy=H+50;}
+    else if(side<.75){sx=-50;sy=Math.random()*H;}
+    else{sx=W+50;sy=Math.random()*H;}
+    p.vx=(p.originX-sx)*.01+(Math.random()-.5)*2;
+    p.vy=(p.originY-sy)*.01+(Math.random()-.5)*2;
+    p.x=sx; p.y=sy;
+    p.opacity=0;
+  });
+}
+
+// ══ BUILD ASSEMBLY PARTICLES ══
+// Mirrors the logic from particulizadorcss.html:
+// samples the portrait image, creates circle particles that fly in from random
+// positions and ease toward their target using lerp (ease).
+function buildAssemblyParticles(){
+  if(!srcImg) return;
+  assemblyParticles=[];
+
+  // Sample the portrait at same scale as pW×pH (pixel-perfect alignment)
+  const oc=document.createElement("canvas"); oc.width=pW; oc.height=pH;
+  const oc2=oc.getContext("2d"); oc2.drawImage(srcImg,0,0,pW,pH);
+  let imgData;
+  try{ imgData=oc2.getImageData(0,0,pW,pH).data; }
+  catch(e){ return; }
+
+  // Grid sampling — same gap as portrait shatterImage for full, hole-free coverage
+  const targetParts=Math.min(10000,Math.max(3000,(pW*pH)/16));
+  const gap=Math.max(2,Math.floor(Math.sqrt((pW*pH)/targetParts)));
+  const pcx=pW/2, pcy=pH/2, prx=pW*0.44, pry=pH*0.47;
+
+  for(let ty=0;ty<pH;ty+=gap){
+    for(let tx=0;tx<pW;tx+=gap){
+      const idx=(ty*pW+tx)*4;
+      const r=imgData[idx],g=imgData[idx+1],b=imgData[idx+2],a=imgData[idx+3];
+      if(a<=10) continue;
+
+      // Oval mask — same as portrait particles
+      const pdx=(tx-pcx)/prx, pdy=(ty-pcy)/pry;
+      if(pdx*pdx+pdy*pdy>1) continue;
+
+      // Spawn from screen edges (same as shatterImage / alboroto)
+      const side=Math.random(); let sx,sy;
+      if(side<.25){sx=Math.random()*W;sy=-50;}
+      else if(side<.5){sx=Math.random()*W;sy=H+50;}
+      else if(side<.75){sx=-50;sy=Math.random()*H;}
+      else{sx=W+50;sy=Math.random()*H;}
+
+      assemblyParticles.push({
+        x:sx, y:sy,
+        targetX:pX+tx, targetY:pY+ty,
+        size:Math.random()*(5.0-1.2)+1.2,
+        color:`rgba(${r},${g},${b},${a/255})`,
+        ease:Math.random()*0.06+0.04
+      });
+    }
+  }
+}
+
+// ══ REVEAL BUTTON — toggle portrait ON: run assembly then fade; OFF: hide ══
+const revealBtn = document.getElementById("revealBtn");
+revealBtn.addEventListener("click",()=>{
+  portraitVisible = !portraitVisible;
+  revealBtn.classList.toggle("on", portraitVisible);
+  if(portraitVisible){
+    // ON: scatter portrait particles (alboroto), then run assembly animation
+    fadeAlpha=0; assemblyDone=false; assemblyFrame=0;
+    alboroto();
+    buildAssemblyParticles();
+    assemblyRunning=true;
+  } else {
+    // OFF: scatter portrait particles back, hide PNG
+    assemblyRunning=false; assemblyDone=false;
+    assemblyParticles=[];
+    fadeAlpha=0;
+    alboroto();
+  }
+});
+revealBtn.addEventListener("touchend",e=>{ e.preventDefault(); revealBtn.click(); },{passive:false});
+
+
+// ══ MOUSE / TOUCH ══
+cvs.addEventListener("pointermove", e=>{ mx=e.clientX; my=e.clientY; mouseInCanvas=true; });
+cvs.addEventListener("pointerenter", ()=>{ mouseInCanvas=true; });
+cvs.addEventListener("pointerdown", e=>{ isPointerDown=true; mx=e.clientX; my=e.clientY; });
+cvs.addEventListener("pointerup",   ()=>{ isPointerDown=false; });
+cvs.addEventListener("pointerleave",()=>{ isPointerDown=false; mouseInCanvas=false; });
+cvs.addEventListener("touchmove",   e=>{ e.preventDefault(); mx=e.touches[0].clientX; my=e.touches[0].clientY; },{passive:false});
+cvs.addEventListener("touchstart",  e=>{ isPointerDown=true; mx=e.touches[0].clientX; my=e.touches[0].clientY; });
+cvs.addEventListener("touchend",    ()=>{ isPointerDown=false; });
+
+// ══ KEYBOARD ══
+document.addEventListener("keydown",e=>{
+  if(e.code==="Space"){e.preventDefault();explodeAll();}
+  if(e.key==="r")reassemble();
+});
+function explodeAll(){
+  particles.forEach(p=>{const a=Math.random()*Math.PI*2,pw=5+Math.random()*15;p.vx+=Math.cos(a)*pw;p.vy+=Math.sin(a)*pw;});
+  showToast("💥 boom!");
+}
+function reassemble(){
+  particles.forEach(p=>{p.springStrength=.05;setTimeout(()=>{p.springStrength=.008+Math.random()*.008;},2000);});
+  showToast("Reensamblando…");
+}
+
+// ══ BUILD BACKGROUND PARTICLES ══
+// Uses the same Particle class as the portrait — identical physics,
+// mouse response, and mode behaviour. Only difference: spawns from
+// screen edges to fill the whole canvas, and starts with opacity 0.
+function buildBgParticles(){
+  if(!bgImg) return;
+  bgParticles=[];
+
+  const oc=document.createElement("canvas"); oc.width=W; oc.height=H;
+  const oc2=oc.getContext("2d");
+  const iar=bgImg.width/bgImg.height, car=W/H;
+  let sw,sh,sx,sy;
+  if(iar>car){sh=bgImg.height;sw=sh*car;sx=(bgImg.width-sw)/2;sy=0;}
+  else{sw=bgImg.width;sh=sw/car;sx=0;sy=(bgImg.height-sh)/2;}
+  oc2.drawImage(bgImg,sx,sy,sw,sh,0,0,W,H);
+  let imgData;
+  try{ imgData=oc2.getImageData(0,0,W,H).data; }
+  catch(e){ return; } // CORS tainted — bg stays dark
+
+  const gap=7.5;
+  for(let y=0;y<H;y+=gap){
+    for(let x=0;x<W;x+=gap){
+      const xi=Math.round(x), yi=Math.round(y);
+      const i=(yi*W+xi)*4;
+      const r=imgData[i],g=imgData[i+1],b=imgData[i+2],a=imgData[i+3];
+      if(a<30) continue;
+      // Same edge-spawn as portrait particles
+      const side=Math.random(); let spx,spy;
+      if(side<.25){spx=Math.random()*W;spy=-50;}
+      else if(side<.5){spx=Math.random()*W;spy=H+50;}
+      else if(side<.75){spx=-50;spy=Math.random()*H;}
+      else{spx=W+50;spy=Math.random()*H;}
+      // Uniform random size 1px–4.5px (max)
+      const p=new Particle(spx,spy,xi,yi,r,g,b,1.0+Math.random()*3.5);
+      p.vx=(x-spx)*.01+(Math.random()-.5)*2;
+      p.vy=(y-spy)*.01+(Math.random()-.5)*2;
+      // Original portrait-matching wander/spring behaviour
+      p.isBg=true;
+      bgParticles.push(p);
+    }
+  }
+}
+
+// ══ RENDER ══
+function render(){
+  blobPhaseA += 0.022;
+  blobPhaseB += 0.031;
+
+  // Assembly + fade logic
+  // Frames   0–127: fade 0%→15%   (step 0.15/127 ≈ 0.00118)
+  // Frames 128–190: fade 15%→90%  (step 0.75/62 ≈ 0.01210)
+  // Frames 191–197: easing curve to 100%
+  if(assemblyRunning){
+    assemblyFrame++;
+    if(assemblyFrame < 128){
+      fadeAlpha=Math.min(0.15, fadeAlpha+0.00118);
+    } else if(assemblyFrame <= 190){
+      fadeAlpha=Math.min(0.90, fadeAlpha+0.01210);
+    } else {
+      const curve=[0.91,0.91,0.91,0.92,0.92,0.92,0.93,0.93,0.93,0.93,0.95,0.95,0.95,0.97,0.97,0.97,0.98,0.98,0.98,0.99,0.99,0.99,0.99,0.99,1.0];
+      const idx=assemblyFrame-191;
+      if(idx<curve.length) fadeAlpha=curve[idx];
+      else fadeAlpha=1.0;
+    }
+    let done=true;
+    for(let i=0;i<assemblyParticles.length;i++){
+      const p=assemblyParticles[i];
+      const dx=p.targetX-p.x, dy=p.targetY-p.y;
+      if(Math.sqrt(dx*dx+dy*dy)>1.5){ done=false; break; }
+    }
+    if(done){ assemblyRunning=false; assemblyDone=true; }
+  }
+  if(assemblyDone && portraitVisible){
+    fadeAlpha=1.0;
+  } else if(!portraitVisible){
+    fadeAlpha=0; assemblyDone=false; assemblyFrame=0;
+  }
+
+
+  // ── Trail canvas: bg particles first, portrait particles on top ──
+  trailCtx.globalCompositeOperation="source-over";
+  trailCtx.globalAlpha=1;
+  trailCtx.fillStyle="rgba(8,8,12,0.22)";
+  trailCtx.fillRect(0,0,W,H);
+
+  // Background particles — same update+draw as portrait particles
+  bgParticles.forEach(p=>{ p.update(); p.draw(trailCtx); });
+
+  // Draw portrait particles
+  particles.forEach(p=>{ p.update(); p.draw(trailCtx); });
+
+  // ── Main canvas ──
+  ctx.globalCompositeOperation="source-over";
+  ctx.globalAlpha=1;
+  ctx.fillStyle="#08080c";
+  ctx.fillRect(0,0,W,H);
+  ctx.drawImage(trailCvs,0,0);
+
+  // ── Assembly animation: draw assembling particles ──
+  if(assemblyRunning && portraitVisible){
+    for(let i=0;i<assemblyParticles.length;i++){
+      const p=assemblyParticles[i];
+      // Ease toward target (same formula as particulizadorcss)
+      p.x+=(p.targetX-p.x)*p.ease;
+      p.y+=(p.targetY-p.y)*p.ease;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size/2, 0, Math.PI*2);
+      ctx.fillStyle=p.color;
+      ctx.fill();
+    }
+  }
+
+  // ── Fade-in: full oval PNG after assembly settles ──
+  if(fadeAlpha > 0.005 && pW > 0){
+    ctx.globalAlpha = fadeAlpha;
+    ctx.globalCompositeOperation = "source-over";
+    ctx.drawImage(revealCvs, 0, 0);
+    ctx.globalAlpha = 1;
+  }
+
+  // FPS (internal only, not shown in UI)
+  frameCount++;
+  const now=performance.now();
+  if(now-lastFpsTime>=1000){ frameCount=0; lastFpsTime=now; }
+
+  requestAnimationFrame(render);
+}
+
+// ══ START ══
+trailCtx.fillStyle="#08080c";
+trailCtx.fillRect(0,0,W,H);
+render();
+// Load abstract background and build its particle layer
+const bgImage = new Image();
+bgImage.crossOrigin="anonymous";
+bgImage.onload=()=>{ bgImg=bgImage; bgImgReady=true; buildBgParticles(); };
+bgImage.onerror=()=>{ /* silent fail — bg just stays dark */ };
+bgImage.src="https://fguadarrama.com/abstract.jpeg";
+// Load portrait
+setTimeout(()=>loadImage(PORTRAIT_URL), 500);
+</script>
+</body>
+</html>
