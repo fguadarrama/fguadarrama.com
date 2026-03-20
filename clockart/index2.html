@@ -534,33 +534,34 @@ function buildScramble() {
   const rand   = seededRand(42);
   const margin = 55;
 
-  // Elementos y cuánto los dispersamos
+  // Elementos y cuánto los dispersamos — más agresivo en mobile
+  const isMob = W < 640;
   const groups = [
-    { sel: '#watch .frame-face',   spread: 0.4, rotRange: 12  },
-    { sel: '#watch .digits li',    spread: 1.5, rotRange: 60  },
-    { sel: '#watch .minute-marks li', spread: 1.8, rotRange: 180 },
-    { sel: '#watch .hours-hand',   spread: 1.2, rotRange: 90  },
-    { sel: '#watch .minutes-hand', spread: 1.2, rotRange: 90  },
-    { sel: '#watch .seconds-hand', spread: 1.2, rotRange: 90  },
+    { sel: '#watch .frame-face',      spread: isMob ? 0.6  : 0.4,  rotRange: isMob ? 25  : 12  },
+    { sel: '#watch .digits li',       spread: isMob ? 2.2  : 1.5,  rotRange: isMob ? 120 : 60  },
+    { sel: '#watch .minute-marks li', spread: isMob ? 2.8  : 1.8,  rotRange: isMob ? 270 : 180 },
+    { sel: '#watch .hours-hand',      spread: isMob ? 2.0  : 1.2,  rotRange: isMob ? 160 : 90  },
+    { sel: '#watch .minutes-hand',    spread: isMob ? 2.0  : 1.2,  rotRange: isMob ? 160 : 90  },
+    { sel: '#watch .seconds-hand',    spread: isMob ? 2.0  : 1.2,  rotRange: isMob ? 160 : 90  },
   ];
 
   // Centro del reloj en coordenadas del stage
-  const wrap = document.getElementById('watch-wrap');
-  const wLeft = parseFloat(wrap.style.left);
-  const wTop  = parseFloat(wrap.style.top);
-  const em    = parseFloat(wrap.style.fontSize);
-  const watchW = 30 * em;
-  const cx = wLeft + watchW/2;
-  const cy = wTop  + watchW/2;
+  const wrap2   = document.getElementById('watch-wrap');
+  const em2     = parseFloat(wrap2.style.fontSize);
+  const watchW2 = 30 * em2;
+  const cx = parseFloat(wrap2.style.left) + watchW2/2;
+  const cy = parseFloat(wrap2.style.top)  + watchW2/2;
 
-  groups.forEach(({ sel, spread, rotRange }) => {
+  // Distancia mínima al centro: mayor en mobile para evitar clustering
+  const minDist = watchW2 * (isMob ? 0.35 : 0.12);
+
+  groups.forEach(({ sel, rotRange }) => {
     document.querySelectorAll(sel).forEach(el => {
-      // Posición scramble aleatoria
       let sx, sy;
       do {
         sx = margin + rand() * (W - margin*2);
         sy = margin + rand() * (H - margin*2);
-      } while (Math.hypot(sx - cx, sy - cy) < watchW * 0.12);
+      } while (Math.hypot(sx - cx, sy - cy) < minDist);
 
       // Offset desde la posición natural del elemento
       const rect = el.getBoundingClientRect();
