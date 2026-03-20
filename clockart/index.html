@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Los relojes | Geriatría - INCMNSZ</title>
 <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,100;0,300;0,400;1,300&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="https://fguadarrama.com/clockart/NutriLogoSVG.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23005AB2'/><circle cx='12' cy='12' r='9' fill='none' stroke='%23f6f7fd' stroke-width='1.8' stroke-linecap='round'/><path d='M12 7v5l3.5 1.8' fill='none' stroke='%23f6f7fd' stroke-width='1.8' stroke-linecap='round'/></svg>">
 
 <style>
 :root {
@@ -37,8 +37,8 @@
 }
 #about-logo {
   flex-shrink: 0;
-  width: clamp(70px, 9vw, 120px);
-  opacity: 0.85;
+  width: clamp(160px, 20vw, 280px);
+  opacity: 0.9;
   margin-top: 0.3rem;
 }
 #about-logo img {
@@ -195,10 +195,11 @@
   opacity: 0; visibility: hidden;
   transition: opacity 0.8s ease, visibility 0.8s ease;
   z-index: 200;
+  background: var(--bg);
 }
 #gallery-wrap.active { opacity: 1; visibility: visible; }
 
-.h-outer { height: 100dvh; overflow: hidden; }
+.h-outer { height: 100dvh; overflow: hidden; background: var(--bg); }
 .h-inner {
   display: flex; flex-direction: column; align-items: center;
   width: 100dvh;
@@ -208,6 +209,7 @@
   height: 100dvw;
   perspective: 1px; transform-style: preserve-3d;
   padding-bottom: 14rem; scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 .img-card {
@@ -237,25 +239,31 @@
 }
 .img-card:hover .img-frame img { filter: none; }
 
+/* Meta-bubble: píldora estilo "Capítulo de libro" */
 .meta-bubble {
   position: absolute; bottom: calc(0.85vh + 10px); right: calc(0.85vh + 10px);
-  background: var(--ink); color: var(--bg);
-  border-radius: 99px; padding: 5px 12px 5px 9px;
-  display: flex; align-items: center; gap: 7px;
+  border-radius: 10px;
+  padding: 7px 14px;
+  display: flex; align-items: center; gap: 8px;
   font-family: 'Ysabeau', serif;
-  font-size: clamp(0.6rem, 1vw, 0.78rem); font-weight: 400;
+  font-size: clamp(0.62rem, 1vw, 0.8rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
   pointer-events: none; opacity: 0; transform: translateY(5px);
   transition: opacity 0.28s ease, transform 0.28s ease;
   white-space: nowrap; z-index: 10;
 }
-.img-card:hover .meta-bubble { opacity: 1; transform: translateY(0); }
-.meta-icon {
-  width: 17px; height: 17px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+.meta-bubble.fem {
+  background: rgba(255,32,119,0.12);
+  color: #C4005A;
+  border: 1px solid rgba(255,32,119,0.25);
 }
-.meta-icon.fem  { background: var(--accent); }
-.meta-icon.masc { background: rgba(246,247,253,0.22); border: 1.2px solid rgba(246,247,253,0.4); }
-.meta-icon svg  { width: 9px; height: 9px; fill: #f6f7fd; }
+.meta-bubble.masc {
+  background: rgba(0,90,178,0.10);
+  color: #004A96;
+  border: 1px solid rgba(0,90,178,0.22);
+}
+.img-card:hover .meta-bubble { opacity: 1; transform: translateY(0); }
 
 #hud {
   position: fixed; bottom: 1.6rem; left: 50%;
@@ -461,8 +469,8 @@ function buildIntro() {
     titleEl.style.fontSize  = 'clamp(1.8rem, 8vw, 3rem)';
     titleEl.style.textAlign = 'center';
   } else {
-    // Separación mayor: radio + 48px
-    titleEl.style.left      = (cx + r + 48) + 'px';
+    // Separación mayor a la derecha del 3
+    titleEl.style.left      = (cx + r + 80) + 'px';
     titleEl.style.top       = cy + 'px';
     titleEl.style.transform = 'translateY(-50%)';
     titleEl.style.fontSize  = 'clamp(2rem, 5vw, 5rem)';
@@ -588,13 +596,8 @@ function buildGallery() {
     frame.appendChild(el);
     if (img.sex) {
       const bbl = document.createElement('div');
-      bbl.className = 'meta-bubble';
-      const ico = document.createElement('div');
-      ico.className = `meta-icon ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
-      ico.innerHTML = `<svg viewBox="0 0 10 10"><circle cx="5" cy="3.2" r="1.9" fill="#f6f7fd"/><path d="M1.2 10c0-2.1 1.7-3.8 3.8-3.8s3.8 1.7 3.8 3.8" fill="#f6f7fd"/></svg>`;
-      const tx = document.createElement('span');
-      tx.textContent = `${img.sex} · ${img.age} años`;
-      bbl.append(ico, tx);
+      bbl.className = `meta-bubble ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
+      bbl.textContent = `${img.sex} · ${img.age} años`;
       frame.appendChild(bbl);
     }
     card.appendChild(frame);
