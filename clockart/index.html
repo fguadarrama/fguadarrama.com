@@ -25,34 +25,31 @@
 
 /* ── SECCIÓN DESCRIPCIÓN ── */
 #about {
-  padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 6vw, 8rem);
+  width: 100%;
+  padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 7rem);
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: clamp(2rem, 4vw, 5rem);
+  gap: clamp(2rem, 5vw, 6rem);
   align-items: start;
-  max-width: 1100px;
 }
-#about-text {
-  min-width: 0;
-}
+#about-text { min-width: 0; }
 #about-logo {
   width: 100%;
-  opacity: 0.9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
   padding-top: 0.5rem;
 }
 #about-logo img {
   width: 100%;
+  max-width: 320px;
   height: auto;
   display: block;
 }
 @media (max-width: 600px) {
-  #about {
-    grid-template-columns: 1fr;
-  }
-  #about-logo {
-    width: 60%;
-    margin: 0 auto;
-  }
+  #about { grid-template-columns: 1fr; }
+  #about-logo { justify-content: center; }
+  #about-logo img { max-width: 200px; }
 }
 #about p {
   font-family: 'Ysabeau', serif;
@@ -660,7 +657,9 @@ function showIntro() {
   document.getElementById('gallery-wrap').classList.remove('active');
   document.getElementById('hud').classList.remove('active');
   document.getElementById('btn-close').classList.remove('active');
-  window.scrollTo(0, 0);
+  // Scroll al final del intro para que los números estén ordenados y el título visible
+  const introH = document.getElementById('intro').offsetHeight;
+  window.scrollTo({ top: introH - window.innerHeight, behavior: 'instant' });
   updateIntro();
 }
 
