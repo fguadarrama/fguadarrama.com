@@ -3,77 +3,198 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relojes — Clínica de Geriatría</title>
-<link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<title>Los relojes | Geriatría - INCMNSZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,100;0,300;0,400;1,300&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="https://fguadarrama.com/clockart/NutriLogoSVG.svg">
+
 <style>
 :root {
   --bg:     #f6f7fd;
   --ink:    #062540;
-  --accent: #FF2077;
-  --soft:   rgba(6,37,64,0.42);
-  --xsoft:  rgba(6,37,64,0.14);
+  --accent: #005AB2;
+  --soft:   rgba(6,37,64,0.75);
+  --xsoft:  rgba(6,37,64,0.28);
+}
+@media (color-gamut: p3) {
+  :root {
+    --accent: color(display-p3 0 0.353 0.698);
+  }
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 ::-webkit-scrollbar { width: 1px; height: 1px; }
-body {
+
+/* ── SECCIÓN DESCRIPCIÓN ── */
+#about {
+  padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 8vw, 12rem);
+  max-width: 960px;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+#about-text {
+  flex: 1;
+  min-width: 0;
+}
+#about-logo {
+  flex-shrink: 0;
+  width: clamp(70px, 9vw, 120px);
+  opacity: 0.85;
+  margin-top: 0.3rem;
+}
+#about-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 600px) {
+  #about {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #about-logo {
+    width: 80px;
+    align-self: flex-end;
+    margin-top: 1.5rem;
+  }
+}
+#about p {
   font-family: 'Ysabeau', serif;
-  background: var(--bg); color: var(--ink);
-  overflow: hidden; height: 100dvh; width: 100dvw;
+  font-size: clamp(1.05rem, 1.9vw, 1.28rem);
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.85;
+  margin-bottom: 1.6rem;
+}
+#about p:last-child { margin-bottom: 0; }
+#about p.small {
+  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
+  color: var(--soft);
+  font-style: italic;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--xsoft);
+}
+#about strong {
+  font-weight: 600;
+  color: var(--accent);
 }
 
 /* ── INTRO ── */
 #intro {
-  position: fixed; inset: 0; background: var(--bg);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  z-index: 100;
-  transition: opacity 0.7s ease, visibility 0.7s ease;
-}
-#intro.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-
-.clock-ring {
+  height: 500vh;
+  background: var(--bg);
   position: relative;
-  width: min(54vw, 54vh);
-  height: min(54vw, 54vh);
 }
-.clock-center {
-  position: absolute; inset: 50%; transform: translate(-50%,-50%);
-  width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+#intro-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
 }
-#clockUL {
-  list-style: none; position: absolute; inset: 0; border-radius: 50%;
-}
-#clockUL li { position: absolute; inset: 50%; }
-#clockUL li span {
-  position: absolute; top: 50%; left: 50%;
-  transform-origin: 0 0; display: inline-block;
-  font-size: clamp(0.7rem, 2vw, 1.3rem); font-weight: 300; color: var(--ink);
-}
-#clockUL li:first-child span { color: var(--accent); }
 
-.intro-hint {
-  margin-top: 2.4rem;
-  font-size: clamp(0.7rem, 1.4vw, 0.86rem);
-  font-weight: 300; color: var(--soft); letter-spacing: 0.07em;
+/* ── ELEMENTOS DEL RELOJ Y TÍTULO ──
+   Todos se posicionan con JS: left/top absolutos + rotate vía transform.
+   El canvas es el #intro-stage.
+*/
+#clock-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.clock-el {
+  position: absolute;
+  transform-origin: center center;
+  /* left/top/transform se setean en JS */
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.clock-el.is-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2.8vw, 2.2rem);
+  color: var(--ink);
+}
+
+.clock-el.is-num.accent { color: var(--accent); }
+
+/* Las letras del título aparecen solo al final */
+.clock-el.is-title {
+  font-family: 'Ysabeau', serif;
+  font-weight: 100;
+  font-style: italic;
+  font-size: clamp(2rem, 6vw, 5.5rem);
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.clock-el.is-title.visible { opacity: 1; }
+
+/* Punto central */
+#clock-dot {
+  position: absolute;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ── SCROLL HINT ── */
+#scroll-hint {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--soft);
+  font-family: 'Ysabeau', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: opacity 0.4s;
+}
+#scroll-hint svg { width: 20px; height: 32px; }
+
+#intro-footer {
+  position: absolute;
+  bottom: 1.8rem; right: 2rem;
+  font-family: 'Ysabeau', serif;
+  font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--soft);
+  transition: opacity 0.4s;
+}
+
+/* ── BOTÓN ENTRAR ── */
+#enter-btn {
+  position: absolute;
+  bottom: 3rem; left: 50%;
+  translate: -50% 0;
+  font-family: 'Ysabeau', serif;
+  font-weight: 300; font-size: 0.8rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--soft); background: none;
+  border: 1px solid var(--xsoft); border-radius: 99px;
+  padding: 0.55rem 1.5rem; cursor: pointer;
   display: flex; align-items: center; gap: 0.5rem;
-  animation: blink 2.2s ease-in-out infinite;
-  opacity: 0; transition: opacity 0.5s ease 1.8s;
+  opacity: 0; pointer-events: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s, opacity 0.4s;
 }
-#intro:not(.hidden) .intro-hint { opacity: 1; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.intro-hint svg { width: 14px; height: 14px; }
-
-.intro-footer {
-  position: absolute; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
-  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--soft); white-space: nowrap;
-}
+#enter-btn.ready { opacity: 1; pointer-events: auto; }
+#enter-btn:hover { color: var(--bg); background: var(--ink); border-color: transparent; }
+#enter-btn svg { width: 13px; height: 13px; }
 
 /* ── GALERÍA ── */
 #gallery-wrap {
   position: fixed; inset: 0; overflow: hidden;
   opacity: 0; visibility: hidden;
-  transition: opacity 0.7s ease 0.1s, visibility 0.7s ease 0.1s;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  z-index: 200;
 }
 #gallery-wrap.active { opacity: 1; visibility: visible; }
 
@@ -121,6 +242,7 @@ body {
   background: var(--ink); color: var(--bg);
   border-radius: 99px; padding: 5px 12px 5px 9px;
   display: flex; align-items: center; gap: 7px;
+  font-family: 'Ysabeau', serif;
   font-size: clamp(0.6rem, 1vw, 0.78rem); font-weight: 400;
   pointer-events: none; opacity: 0; transform: translateY(5px);
   transition: opacity 0.28s ease, transform 0.28s ease;
@@ -135,17 +257,17 @@ body {
 .meta-icon.masc { background: rgba(246,247,253,0.22); border: 1.2px solid rgba(246,247,253,0.4); }
 .meta-icon svg  { width: 9px; height: 9px; fill: #f6f7fd; }
 
-/* ── HUD ── */
 #hud {
   position: fixed; bottom: 1.6rem; left: 50%;
   transform: translateX(-50%);
   display: flex; align-items: center; gap: 1.2rem;
-  z-index: 50; opacity: 0; transition: opacity 0.5s; pointer-events: none;
+  z-index: 250; opacity: 0; transition: opacity 0.5s; pointer-events: none;
 }
 #hud.active { opacity: 1; pointer-events: auto; }
 .hud-pill {
   background: var(--ink); color: var(--bg);
   border-radius: 99px; padding: 0.45rem 1.1rem;
+  font-family: 'Ysabeau', serif;
   font-size: 0.74rem; letter-spacing: 0.08em; font-weight: 300;
   display: flex; align-items: center; gap: 0.7rem;
 }
@@ -155,14 +277,13 @@ body {
   background: none; border: 1px solid var(--xsoft);
   border-radius: 50%; width: 2.1rem; height: 2.1rem;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--ink);
-  transition: background 0.18s, border-color 0.18s;
+  cursor: pointer; color: var(--ink); transition: background 0.18s;
 }
 .hud-btn:hover { background: var(--ink); color: var(--bg); }
 .hud-btn svg { width: 13px; height: 13px; }
 
 #btn-close {
-  position: fixed; top: 1.3rem; right: 1.5rem; z-index: 50;
+  position: fixed; top: 1.3rem; right: 1.5rem; z-index: 250;
   background: none; border: 1px solid var(--xsoft);
   border-radius: 50%; width: 2.1rem; height: 2.1rem;
   display: flex; align-items: center; justify-content: center;
@@ -173,7 +294,6 @@ body {
 #btn-close:hover { background: var(--ink); color: var(--bg); border-color: transparent; }
 #btn-close svg { width: 13px; height: 13px; }
 
-/* ── LIGHTBOX ── */
 #lightbox {
   position: fixed; inset: 0; background: rgba(6,37,64,0.9);
   display: flex; align-items: center; justify-content: center;
@@ -187,6 +307,7 @@ body {
   transform: translateX(-50%);
   background: var(--bg); color: var(--ink);
   border-radius: 99px; padding: 0.4rem 1.1rem;
+  font-family: 'Ysabeau', serif;
   font-size: 0.78rem; display: flex; align-items: center; gap: 0.55rem;
 }
 .lb-dot { width: 8px; height: 8px; border-radius: 50%; }
@@ -196,29 +317,54 @@ body {
 </head>
 <body>
 
-<!-- INTRO -->
 <section id="intro">
-  <div class="clock-ring">
-    <ul id="clockUL"></ul>
-    <div class="clock-center"></div>
+  <div id="intro-stage">
+    <div id="clock-canvas"></div>
+    <div id="clock-dot"></div>
+
+    <div id="scroll-hint">
+      <svg viewBox="0 0 24 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <rect x="6" y="3" width="12" height="20" rx="6"/>
+        <line x1="12" y1="7" x2="12" y2="11"/>
+        <path d="M8 30l4 4 4-4">
+          <animateTransform attributeType="XML" attributeName="transform"
+            type="translate" values="0 0;0 4;0 0" dur="1.1s" repeatCount="indefinite"/>
+        </path>
+      </svg>
+      scroll
+    </div>
+
+    <p id="intro-footer">Clínica de Geriatría · INCMNSZ</p>
+
+    <button id="enter-btn">
+      <svg viewBox="0 0 13 13" fill="none">
+        <path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Ver los relojes
+    </button>
   </div>
-  <div class="intro-hint">
-    <svg viewBox="0 0 14 14" fill="none">
-      <path d="M7 1v12M7 13L3 9M7 13l4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Presiona cualquier tecla para comenzar
-  </div>
-  <p class="intro-footer">Clínica de Geriatría · Dibujos del Reloj</p>
 </section>
 
-<!-- GALERÍA -->
+<!-- ── DESCRIPCIÓN ── -->
+<section id="about">
+  <div id="about-text">
+    <p>La <em>prueba del reloj</em> es una actividad sencilla en la que se pide a una persona dibujar un reloj marcando una hora específica. Aunque se utiliza en la práctica clínica para explorar funciones como la <strong>memoria, la atención y la organización</strong>, también revela rasgos únicos en la forma en que cada individuo percibe y representa el tiempo.</p>
+    <p>Este sitio es un proyecto del departamento de Geriatría del Instituto Nacional de Nutrición y Ciencias Médicas Salvador Zubirán, donde se presentan estos dibujos desde una <strong>perspectiva artística y humana</strong>, como expresiones personales que van más allá de su uso médico.</p>
+    <p class="small">Todos los relojes aquí mostrados cuentan con el consentimiento explícito de las personas que los dibujaron para su difusión.</p>
+  </div>
+  <div id="about-logo">
+    <img src="NutriLogoSVG.svg" alt="Logo INCMNSZ">
+  </div>
+</section>
+
+<div id="intro-end" style="height:1px;"></div>
+
 <div id="gallery-wrap">
   <div class="h-outer">
     <div class="h-inner" id="scrollInner"></div>
   </div>
 </div>
 
-<!-- HUD -->
 <div id="hud">
   <button class="hud-btn" id="btnPrev">
     <svg viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5L3.5 6.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -236,7 +382,6 @@ body {
   <svg viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
 </button>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <img id="lbImg" src="" alt="">
   <div class="lb-meta">
@@ -246,36 +391,178 @@ body {
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// CONFIGURACIÓN — ajusta solo estos dos valores
-// ══════════════════════════════════════════════════════
-const GITHUB_USER = 'fguadarrama';
-const GITHUB_REPO = 'fguadarrama.com';
+/* ════════════════════════════════════════════
+   CONFIG
+════════════════════════════════════════════ */
+const GITHUB_USER   = 'fguadarrama';
+const GITHUB_REPO   = 'fguadarrama.com';
 const GITHUB_BRANCH = 'main';
-const GITHUB_PATH = 'clockart/relojes';
-const IMAGE_BASE  = 'relojes/';
-// ══════════════════════════════════════════════════════
-
+const GITHUB_PATH   = 'clockart/relojes';
+const IMAGE_BASE    = 'relojes/';
 const DEPTH = ['', 'd-slow', 'd-fast', 'd-down', 'd-vert', 'd-far', 'd-slow', ''];
-const WORDS = ['12','I','II','III','IV','V','VI','VII','VIII','IX','X','XI'];
 const EXTS  = ['jpg','jpeg','webp','png','gif'];
 
-let images = [], currentIdx = 0, galleryShown = false;
-let ringRAF, ringRotation = 0, ringProgress = 0;
+/* ════════════════════════════════════════════
+   INTRO — ANIMACIÓN DE SCROLL EN JS PURO
 
-// ── Parsear nombre de archivo ──
+   Cada número del reloj tiene:
+     - Posición FINAL: coordenadas (x,y) en el anillo, rotación = 0 (horizontal)
+     - Posición SCRAMBLE: coordenadas dispersas aleatorias, rotación caótica
+
+   Con cada frame de scroll interpolamos linealmente entre ambas.
+════════════════════════════════════════════ */
+
+const CLOCK_LABELS = ['12','1','2','3','4','5','6','7','8','9','10','11'];
+
+// Rotaciones caóticas fijas para estado scramble
+const SCRAMBLE_ROTS = [45,-30,60,-50,80,-20,55,-65,35,-45,70,-25];
+
+let elems = [], titleEl = null, dotEl = null;
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+// Generador pseudo-aleatorio determinístico (semilla fija → mismo resultado en cada resize)
+function seededRand(seed) {
+  let s = seed;
+  return function() {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function buildIntro() {
+  const canvas = document.getElementById('clock-canvas');
+  canvas.innerHTML = '';
+  elems = [];
+
+  const stage = document.getElementById('intro-stage');
+  const W = stage.offsetWidth;
+  const H = stage.offsetHeight;
+  const mobile = W < 600;
+
+  const cx = mobile ? W * 0.5  : W * 0.36;
+  const cy = mobile ? H * 0.55 : H * 0.5;
+  const r  = Math.min(W, H) * (mobile ? 0.30 : 0.23);
+
+  // Punto central
+  dotEl = document.getElementById('clock-dot');
+  dotEl.style.left = cx + 'px';
+  dotEl.style.top  = cy + 'px';
+
+  // Título — más separado a la derecha
+  titleEl = document.createElement('div');
+  titleEl.className = 'clock-el is-title';
+  titleEl.textContent = 'Los relojes';
+  if (mobile) {
+    titleEl.style.left      = '50%';
+    titleEl.style.top       = (cy - r - 60) + 'px';
+    titleEl.style.transform = 'translateX(-50%)';
+    titleEl.style.fontSize  = 'clamp(1.8rem, 8vw, 3rem)';
+    titleEl.style.textAlign = 'center';
+  } else {
+    // Separación mayor: radio + 48px
+    titleEl.style.left      = (cx + r + 48) + 'px';
+    titleEl.style.top       = cy + 'px';
+    titleEl.style.transform = 'translateY(-50%)';
+    titleEl.style.fontSize  = 'clamp(2rem, 5vw, 5rem)';
+  }
+  canvas.appendChild(titleEl);
+
+  // Números: posición scramble completamente aleatoria dentro del viewport
+  const rand = seededRand(42);
+  const margin = 60; // px de margen para que no se corten
+
+  CLOCK_LABELS.forEach((label, i) => {
+    const div = document.createElement('div');
+    div.className = 'clock-el is-num' + (i === 0 ? ' accent' : '');
+    div.textContent = label;
+    canvas.appendChild(div);
+
+    // Posición FINAL en el reloj (correcta, horizontal)
+    const finalDeg = -90 + i * 30;
+    const finalRad = finalDeg * Math.PI / 180;
+    const fx = cx + r * Math.cos(finalRad);
+    const fy = cy + r * Math.sin(finalRad);
+
+    // Posición SCRAMBLE: aleatoria por toda la pantalla
+    // Excluye el centro exacto para que no estén todos apilados en un punto
+    let sx, sy;
+    do {
+      sx = margin + rand() * (W - margin * 2);
+      sy = margin + rand() * (H - margin * 2);
+    } while (Math.hypot(sx - cx, sy - cy) < r * 0.3); // no demasiado cerca del centro
+
+    const srot = SCRAMBLE_ROTS[i];
+
+    elems.push({ div, fx, fy, sx, sy, frot: 0, srot });
+
+    div.style.left      = sx + 'px';
+    div.style.top       = sy + 'px';
+    div.style.transform = `translate(-50%, -50%) rotate(${srot}deg)`;
+  });
+}
+
+function updateIntro() {
+  const introH = document.getElementById('intro').offsetHeight;
+  const stageH = window.innerHeight;
+  const maxScroll = introH - stageH;
+  const scrollY   = window.scrollY;
+  const rawT = Math.max(0, Math.min(1, scrollY / maxScroll));
+  const t = ease(rawT);
+
+  // Actualizar cada número
+  elems.forEach(el => {
+    const x   = lerp(el.sx, el.fx, t);
+    const y   = lerp(el.sy, el.fy, t);
+    const rot = lerp(el.srot, el.frot, t);
+    el.div.style.left      = x + 'px';
+    el.div.style.top       = y + 'px';
+    el.div.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
+  });
+
+  // Scroll hint y footer: desaparecen rápido
+  const hintOpacity = Math.max(0, 1 - rawT * 8);
+  document.getElementById('scroll-hint').style.opacity  = hintOpacity;
+  document.getElementById('intro-footer').style.opacity = hintOpacity;
+
+  // Título: aparece al final
+  const titleT = Math.max(0, (rawT - 0.8) / 0.2);
+  if (titleEl) {
+    titleEl.style.opacity = titleT;
+  }
+
+  // Botón entrar: aparece cuando el scroll llega al 95%
+  const btn = document.getElementById('enter-btn');
+  if (rawT > 0.92) {
+    btn.classList.add('ready');
+  } else {
+    btn.classList.remove('ready');
+  }
+}
+
+// Inicializar y conectar scroll
+buildIntro();
+window.addEventListener('scroll', updateIntro, { passive: true });
+window.addEventListener('resize', () => { buildIntro(); updateIntro(); });
+updateIntro(); // estado inicial
+
+/* ════════════════════════════════════════════
+   GITHUB API
+════════════════════════════════════════════ */
+let images = [], currentIdx = 0, galleryShown = false;
+
 function parseName(name) {
-  const base = name.replace(/\.[^.]+$/, '');
-  const m = base.match(/_([mh])(\d+)$/i);
+  const m = name.replace(/\.[^.]+$/, '').match(/_([mh])(\d+)$/i);
   if (!m) return { sex: null, age: null, sexCode: null };
   const sc = m[1].toLowerCase();
   return { sex: sc === 'm' ? 'Mujer' : 'Hombre', age: parseInt(m[2]), sexCode: sc };
 }
 
-// ── Obtener lista de imágenes via GitHub API ──
 async function fetchImageList() {
-  const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`;
-  const res = await fetch(url);
+  const res = await fetch(
+    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`
+  );
   if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
   const files = await res.json();
   return files
@@ -283,74 +570,22 @@ async function fetchImageList() {
     .map(f => f.name);
 }
 
-// ── Reloj circular animado ──
-function buildClockRing() {
-  const ul = document.getElementById('clockUL');
-  ul.innerHTML = '';
-  const sz = Math.min(window.innerWidth * 0.54, window.innerHeight * 0.54);
-  const r = sz / 2, sp = 13, step = 360 / WORDS.length;
-  WORDS.forEach((word, i) => {
-    const li = document.createElement('li');
-    li.style.transform = `rotate(${step * i}deg)`;
-    [...word].forEach((ch, j) => {
-      const s = document.createElement('span');
-      s.textContent = ch;
-      s.dataset.j = j; s.dataset.sc = j * 48;
-      s.dataset.r = r; s.dataset.sp = sp;
-      s.style.transform = `rotate(${j * 48}deg) translateX(${r}px) translateX(${j * sp}px)`;
-      li.appendChild(s);
-    });
-    ul.appendChild(li);
-  });
-}
-
-function updateLetters() {
-  document.querySelectorAll('#clockUL li span').forEach(s => {
-    const angle = +s.dataset.sc * (1 - ringProgress);
-    s.style.transform = `rotate(${angle}deg) translateX(${s.dataset.r}px) translateX(${+s.dataset.j * +s.dataset.sp}px)`;
-  });
-}
-
-function animateUnscramble(dur) {
-  const t0 = performance.now();
-  function tick(now) {
-    const p = Math.min((now - t0) / dur, 1);
-    ringProgress = 1 - Math.pow(1 - p, 3);
-    updateLetters();
-    if (p < 1) ringRAF = requestAnimationFrame(tick);
-    else startRotation();
-  }
-  ringRAF = requestAnimationFrame(tick);
-}
-
-function startRotation() {
-  let last = performance.now();
-  function rot(now) {
-    ringRotation = (ringRotation + (now - last) * 0.018) % 360;
-    last = now;
-    document.getElementById('clockUL').style.transform = `rotate(${ringRotation}deg)`;
-    ringRAF = requestAnimationFrame(rot);
-  }
-  ringRAF = requestAnimationFrame(rot);
-}
-
-// ── Construir galería ──
+/* ════════════════════════════════════════════
+   GALERÍA
+════════════════════════════════════════════ */
 function buildGallery() {
   const c = document.getElementById('scrollInner');
   c.innerHTML = '';
   images.forEach((img, i) => {
     const card = document.createElement('div');
     card.className = `img-card ${DEPTH[i % DEPTH.length]}`;
-
     const frame = document.createElement('div');
     frame.className = 'img-frame';
-
     const el = document.createElement('img');
     el.src = IMAGE_BASE + img.name;
     el.alt = img.sex ? `${img.sex}, ${img.age} años` : img.name;
     el.loading = 'lazy';
     frame.appendChild(el);
-
     if (img.sex) {
       const bbl = document.createElement('div');
       bbl.className = 'meta-bubble';
@@ -362,20 +597,16 @@ function buildGallery() {
       bbl.append(ico, tx);
       frame.appendChild(bbl);
     }
-
     card.appendChild(frame);
     c.appendChild(card);
-
     frame.addEventListener('click', ev => { ev.stopPropagation(); openLightbox(i); });
     card.addEventListener('click', () => navigateTo(currentIdx + 1));
   });
   updateHUD();
 }
 
-// ── Navegación ──
 function navigateTo(idx) {
-  const n = images.length;
-  if (!n) return;
+  const n = images.length; if (!n) return;
   currentIdx = ((idx % n) + n) % n;
   const inner = document.getElementById('scrollInner');
   const cards = inner.querySelectorAll('.img-card');
@@ -390,7 +621,9 @@ function updateHUD() {
   document.getElementById('hudLabel').textContent = img?.sex ? `${img.sex}, ${img.age} a.` : 'Reloj';
 }
 
-// ── Lightbox ──
+/* ════════════════════════════════════════════
+   LIGHTBOX
+════════════════════════════════════════════ */
 function openLightbox(i) {
   const img = images[i];
   document.getElementById('lbImg').src = IMAGE_BASE + img.name;
@@ -398,93 +631,71 @@ function openLightbox(i) {
   document.getElementById('lbText').textContent = img.sex ? `${img.sex} · ${img.age} años` : img.name;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
 document.getElementById('lightbox').addEventListener('click', e => {
   if (e.target === e.currentTarget || e.target.id === 'lbImg') closeLightbox();
 });
 
-// ── Transiciones ──
+/* ════════════════════════════════════════════
+   TRANSICIONES
+════════════════════════════════════════════ */
 function showGallery() {
   if (galleryShown || !images.length) return;
   galleryShown = true;
-  if (ringRAF) cancelAnimationFrame(ringRAF);
-  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('intro').style.display = 'none';
   document.getElementById('gallery-wrap').classList.add('active');
   document.getElementById('hud').classList.add('active');
   document.getElementById('btn-close').classList.add('active');
+  window.scrollTo(0, 0);
   setTimeout(() => navigateTo(0), 350);
 }
 
 function showIntro() {
   galleryShown = false;
-  document.getElementById('intro').classList.remove('hidden');
+  document.getElementById('intro').style.display = '';
   document.getElementById('gallery-wrap').classList.remove('active');
   document.getElementById('hud').classList.remove('active');
   document.getElementById('btn-close').classList.remove('active');
-  ringProgress = 0; ringRotation = 0;
-  updateLetters();
-  document.getElementById('clockUL').style.transform = '';
-  animateUnscramble(1500);
+  window.scrollTo(0, 0);
+  updateIntro();
 }
 
-// ── Teclado ──
+document.getElementById('enter-btn').addEventListener('click', showGallery);
+
+/* ════════════════════════════════════════════
+   TECLADO & SWIPE
+════════════════════════════════════════════ */
 document.addEventListener('keydown', e => {
-  if (document.getElementById('lightbox').classList.contains('open')) {
-    if (e.key === 'Escape') closeLightbox();
-    return;
-  }
-  if (!images.length) return;
-  if (!galleryShown) {
-    if ([' ','Enter','ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key)) {
-      e.preventDefault(); showGallery();
-    }
-    return;
-  }
+  if (document.getElementById('lightbox').classList.contains('open')) { if (e.key === 'Escape') closeLightbox(); return; }
+  if (!galleryShown) return;
   switch(e.key) {
-    case 'ArrowRight': case 'ArrowDown': case 'Enter': case ' ':
-      e.preventDefault(); navigateTo(currentIdx + 1); break;
-    case 'ArrowLeft': case 'ArrowUp':
-      e.preventDefault(); navigateTo(currentIdx - 1); break;
+    case 'ArrowRight': case 'ArrowDown': case 'Enter': case ' ': e.preventDefault(); navigateTo(currentIdx + 1); break;
+    case 'ArrowLeft':  case 'ArrowUp':  e.preventDefault(); navigateTo(currentIdx - 1); break;
     case 'Escape': showIntro(); break;
   }
 });
-
 document.getElementById('btnPrev').addEventListener('click', () => navigateTo(currentIdx - 1));
 document.getElementById('btnNext').addEventListener('click', () => navigateTo(currentIdx + 1));
 document.getElementById('btn-close').addEventListener('click', showIntro);
 
-// ── Swipe táctil ──
 let tx = 0, ty = 0;
 document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
 document.addEventListener('touchend', e => {
-  if (document.getElementById('lightbox').classList.contains('open')) return;
-  if (!images.length) return;
-  const dx = e.changedTouches[0].clientX - tx;
-  const dy = e.changedTouches[0].clientY - ty;
-  if (!galleryShown) { showGallery(); return; }
+  if (!galleryShown || document.getElementById('lightbox').classList.contains('open')) return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
   if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) navigateTo(dx < 0 ? currentIdx + 1 : currentIdx - 1);
 }, {passive:true});
 
-// ── INIT ──
+/* ════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
 (async function init() {
-  buildClockRing();
-  animateUnscramble(2200);
-
   try {
     const names = await fetchImageList();
-    if (!names.length) return; // No hay imágenes aún, el reloj sigue girando
-
-    images = names
-      .sort(() => Math.random() - 0.5)
-      .map(name => ({ name, ...parseName(name) }));
-
+    if (!names.length) return;
+    images = names.sort(() => Math.random() - 0.5).map(name => ({ name, ...parseName(name) }));
     buildGallery();
-  } catch (err) {
-    console.warn('No se pudo cargar la lista de imágenes:', err.message);
-    // El reloj sigue funcionando; cuando haya imágenes en el repo aparecerán
-  }
+  } catch(err) { console.warn('GitHub API:', err.message); }
 })();
 </script>
 </body>
