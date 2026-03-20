@@ -6,171 +6,284 @@
 <title>Los relojes | Geriatría - INCMNSZ</title>
 <link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,100;0,300;0,400;1,300&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23005AB2'/><circle cx='12' cy='12' r='9' fill='none' stroke='%23f6f7fd' stroke-width='1.8' stroke-linecap='round'/><path d='M12 7v5l3.5 1.8' fill='none' stroke='%23f6f7fd' stroke-width='1.8' stroke-linecap='round'/></svg>">
-
 <style>
+/* ═══════════════════════════════════════
+   VARIABLES & BASE
+═══════════════════════════════════════ */
 :root {
-  --bg:     #f6f7fd;
-  --ink:    #062540;
-  --accent: #005AB2;
-  --soft:   rgba(6,37,64,0.75);
-  --xsoft:  rgba(6,37,64,0.28);
+  --bg: #f6f7fd; --ink: #062540; --accent: #005AB2;
+  --soft: rgba(6,37,64,0.75); --xsoft: rgba(6,37,64,0.28);
 }
-@media (color-gamut: p3) {
-  :root {
-    --accent: color(display-p3 0 0.353 0.698);
-  }
-}
+@media (color-gamut: p3) { :root { --accent: color(display-p3 0 0.353 0.698); } }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 ::-webkit-scrollbar { width: 1px; height: 1px; }
+body { background: var(--bg); color: var(--ink); font-family: 'Ysabeau', serif; }
 
-/* ── SECCIÓN DESCRIPCIÓN ── */
-#about {
-  width: 100%;
-  padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 7rem);
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: clamp(2rem, 5vw, 6rem);
-  align-items: start;
-}
-#about-text { min-width: 0; }
-#about-logo {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding-top: 0.5rem;
-}
-#about-logo img {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  display: block;
-}
-@media (max-width: 600px) {
-  #about { grid-template-columns: 1fr; }
-  #about-logo { justify-content: center; }
-  #about-logo img { max-width: 200px; }
-}
-#about p {
-  font-family: 'Ysabeau', serif;
-  font-size: clamp(1.05rem, 1.9vw, 1.28rem);
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.85;
-  margin-bottom: 1.6rem;
-}
-#about p:last-child { margin-bottom: 0; }
-#about p.small {
-  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
-  color: var(--soft);
-  font-style: italic;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--xsoft);
-}
-#about strong {
-  font-weight: 600;
-  color: var(--accent);
-}
-
-/* ── INTRO ── */
-#intro {
-  height: 500vh;
-  background: var(--bg);
-  position: relative;
-}
+/* ═══════════════════════════════════════
+   INTRO
+═══════════════════════════════════════ */
+#intro { height: 500vh; background: var(--bg); position: relative; }
 #intro-stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-  background: var(--bg);
+  position: sticky; top: 0; height: 100vh;
+  overflow: hidden; background: var(--bg);
 }
 
-/* ── ELEMENTOS DEL RELOJ Y TÍTULO ──
-   Todos se posicionan con JS: left/top absolutos + rotate vía transform.
-   El canvas es el #intro-stage.
-*/
-#clock-canvas {
+/* ═══════════════════════════════════════
+   RELOJ — CSS original adaptado al fondo claro
+   El #watch-wrap es el contenedor posicionado
+   por JS. El #watch usa font-size em igual al original.
+═══════════════════════════════════════ */
+#watch-wrap {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  /* JS asigna left/top/font-size */
 }
 
-.clock-el {
+#watch { font-size: 1em; position: relative; }
+
+/* Caratula exterior */
+#watch .frame-face {
+  position: relative;
+  width: 30em; height: 30em;
+  border-radius: 15em;
+  background: linear-gradient(to bottom, #e8eaf2, #8890a8);
+  box-shadow: rgba(6,37,64,0.35) 0.5em 0.5em 4em;
+}
+#watch .frame-face::before {
+  content: '';
+  width: 29.4em; height: 29.4em;
+  border-radius: 14.7em;
+  position: absolute; top: .3em; left: .3em;
+  background:
+    linear-gradient(135deg, rgba(246,248,249,0) 0%, rgba(229,235,238,1) 50%, rgba(205,212,217,1) 51%, rgba(245,247,249,0) 100%),
+    radial-gradient(ellipse at center, rgba(246,248,249,1) 0%, rgba(229,235,238,1) 65%, rgba(205,212,217,1) 66%, rgba(245,247,249,1) 100%);
+}
+#watch .frame-face::after {
+  content: '';
+  width: 28em; height: 28em;
+  border-radius: 14.2em;
+  position: absolute; top: .9em; left: .9em;
+  box-shadow: inset rgba(6,37,64,0.15) 0.2em 0.2em 1em;
+  border: .1em solid rgba(6,37,64,0.12);
+  background: linear-gradient(to bottom, #f6f7fd, #d0d4e8);
+}
+
+/* Marcas de minuto */
+#watch .minute-marks { list-style: none; }
+#watch .minute-marks li {
+  display: block;
+  width: .2em; height: .6em;
+  background: #8090a8;
   position: absolute;
-  transform-origin: center center;
-  /* left/top/transform se setean en JS */
-  white-space: nowrap;
-  line-height: 1;
+  top: 50%; left: 50%;
+  margin: -.4em 0 0 -.1em;
 }
+#watch .minute-marks li:nth-child(1)  { transform: rotate(6deg)   translateY(-12.7em) }
+#watch .minute-marks li:nth-child(2)  { transform: rotate(12deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(3)  { transform: rotate(18deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(4)  { transform: rotate(24deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(5)  { transform: rotate(36deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(6)  { transform: rotate(42deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(7)  { transform: rotate(48deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(8)  { transform: rotate(54deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(9)  { transform: rotate(66deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(10) { transform: rotate(72deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(11) { transform: rotate(78deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(12) { transform: rotate(84deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(13) { transform: rotate(96deg)  translateY(-12.7em) }
+#watch .minute-marks li:nth-child(14) { transform: rotate(102deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(15) { transform: rotate(108deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(16) { transform: rotate(114deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(17) { transform: rotate(126deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(18) { transform: rotate(132deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(19) { transform: rotate(138deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(20) { transform: rotate(144deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(21) { transform: rotate(156deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(22) { transform: rotate(162deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(23) { transform: rotate(168deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(24) { transform: rotate(174deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(25) { transform: rotate(186deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(26) { transform: rotate(192deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(27) { transform: rotate(198deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(28) { transform: rotate(204deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(29) { transform: rotate(216deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(30) { transform: rotate(222deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(31) { transform: rotate(228deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(32) { transform: rotate(234deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(33) { transform: rotate(246deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(34) { transform: rotate(252deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(35) { transform: rotate(258deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(36) { transform: rotate(264deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(37) { transform: rotate(276deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(38) { transform: rotate(282deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(39) { transform: rotate(288deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(40) { transform: rotate(294deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(41) { transform: rotate(306deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(42) { transform: rotate(312deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(43) { transform: rotate(318deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(44) { transform: rotate(324deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(45) { transform: rotate(336deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(46) { transform: rotate(342deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(47) { transform: rotate(348deg) translateY(-12.7em) }
+#watch .minute-marks li:nth-child(48) { transform: rotate(354deg) translateY(-12.7em) }
 
-.clock-el.is-num {
+/* Dígitos */
+#watch .digits {
+  width: 30em; height: 30em;
+  border-radius: 15em;
+  position: absolute; top: 0; left: 50%;
+  margin-left: -15em;
+}
+#watch .digits li {
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.1rem, 2.8vw, 2.2rem);
+  font-size: 1.6em; font-weight: 700;
+  display: block; width: 1.6em; height: 1.6em;
+  position: absolute; top: 50%; left: 50%;
+  line-height: 1.6em; text-align: center;
+  margin: -.8em 0 0 -.8em;
   color: var(--ink);
 }
-
-.clock-el.is-num.accent { color: var(--accent); }
-
-/* Las letras del título aparecen solo al final */
-.clock-el.is-title {
-  font-family: 'Ysabeau', serif;
-  font-weight: 100;
-  font-style: italic;
-  font-size: clamp(2rem, 6vw, 5.5rem);
-  color: var(--accent);
-  opacity: 0;
-  transition: opacity 0.5s ease;
+#watch .digits li:nth-child(1)  { transform: translate(3.9em,  -6.9em) }
+#watch .digits li:nth-child(2)  { transform: translate(6.9em,  -4em)   }
+#watch .digits li:nth-child(3)  { transform: translate(8em,    0)      }
+#watch .digits li:nth-child(4)  { transform: translate(6.8em,  4em)    }
+#watch .digits li:nth-child(5)  { transform: translate(3.9em,  6.9em)  }
+#watch .digits li:nth-child(6)  { transform: translate(0,      8em)    }
+#watch .digits li:nth-child(7)  { transform: translate(-3.9em, 6.9em)  }
+#watch .digits li:nth-child(8)  { transform: translate(-6.8em, 4em)    }
+#watch .digits li:nth-child(9)  { transform: translate(-8em,   0)      }
+#watch .digits li:nth-child(10) { transform: translate(-6.9em, -4em)   }
+#watch .digits li:nth-child(11) { transform: translate(-3.9em, -6.9em) }
+#watch .digits li:nth-child(12) { transform: translate(0,      -8em)   }
+/* Centro */
+#watch .digits::before {
+  content: '';
+  width: 1.6em; height: 1.6em; border-radius: .8em;
+  position: absolute; top: 50%; left: 50%;
+  margin: -.8em 0 0 -.8em;
+  background: var(--ink);
+  z-index: 10;
 }
-.clock-el.is-title.visible { opacity: 1; }
+#watch .digits::after {
+  content: '';
+  width: 4em; height: 4em; border-radius: 2.2em;
+  position: absolute; top: 50%; left: 50%;
+  margin: -2.1em 0 0 -2.1em;
+  border: .1em solid #b0b8c8;
+  background: radial-gradient(ellipse at center, rgba(200,200,200,0), rgba(190,190,190,1) 90%, rgba(130,130,130,1) 100%);
+  z-index: 9;
+}
 
-/* Punto central */
-#clock-dot {
+/* ── Manecillas: formas exactas del original ── */
+/* La hora real la setea JS vía --h-angle, --m-angle, --s-angle */
+#watch .hours-hand {
+  width: .8em; height: 7em;
+  border-radius: 0 0 .9em .9em;
+  background: #232425;
   position: absolute;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+  bottom: 50%; left: 50%;
+  margin: 0 0 -.8em -.4em;
+  box-shadow: #232425 0 0 2px;
+  transform-origin: 0.4em 6.2em;
+  /* JS sobreescribe este transform con la hora real */
+  transform: rotate(var(--h-angle, 0deg));
+  z-index: 5;
+}
+#watch .hours-hand::before {
+  content: ''; background: inherit;
+  width: 1.8em; height: .8em;
+  border-radius: 0 0 .8em .8em;
+  box-shadow: #232425 0 0 1px;
+  position: absolute; top: -.7em; left: -.5em;
+}
+#watch .hours-hand::after {
+  content: '';
+  width: 0; height: 0;
+  border: .9em solid #232425;
+  border-width: 0 .9em 2.4em .9em;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  position: absolute; top: -3.1em; left: -.5em;
+}
+#watch .minutes-hand {
+  width: .8em; height: 12.5em;
+  border-radius: .5em;
+  background: #343536;
+  position: absolute;
+  bottom: 50%; left: 50%;
+  margin: 0 0 -1.5em -.4em;
+  box-shadow: #343536 0 0 2px;
+  transform-origin: 0.4em 11em;
+  transform: rotate(var(--m-angle, 0deg));
+  z-index: 6;
+}
+#watch .seconds-hand {
+  width: .2em; height: 14em;
+  border-radius: .1em .1em 0 0;
+  background: #c00;
+  position: absolute;
+  bottom: 50%; left: 50%;
+  margin: 0 0 -2em -.1em;
+  box-shadow: rgba(0,0,0,.8) 0 0 .2em;
+  transform-origin: 0.1em 12em;
+  transform: rotate(var(--s-angle, 0deg));
+  z-index: 7;
+}
+#watch .seconds-hand::after {
+  content: '';
+  width: 1.4em; height: 1.4em; border-radius: .7em;
+  background: inherit; position: absolute;
+  left: -.65em; bottom: 1.35em;
+}
+#watch .seconds-hand::before {
+  content: '';
+  width: .8em; height: 3em;
+  border-radius: .2em .2em .4em .4em;
+  box-shadow: rgba(0,0,0,.8) 0 0 .2em;
+  background: inherit; position: absolute;
+  left: -.35em; bottom: -3em;
 }
 
-/* ── SCROLL HINT ── */
+/* ═══════════════════════════════════════
+   CLASE .scrambled — agrega translate sobre
+   el transform original del elemento.
+   JS setea el CSS custom property --dx/--dy/--dr
+   para cada elemento animable.
+═══════════════════════════════════════ */
+.scrambled {
+  /* El translate de scramble se aplica ANTES que el transform original */
+  translate: var(--dx, 0px) var(--dy, 0px);
+  rotate: var(--dr, 0deg);
+}
+
+/* ═══════════════════════════════════════
+   TÍTULO
+═══════════════════════════════════════ */
+#watch-title {
+  position: absolute;
+  font-family: 'Ysabeau', serif; font-weight: 100; font-style: italic;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  color: var(--accent); white-space: nowrap;
+  pointer-events: none; opacity: 0; transition: opacity 0.5s ease;
+}
+
+/* ── SCROLL HINT & FOOTER ── */
 #scroll-hint {
-  position: absolute;
-  bottom: 2.2rem;
-  left: 50%;
-  translate: -50% 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--soft);
-  font-family: 'Ysabeau', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  transition: opacity 0.4s;
+  position: absolute; bottom: 2.2rem; left: 50%; translate: -50% 0;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  color: var(--soft); font-size: 0.65rem; letter-spacing: 0.16em;
+  text-transform: uppercase; transition: opacity 0.4s;
 }
 #scroll-hint svg { width: 20px; height: 32px; }
-
 #intro-footer {
-  position: absolute;
-  bottom: 1.8rem; right: 2rem;
-  font-family: 'Ysabeau', serif;
+  position: absolute; bottom: 1.8rem; right: 2rem;
   font-size: 0.6rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--soft);
-  transition: opacity 0.4s;
+  text-transform: uppercase; color: var(--soft); transition: opacity 0.4s;
 }
 
 /* ── BOTÓN ENTRAR ── */
 #enter-btn {
-  position: absolute;
-  bottom: 3rem; left: 50%;
-  translate: -50% 0;
-  font-family: 'Ysabeau', serif;
-  font-weight: 300; font-size: 0.8rem;
+  position: absolute; bottom: 3rem; left: 50%; translate: -50% 0;
+  font-family: 'Ysabeau', serif; font-weight: 300; font-size: 0.8rem;
   letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--soft); background: none;
   border: 1px solid var(--xsoft); border-radius: 99px;
@@ -183,141 +296,66 @@
 #enter-btn:hover { color: var(--bg); background: var(--ink); border-color: transparent; }
 #enter-btn svg { width: 13px; height: 13px; }
 
-/* ── GALERÍA ── */
-#gallery-wrap {
-  position: fixed; inset: 0; overflow: hidden;
-  opacity: 0; visibility: hidden;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
-  z-index: 200;
-  background: var(--bg);
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about {
+  width: 100%; padding: clamp(4rem, 10vh, 8rem) clamp(2rem, 6vw, 7rem);
+  display: grid; grid-template-columns: 2fr 1fr;
+  gap: clamp(2rem, 5vw, 6rem); align-items: start;
 }
+#about-text { min-width: 0; }
+#about-logo { width: 100%; display: flex; justify-content: flex-end; align-items: flex-start; padding-top: 0.5rem; }
+#about-logo img { width: 100%; max-width: 320px; height: auto; display: block; }
+@media (max-width: 600px) {
+  #about { grid-template-columns: 1fr; }
+  #about-logo { justify-content: center; }
+  #about-logo img { max-width: 200px; }
+}
+#about p { font-size: clamp(1.05rem, 1.9vw, 1.28rem); font-weight: 400; color: var(--ink); line-height: 1.85; margin-bottom: 1.6rem; }
+#about p:last-child { margin-bottom: 0; }
+#about p.small { font-size: clamp(0.78rem, 1.2vw, 0.9rem); color: var(--soft); font-style: italic; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--xsoft); }
+#about strong { font-weight: 600; color: var(--accent); }
+
+/* ═══════════════════════════════════════
+   GALERÍA
+═══════════════════════════════════════ */
+#gallery-wrap { position: fixed; inset: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; z-index: 200; background: var(--bg); }
 #gallery-wrap.active { opacity: 1; visibility: visible; }
-
 .h-outer { height: 100dvh; overflow: hidden; background: var(--bg); }
-.h-inner {
-  display: flex; flex-direction: column; align-items: center;
-  width: 100dvh;
-  transform: rotate(-90deg) translate3d(0,-100dvh,0);
-  transform-origin: right top;
-  overflow-y: auto; overflow-x: hidden;
-  height: 100dvw;
-  perspective: 1px; transform-style: preserve-3d;
-  padding-bottom: 14rem; scroll-behavior: smooth;
-  background: var(--bg);
-}
-
-.img-card {
-  transform: rotate(90deg) translateZ(0.08px) scale(0.92) translateX(0) translateY(-2vh);
-  display: flex; align-items: center; justify-content: center;
-  min-height: 38vh; flex-shrink: 0; position: relative;
-  transform-origin: 50% 50%; transition: min-height 0.5s ease; cursor: pointer;
-}
+.h-inner { display: flex; flex-direction: column; align-items: center; width: 100dvh; transform: rotate(-90deg) translate3d(0,-100dvh,0); transform-origin: right top; overflow-y: auto; overflow-x: hidden; height: 100dvw; perspective: 1px; transform-style: preserve-3d; padding-bottom: 14rem; scroll-behavior: smooth; background: var(--bg); }
+.img-card { transform: rotate(90deg) translateZ(0.08px) scale(0.92) translateX(0) translateY(-2vh); display: flex; align-items: center; justify-content: center; min-height: 38vh; flex-shrink: 0; position: relative; transform-origin: 50% 50%; transition: min-height 0.5s ease; cursor: pointer; }
 .img-card:hover { min-height: 66vh; }
 .img-card.d-slow { transform: rotate(90deg) translateZ(-0.18px) scale(1.12) translateX(0) translateY(-9vh); }
 .img-card.d-far  { transform: rotate(90deg) translateZ(-0.28px) scale(1.28) translateX(0) translateY(2vh); }
 .img-card.d-fast { transform: rotate(90deg) translateZ(0.14px)  scale(0.82) translateX(0) translateY(12vh); }
 .img-card.d-down { transform: rotate(90deg) translateZ(-0.18px) scale(1.12) translateX(0) translateY(14vh); }
 .img-card.d-vert { transform: rotate(90deg) translateZ(-0.13px) scale(1.16) translateX(0) translateY(0); }
-
-.img-frame {
-  overflow: hidden; display: block;
-  padding: 0.85vh; background: var(--bg);
-  box-shadow: 0 12px 55px rgba(6,37,64,0.16);
-  position: relative;
-}
-.img-frame img {
-  max-width: 46vh; max-height: 52vh;
-  display: block; vertical-align: top;
-  filter: saturate(20%) sepia(18%) hue-rotate(-5deg);
-  transition: filter 0.45s ease; object-fit: cover;
-}
+.img-frame { overflow: hidden; display: block; padding: 0.85vh; background: var(--bg); box-shadow: 0 12px 55px rgba(6,37,64,0.16); position: relative; }
+.img-frame img { max-width: 46vh; max-height: 52vh; display: block; vertical-align: top; filter: saturate(20%) sepia(18%) hue-rotate(-5deg); transition: filter 0.45s ease; object-fit: cover; }
 .img-card:hover .img-frame img { filter: none; }
-
-/* Meta-bubble: píldora estilo "Capítulo de libro" */
-.meta-bubble {
-  position: absolute; bottom: calc(0.85vh + 10px); right: calc(0.85vh + 10px);
-  border-radius: 10px;
-  padding: 7px 14px;
-  display: flex; align-items: center; gap: 8px;
-  font-family: 'Ysabeau', serif;
-  font-size: clamp(0.62rem, 1vw, 0.8rem);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  pointer-events: none; opacity: 0; transform: translateY(5px);
-  transition: opacity 0.28s ease, transform 0.28s ease;
-  white-space: nowrap; z-index: 10;
-}
-.meta-bubble.fem {
-  background: rgba(255,32,119,0.12);
-  color: #C4005A;
-  border: 1px solid rgba(255,32,119,0.25);
-}
-.meta-bubble.masc {
-  background: rgba(0,90,178,0.10);
-  color: #004A96;
-  border: 1px solid rgba(0,90,178,0.22);
-}
+.meta-bubble { position: absolute; bottom: calc(0.85vh + 10px); right: calc(0.85vh + 10px); border-radius: 10px; padding: 7px 14px; font-family: 'Ysabeau', serif; font-size: clamp(0.62rem, 1vw, 0.8rem); font-weight: 400; letter-spacing: 0.04em; pointer-events: none; opacity: 0; transform: translateY(5px); transition: opacity 0.28s ease, transform 0.28s ease; white-space: nowrap; z-index: 10; }
+.meta-bubble.fem  { background: rgba(255,32,119,0.12); color: #C4005A; border: 1px solid rgba(255,32,119,0.25); }
+.meta-bubble.masc { background: rgba(0,90,178,0.10);  color: #004A96; border: 1px solid rgba(0,90,178,0.22); }
 .img-card:hover .meta-bubble { opacity: 1; transform: translateY(0); }
-
-#hud {
-  position: fixed; bottom: 1.6rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; align-items: center; gap: 1.2rem;
-  z-index: 250; opacity: 0; transition: opacity 0.5s; pointer-events: none;
-}
+#hud { position: fixed; bottom: 1.6rem; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 1.2rem; z-index: 250; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
 #hud.active { opacity: 1; pointer-events: auto; }
-.hud-pill {
-  background: var(--bg);
-  color: var(--ink);
-  border: 1px solid var(--xsoft);
-  border-radius: 99px; padding: 0.55rem 1.4rem;
-  font-family: 'Ysabeau', serif;
-  font-size: 0.82rem; letter-spacing: 0.05em; font-weight: 400;
-  display: flex; align-items: center; gap: 0.7rem;
-  box-shadow: 0 4px 20px rgba(6,37,64,0.10);
-}
+.hud-pill { background: var(--bg); color: var(--ink); border: 1px solid var(--xsoft); border-radius: 99px; padding: 0.55rem 1.4rem; font-family: 'Ysabeau', serif; font-size: 0.82rem; letter-spacing: 0.05em; font-weight: 400; display: flex; align-items: center; gap: 0.7rem; box-shadow: 0 4px 20px rgba(6,37,64,0.10); }
 .hud-sep { opacity: 0.3; }
 .hud-counter { color: var(--accent); font-weight: 600; }
-.hud-btn {
-  background: var(--bg); border: 1px solid var(--xsoft);
-  border-radius: 50%; width: 2.4rem; height: 2.4rem;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--ink); transition: background 0.18s;
-  box-shadow: 0 2px 12px rgba(6,37,64,0.08);
-}
+.hud-btn { background: var(--bg); border: 1px solid var(--xsoft); border-radius: 50%; width: 2.4rem; height: 2.4rem; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink); transition: background 0.18s; box-shadow: 0 2px 12px rgba(6,37,64,0.08); }
 .hud-btn:hover { background: var(--ink); color: var(--bg); }
 .hud-btn svg { width: 13px; height: 13px; }
-
-#btn-close {
-  position: fixed; top: 1.3rem; right: 1.5rem; z-index: 250;
-  background: none; border: 1px solid var(--xsoft);
-  border-radius: 50%; width: 2.1rem; height: 2.1rem;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; color: var(--soft);
-  transition: all 0.18s; opacity: 0; pointer-events: none;
-}
+#btn-close { position: fixed; top: 1.3rem; right: 1.5rem; z-index: 250; background: none; border: 1px solid var(--xsoft); border-radius: 50%; width: 2.1rem; height: 2.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--soft); transition: all 0.18s; opacity: 0; pointer-events: none; }
 #btn-close.active { opacity: 1; pointer-events: auto; }
 #btn-close:hover { background: var(--ink); color: var(--bg); border-color: transparent; }
 #btn-close svg { width: 13px; height: 13px; }
-
-#lightbox {
-  position: fixed; inset: 0; background: rgba(6,37,64,0.9);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 400; opacity: 0; visibility: hidden;
-  transition: opacity 0.35s, visibility 0.35s;
-}
+#lightbox { position: fixed; inset: 0; background: rgba(6,37,64,0.9); display: flex; align-items: center; justify-content: center; z-index: 400; opacity: 0; visibility: hidden; transition: opacity 0.35s, visibility 0.35s; }
 #lightbox.open { opacity: 1; visibility: visible; }
 #lightbox img { max-width: 90dvw; max-height: 90dvh; object-fit: contain; }
-.lb-meta {
-  position: absolute; bottom: 1.4rem; left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg); color: var(--ink);
-  border-radius: 99px; padding: 0.4rem 1.1rem;
-  font-family: 'Ysabeau', serif;
-  font-size: 0.78rem; display: flex; align-items: center; gap: 0.55rem;
-}
+.lb-meta { position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%); background: var(--bg); color: var(--ink); border-radius: 99px; padding: 0.4rem 1.1rem; font-family: 'Ysabeau', serif; font-size: 0.78rem; display: flex; align-items: center; gap: 0.55rem; }
 .lb-dot { width: 8px; height: 8px; border-radius: 50%; }
-.lb-dot.fem  { background: var(--accent); }
+.lb-dot.fem  { background: #FF2077; }
 .lb-dot.masc { background: var(--ink); }
 </style>
 </head>
@@ -325,393 +363,398 @@
 
 <section id="intro">
   <div id="intro-stage">
-    <div id="clock-canvas"></div>
-    <div id="clock-dot"></div>
+
+    <div id="watch-wrap">
+      <div id="watch">
+        <div class="frame-face"></div>
+        <ul class="minute-marks">
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ul>
+        <ul class="digits">
+          <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+          <li>7</li><li>8</li><li>9</li><li>10</li><li>11</li><li>12</li>
+        </ul>
+        <div class="hours-hand"></div>
+        <div class="minutes-hand"></div>
+        <div class="seconds-hand"></div>
+      </div>
+    </div>
+
+    <div id="watch-title">Los relojes</div>
 
     <div id="scroll-hint">
       <svg viewBox="0 0 24 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
         <rect x="6" y="3" width="12" height="20" rx="6"/>
         <line x1="12" y1="7" x2="12" y2="11"/>
         <path d="M8 30l4 4 4-4">
-          <animateTransform attributeType="XML" attributeName="transform"
-            type="translate" values="0 0;0 4;0 0" dur="1.1s" repeatCount="indefinite"/>
+          <animateTransform attributeType="XML" attributeName="transform" type="translate" values="0 0;0 4;0 0" dur="1.1s" repeatCount="indefinite"/>
         </path>
       </svg>
       scroll
     </div>
-
     <p id="intro-footer">Clínica de Geriatría · INCMNSZ</p>
-
     <button id="enter-btn">
-      <svg viewBox="0 0 13 13" fill="none">
-        <path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <svg viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Ver los relojes
     </button>
   </div>
 </section>
 
-<!-- ── DESCRIPCIÓN ── -->
 <section id="about">
   <div id="about-text">
     <p>La <em>prueba del reloj</em> es una actividad sencilla en la que se pide a una persona dibujar un reloj marcando una hora específica. Aunque se utiliza en la práctica clínica para explorar funciones como la <strong>memoria, la atención y la organización</strong>, también revela rasgos únicos en la forma en que cada individuo percibe y representa el tiempo.</p>
     <p>Este sitio es un proyecto del departamento de Geriatría del Instituto Nacional de Nutrición y Ciencias Médicas Salvador Zubirán, donde se presentan estos dibujos desde una <strong>perspectiva artística y humana</strong>, como expresiones personales que van más allá de su uso médico.</p>
     <p class="small">Todos los relojes aquí mostrados cuentan con el consentimiento explícito de las personas que los dibujaron para su difusión.</p>
   </div>
-  <div id="about-logo">
-    <img src="NutriLogoSVG.svg" alt="Logo INCMNSZ">
-  </div>
+  <div id="about-logo"><img src="NutriLogoSVG.svg" alt="Logo INCMNSZ"></div>
 </section>
 
 <div id="intro-end" style="height:1px;"></div>
-
-<div id="gallery-wrap">
-  <div class="h-outer">
-    <div class="h-inner" id="scrollInner"></div>
-  </div>
-</div>
-
+<div id="gallery-wrap"><div class="h-outer"><div class="h-inner" id="scrollInner"></div></div></div>
 <div id="hud">
-  <button class="hud-btn" id="btnPrev">
-    <svg viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5L3.5 6.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="hud-pill">
-    <span id="hudLabel">Reloj</span>
-    <span class="hud-sep">|</span>
-    <span class="hud-counter" id="hudCounter">1 / 1</span>
-  </div>
-  <button class="hud-btn" id="btnNext">
-    <svg viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
+  <button class="hud-btn" id="btnPrev"><svg viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5L3.5 6.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div class="hud-pill"><span id="hudLabel">Reloj</span><span class="hud-sep">|</span><span class="hud-counter" id="hudCounter">1 / 1</span></div>
+  <button class="hud-btn" id="btnNext"><svg viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
-<button id="btn-close">
-  <svg viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-</button>
-
+<button id="btn-close"><svg viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
 <div id="lightbox">
   <img id="lbImg" src="" alt="">
-  <div class="lb-meta">
-    <span class="lb-dot" id="lbDot"></span>
-    <span id="lbText"></span>
-  </div>
+  <div class="lb-meta"><span class="lb-dot" id="lbDot"></span><span id="lbText"></span></div>
 </div>
 
 <script>
-/* ════════════════════════════════════════════
+/* ══════════════════════════════════════════
    CONFIG
-════════════════════════════════════════════ */
-const GITHUB_USER   = 'fguadarrama';
-const GITHUB_REPO   = 'fguadarrama.com';
-const GITHUB_BRANCH = 'main';
-const GITHUB_PATH   = 'clockart/relojes';
-const IMAGE_BASE    = 'relojes/';
-const DEPTH = ['', 'd-slow', 'd-fast', 'd-down', 'd-vert', 'd-far', 'd-slow', ''];
+══════════════════════════════════════════ */
+const GITHUB_USER = 'fguadarrama', GITHUB_REPO = 'fguadarrama.com';
+const GITHUB_BRANCH = 'main', GITHUB_PATH = 'clockart/relojes';
+const IMAGE_BASE = 'relojes/';
+const DEPTH = ['','d-slow','d-fast','d-down','d-vert','d-far','d-slow',''];
 const EXTS  = ['jpg','jpeg','webp','png','gif'];
 
-/* ════════════════════════════════════════════
-   INTRO — ANIMACIÓN DE SCROLL EN JS PURO
+/* ══════════════════════════════════════════
+   ANIMACIÓN SCROLL
 
-   Cada número del reloj tiene:
-     - Posición FINAL: coordenadas (x,y) en el anillo, rotación = 0 (horizontal)
-     - Posición SCRAMBLE: coordenadas dispersas aleatorias, rotación caótica
+   Estrategia limpia:
+   Cada elemento animable recibe class="scrambled"
+   con CSS custom properties --dx/--dy/--dr.
+   El CSS aplica translate y rotate ANTES del
+   transform original (CSS cascade).
+   El scroll interpolates --dx/--dy/--dr → 0.
+══════════════════════════════════════════ */
 
-   Con cada frame de scroll interpolamos linealmente entre ambas.
-════════════════════════════════════════════ */
+let introLocked = false;
+let animEls = []; // { el, sx, sy, srot }
 
-const CLOCK_LABELS = ['12','1','2','3','4','5','6','7','8','9','10','11'];
+function lerp(a,b,t) { return a+(b-a)*t; }
+function easeOut(t)  { return 1-Math.pow(1-t,3); }
 
-// Rotaciones caóticas fijas para estado scramble
-const SCRAMBLE_ROTS = [45,-30,60,-50,80,-20,55,-65,35,-45,70,-25];
-
-let elems = [], titleEl = null, dotEl = null;
-
-function lerp(a, b, t) { return a + (b - a) * t; }
-function ease(t) { return 1 - Math.pow(1 - t, 3); }
-
-// Generador pseudo-aleatorio determinístico (semilla fija → mismo resultado en cada resize)
 function seededRand(seed) {
   let s = seed;
-  return function() {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
+  return () => { s=(s*16807)%2147483647; return (s-1)/2147483646; };
+}
+
+/* ── Hora real → ángulos de manecillas ── */
+function realAngles() {
+  const now = new Date();
+  const h = now.getHours()%12, m = now.getMinutes(), s = now.getSeconds();
+  return {
+    h: (h + m/60)    * 30,   // grados, 0=12h
+    m: (m + s/60)    * 6,
+    s: s * 6
   };
 }
 
-function buildIntro() {
-  const canvas = document.getElementById('clock-canvas');
-  canvas.innerHTML = '';
-  elems = [];
+/* ── Aplicar hora real a las manecillas ── */
+function setHandAngles() {
+  const { h, m, s } = realAngles();
+  document.querySelector('#watch .hours-hand').style.setProperty('--h-angle', h+'deg');
+  document.querySelector('#watch .minutes-hand').style.setProperty('--m-angle', m+'deg');
+  document.querySelector('#watch .seconds-hand').style.setProperty('--s-angle', s+'deg');
+}
 
-  const stage = document.getElementById('intro-stage');
-  const W = stage.offsetWidth;
-  const H = stage.offsetHeight;
-  const mobile = W < 600;
+/* ── Escalar y centrar el reloj ── */
+function scaleAndPositionWatch() {
+  const stage  = document.getElementById('intro-stage');
+  const W = stage.offsetWidth, H = stage.offsetHeight;
+  const mobile = W < 640;
 
-  const cx = mobile ? W * 0.5  : W * 0.36;
-  const cy = mobile ? H * 0.55 : H * 0.5;
-  const r  = Math.min(W, H) * (mobile ? 0.30 : 0.23);
+  // font-size en px: queremos que el reloj (30em) quepa bien
+  const maxPx  = Math.min(W, H) * (mobile ? 0.52 : 0.52);
+  const em     = maxPx / 30; // 30em = tamaño del reloj
+  const watchW = 30 * em;    // px
 
-  // Punto central
-  dotEl = document.getElementById('clock-dot');
-  dotEl.style.left = cx + 'px';
-  dotEl.style.top  = cy + 'px';
+  const wrap = document.getElementById('watch-wrap');
+  wrap.style.fontSize = em + 'px';
 
-  // Título — más separado a la derecha
-  titleEl = document.createElement('div');
-  titleEl.className = 'clock-el is-title';
-  titleEl.textContent = 'Los relojes';
+  // Centrar: en desktop ligeramente a la izquierda para el título
+  const cx = mobile ? W/2 : W * 0.37;
+  const cy = H/2;
+  wrap.style.left     = (cx - watchW/2) + 'px';
+  wrap.style.top      = (cy - watchW/2) + 'px';
+  wrap.style.position = 'absolute';
+
+  // Título encima del reloj (mobile) o a la derecha (desktop)
+  const title = document.getElementById('watch-title');
   if (mobile) {
-    titleEl.style.left      = '50%';
-    titleEl.style.top       = (cy - r - 60) + 'px';
-    titleEl.style.transform = 'translateX(-50%)';
-    titleEl.style.fontSize  = 'clamp(1.8rem, 8vw, 3rem)';
-    titleEl.style.textAlign = 'center';
+    const titleSize = Math.min(W * 0.11, 44);   // tamaño del texto
+    const gap       = titleSize * 2.8;           // espacio amplio entre título y reloj
+    const totalH    = titleSize + gap + watchW;
+    const blockTop  = Math.max(20, (H - totalH) / 2);
+
+    // Reloj: empieza justo después del espacio
+    wrap.style.top = (blockTop + titleSize + gap - watchW / 2) + 'px';
+
+    title.style.left      = '50%';
+    title.style.top       = blockTop + 'px';
+    title.style.transform = 'translateX(-50%)';
+    title.style.fontSize  = titleSize + 'px';
+    title.style.lineHeight = '1.1';
   } else {
-    // Separación mayor a la derecha del 3
-    titleEl.style.left      = (cx + r + 80) + 'px';
-    titleEl.style.top       = cy + 'px';
-    titleEl.style.transform = 'translateY(-50%)';
-    titleEl.style.fontSize  = 'clamp(2rem, 5vw, 5rem)';
+    title.style.left      = (cx + watchW/2 + 52) + 'px';
+    title.style.top       = cy + 'px';
+    title.style.transform = 'translateY(-50%)';
+    title.style.fontSize  = 'clamp(2rem,5vw,4.5rem)';
   }
-  canvas.appendChild(titleEl);
 
-  // Números: posición scramble completamente aleatoria dentro del viewport
-  const rand = seededRand(42);
-  const margin = 60; // px de margen para que no se corten
-
-  CLOCK_LABELS.forEach((label, i) => {
-    const div = document.createElement('div');
-    div.className = 'clock-el is-num' + (i === 0 ? ' accent' : '');
-    div.textContent = label;
-    canvas.appendChild(div);
-
-    // Posición FINAL en el reloj (correcta, horizontal)
-    const finalDeg = -90 + i * 30;
-    const finalRad = finalDeg * Math.PI / 180;
-    const fx = cx + r * Math.cos(finalRad);
-    const fy = cy + r * Math.sin(finalRad);
-
-    // Posición SCRAMBLE: aleatoria por toda la pantalla
-    // Excluye el centro exacto para que no estén todos apilados en un punto
-    let sx, sy;
-    do {
-      sx = margin + rand() * (W - margin * 2);
-      sy = margin + rand() * (H - margin * 2);
-    } while (Math.hypot(sx - cx, sy - cy) < r * 0.3); // no demasiado cerca del centro
-
-    const srot = SCRAMBLE_ROTS[i];
-
-    elems.push({ div, fx, fy, sx, sy, frot: 0, srot });
-
-    div.style.left      = sx + 'px';
-    div.style.top       = sy + 'px';
-    div.style.transform = `translate(-50%, -50%) rotate(${srot}deg)`;
-  });
+  return { W, H, cx, cy, watchW };
 }
 
-let introLocked = false;
+/* ── Construir lista de elementos animables y posiciones scramble ── */
+function buildScramble() {
+  animEls = [];
+  const { W, H } = scaleAndPositionWatch();
+  const rand   = seededRand(42);
+  const margin = 55;
 
-function updateIntro() {
-  if (introLocked) return;
+  // Elementos y cuánto los dispersamos
+  const groups = [
+    { sel: '#watch .frame-face',   spread: 0.4, rotRange: 12  },
+    { sel: '#watch .digits li',    spread: 1.5, rotRange: 60  },
+    { sel: '#watch .minute-marks li', spread: 1.8, rotRange: 180 },
+    { sel: '#watch .hours-hand',   spread: 1.2, rotRange: 90  },
+    { sel: '#watch .minutes-hand', spread: 1.2, rotRange: 90  },
+    { sel: '#watch .seconds-hand', spread: 1.2, rotRange: 90  },
+  ];
 
-  const introH = document.getElementById('intro').offsetHeight;
-  const stageH = window.innerHeight;
-  const maxScroll = introH - stageH;
-  const scrollY   = window.scrollY;
-  const rawT = Math.max(0, Math.min(1, scrollY / maxScroll));
-  const t = ease(rawT);
+  // Centro del reloj en coordenadas del stage
+  const wrap = document.getElementById('watch-wrap');
+  const wLeft = parseFloat(wrap.style.left);
+  const wTop  = parseFloat(wrap.style.top);
+  const em    = parseFloat(wrap.style.fontSize);
+  const watchW = 30 * em;
+  const cx = wLeft + watchW/2;
+  const cy = wTop  + watchW/2;
 
-  elems.forEach(el => {
-    const x   = lerp(el.sx, el.fx, t);
-    const y   = lerp(el.sy, el.fy, t);
-    const rot = lerp(el.srot, el.frot, t);
-    el.div.style.left      = x + 'px';
-    el.div.style.top       = y + 'px';
-    el.div.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
-  });
+  groups.forEach(({ sel, spread, rotRange }) => {
+    document.querySelectorAll(sel).forEach(el => {
+      // Posición scramble aleatoria
+      let sx, sy;
+      do {
+        sx = margin + rand() * (W - margin*2);
+        sy = margin + rand() * (H - margin*2);
+      } while (Math.hypot(sx - cx, sy - cy) < watchW * 0.12);
 
-  const hintOpacity = Math.max(0, 1 - rawT * 8);
-  document.getElementById('scroll-hint').style.opacity  = hintOpacity;
-  document.getElementById('intro-footer').style.opacity = hintOpacity;
+      // Offset desde la posición natural del elemento
+      const rect = el.getBoundingClientRect();
+      const stage = document.getElementById('intro-stage').getBoundingClientRect();
+      const elCX  = rect.left + rect.width/2  - stage.left;
+      const elCY  = rect.top  + rect.height/2 - stage.top;
+      const dx = sx - elCX;
+      const dy = sy - elCY;
+      const dr = (rand()-0.5)*2 * rotRange;
 
-  if (titleEl) titleEl.style.opacity = Math.max(0, (rawT - 0.8) / 0.2);
+      el.classList.add('scrambled');
+      el.style.setProperty('--dx', dx+'px');
+      el.style.setProperty('--dy', dy+'px');
+      el.style.setProperty('--dr', dr+'deg');
 
-  const btn = document.getElementById('enter-btn');
-  if (rawT > 0.92) {
-    btn.classList.add('ready');
-  } else {
-    btn.classList.remove('ready');
-  }
-
-  // Una vez que llega al final, bloquear en estado final para siempre
-  if (rawT >= 1) {
-    introLocked = true;
-    // Forzar estado final exacto
-    elems.forEach(el => {
-      el.div.style.left      = el.fx + 'px';
-      el.div.style.top       = el.fy + 'px';
-      el.div.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+      animEls.push({ el, dx, dy, dr });
     });
-    if (titleEl) titleEl.style.opacity = '1';
-    btn.classList.add('ready');
-  }
+  });
 }
 
-// Inicializar y conectar scroll
-buildIntro();
-window.addEventListener('scroll', updateIntro, { passive: true });
-window.addEventListener('resize', () => { buildIntro(); updateIntro(); });
-updateIntro();
+/* ── Actualizar animación de scroll ── */
+function lockIntro() {
+  if (introLocked) return;
+  introLocked = true;
+  animEls.forEach(({ el }) => {
+    el.style.setProperty('--dx', '0px');
+    el.style.setProperty('--dy', '0px');
+    el.style.setProperty('--dr', '0deg');
+  });
+  document.getElementById('watch-title').style.opacity = '1';
+  document.getElementById('enter-btn').classList.add('ready');
+  setInterval(setHandAngles, 1000);
+}
 
-/* ════════════════════════════════════════════
+function updateScroll() {
+  if (introLocked) return;
+  const introH    = document.getElementById('intro').offsetHeight;
+  const maxScroll = introH - window.innerHeight;
+  const rawT = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+  const t    = easeOut(rawT);
+
+  animEls.forEach(({ el, dx, dy, dr }) => {
+    el.style.setProperty('--dx', lerp(dx, 0, t)+'px');
+    el.style.setProperty('--dy', lerp(dy, 0, t)+'px');
+    el.style.setProperty('--dr', lerp(dr, 0, t)+'deg');
+  });
+
+  const hintO = Math.max(0, 1 - rawT*8);
+  document.getElementById('scroll-hint').style.opacity  = hintO;
+  document.getElementById('intro-footer').style.opacity = hintO;
+  document.getElementById('watch-title').style.opacity  = Math.max(0, (rawT-0.8)/0.2);
+  document.getElementById('enter-btn').classList.toggle('ready', rawT > 0.92);
+
+  // Lock al 92%: funciona aunque el scroll no llegue exactamente al fondo
+  if (rawT >= 0.92) lockIntro();
+}
+
+// Segundo mecanismo de lock: cuando #about entra en viewport
+// (cubre el caso mobile donde el scroll puede saltarse el umbral)
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) lockIntro();
+}, { threshold: 0.05 }).observe(document.getElementById('intro-end'));
+
+/* ── Init ── */
+function initIntro() {
+  introLocked = false;
+  setHandAngles(); // hora real inmediata
+
+  // Esperar un frame para que el layout esté listo
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      buildScramble();
+      updateScroll();
+    });
+  });
+}
+
+window.addEventListener('scroll', updateScroll, { passive: true });
+window.addEventListener('resize', initIntro,    { passive: true });
+initIntro();
+
+/* ══════════════════════════════════════════
    GITHUB API
-════════════════════════════════════════════ */
+══════════════════════════════════════════ */
 let images = [], currentIdx = 0, galleryShown = false;
 
 function parseName(name) {
-  const m = name.replace(/\.[^.]+$/, '').match(/_([mh])(\d+)$/i);
-  if (!m) return { sex: null, age: null, sexCode: null };
+  const m = name.replace(/\.[^.]+$/,'').match(/_([mh])(\d+)$/i);
+  if (!m) return {sex:null,age:null,sexCode:null};
   const sc = m[1].toLowerCase();
-  return { sex: sc === 'm' ? 'Mujer' : 'Hombre', age: parseInt(m[2]), sexCode: sc };
+  return {sex:sc==='m'?'Mujer':'Hombre', age:parseInt(m[2]), sexCode:sc};
 }
-
 async function fetchImageList() {
-  const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`
-  );
+  const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`);
   if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
   const files = await res.json();
-  return files
-    .filter(f => f.type === 'file' && EXTS.includes(f.name.split('.').pop().toLowerCase()))
-    .map(f => f.name);
+  return files.filter(f=>f.type==='file'&&EXTS.includes(f.name.split('.').pop().toLowerCase())).map(f=>f.name);
 }
 
-/* ════════════════════════════════════════════
-   GALERÍA
-════════════════════════════════════════════ */
 function buildGallery() {
-  const c = document.getElementById('scrollInner');
-  c.innerHTML = '';
-  images.forEach((img, i) => {
-    const card = document.createElement('div');
-    card.className = `img-card ${DEPTH[i % DEPTH.length]}`;
-    const frame = document.createElement('div');
-    frame.className = 'img-frame';
-    const el = document.createElement('img');
-    el.src = IMAGE_BASE + img.name;
-    el.alt = img.sex ? `${img.sex}, ${img.age} años` : img.name;
-    el.loading = 'lazy';
+  const c = document.getElementById('scrollInner'); c.innerHTML='';
+  images.forEach((img,i)=>{
+    const card=document.createElement('div'); card.className=`img-card ${DEPTH[i%DEPTH.length]}`;
+    const frame=document.createElement('div'); frame.className='img-frame';
+    const el=document.createElement('img');
+    el.src=IMAGE_BASE+img.name; el.alt=img.sex?`${img.sex}, ${img.age} años`:img.name; el.loading='lazy';
     frame.appendChild(el);
-    if (img.sex) {
-      const bbl = document.createElement('div');
-      bbl.className = `meta-bubble ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
-      bbl.textContent = `${img.sex} · ${img.age} años`;
+    if(img.sex){
+      const bbl=document.createElement('div');
+      bbl.className=`meta-bubble ${img.sexCode==='m'?'fem':'masc'}`;
+      bbl.textContent=`${img.sex} · ${img.age} años`;
       frame.appendChild(bbl);
     }
-    card.appendChild(frame);
-    c.appendChild(card);
-    frame.addEventListener('click', ev => { ev.stopPropagation(); openLightbox(i); });
-    card.addEventListener('click', () => navigateTo(currentIdx + 1));
+    card.appendChild(frame); c.appendChild(card);
+    frame.addEventListener('click',ev=>{ev.stopPropagation();openLightbox(i);});
+    card.addEventListener('click',()=>navigateTo(currentIdx+1));
   });
   updateHUD();
 }
-
 function navigateTo(idx) {
-  const n = images.length; if (!n) return;
-  currentIdx = ((idx % n) + n) % n;
-  const inner = document.getElementById('scrollInner');
-  const cards = inner.querySelectorAll('.img-card');
-  if (cards[currentIdx])
-    inner.scrollTo({ top: cards[currentIdx].offsetTop - (inner.clientHeight - cards[currentIdx].offsetHeight) / 2, behavior: 'smooth' });
+  const n=images.length; if(!n) return;
+  currentIdx=((idx%n)+n)%n;
+  const inner=document.getElementById('scrollInner');
+  const cards=inner.querySelectorAll('.img-card');
+  if(cards[currentIdx]) inner.scrollTo({top:cards[currentIdx].offsetTop-(inner.clientHeight-cards[currentIdx].offsetHeight)/2,behavior:'smooth'});
   updateHUD();
 }
-
 function updateHUD() {
-  document.getElementById('hudCounter').textContent = `${currentIdx + 1} / ${images.length}`;
-  const img = images[currentIdx];
-  document.getElementById('hudLabel').textContent = img?.sex ? `${img.sex}, ${img.age} a.` : 'Reloj';
+  document.getElementById('hudCounter').textContent=`${currentIdx+1} / ${images.length}`;
+  const img=images[currentIdx];
+  document.getElementById('hudLabel').textContent=img?.sex?`${img.sex}, ${img.age} a.`:'Reloj';
 }
-
-/* ════════════════════════════════════════════
-   LIGHTBOX
-════════════════════════════════════════════ */
 function openLightbox(i) {
-  const img = images[i];
-  document.getElementById('lbImg').src = IMAGE_BASE + img.name;
-  document.getElementById('lbDot').className = `lb-dot ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
-  document.getElementById('lbText').textContent = img.sex ? `${img.sex} · ${img.age} años` : img.name;
+  const img=images[i];
+  document.getElementById('lbImg').src=IMAGE_BASE+img.name;
+  document.getElementById('lbDot').className=`lb-dot ${img.sexCode==='m'?'fem':'masc'}`;
+  document.getElementById('lbText').textContent=img.sex?`${img.sex} · ${img.age} años`:img.name;
   document.getElementById('lightbox').classList.add('open');
 }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-document.getElementById('lightbox').addEventListener('click', e => {
-  if (e.target === e.currentTarget || e.target.id === 'lbImg') closeLightbox();
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
+document.getElementById('lightbox').addEventListener('click',e=>{
+  if(e.target===e.currentTarget||e.target.id==='lbImg')closeLightbox();
 });
-
-/* ════════════════════════════════════════════
-   TRANSICIONES
-════════════════════════════════════════════ */
 function showGallery() {
-  if (galleryShown || !images.length) return;
-  galleryShown = true;
-  document.getElementById('intro').style.display = 'none';
+  if(galleryShown||!images.length) return;
+  galleryShown=true;
+  document.getElementById('intro').style.display='none';
   document.getElementById('gallery-wrap').classList.add('active');
   document.getElementById('hud').classList.add('active');
   document.getElementById('btn-close').classList.add('active');
-  window.scrollTo(0, 0);
-  setTimeout(() => navigateTo(0), 350);
+  window.scrollTo(0,0);
+  setTimeout(()=>navigateTo(0),350);
 }
-
 function showIntro() {
-  galleryShown = false;
-  document.getElementById('intro').style.display = '';
+  galleryShown=false;
+  document.getElementById('intro').style.display='';
   document.getElementById('gallery-wrap').classList.remove('active');
   document.getElementById('hud').classList.remove('active');
   document.getElementById('btn-close').classList.remove('active');
-  // Si el reloj ya está en estado final, ir al final del intro para mostrarlo formado
-  if (introLocked) {
-    const introH = document.getElementById('intro').offsetHeight;
-    window.scrollTo({ top: introH - window.innerHeight, behavior: 'instant' });
+  if(introLocked){
+    const introH=document.getElementById('intro').offsetHeight;
+    window.scrollTo({top:introH-window.innerHeight,behavior:'instant'});
   } else {
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({top:0,behavior:'instant'});
   }
 }
-
-document.getElementById('enter-btn').addEventListener('click', showGallery);
-
-/* ════════════════════════════════════════════
-   TECLADO & SWIPE
-════════════════════════════════════════════ */
-document.addEventListener('keydown', e => {
-  if (document.getElementById('lightbox').classList.contains('open')) { if (e.key === 'Escape') closeLightbox(); return; }
-  if (!galleryShown) return;
-  switch(e.key) {
-    case 'ArrowRight': case 'ArrowDown': case 'Enter': case ' ': e.preventDefault(); navigateTo(currentIdx + 1); break;
-    case 'ArrowLeft':  case 'ArrowUp':  e.preventDefault(); navigateTo(currentIdx - 1); break;
-    case 'Escape': showIntro(); break;
+document.getElementById('enter-btn').addEventListener('click',showGallery);
+document.getElementById('btnPrev').addEventListener('click',()=>navigateTo(currentIdx-1));
+document.getElementById('btnNext').addEventListener('click',()=>navigateTo(currentIdx+1));
+document.getElementById('btn-close').addEventListener('click',showIntro);
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lightbox').classList.contains('open')){if(e.key==='Escape')closeLightbox();return;}
+  if(!galleryShown)return;
+  switch(e.key){
+    case 'ArrowRight':case 'ArrowDown':case 'Enter':case ' ':e.preventDefault();navigateTo(currentIdx+1);break;
+    case 'ArrowLeft':case 'ArrowUp':e.preventDefault();navigateTo(currentIdx-1);break;
+    case 'Escape':showIntro();break;
   }
 });
-document.getElementById('btnPrev').addEventListener('click', () => navigateTo(currentIdx - 1));
-document.getElementById('btnNext').addEventListener('click', () => navigateTo(currentIdx + 1));
-document.getElementById('btn-close').addEventListener('click', showIntro);
+let tx=0,ty=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!galleryShown||document.getElementById('lightbox').classList.contains('open'))return;
+  const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40)navigateTo(dx<0?currentIdx+1:currentIdx-1);
+},{passive:true});
 
-let tx = 0, ty = 0;
-document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
-document.addEventListener('touchend', e => {
-  if (!galleryShown || document.getElementById('lightbox').classList.contains('open')) return;
-  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) navigateTo(dx < 0 ? currentIdx + 1 : currentIdx - 1);
-}, {passive:true});
-
-/* ════════════════════════════════════════════
-   INIT
-════════════════════════════════════════════ */
-(async function init() {
-  try {
-    const names = await fetchImageList();
-    if (!names.length) return;
-    images = names.sort(() => Math.random() - 0.5).map(name => ({ name, ...parseName(name) }));
+(async function init(){
+  try{
+    const names=await fetchImageList();
+    if(!names.length)return;
+    images=names.sort(()=>Math.random()-0.5).map(name=>({name,...parseName(name)}));
     buildGallery();
-  } catch(err) { console.warn('GitHub API:', err.message); }
+  }catch(err){console.warn('GitHub API:',err.message);}
 })();
 </script>
 </body>
