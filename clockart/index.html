@@ -509,7 +509,11 @@ function buildIntro() {
   });
 }
 
+let introLocked = false;
+
 function updateIntro() {
+  if (introLocked) return;
+
   const introH = document.getElementById('intro').offsetHeight;
   const stageH = window.innerHeight;
   const maxScroll = introH - stageH;
@@ -517,7 +521,6 @@ function updateIntro() {
   const rawT = Math.max(0, Math.min(1, scrollY / maxScroll));
   const t = ease(rawT);
 
-  // Actualizar cada número
   elems.forEach(el => {
     const x   = lerp(el.sx, el.fx, t);
     const y   = lerp(el.sy, el.fy, t);
@@ -527,23 +530,30 @@ function updateIntro() {
     el.div.style.transform = `translate(-50%, -50%) rotate(${rot}deg)`;
   });
 
-  // Scroll hint y footer: desaparecen rápido
   const hintOpacity = Math.max(0, 1 - rawT * 8);
   document.getElementById('scroll-hint').style.opacity  = hintOpacity;
   document.getElementById('intro-footer').style.opacity = hintOpacity;
 
-  // Título: aparece al final
-  const titleT = Math.max(0, (rawT - 0.8) / 0.2);
-  if (titleEl) {
-    titleEl.style.opacity = titleT;
-  }
+  if (titleEl) titleEl.style.opacity = Math.max(0, (rawT - 0.8) / 0.2);
 
-  // Botón entrar: aparece cuando el scroll llega al 95%
   const btn = document.getElementById('enter-btn');
   if (rawT > 0.92) {
     btn.classList.add('ready');
   } else {
     btn.classList.remove('ready');
+  }
+
+  // Una vez que llega al final, bloquear en estado final para siempre
+  if (rawT >= 1) {
+    introLocked = true;
+    // Forzar estado final exacto
+    elems.forEach(el => {
+      el.div.style.left      = el.fx + 'px';
+      el.div.style.top       = el.fy + 'px';
+      el.div.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+    });
+    if (titleEl) titleEl.style.opacity = '1';
+    btn.classList.add('ready');
   }
 }
 
@@ -551,7 +561,7 @@ function updateIntro() {
 buildIntro();
 window.addEventListener('scroll', updateIntro, { passive: true });
 window.addEventListener('resize', () => { buildIntro(); updateIntro(); });
-updateIntro(); // estado inicial
+updateIntro();
 
 /* ════════════════════════════════════════════
    GITHUB API
@@ -657,10 +667,13 @@ function showIntro() {
   document.getElementById('gallery-wrap').classList.remove('active');
   document.getElementById('hud').classList.remove('active');
   document.getElementById('btn-close').classList.remove('active');
-  // Scroll al final del intro para que los números estén ordenados y el título visible
-  const introH = document.getElementById('intro').offsetHeight;
-  window.scrollTo({ top: introH - window.innerHeight, behavior: 'instant' });
-  updateIntro();
+  // Si el reloj ya está en estado final, ir al final del intro para mostrarlo formado
+  if (introLocked) {
+    const introH = document.getElementById('intro').offsetHeight;
+    window.scrollTo({ top: introH - window.innerHeight, behavior: 'instant' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
 }
 
 document.getElementById('enter-btn').addEventListener('click', showGallery);
