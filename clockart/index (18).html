@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relojes — Clínica de Geriatría</title>
+<link href="https://fonts.googleapis.com/css2?family=Ysabeau:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #f6f7fd;
+  --ink:    #062540;
+  --accent: #FF2077;
+  --soft:   rgba(6,37,64,0.42);
+  --xsoft:  rgba(6,37,64,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+::-webkit-scrollbar { width: 1px; height: 1px; }
+body {
+  font-family: 'Ysabeau', serif;
+  background: var(--bg); color: var(--ink);
+  overflow: hidden; height: 100dvh; width: 100dvw;
+}
+
+/* ── INTRO ── */
+#intro {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 100;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+#intro.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.clock-ring {
+  position: relative;
+  width: min(54vw, 54vh);
+  height: min(54vw, 54vh);
+}
+.clock-center {
+  position: absolute; inset: 50%; transform: translate(-50%,-50%);
+  width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+}
+#clockUL {
+  list-style: none; position: absolute; inset: 0; border-radius: 50%;
+}
+#clockUL li { position: absolute; inset: 50%; }
+#clockUL li span {
+  position: absolute; top: 50%; left: 50%;
+  transform-origin: 0 0; display: inline-block;
+  font-size: clamp(0.7rem, 2vw, 1.3rem); font-weight: 300; color: var(--ink);
+}
+#clockUL li:first-child span { color: var(--accent); }
+
+.intro-hint {
+  margin-top: 2.4rem;
+  font-size: clamp(0.7rem, 1.4vw, 0.86rem);
+  font-weight: 300; color: var(--soft); letter-spacing: 0.07em;
+  display: flex; align-items: center; gap: 0.5rem;
+  animation: blink 2.2s ease-in-out infinite;
+  opacity: 0; transition: opacity 0.5s ease 1.8s;
+}
+#intro:not(.hidden) .intro-hint { opacity: 1; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.intro-hint svg { width: 14px; height: 14px; }
+
+.intro-footer {
+  position: absolute; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--soft); white-space: nowrap;
+}
+
+/* ── GALERÍA ── */
+#gallery-wrap {
+  position: fixed; inset: 0; overflow: hidden;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.7s ease 0.1s, visibility 0.7s ease 0.1s;
+}
+#gallery-wrap.active { opacity: 1; visibility: visible; }
+
+.h-outer { height: 100dvh; overflow: hidden; }
+.h-inner {
+  display: flex; flex-direction: column; align-items: center;
+  width: 100dvh;
+  transform: rotate(-90deg) translate3d(0,-100dvh,0);
+  transform-origin: right top;
+  overflow-y: auto; overflow-x: hidden;
+  height: 100dvw;
+  perspective: 1px; transform-style: preserve-3d;
+  padding-bottom: 14rem; scroll-behavior: smooth;
+}
+
+.img-card {
+  transform: rotate(90deg) translateZ(0.08px) scale(0.92) translateX(0) translateY(-2vh);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 38vh; flex-shrink: 0; position: relative;
+  transform-origin: 50% 50%; transition: min-height 0.5s ease; cursor: pointer;
+}
+.img-card:hover { min-height: 66vh; }
+.img-card.d-slow { transform: rotate(90deg) translateZ(-0.18px) scale(1.12) translateX(0) translateY(-9vh); }
+.img-card.d-far  { transform: rotate(90deg) translateZ(-0.28px) scale(1.28) translateX(0) translateY(2vh); }
+.img-card.d-fast { transform: rotate(90deg) translateZ(0.14px)  scale(0.82) translateX(0) translateY(12vh); }
+.img-card.d-down { transform: rotate(90deg) translateZ(-0.18px) scale(1.12) translateX(0) translateY(14vh); }
+.img-card.d-vert { transform: rotate(90deg) translateZ(-0.13px) scale(1.16) translateX(0) translateY(0); }
+
+.img-frame {
+  overflow: hidden; display: block;
+  padding: 0.85vh; background: var(--bg);
+  box-shadow: 0 12px 55px rgba(6,37,64,0.16);
+  position: relative;
+}
+.img-frame img {
+  max-width: 46vh; max-height: 52vh;
+  display: block; vertical-align: top;
+  filter: saturate(20%) sepia(18%) hue-rotate(-5deg);
+  transition: filter 0.45s ease; object-fit: cover;
+}
+.img-card:hover .img-frame img { filter: none; }
+
+.meta-bubble {
+  position: absolute; bottom: calc(0.85vh + 10px); right: calc(0.85vh + 10px);
+  background: var(--ink); color: var(--bg);
+  border-radius: 99px; padding: 5px 12px 5px 9px;
+  display: flex; align-items: center; gap: 7px;
+  font-size: clamp(0.6rem, 1vw, 0.78rem); font-weight: 400;
+  pointer-events: none; opacity: 0; transform: translateY(5px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  white-space: nowrap; z-index: 10;
+}
+.img-card:hover .meta-bubble { opacity: 1; transform: translateY(0); }
+.meta-icon {
+  width: 17px; height: 17px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.meta-icon.fem  { background: var(--accent); }
+.meta-icon.masc { background: rgba(246,247,253,0.22); border: 1.2px solid rgba(246,247,253,0.4); }
+.meta-icon svg  { width: 9px; height: 9px; fill: #f6f7fd; }
+
+/* ── HUD ── */
+#hud {
+  position: fixed; bottom: 1.6rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 1.2rem;
+  z-index: 50; opacity: 0; transition: opacity 0.5s; pointer-events: none;
+}
+#hud.active { opacity: 1; pointer-events: auto; }
+.hud-pill {
+  background: var(--ink); color: var(--bg);
+  border-radius: 99px; padding: 0.45rem 1.1rem;
+  font-size: 0.74rem; letter-spacing: 0.08em; font-weight: 300;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.hud-sep { opacity: 0.3; }
+.hud-counter { color: var(--accent); font-weight: 600; }
+.hud-btn {
+  background: none; border: 1px solid var(--xsoft);
+  border-radius: 50%; width: 2.1rem; height: 2.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--ink);
+  transition: background 0.18s, border-color 0.18s;
+}
+.hud-btn:hover { background: var(--ink); color: var(--bg); }
+.hud-btn svg { width: 13px; height: 13px; }
+
+#btn-close {
+  position: fixed; top: 1.3rem; right: 1.5rem; z-index: 50;
+  background: none; border: 1px solid var(--xsoft);
+  border-radius: 50%; width: 2.1rem; height: 2.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--soft);
+  transition: all 0.18s; opacity: 0; pointer-events: none;
+}
+#btn-close.active { opacity: 1; pointer-events: auto; }
+#btn-close:hover { background: var(--ink); color: var(--bg); border-color: transparent; }
+#btn-close svg { width: 13px; height: 13px; }
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  position: fixed; inset: 0; background: rgba(6,37,64,0.9);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 400; opacity: 0; visibility: hidden;
+  transition: opacity 0.35s, visibility 0.35s;
+}
+#lightbox.open { opacity: 1; visibility: visible; }
+#lightbox img { max-width: 90dvw; max-height: 90dvh; object-fit: contain; }
+.lb-meta {
+  position: absolute; bottom: 1.4rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg); color: var(--ink);
+  border-radius: 99px; padding: 0.4rem 1.1rem;
+  font-size: 0.78rem; display: flex; align-items: center; gap: 0.55rem;
+}
+.lb-dot { width: 8px; height: 8px; border-radius: 50%; }
+.lb-dot.fem  { background: var(--accent); }
+.lb-dot.masc { background: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="clock-ring">
+    <ul id="clockUL"></ul>
+    <div class="clock-center"></div>
+  </div>
+  <div class="intro-hint">
+    <svg viewBox="0 0 14 14" fill="none">
+      <path d="M7 1v12M7 13L3 9M7 13l4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Presiona cualquier tecla para comenzar
+  </div>
+  <p class="intro-footer">Clínica de Geriatría · Dibujos del Reloj</p>
+</section>
+
+<!-- GALERÍA -->
+<div id="gallery-wrap">
+  <div class="h-outer">
+    <div class="h-inner" id="scrollInner"></div>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <button class="hud-btn" id="btnPrev">
+    <svg viewBox="0 0 13 13" fill="none"><path d="M8.5 1.5L3.5 6.5l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="hud-pill">
+    <span id="hudLabel">Reloj</span>
+    <span class="hud-sep">|</span>
+    <span class="hud-counter" id="hudCounter">1 / 1</span>
+  </div>
+  <button class="hud-btn" id="btnNext">
+    <svg viewBox="0 0 13 13" fill="none"><path d="M4.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+<button id="btn-close">
+  <svg viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+</button>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <img id="lbImg" src="" alt="">
+  <div class="lb-meta">
+    <span class="lb-dot" id="lbDot"></span>
+    <span id="lbText"></span>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// CONFIGURACIÓN — ajusta solo estos dos valores
+// ══════════════════════════════════════════════════════
+const GITHUB_USER = 'fguadarrama';
+const GITHUB_REPO = 'fguadarrama.com';
+const GITHUB_BRANCH = 'main';
+const GITHUB_PATH = 'clockart/relojes';
+const IMAGE_BASE  = 'relojes/';
+// ══════════════════════════════════════════════════════
+
+const DEPTH = ['', 'd-slow', 'd-fast', 'd-down', 'd-vert', 'd-far', 'd-slow', ''];
+const WORDS = ['12','I','II','III','IV','V','VI','VII','VIII','IX','X','XI'];
+const EXTS  = ['jpg','jpeg','webp','png','gif'];
+
+let images = [], currentIdx = 0, galleryShown = false;
+let ringRAF, ringRotation = 0, ringProgress = 0;
+
+// ── Parsear nombre de archivo ──
+function parseName(name) {
+  const base = name.replace(/\.[^.]+$/, '');
+  const m = base.match(/_([mh])(\d+)$/i);
+  if (!m) return { sex: null, age: null, sexCode: null };
+  const sc = m[1].toLowerCase();
+  return { sex: sc === 'm' ? 'Mujer' : 'Hombre', age: parseInt(m[2]), sexCode: sc };
+}
+
+// ── Obtener lista de imágenes via GitHub API ──
+async function fetchImageList() {
+  const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_PATH}?ref=${GITHUB_BRANCH}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+  const files = await res.json();
+  return files
+    .filter(f => f.type === 'file' && EXTS.includes(f.name.split('.').pop().toLowerCase()))
+    .map(f => f.name);
+}
+
+// ── Reloj circular animado ──
+function buildClockRing() {
+  const ul = document.getElementById('clockUL');
+  ul.innerHTML = '';
+  const sz = Math.min(window.innerWidth * 0.54, window.innerHeight * 0.54);
+  const r = sz / 2, sp = 13, step = 360 / WORDS.length;
+  WORDS.forEach((word, i) => {
+    const li = document.createElement('li');
+    li.style.transform = `rotate(${step * i}deg)`;
+    [...word].forEach((ch, j) => {
+      const s = document.createElement('span');
+      s.textContent = ch;
+      s.dataset.j = j; s.dataset.sc = j * 48;
+      s.dataset.r = r; s.dataset.sp = sp;
+      s.style.transform = `rotate(${j * 48}deg) translateX(${r}px) translateX(${j * sp}px)`;
+      li.appendChild(s);
+    });
+    ul.appendChild(li);
+  });
+}
+
+function updateLetters() {
+  document.querySelectorAll('#clockUL li span').forEach(s => {
+    const angle = +s.dataset.sc * (1 - ringProgress);
+    s.style.transform = `rotate(${angle}deg) translateX(${s.dataset.r}px) translateX(${+s.dataset.j * +s.dataset.sp}px)`;
+  });
+}
+
+function animateUnscramble(dur) {
+  const t0 = performance.now();
+  function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    ringProgress = 1 - Math.pow(1 - p, 3);
+    updateLetters();
+    if (p < 1) ringRAF = requestAnimationFrame(tick);
+    else startRotation();
+  }
+  ringRAF = requestAnimationFrame(tick);
+}
+
+function startRotation() {
+  let last = performance.now();
+  function rot(now) {
+    ringRotation = (ringRotation + (now - last) * 0.018) % 360;
+    last = now;
+    document.getElementById('clockUL').style.transform = `rotate(${ringRotation}deg)`;
+    ringRAF = requestAnimationFrame(rot);
+  }
+  ringRAF = requestAnimationFrame(rot);
+}
+
+// ── Construir galería ──
+function buildGallery() {
+  const c = document.getElementById('scrollInner');
+  c.innerHTML = '';
+  images.forEach((img, i) => {
+    const card = document.createElement('div');
+    card.className = `img-card ${DEPTH[i % DEPTH.length]}`;
+
+    const frame = document.createElement('div');
+    frame.className = 'img-frame';
+
+    const el = document.createElement('img');
+    el.src = IMAGE_BASE + img.name;
+    el.alt = img.sex ? `${img.sex}, ${img.age} años` : img.name;
+    el.loading = 'lazy';
+    frame.appendChild(el);
+
+    if (img.sex) {
+      const bbl = document.createElement('div');
+      bbl.className = 'meta-bubble';
+      const ico = document.createElement('div');
+      ico.className = `meta-icon ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
+      ico.innerHTML = `<svg viewBox="0 0 10 10"><circle cx="5" cy="3.2" r="1.9" fill="#f6f7fd"/><path d="M1.2 10c0-2.1 1.7-3.8 3.8-3.8s3.8 1.7 3.8 3.8" fill="#f6f7fd"/></svg>`;
+      const tx = document.createElement('span');
+      tx.textContent = `${img.sex} · ${img.age} años`;
+      bbl.append(ico, tx);
+      frame.appendChild(bbl);
+    }
+
+    card.appendChild(frame);
+    c.appendChild(card);
+
+    frame.addEventListener('click', ev => { ev.stopPropagation(); openLightbox(i); });
+    card.addEventListener('click', () => navigateTo(currentIdx + 1));
+  });
+  updateHUD();
+}
+
+// ── Navegación ──
+function navigateTo(idx) {
+  const n = images.length;
+  if (!n) return;
+  currentIdx = ((idx % n) + n) % n;
+  const inner = document.getElementById('scrollInner');
+  const cards = inner.querySelectorAll('.img-card');
+  if (cards[currentIdx])
+    inner.scrollTo({ top: cards[currentIdx].offsetTop - (inner.clientHeight - cards[currentIdx].offsetHeight) / 2, behavior: 'smooth' });
+  updateHUD();
+}
+
+function updateHUD() {
+  document.getElementById('hudCounter').textContent = `${currentIdx + 1} / ${images.length}`;
+  const img = images[currentIdx];
+  document.getElementById('hudLabel').textContent = img?.sex ? `${img.sex}, ${img.age} a.` : 'Reloj';
+}
+
+// ── Lightbox ──
+function openLightbox(i) {
+  const img = images[i];
+  document.getElementById('lbImg').src = IMAGE_BASE + img.name;
+  document.getElementById('lbDot').className = `lb-dot ${img.sexCode === 'm' ? 'fem' : 'masc'}`;
+  document.getElementById('lbText').textContent = img.sex ? `${img.sex} · ${img.age} años` : img.name;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget || e.target.id === 'lbImg') closeLightbox();
+});
+
+// ── Transiciones ──
+function showGallery() {
+  if (galleryShown || !images.length) return;
+  galleryShown = true;
+  if (ringRAF) cancelAnimationFrame(ringRAF);
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('gallery-wrap').classList.add('active');
+  document.getElementById('hud').classList.add('active');
+  document.getElementById('btn-close').classList.add('active');
+  setTimeout(() => navigateTo(0), 350);
+}
+
+function showIntro() {
+  galleryShown = false;
+  document.getElementById('intro').classList.remove('hidden');
+  document.getElementById('gallery-wrap').classList.remove('active');
+  document.getElementById('hud').classList.remove('active');
+  document.getElementById('btn-close').classList.remove('active');
+  ringProgress = 0; ringRotation = 0;
+  updateLetters();
+  document.getElementById('clockUL').style.transform = '';
+  animateUnscramble(1500);
+}
+
+// ── Teclado ──
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    return;
+  }
+  if (!images.length) return;
+  if (!galleryShown) {
+    if ([' ','Enter','ArrowRight','ArrowLeft','ArrowDown','ArrowUp'].includes(e.key)) {
+      e.preventDefault(); showGallery();
+    }
+    return;
+  }
+  switch(e.key) {
+    case 'ArrowRight': case 'ArrowDown': case 'Enter': case ' ':
+      e.preventDefault(); navigateTo(currentIdx + 1); break;
+    case 'ArrowLeft': case 'ArrowUp':
+      e.preventDefault(); navigateTo(currentIdx - 1); break;
+    case 'Escape': showIntro(); break;
+  }
+});
+
+document.getElementById('btnPrev').addEventListener('click', () => navigateTo(currentIdx - 1));
+document.getElementById('btnNext').addEventListener('click', () => navigateTo(currentIdx + 1));
+document.getElementById('btn-close').addEventListener('click', showIntro);
+
+// ── Swipe táctil ──
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) return;
+  if (!images.length) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (!galleryShown) { showGallery(); return; }
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) navigateTo(dx < 0 ? currentIdx + 1 : currentIdx - 1);
+}, {passive:true});
+
+// ── INIT ──
+(async function init() {
+  buildClockRing();
+  animateUnscramble(2200);
+
+  try {
+    const names = await fetchImageList();
+    if (!names.length) return; // No hay imágenes aún, el reloj sigue girando
+
+    images = names
+      .sort(() => Math.random() - 0.5)
+      .map(name => ({ name, ...parseName(name) }));
+
+    buildGallery();
+  } catch (err) {
+    console.warn('No se pudo cargar la lista de imágenes:', err.message);
+    // El reloj sigue funcionando; cuando haya imágenes en el repo aparecerán
+  }
+})();
+</script>
+</body>
+</html>
