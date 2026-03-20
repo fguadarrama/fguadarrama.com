@@ -487,7 +487,7 @@ function scaleAndPositionWatch() {
   const mobile = W < 640;
 
   // font-size en px: queremos que el reloj (30em) quepa bien
-  const maxPx  = Math.min(W, H) * (mobile ? 0.62 : 0.52);
+  const maxPx  = Math.min(W, H) * (mobile ? 0.52 : 0.52);
   const em     = maxPx / 30; // 30em = tamaño del reloj
   const watchW = 30 * em;    // px
 
@@ -501,13 +501,22 @@ function scaleAndPositionWatch() {
   wrap.style.top      = (cy - watchW/2) + 'px';
   wrap.style.position = 'absolute';
 
-  // Título a la derecha del reloj
+  // Título encima del reloj (mobile) o a la derecha (desktop)
   const title = document.getElementById('watch-title');
   if (mobile) {
+    const titleSize = Math.min(W * 0.11, 44);   // tamaño del texto
+    const gap       = titleSize * 2.8;           // espacio amplio entre título y reloj
+    const totalH    = titleSize + gap + watchW;
+    const blockTop  = Math.max(20, (H - totalH) / 2);
+
+    // Reloj: empieza justo después del espacio
+    wrap.style.top = (blockTop + titleSize + gap - watchW / 2) + 'px';
+
     title.style.left      = '50%';
-    title.style.top       = (cy - watchW/2 - 52) + 'px';
+    title.style.top       = blockTop + 'px';
     title.style.transform = 'translateX(-50%)';
-    title.style.fontSize  = 'clamp(1.8rem,8vw,3rem)';
+    title.style.fontSize  = titleSize + 'px';
+    title.style.lineHeight = '1.1';
   } else {
     title.style.left      = (cx + watchW/2 + 52) + 'px';
     title.style.top       = cy + 'px';
@@ -573,6 +582,19 @@ function buildScramble() {
 }
 
 /* ── Actualizar animación de scroll ── */
+function lockIntro() {
+  if (introLocked) return;
+  introLocked = true;
+  animEls.forEach(({ el }) => {
+    el.style.setProperty('--dx', '0px');
+    el.style.setProperty('--dy', '0px');
+    el.style.setProperty('--dr', '0deg');
+  });
+  document.getElementById('watch-title').style.opacity = '1';
+  document.getElementById('enter-btn').classList.add('ready');
+  setInterval(setHandAngles, 1000);
+}
+
 function updateScroll() {
   if (introLocked) return;
   const introH    = document.getElementById('intro').offsetHeight;
@@ -592,20 +614,15 @@ function updateScroll() {
   document.getElementById('watch-title').style.opacity  = Math.max(0, (rawT-0.8)/0.2);
   document.getElementById('enter-btn').classList.toggle('ready', rawT > 0.92);
 
-  if (rawT >= 1) {
-    introLocked = true;
-    // Limpiar scramble — elementos en posición exacta original
-    animEls.forEach(({ el }) => {
-      el.style.setProperty('--dx', '0px');
-      el.style.setProperty('--dy', '0px');
-      el.style.setProperty('--dr', '0deg');
-    });
-    document.getElementById('watch-title').style.opacity = '1';
-    document.getElementById('enter-btn').classList.add('ready');
-    // Tick del reloj cada segundo
-    setInterval(setHandAngles, 1000);
-  }
+  // Lock al 92%: funciona aunque el scroll no llegue exactamente al fondo
+  if (rawT >= 0.92) lockIntro();
 }
+
+// Segundo mecanismo de lock: cuando #about entra en viewport
+// (cubre el caso mobile donde el scroll puede saltarse el umbral)
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) lockIntro();
+}, { threshold: 0.05 }).observe(document.getElementById('intro-end'));
 
 /* ── Init ── */
 function initIntro() {
