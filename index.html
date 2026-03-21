@@ -466,6 +466,7 @@
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1.75rem 2rem;
+    position: relative;
     transition:
       transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
       box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -474,6 +475,141 @@
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(42, 45, 53, 0.1);
   }
+
+  /* Photo icon button */
+  .card-photo-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    line-height: 0;
+    opacity: 1;
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), filter 0.18s ease;
+  }
+  .card-photo-btn:hover {
+    transform: scale(1.18);
+    filter: drop-shadow(0 2px 6px rgba(31,81,98,0.35));
+  }
+  .card-photo-btn:active { transform: scale(0.95); }
+
+  /* Sonner-style image toast */
+  #photo-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(calc(-50% + 40px)) scale(0.94);
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    width: min(662px, calc(100vw - 2rem));
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.42s cubic-bezier(0.34, 1.28, 0.64, 1),
+      opacity   0.3s ease;
+  }
+  #photo-toast.visible {
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+  #photo-toast .toast-img-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  #photo-toast img {
+    width: 100%;
+    display: block;
+    max-height: 340px;
+    object-fit: cover;
+    transition: opacity 0.22s ease, transform 0.25s ease;
+  }
+  /* Nav arrows */
+  .toast-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.72);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    color: #1f5162;
+    opacity: 0;
+    transition: opacity 0.18s ease, background 0.15s ease, transform 0.18s ease;
+    z-index: 2;
+  }
+  .toast-nav svg { display: block; pointer-events: none; }
+  #toast-prev { left: 0.6rem; }
+  #toast-next { right: 0.6rem; }
+  .toast-img-wrap:hover .toast-nav { opacity: 1; }
+  .toast-nav:hover { background: rgba(255,255,255,0.95); transform: translateY(-50%) scale(1.1); }
+  .toast-nav:active { transform: translateY(-50%) scale(0.95); }
+  /* Dot indicators */
+  .toast-dots {
+    position: absolute;
+    bottom: 0.55rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 2;
+  }
+  .toast-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .toast-dot.active {
+    background: #fff;
+    transform: scale(1.25);
+  }
+  #photo-toast .toast-caption {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.5;
+    font-family: 'Ysabeau', sans-serif;
+    transition: opacity 0.18s ease;
+  }
+  #photo-toast .toast-close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.7rem;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #374151;
+    line-height: 1;
+    backdrop-filter: blur(4px);
+    transition: background 0.15s ease;
+    z-index: 3;
+  }
+  #photo-toast .toast-close:hover { background: rgba(255,255,255,1); }
 
   .card-body { flex: 1; }
   .card-date {
@@ -738,7 +874,7 @@
     <h2 class="section-title" data-en="Experience" data-es="Experiencia">Experience</h2>
     <div class="timeline">
 
-      <div class="card fade-in">
+      <div class="card fade-in" data-photos='["https://fguadarrama.com/pics/oncology1.webp","https://fguadarrama.com/pics/oncology2.webp"]' data-captions='["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud."]'>
         <!-- Add src to show -->
         <div class="card-body">
           <div class="card-date" data-en="Mar 2024 – Present" data-es="Mar 2024 – Presente">Mar 2024 – Present</div>
@@ -747,9 +883,10 @@
           <div class="card-loc">Tlalpan, Ciudad de México</div>
           <p data-en="Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation." data-es="Responsable de la coordinación académica, supervisión de residentes de menor jerarquía y apoyo operativo de los servicios clínicos en el principal centro de referencia de México. Participación activa en la atención oncológica multidisciplinaria y en la toma de decisiones clínicas complejas. Participación cotidiana en la planeación de servicios y asignación de recursos.">Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation.</p>
         </div>
+        <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
-      <div class="card fade-in">
+      <div class="card fade-in" data-photos='["https://fguadarrama.com/pics/IMfellowship1.webp"]' data-captions='["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]'>
         
         <div class="card-body">
           <div class="card-date">Mar 2020 – Feb 2024</div>
@@ -758,9 +895,10 @@
           <div class="card-loc">León, Guanajuato</div>
           <p data-en="Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM." data-es="Formación como especialista en un hospital universitario de referencia de tercer nivel. Responsable de atención a pacientes durante la pandemia de COVID-19. Acreditación académica por la UNAM.">Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM. Final GPA: 9.43/10.</p>
         </div>
+        <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
-      <div class="card fade-in">
+      <div class="card fade-in" data-photos='["https://fguadarrama.com/pics/clinicalinstructor1.webp"]' data-captions='["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."]'>
         
         <div class="card-body">
           <div class="card-date">Mar 2020 – Feb 2024</div>
@@ -769,6 +907,7 @@
           <div class="card-loc">León, Guanajuato</div>
           <p data-en="Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality." data-es="Supervisión y mentoría de estudiantes de medicina, coordinación de rotaciones hospitalarias y vinculación con servicios clínicos para asegurar la calidad de la formación.">Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality.</p>
         </div>
+        <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
       <div class="card fade-in">
@@ -793,7 +932,7 @@
         </div>
       </div>
 
-      <div class="card fade-in">
+      <div class="card fade-in" data-photos='["https://fguadarrama.com/pics/physician1.webp","https://fguadarrama.com/pics/physician2.webp"]' data-captions='["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit.","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa."]'>
         
         <div class="card-body">
           <div class="card-date">Jul 2017 – Aug 2018</div>
@@ -802,6 +941,7 @@
           <div class="card-loc">Capitán Luis A. Vidal, Chiapas</div>
           <p data-en="Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings." data-es="Responsable médico y operativo de una clínica rural. Provisión de más de 3,100 consultas médicas individuales; implementación de campañas de salud comunitaria y supervisión de personal de apoyo. Atención de alto nivel basada en evidencia en entornos con recursos altamente limitados.">Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings.</p>
         </div>
+        <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
       <div class="card fade-in">
@@ -1746,6 +1886,147 @@
   const _getStr = key => (_contactStrings[window._contactActiveLang || 'es'] || _contactStrings.es)[key];
 
   submitBtn.addEventListener('click', () => { window._contactActiveLang = document.documentElement.lang || 'es'; }, true);
+</script>
+
+<!-- PHOTO TOAST -->
+<div id="photo-toast" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="toast-close" id="toast-close" aria-label="Close">&#x2715;</button>
+  <div class="toast-img-wrap" id="toast-img-wrap">
+    <img id="toast-img" src="" alt="">
+    <button class="toast-nav" id="toast-prev" aria-label="Previous photo">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 11.5L4.5 7L9 2.5" stroke="#1f5162" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="toast-nav" id="toast-next" aria-label="Next photo">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 2.5L9.5 7L5 11.5" stroke="#1f5162" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="toast-dots" id="toast-dots"></div>
+  </div>
+  <div class="toast-caption" id="toast-caption"></div>
+</div>
+
+<script>
+(function () {
+  const toast      = document.getElementById('photo-toast');
+  const toastImg   = document.getElementById('toast-img');
+  const toastCap   = document.getElementById('toast-caption');
+  const toastClose = document.getElementById('toast-close');
+  const toastPrev  = document.getElementById('toast-prev');
+  const toastNext  = document.getElementById('toast-next');
+  const toastDots  = document.getElementById('toast-dots');
+
+  let currentPhotos   = [];
+  let currentCaptions = [];
+  let currentIndex    = 0;
+  let isOpen          = false;
+
+  /* ---- dots ---- */
+  function buildDots(count) {
+    toastDots.innerHTML = '';
+    if (count < 2) return;
+    for (let i = 0; i < count; i++) {
+      const d = document.createElement('button');
+      d.className = 'toast-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Photo ' + (i + 1));
+      d.addEventListener('click', e => { e.stopPropagation(); goTo(i); });
+      toastDots.appendChild(d);
+    }
+  }
+
+  function updateDots(index) {
+    toastDots.querySelectorAll('.toast-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+  }
+
+  function updateNav(count) {
+    const show = count > 1;
+    toastPrev.style.display = show ? '' : 'none';
+    toastNext.style.display = show ? '' : 'none';
+  }
+
+  /* ---- photo swap ---- */
+  function goTo(index) {
+    if (index === currentIndex) return;
+    currentIndex = (index + currentPhotos.length) % currentPhotos.length;
+    toastImg.style.opacity   = '0';
+    toastImg.style.transform = 'scale(0.97)';
+    toastCap.style.opacity   = '0';
+    setTimeout(() => {
+      toastImg.src             = currentPhotos[currentIndex];
+      toastImg.alt             = currentCaptions[currentIndex] || '';
+      toastCap.textContent     = currentCaptions[currentIndex] || '';
+      toastImg.style.opacity   = '1';
+      toastImg.style.transform = 'scale(1)';
+      toastCap.style.opacity   = '1';
+      updateDots(currentIndex);
+    }, 220);
+  }
+
+  /* ---- open / close ---- */
+  function showToast(photos, captions, index) {
+    currentPhotos   = photos;
+    currentCaptions = captions;
+    currentIndex    = index;
+    isOpen          = true;
+
+    toastImg.src          = photos[index];
+    toastImg.alt          = captions[index] || '';
+    toastCap.textContent  = captions[index] || '';
+    toastImg.style.opacity   = '1';
+    toastImg.style.transform = 'scale(1)';
+    toastCap.style.opacity   = '1';
+
+    buildDots(photos.length);
+    updateDots(index);
+    updateNav(photos.length);
+
+    toast.classList.remove('visible');
+    void toast.offsetWidth;
+    toast.classList.add('visible');
+  }
+
+  function hideToast() {
+    isOpen = false;
+    toast.classList.remove('visible');
+    setTimeout(() => { toastImg.src = ''; }, 450);
+  }
+
+  /* ---- arrow clicks ---- */
+  toastPrev.addEventListener('click', e => { e.stopPropagation(); goTo(currentIndex - 1); });
+  toastNext.addEventListener('click', e => { e.stopPropagation(); goTo(currentIndex + 1); });
+
+  /* ---- keyboard ---- */
+  document.addEventListener('keydown', e => {
+    if (!isOpen) return;
+    if (e.key === 'Escape') hideToast();
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(currentIndex - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(currentIndex + 1); }
+  });
+
+  /* ---- card icon buttons ---- */
+  document.querySelectorAll('.card-photo-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const card     = btn.closest('[data-photos]');
+      const photos   = JSON.parse(card.dataset.photos   || '[]');
+      const captions = JSON.parse(card.dataset.captions || '[]');
+      if (!photos.length) return;
+      if (isOpen && toastImg.src.includes(photos[0].split('/').pop().split('.')[0])) {
+        hideToast(); return;
+      }
+      showToast(photos, captions, 0);
+    });
+  });
+
+  toastClose.addEventListener('click', hideToast);
+  document.addEventListener('click', e => {
+    if (isOpen && !toast.contains(e.target)) hideToast();
+  });
+})();
 </script>
 
 <!-- FOOTER -->
