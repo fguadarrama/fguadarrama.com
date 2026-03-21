@@ -366,30 +366,79 @@
     align-items: center;
   }
   .linkedin-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    font-size: 1rem;
-    font-weight: 500;
+    gap: 4px;
+    padding: 0.55rem 2rem;
+    border: 2px solid transparent;
+    font-size: 0.95rem;
+    font-weight: 600;
     color: var(--accent);
     text-decoration: none;
-    padding: 0.5rem 1.1rem;
-    border: 1.5px solid var(--accent);
-    border-radius: 6px;
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: transparent;
+    border-radius: 100px;
+    box-shadow: 0 0 0 1.5px var(--accent);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    letter-spacing: 0.03em;
+  }
+  .linkedin-btn svg.arr-1,
+  .linkedin-btn svg.arr-2 {
+    position: absolute;
+    width: 18px;
+    fill: var(--accent);
+    z-index: 9;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    flex-shrink: 0;
+  }
+  .linkedin-btn svg.arr-1 { right: 14px; }
+  .linkedin-btn svg.arr-2 { left: -25%; }
+  .linkedin-btn .li-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .linkedin-btn .li-text {
+    position: relative;
+    z-index: 1;
+    transform: translateX(-10px);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .linkedin-btn .li-text svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--accent);
+    transition: fill 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    flex-shrink: 0;
   }
   .linkedin-btn:hover {
-    background: var(--accent);
+    box-shadow: 0 0 0 10px transparent;
     color: #fff;
-    transform: scale(1.06);
+    border-radius: 10px;
   }
-  .linkedin-btn:hover svg { fill: #fff; }
-  .linkedin-btn svg {
-    width: 18px;
-    height: 18px;
-    fill: var(--accent);
-    transition: fill 0.2s;
+  .linkedin-btn:hover svg.arr-1 { right: -25%; }
+  .linkedin-btn:hover svg.arr-2 { left: 14px; fill: #fff; }
+  .linkedin-btn:hover .li-text { transform: translateX(10px); }
+  .linkedin-btn:hover .li-text svg { fill: #fff; }
+  .linkedin-btn:hover svg.arr-1 { fill: #fff; }
+  .linkedin-btn:hover .li-circle {
+    width: 240px;
+    height: 240px;
+    opacity: 1;
   }
+  .linkedin-btn:active { scale: 0.95; }
 
   /* ---- SECTIONS ---- */
   section { padding: 4rem 1.5rem; }
@@ -671,8 +720,13 @@
     <p data-en="Physician, board-certified in Internal Medicine and currently training in Medical Oncology, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization. Track record in clinical governance, supervision of health workers, and delivery of care under resource constraints. Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education." data-es="Médico, especialista en Medicina Interna, actualmente residente de Oncología Médica, con experiencia de liderazgo en centros nacionales de referencia y sistemas de salud que atienden poblaciones en situación de marginación extrema. Trayectoria en gobernanza clínica, supervisión de trabajadores de salud y prestación de atención bajo restricciones significativas de recursos. Enfoque profesional en acceso a tratamientos oncológicos de alto costo, toma de decisiones basadas en valor y fortalecimiento de sistemas de salud en países de ingresos bajos y medios.">Physician, board-certified in Internal Medicine and currently training in Medical Oncology, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization. Track record in clinical governance, supervision of health workers, and delivery of care under resource constraints. Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education.</p>
     <div class="hero-contact">
       <a class="linkedin-btn" href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
+        <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+        <span class="li-text">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </span>
+        <span class="li-circle"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
       </a>
     </div>
   </div>
