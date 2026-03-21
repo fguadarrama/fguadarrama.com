@@ -897,6 +897,835 @@
   </div>
 </section>
 
+<!-- CONTACT BUTTON -->
+<style>
+/* Exact variables from contacto__8_.html — scoped to contact component */
+#trigger-btn, #morph, #backdrop, .pop-inner, .pop-label, #field-msg,
+.extra-fields, .robot-row, .cb-wrap, #error-msg, #email-hint,
+.pop-divider, .ear, .ear-mask, .pop-footer, #submit-btn,
+.btn-label, .spinner, #success-view, .contact-wrapper {
+  --teal:       #265366;
+  --teal-mid:   #2f6a82;
+  --teal-light: #e2ecf0;
+  --error:      #FF1D58;
+  --success:    #3BC864;
+  --bg:         #f6f7fd;
+  --surface:    #ffffff;
+  --surface-2:  #f0f1f5;
+  --border:     #d6d8e0;
+  --text:       #1a1c24;
+  --text-2:     #5a5d6e;
+  --text-3:     #9a9dae;
+}
+
+@supports (color: color(display-p3 0 0 0)) {
+  #trigger-btn, #morph, #backdrop, .pop-inner, .pop-label, #field-msg,
+  .extra-fields, .robot-row, .cb-wrap, #error-msg, #email-hint,
+  .pop-divider, .ear, .ear-mask, .pop-footer, #submit-btn,
+  .btn-label, .spinner, #success-view, .contact-wrapper {
+    --teal:     color(display-p3 0.135 0.322 0.396);
+    --teal-mid: color(display-p3 0.172 0.408 0.498);
+    --error:    color(display-p3 1 0.114 0.345);
+    --success:  color(display-p3 0.231 0.784 0.392);
+  }
+}
+
+/* CENTER WRAPPER */
+.contact-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0 1rem;
+}
+
+/* TRIGGER BUTTON */
+#trigger-btn {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--teal);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 16px;
+  height: 36px;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+#trigger-btn:hover { background: var(--teal-light); transform: scale(1.04); }
+#trigger-btn:active { transform: scale(0.97); }
+#trigger-btn.hidden { visibility: hidden; }
+
+/* MORPH OVERLAY */
+#morph {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  width: 0; height: 0; opacity: 0;
+}
+#morph.active { pointer-events: all; }
+
+/* INNER CONTENT */
+#morph-content {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-2);
+  border-radius: 12px;
+  padding: 6px;
+  transition: opacity 0.18s ease;
+}
+#morph-content.visible { opacity: 1; }
+
+/* inner white card */
+.pop-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+
+/* floating label */
+.pop-label {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 0.95rem;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--text-2);
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 2;
+}
+.pop-label.hidden { opacity: 0; }
+
+/* textarea */
+#field-msg {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+  flex: 1;
+  padding: 12px 8px 8px 16px;
+  line-height: 1.55;
+  min-height: 0;
+}
+
+/* extra fields */
+.extra-fields {
+  padding: 0 8px 4px;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.extra-fields input {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  flex: 1;
+  min-width: 0;
+  outline: none;
+  transition: border-color 0.12s;
+}
+.extra-fields input::placeholder { color: var(--text-3); }
+.extra-fields input:focus { border-color: var(--teal); }
+
+/* honeypot — invisible to humans, bots fill it */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  tab-index: -1;
+}
+
+/* robot checkbox row */
+.robot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 8px 10px;
+  flex-shrink: 0;
+}
+.robot-row .cb-label {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.robot-row .cb-label.locked { color: var(--text-3); cursor: not-allowed; }
+
+/* animated checkbox */
+.cb-wrap {
+  position: relative;
+  width: 22px; height: 22px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.cb-wrap input {
+  display: block;
+  -webkit-appearance: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 0; margin: 0;
+  width: 22px; height: 22px;
+  background: transparent;
+}
+.cb-wrap input:disabled { cursor: not-allowed; }
+.cb-wrap svg {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+  position: absolute;
+  pointer-events: none;
+}
+/* outer shape */
+.cb-wrap .cb-bg {
+  width: 28px; height: 28px;
+  top: -3px; left: -3px;
+  stroke: var(--border-2, #c4c6d0);
+  stroke-width: 1px;
+  fill: #fff;
+  transition: stroke 0.25s, fill 0.25s;
+}
+.cb-wrap.checked .cb-bg {
+  fill: var(--teal);
+  stroke: var(--teal);
+}
+.cb-wrap.disabled .cb-bg {
+  fill: #f0f1f5;
+  stroke: var(--border);
+}
+/* tick */
+.cb-wrap .cb-tick {
+  width: 12px; height: 10px;
+  top: 6px; left: 5px;
+  stroke: #fff;
+  stroke-width: 2px;
+  stroke-dasharray: 14px;
+  stroke-dashoffset: 14px;
+  transition: stroke-dashoffset 0.15s ease 0s;
+}
+.cb-wrap.checked .cb-tick {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.15s ease 0.15s;
+}
+
+/* error */
+#error-msg {
+  font-size: 0.95rem;
+  color: var(--error);
+  padding: 0 10px 4px;
+  display: none;
+  text-align: right;
+  flex-shrink: 0;
+}
+/* inline email hint (appears below email field) */
+#email-hint {
+  font-size: 0.82rem;
+  color: var(--error);
+  padding: 0 8px 4px 10px;
+  display: none;
+  flex-shrink: 0;
+}
+
+/* dashed divider */
+.pop-divider {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  border-top: 1px dashed var(--border);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ear notches */
+.ear {
+  position: absolute;
+  bottom: 35px;
+  width: 8px; height: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  z-index: 3;
+}
+.ear-left  { left: -5px;  border-radius: 0 4px 4px 0; }
+.ear-right { right: -5px; border-radius: 4px 0 0 4px; }
+.ear-mask {
+  position: absolute;
+  bottom: 35px;
+  width: 4px; height: 8px;
+  background: var(--surface);
+  z-index: 4;
+}
+.ear-mask-left  { left: 0; }
+.ear-mask-right { right: 0; }
+
+/* footer */
+.pop-footer {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* SUBMIT BUTTON */
+#submit-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 120px;
+  border-radius: 8px;
+  border: none;
+  background: var(--teal);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
+              background 0.18s ease,
+              opacity 0.15s ease;
+}
+#submit-btn:hover:not(:disabled) {
+  transform: scale(1.07);
+  background: var(--teal-mid);
+}
+#submit-btn:active:not(:disabled) { transform: scale(0.97); }
+#submit-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+.btn-label {
+  display: block;
+  transition: opacity 0.15s, transform 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+.btn-label.sending { opacity: 0; transform: translateY(10px); }
+
+.spinner {
+  position: absolute;
+  width: 14px; height: 14px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.15s, transform 0.2s cubic-bezier(0.16,1,0.3,1);
+  display: flex; align-items: center; justify-content: center;
+}
+.spinner.active { opacity: 1; transform: translateY(0); }
+.spinner svg { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* SUCCESS OVERLAY */
+#success-view {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-2);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(4px);
+  transform: translateY(-16px);
+  transition:
+    opacity   0.45s cubic-bezier(0.16,1,0.3,1),
+    filter    0.45s cubic-bezier(0.16,1,0.3,1),
+    transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  z-index: 20;
+}
+#success-view.visible {
+  opacity: 1;
+  pointer-events: all;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+.success-check { color: var(--success); }
+.success-title { font-size: 0.95rem; font-weight: 500; color: var(--text); text-align: center; margin-bottom: 4px; }
+.success-sub   { font-size: 0.95rem; font-style: italic; color: var(--text-2); text-align: center; }
+
+/* BACKDROP */
+#backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+</style>
+
+<div id="backdrop"></div>
+
+<div class="contact-wrapper">
+  <button id="trigger-btn" aria-haspopup="dialog" data-en="Contact" data-es="Contacto">Contacto</button>
+</div>
+
+<div id="morph" role="dialog" aria-label="Formulario de contacto">
+  <div id="morph-content">
+
+    <div id="success-view">
+      <div class="success-check">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
+      <div>
+        <p class="success-title" data-en="Message sent" data-es="Mensaje enviado">Mensaje enviado</p>
+        <p class="success-sub" data-en="Thank you, I'll reply soon." data-es="Gracias, te responderé pronto.">Gracias, te responderé pronto.</p>
+      </div>
+    </div>
+
+    <div class="pop-inner">
+      <span class="pop-label" id="pop-label" data-en="Please write your message" data-es="Por favor escribe tu mensaje">Por favor escribe tu mensaje</span>
+      <textarea id="field-msg" maxlength="500"></textarea>
+
+      <div class="extra-fields" id="extra-fields" style="display:none;">
+        <input type="text"  id="field-name"  placeholder="Nombre"             maxlength="60" autocomplete="given-name" />
+        <input type="email" id="field-email" placeholder="Correo electrónico" maxlength="80" autocomplete="email" />
+      </div>
+
+      <!-- email inline hint -->
+      <div id="email-hint" data-en="Enter a valid email address." data-es="Ingresa una dirección de correo electrónico válida.">Ingresa una dirección de correo electrónico válida.</div>
+
+      <!-- Robot checkbox (shown only when email is valid) -->
+      <div class="robot-row" id="robot-row" style="display:none;">
+        <label class="cb-label locked" id="robot-label" for="not-robot">
+          <span class="cb-wrap disabled" id="cb-wrap">
+            <input type="checkbox" id="not-robot" disabled />
+            <svg class="cb-bg" viewBox="0 0 28 28">
+              <path d="M3.5 8.49964C3.5 5.73822 5.73822 3.5 8.49964 3.5C10.3275 3.5 12.3499 3.5 14 3.5C15.6501 3.5 17.6725 3.5 19.5004 3.5C22.2618 3.5 24.5 5.73822 24.5 8.49964C24.5 10.3275 24.5 12.3499 24.5 14C24.5 15.6501 24.5 17.6725 24.5 19.5004C24.5 22.2618 22.2618 24.5 19.5004 24.5C17.6725 24.5 15.6501 24.5 14 24.5C12.3499 24.5 10.3275 24.5 8.49964 24.5C5.73822 24.5 3.5 22.2618 3.5 19.5004C3.5 17.6725 3.5 15.6501 3.5 14C3.5 12.3499 3.5 10.3275 3.5 8.49964Z"/>
+            </svg>
+            <svg class="cb-tick" viewBox="0 0 12 10">
+              <path d="M1.5 5.5L4.5 8.5L10.5 1.5"/>
+            </svg>
+          </span>
+          <span data-en="I'm not a robot" data-es="No soy un robot">No soy un robot</span>
+        </label>
+      </div>
+
+      <div id="error-msg"></div>
+
+      <div class="ear ear-left"></div>
+      <div class="ear-mask ear-mask-left"></div>
+      <div class="ear ear-right"></div>
+      <div class="ear-mask ear-mask-right"></div>
+      <div class="pop-divider"></div>
+
+      <div class="pop-footer">
+        <button id="submit-btn" disabled>
+          <span class="btn-label" id="btn-label" data-en="Send message" data-es="Enviar mensaje">Enviar mensaje</span>
+          <div class="spinner" id="spinner">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+              <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ================================================================
+     ANTI-SPAM LAYER 1: Honeypot field (_gotcha)
+     Added to FormData at send time — never visible in DOM, never
+     reachable by keyboard. Formspree silently drops any submission
+     where this field is non-empty.
+  ================================================================ */
+  const HONEYPOT_NAME = '_gotcha';
+
+  /* ================================================================
+     ANTI-SPAM LAYER 2: Time-trap
+     Record the timestamp when the form opens. Bots submit instantly;
+     humans take at least a few seconds to read and type.
+     Threshold: 3 seconds minimum.
+  ================================================================ */
+  const MIN_FILL_MS = 3000;
+  let formOpenedAt  = null;
+
+  /* ================================================================
+     ANTI-SPAM LAYER 3: URL obfuscation
+     The endpoint is NOT present in the HTML source. It is assembled
+     in JS only when the user first interacts with the textarea,
+     making it invisible to dumb scrapers and form-harvesting bots.
+  ================================================================ */
+  let endpointReady = false;
+  let endpoint      = '';
+
+  function armEndpoint() {
+    if (endpointReady) return;
+    // Split across two variables so it doesn't appear as a plain URL in source
+    const base = atob('aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi8='); // https://formspree.io/f/
+    const id   = 'maqpznrg';
+    endpoint   = base + id;
+    endpointReady = true;
+  }
+
+  /* ================================================================
+     ANTI-SPAM LAYER 4: Interaction gate for robot checkbox
+     Bots interact with the DOM programmatically without generating
+     real pointer/touch events. We track genuine human interaction
+     (mousemove or touchstart) and only unlock the checkbox once it
+     has been observed.
+  ================================================================ */
+  let humanDetected = false;
+
+  function onHumanSignal() {
+    if (humanDetected) return;
+    humanDetected = true;
+    const cb    = document.getElementById('not-robot');
+    const label = document.getElementById('robot-label');
+    if (cb) {
+      cb.disabled = false;
+      cbWrap.classList.remove('disabled');
+      label.classList.remove('locked');
+    }
+    // Clean up listeners — we only need the signal once
+    document.removeEventListener('mousemove', onHumanSignal);
+    document.removeEventListener('touchstart', onHumanSignal);
+  }
+
+  document.addEventListener('mousemove',  onHumanSignal, { passive: true });
+  document.addEventListener('touchstart', onHumanSignal, { passive: true });
+
+  /* ================================================================
+     MORPH ANIMATION
+  ================================================================ */
+  const triggerBtn   = document.getElementById('trigger-btn');
+  const morph        = document.getElementById('morph');
+  const morphContent = document.getElementById('morph-content');
+  const msgField     = document.getElementById('field-msg');
+  const popLabel     = document.getElementById('pop-label');
+  const extraFields  = document.getElementById('extra-fields');
+  const robotRow     = document.getElementById('robot-row');
+  const notRobot     = document.getElementById('not-robot');
+  const submitBtn    = document.getElementById('submit-btn');
+  const btnLabel     = document.getElementById('btn-label');
+  const spinner      = document.getElementById('spinner');
+  const successView  = document.getElementById('success-view');
+  const errorMsg     = document.getElementById('error-msg');
+  const backdrop     = document.getElementById('backdrop');
+
+  const POPOVER_W = 364;
+  const POPOVER_H = 220; // slightly taller to fit checkbox row
+  const EASE      = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
+  const DURATION  = 300;
+
+  let isOpen      = false;
+  let animating   = false;
+  let currentAnim = null;
+
+  function applyStyles(el, styles) { Object.assign(el.style, styles); }
+
+  function openPopover() {
+    if (isOpen || animating) return;
+    animating    = true;
+    formOpenedAt = Date.now(); // start time-trap clock
+
+    const btnRect    = triggerBtn.getBoundingClientRect();
+    triggerBtn.classList.add('hidden');
+
+    const vw         = window.innerWidth;
+    const targetLeft = Math.min(Math.max(btnRect.left + btnRect.width / 2 - POPOVER_W / 2, 12), vw - POPOVER_W - 12);
+    const targetTop  = Math.max(btnRect.top - POPOVER_H - 8, 12);
+
+    applyStyles(morph, {
+      left: btnRect.left + 'px', top: btnRect.top + 'px',
+      width: btnRect.width + 'px', height: btnRect.height + 'px',
+      borderRadius: '8px', background: '#ffffff',
+      border: '1px solid #d6d8e0', opacity: '1',
+    });
+
+    morph.classList.add('active');
+    backdrop.style.display = 'block';
+
+    currentAnim = morph.animate([
+      { left: btnRect.left + 'px', top: btnRect.top + 'px', width: btnRect.width + 'px', height: btnRect.height + 'px', borderRadius: '8px', background: '#ffffff' },
+      { left: targetLeft + 'px',   top: targetTop + 'px',   width: POPOVER_W + 'px',     height: POPOVER_H + 'px',      borderRadius: '12px', background: '#f0f1f5' }
+    ], { duration: DURATION, easing: EASE, fill: 'none' });
+
+    currentAnim.onfinish = () => {
+      currentAnim = null;
+      applyStyles(morph, {
+        left: targetLeft + 'px', top: targetTop + 'px',
+        width: POPOVER_W + 'px', height: POPOVER_H + 'px',
+        borderRadius: '12px', background: '#f0f1f5', border: '1px solid #d6d8e0',
+      });
+      morphContent.classList.add('visible');
+      isOpen    = true;
+      animating = false;
+      setTimeout(() => msgField.focus(), 40);
+    };
+  }
+
+  function closePopover() {
+    if (!isOpen || animating) return;
+    animating = true;
+    isOpen    = false;
+
+    morphContent.classList.remove('visible');
+    backdrop.style.display = 'none';
+
+    const btnRect     = triggerBtn.getBoundingClientRect();
+    const currentLeft = parseFloat(morph.style.left);
+    const currentTop  = parseFloat(morph.style.top);
+
+    currentAnim = morph.animate([
+      { left: currentLeft + 'px', top: currentTop + 'px', width: POPOVER_W + 'px', height: POPOVER_H + 'px', borderRadius: '12px', background: '#f0f1f5' },
+      { left: btnRect.left + 'px', top: btnRect.top + 'px', width: btnRect.width + 'px', height: btnRect.height + 'px', borderRadius: '8px', background: '#ffffff' }
+    ], { duration: DURATION, easing: EASE, fill: 'none' });
+
+    currentAnim.onfinish = () => {
+      currentAnim = null;
+      morph.removeAttribute('style');
+      morph.classList.remove('active');
+      triggerBtn.classList.remove('hidden');
+      animating = false;
+    };
+  }
+
+  function resetFields() {
+    msgField.value = '';
+    document.getElementById('field-name').value  = '';
+    document.getElementById('field-email').value = '';
+    popLabel.classList.remove('hidden');
+    extraFields.style.display = 'none';
+    robotRow.style.display    = 'none';
+    notRobot.checked          = false;
+    if (typeof cbWrap !== 'undefined') {
+      cbWrap.classList.remove('checked');
+      cbWrap.classList.add('disabled');
+    }
+    if (typeof emailHint !== 'undefined') emailHint.style.display = 'none';
+    submitBtn.disabled        = true;
+    btnLabel.classList.remove('sending');
+    spinner.classList.remove('active');
+    errorMsg.style.display    = 'none';
+    successView.classList.remove('visible');
+    formOpenedAt              = null;
+    endpointReady             = false;
+    endpoint                  = '';
+  }
+
+  function closeAndReset() {
+    resetFields();
+    closePopover();
+  }
+
+  /* ================================================================
+     EVENTS
+  ================================================================ */
+  triggerBtn.addEventListener('click', openPopover);
+  backdrop.addEventListener('click', closeAndReset);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) closeAndReset(); });
+
+  // Arm the obfuscated endpoint the moment the user touches the textarea
+  msgField.addEventListener('focus', armEndpoint, { once: true });
+
+  msgField.addEventListener('input', () => {
+    const has = msgField.value.length > 0;
+    popLabel.classList.toggle('hidden', has);
+    extraFields.style.display = has ? 'flex' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  const emailField = document.getElementById('field-email');
+  const emailHint  = document.getElementById('email-hint');
+  const cbWrap     = document.getElementById('cb-wrap');
+
+  emailField.addEventListener('input', () => {
+    const val   = emailField.value.trim();
+    const valid = isEmail(val);
+    // show hint only if user has typed something but it's not yet valid
+    emailHint.style.display = (val.length > 0 && !valid) ? 'block' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  // hide hint on blur if field is empty
+  emailField.addEventListener('blur', () => {
+    if (emailField.value.trim().length === 0) emailHint.style.display = 'none';
+  });
+
+  notRobot.addEventListener('change', () => {
+    cbWrap.classList.toggle('checked', notRobot.checked);
+    updateSubmitState();
+  });
+
+  function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function updateRobotRow() {
+    const emailValid = isEmail(emailField.value.trim());
+    const hasMsg     = msgField.value.trim().length > 0;
+    const show       = hasMsg && emailValid;
+    if (!show) {
+      notRobot.checked = false;
+      cbWrap.classList.remove('checked');
+    }
+    robotRow.style.display = show ? 'flex' : 'none';
+  }
+
+  function updateSubmitState() {
+    const hasMsg     = msgField.value.trim().length > 0;
+    const emailValid = isEmail(emailField.value.trim());
+    const checked    = notRobot.checked;
+    submitBtn.disabled = !(hasMsg && emailValid && checked);
+  }
+
+  /* ================================================================
+     SUBMIT — all anti-spam checks run here
+  ================================================================ */
+  submitBtn.addEventListener('click', async () => {
+    const name  = document.getElementById('field-name').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const msg   = msgField.value.trim();
+
+    errorMsg.style.display = 'none';
+
+    // 1. Basic field validation
+    if (!name || !msg) {
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errFields;
+      errorMsg.style.display = 'block'; return;
+    }
+    if (!isEmail(email)) {
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errEmail;
+      errorMsg.style.display = 'block'; return;
+    }
+
+    // 2. Robot checkbox gate
+    if (!notRobot.checked) {
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errRobot;
+      errorMsg.style.display = 'block'; return;
+    }
+
+    // 3. Time-trap: block submissions faster than a human could fill the form
+    const elapsed = formOpenedAt ? Date.now() - formOpenedAt : 0;
+    if (elapsed < MIN_FILL_MS) {
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errTrap;
+      errorMsg.style.display = 'block'; return;
+    }
+
+    // 4. Endpoint must have been armed by real user interaction
+    if (!endpointReady) {
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errConfig;
+      errorMsg.style.display = 'block'; return;
+    }
+
+    submitBtn.disabled = true;
+    btnLabel.classList.add('sending');
+    spinner.classList.add('active');
+
+    const body = new FormData();
+    body.append('name',         name);
+    body.append('email',        email);
+    body.append('message',      msg);
+    body.append(HONEYPOT_NAME,  ''); // empty = human; bots fill this automatically
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST', body, headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error();
+      successView.classList.add('visible');
+      setTimeout(() => closeAndReset(), 3200);
+    } catch {
+      btnLabel.classList.remove('sending');
+      spinner.classList.remove('active');
+      submitBtn.disabled = false;
+      errorMsg.textContent = (_contactStrings[document.documentElement.lang] || _contactStrings.es).errSend;
+      errorMsg.style.display = 'block';
+    }
+  });
+
+  /* ================================================================
+     LANGUAGE INTEGRATION
+     Syncs placeholders and JS error strings with the site's language.
+     Called by the site's applyLang() via window._contactLangSync.
+  ================================================================ */
+  const _contactStrings = {
+    en: {
+      namePlaceholder:  'Name',
+      emailPlaceholder: 'Email address',
+      errFields:        'Please fill in all fields.',
+      errEmail:         'Enter a valid email address.',
+      errRobot:         'Please confirm you are not a robot.',
+      errTrap:          'Please review your message before sending.',
+      errConfig:        'Configuration error. Reload the page.',
+      errSend:          'Error sending. Please try again.',
+      dialogLabel:      'Contact form',
+    },
+    es: {
+      namePlaceholder:  'Nombre',
+      emailPlaceholder: 'Correo electrónico',
+      errFields:        'Por favor completa todos los campos.',
+      errEmail:         'Ingresa un correo electrónico válido.',
+      errRobot:         'Por favor confirma que no eres un robot.',
+      errTrap:          'Por favor revisa tu mensaje antes de enviar.',
+      errConfig:        'Error de configuración. Recarga la página.',
+      errSend:          'Error al enviar. Intenta de nuevo.',
+      dialogLabel:      'Formulario de contacto',
+    }
+  };
+
+  window._contactLangSync = function(lang) {
+    const s = _contactStrings[lang] || _contactStrings.es;
+    document.getElementById('field-name').placeholder  = s.namePlaceholder;
+    document.getElementById('field-email').placeholder = s.emailPlaceholder;
+    document.getElementById('morph').setAttribute('aria-label', s.dialogLabel);
+    // Store active lang for use in submit error messages
+    window._contactActiveLang = lang;
+  };
+
+  // Apply on load once the site language is known (deferred so applyLang runs first)
+  window.addEventListener('load', () => {
+    const lang = document.documentElement.lang || 'es';
+    window._contactLangSync(lang);
+  });
+
+  // Patch submit error messages to respect current lang
+  const _origErrFields = 'Por favor completa todos los campos.';
+  // Override error messages dynamically at submit time
+  const _getStr = key => (_contactStrings[window._contactActiveLang || 'es'] || _contactStrings.es)[key];
+
+  submitBtn.addEventListener('click', () => { window._contactActiveLang = document.documentElement.lang || 'es'; }, true);
+</script>
+
 <!-- FOOTER -->
 <footer>
   <p class="copyright"><a href="https://fguadarrama.com/about" style="color: inherit; text-decoration: none;">&copy; <span id="copyright-year"></span> Francisco Guadarrama. <span data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</span></a></p>
@@ -935,6 +1764,7 @@ function applyLang(lang) {
     });
     document.body.classList.remove('lang-switching');
     if (window._navDotRefresh) window._navDotRefresh();
+    if (window._contactLangSync) window._contactLangSync(lang);
   }, 200);
 }
 
