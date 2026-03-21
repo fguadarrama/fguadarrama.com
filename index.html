@@ -941,18 +941,37 @@
 #trigger-btn {
   font-family: inherit;
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.01em;
-  color: var(--teal);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  color: #F5F7F8;
+  background: #1f5162;
+  border: 1px solid #1f5162;
   border-radius: 8px;
   padding: 5px 16px;
   height: 36px;
   cursor: pointer;
-  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
 }
-#trigger-btn:hover { background: var(--teal-light); transform: scale(1.04); }
+@supports (color: color(display-p3 0 0 0)) {
+  #trigger-btn {
+    color: color(display-p3 0.961 0.969 0.973);
+    background: color(display-p3 0.118 0.318 0.384);
+    border-color: color(display-p3 0.118 0.318 0.384);
+  }
+}
+#trigger-btn:hover {
+  color: #1f5162;
+  background: #F5F7F8;
+  border-color: #1f5162;
+  transform: scale(1.04);
+}
+@supports (color: color(display-p3 0 0 0)) {
+  #trigger-btn:hover {
+    color: color(display-p3 0.118 0.318 0.384);
+    background: color(display-p3 0.961 0.969 0.973);
+    border-color: color(display-p3 0.118 0.318 0.384);
+  }
+}
 #trigger-btn:active { transform: scale(0.97); }
 #trigger-btn.hidden { visibility: hidden; }
 
@@ -1318,7 +1337,7 @@
       </div>
 
       <!-- email inline hint -->
-      <div id="email-hint" data-en="Enter a valid email address." data-es="Ingresa una dirección de correo electrónico válida.">Ingresa una dirección de correo electrónico válida.</div>
+      <div id="email-hint" data-en="Please enter a valid e-mail address." data-es="Por favor ingresa una dirección de correo electrónico válida.">Por favor ingresa una dirección de correo electrónico válida.</div>
 
       <!-- Robot checkbox (shown only when email is valid) -->
       <div class="robot-row" id="robot-row" style="display:none;">
@@ -1527,10 +1546,13 @@
     extraFields.style.display = 'none';
     robotRow.style.display    = 'none';
     notRobot.checked          = false;
-    if (typeof cbWrap !== 'undefined') {
-      cbWrap.classList.remove('checked');
-      cbWrap.classList.add('disabled');
-    }
+    notRobot.disabled         = true;
+    document.getElementById('robot-label').classList.add('locked');
+    cbWrap.classList.remove('checked');
+    cbWrap.classList.add('disabled');
+    humanDetected = false;
+    document.addEventListener('mousemove',  onHumanSignal, { passive: true });
+    document.addEventListener('touchstart', onHumanSignal, { passive: true });
     if (typeof emailHint !== 'undefined') emailHint.style.display = 'none';
     submitBtn.disabled        = true;
     btnLabel.classList.remove('sending');
@@ -1683,7 +1705,7 @@
       namePlaceholder:  'Name',
       emailPlaceholder: 'Email address',
       errFields:        'Please fill in all fields.',
-      errEmail:         'Enter a valid email address.',
+      errEmail:         'Please enter a valid e-mail address.',
       errRobot:         'Please confirm you are not a robot.',
       errTrap:          'Please review your message before sending.',
       errConfig:        'Configuration error. Reload the page.',
@@ -1694,7 +1716,7 @@
       namePlaceholder:  'Nombre',
       emailPlaceholder: 'Correo electrónico',
       errFields:        'Por favor completa todos los campos.',
-      errEmail:         'Ingresa un correo electrónico válido.',
+      errEmail:         'Por favor ingresa una dirección de correo electrónico válida.',
       errRobot:         'Por favor confirma que no eres un robot.',
       errTrap:          'Por favor revisa tu mensaje antes de enviar.',
       errConfig:        'Error de configuración. Recarga la página.',
