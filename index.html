@@ -585,9 +585,32 @@
     background: #fff;
     transform: scale(1.25);
   }
+  #photo-toast .toast-img-error {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    padding: 2.5rem 2rem;
+    min-height: 180px;
+    text-align: center;
+    width: 100%;
+  }
+  #photo-toast .toast-img-error.visible { display: flex; }
+  #photo-toast .toast-error-msg {
+    font-family: 'Ysabeau', sans-serif;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: #FF1D58;
+    text-align: center;
+    margin: 0;
+  }
+  @supports (color: color(display-p3 0 0 0)) {
+    #photo-toast .toast-error-msg { color: color(display-p3 1 0.114 0.345); }
+  }
   #photo-toast .toast-caption {
     padding: 0.75rem 1rem;
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     color: #4b5563;
     line-height: 1.5;
     font-family: 'Ysabeau', sans-serif;
@@ -884,7 +907,14 @@
     <h2 class="section-title" data-en="Experience" data-es="Experiencia">Experience</h2>
     <div class="timeline">
 
-      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0dDw4OCggSGFVPBRcDHQ==","DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0dDw4OCggSGFZPBRcDHQ=="]' data-captions-en='["Medical oncology team, 2024-2027","A badge of honor"]' data-captions-es='["Equipo de oncología médica, 2024-2027","Sentido de pertenencia"]'>
+      <!--
+        TRANSLATION NOTE (captions):
+        The EN and ES captions below are non-literal, author-provided translations.
+        They are intentional creative adaptations, not verbatim word-by-word renderings.
+        Francisco Guadarrama wrote both language versions independently.
+      -->
+
+      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0dDw4OCggSGFVPBRcDHQ==","DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0dDw4OCggSGFZPBRcDHQ=="]' data-captions-en='["Part of a legacy of care. The INCMNSZ Medical Oncology fellows.","A badge of honor."]' data-captions-es='["Llevando el orgullo y la <em>mística</em> de Nutrición. Equipo de Oncología Médica del INCMNSZ.","Sentido de pertenencia."]'>
         <!-- Add src to show -->
         <div class="card-body">
           <div class="card-date" data-en="Mar 2024 – Present" data-es="Mar 2024 – Presente">Mar 2024 – Present</div>
@@ -896,7 +926,7 @@
         <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
-      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl07LAsECgsaFhcJGwJQQxYDBQU="]' data-captions-en='["Taking on year three with the best co-residents I could ask for."]' data-captions-es='["Con mis compañeros de residencia, a punto de comenzar el tercer año"]'>
+      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl07LAsECgsaFhcJGwJQQxYDBQU="]' data-captions-en='["Taking on year three with the best co-residents I could ask for."]' data-captions-es='["Con mis compañeros de residencia, a punto de comenzar el tercer año."]'>
         
         <div class="card-body">
           <div class="card-date">Mar 2020 – Feb 2024</div>
@@ -908,7 +938,7 @@
         <button class="card-photo-btn" aria-label="View photos"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M241.75,51.32a15.88,15.88,0,0,0-13.86-2.77l-3.48.94C205.61,54.56,170.61,64,128,64S50.39,54.56,31.59,49.49l-3.48-.94A16,16,0,0,0,8,64V192a16,16,0,0,0,16,16,16.22,16.22,0,0,0,4.18-.55l3.18-.86C50.13,201.49,85.17,192,128,192s77.87,9.49,96.69,14.59l3.18.86A16,16,0,0,0,248,192V64A15.9,15.9,0,0,0,241.75,51.32ZM27.42,64.93C46.94,70.2,83.27,80,128,80s81.06-9.8,100.58-15.07L232,64V182.76l-58.07-58.07a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L24,141.37V64ZM213.84,187.21a391.22,391.22,0,0,0-49-9L142.63,156l20-20ZM27.13,191.14,24,192V164l52-52,64.25,64.25q-6-.24-12.25-.25C83,176,45.28,186.23,27.13,191.14ZM192,108a12,12,0,1,1,12,12A12,12,0,0,1,192,108Z"/></svg></button>
       </div>
 
-      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0RDQQPDwQUDQ0PAQYTGAISCAdQShYXEBE="]' data-captions-en='["Always a privilege to teach the next generation. So proud of my University of Guanajuato students for completing their Internal Medicine rotation."]' data-captions-es='["Al final de rotación de medicina interna con estudiantes de la Universidad de Guanajuato"]'>
+      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0RDQQPDwQUDQ0PAQYTGAISCAdQShYXEBE="]' data-captions-en='["Mentoring the next generation remains a constant privilege. Here is a favorite memory of my University of Guanajuato students on the day they successfully completed their Internal Medicine rotation."]' data-captions-es='["Al final de rotación de medicina interna con estudiantes de la Universidad de Guanajuato."]'>
         
         <div class="card-body">
           <div class="card-date">Mar 2020 – Feb 2024</div>
@@ -986,7 +1016,7 @@
     <h2 class="section-title" data-en="Education" data-es="Educación">Education</h2>
     <div class="timeline">
 
-      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0BEQgCDwYZCBcVQ1wWCAMW"]' data-captions-en='["<em>Viva voce</em>"]' data-captions-es='["Defensa de tesis"]'>
+      <div class="card fade-in" data-photos='["DhMBERdbXV0HChQHAxQTFgAfE08ODgtIBQgHEl0BEQgCDwYZCBcVQ1wWCAMW"]' data-captions-en='["<em>Viva voce</em>: signed, sealed, and successfully defended."]' data-captions-es='["Firmada, sellada y defendida."]'>
         
         <div class="card-body">
           <div class="card-date">Mar 2020 – Feb 2024</div>
@@ -1905,6 +1935,10 @@
   <button class="toast-close" id="toast-close" aria-label="Close">&#x2715;</button>
   <div class="toast-img-wrap" id="toast-img-wrap">
     <img id="toast-img" src="" alt="">
+    <div class="toast-img-error" id="toast-img-error">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 256 256"><path fill="#1f5162" d="M158.66,188.43a8,8,0,0,1-11.09,2.23C141.07,186.34,136,184,128,184s-13.07,2.34-19.57,6.66a8,8,0,0,1-8.86-13.32C108,171.73,116.06,168,128,168s20,3.73,28.43,9.34A8,8,0,0,1,158.66,188.43ZM224,48v55.77c0,35.84-9.65,69.65-27.18,95.18-18.16,26.46-42.6,41-68.82,41s-50.66-14.57-68.82-41C41.65,173.44,32,139.63,32,103.79V48A16,16,0,0,1,53.79,33.09C67.84,38.55,96.18,47.71,128,47.71s60.15-9.16,74.21-14.62A16,16,0,0,1,224,48Zm-16,0v0c-15.1,5.89-45.57,15.73-80,15.73S63.1,53.87,48,48v55.79c0,32.64,8.66,63.23,24.37,86.13C87.46,211.9,107.21,224,128,224s40.54-12.1,55.63-34.08C199.34,167,208,136.43,208,103.79Zm-18.66,66a8,8,0,0,0-11.3.62c-2.68,3-8.85,5.34-14,5.34s-11.36-2.35-14-5.34A8,8,0,0,0,138,125.33c5.71,6.38,16.14,10.67,26,10.67s20.25-4.29,26-10.67A8,8,0,0,0,189.34,114ZM118,125.33A8,8,0,0,0,106,114.66c-2.68,3-8.85,5.34-14,5.34s-11.36-2.35-14-5.34A8,8,0,0,0,66,125.33C71.75,131.71,82.18,136,92,136S112.25,131.71,118,125.33Z"/></svg>
+      <p class="toast-error-msg" id="toast-error-msg"></p>
+    </div>
     <button class="toast-nav" id="toast-prev" aria-label="Previous photo">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9 11.5L4.5 7L9 2.5" stroke="#1f5162" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1922,13 +1956,15 @@
 
 <script>
 (function () {
-  const toast      = document.getElementById('photo-toast');
-  const toastImg   = document.getElementById('toast-img');
-  const toastCap   = document.getElementById('toast-caption');
-  const toastClose = document.getElementById('toast-close');
-  const toastPrev  = document.getElementById('toast-prev');
-  const toastNext  = document.getElementById('toast-next');
-  const toastDots  = document.getElementById('toast-dots');
+  const toast        = document.getElementById('photo-toast');
+  const toastImg     = document.getElementById('toast-img');
+  const toastCap     = document.getElementById('toast-caption');
+  const toastClose   = document.getElementById('toast-close');
+  const toastPrev    = document.getElementById('toast-prev');
+  const toastNext    = document.getElementById('toast-next');
+  const toastDots    = document.getElementById('toast-dots');
+  const toastErrWrap = document.getElementById('toast-img-error');
+  const toastErrMsg  = document.getElementById('toast-error-msg');
 
   let currentPhotos   = [];
   let currentCaptions = [];
@@ -1942,6 +1978,28 @@
       String.fromCharCode(c.charCodeAt(0) ^ _k.charCodeAt(i % _k.length))
     ).join('');
   }
+
+  /* ---- error strings ---- */
+  const _errStr = {
+    en: "Visuals currently offline. Drop a note below, and I'll fix it instantly.",
+    es: "Por alguna razón desconocida no se pueden mostrar las imágenes. Por favor envía un mensaje abajo y lo arreglaré de inmediato."
+  };
+
+  function showImgError() {
+    // Don't show error when src is empty (happens on close)
+    if (!toastImg.src || toastImg.src === window.location.href || toastImg.src.endsWith('//')) return;
+    toastImg.style.display = 'none';
+    toastErrWrap.classList.add('visible');
+    toastErrMsg.textContent = _errStr[getLang()] || _errStr.en;
+  }
+
+  function resetImgError() {
+    toastImg.style.display = '';
+    toastErrWrap.classList.remove('visible');
+  }
+
+  toastImg.addEventListener('error', showImgError);
+  toastImg.addEventListener('load',  resetImgError);
 
   /* ---- language helper ---- */
   function getLang() {
@@ -2001,6 +2059,7 @@
     toastImg.style.transform = 'scale(0.97)';
     toastCap.style.opacity   = '0';
     setTimeout(() => {
+      resetImgError();
       toastImg.src             = currentPhotos[currentIndex];
       toastImg.alt             = currentCaptions[currentIndex] || '';
       toastCap.innerHTML       = currentCaptions[currentIndex] || '';
@@ -2019,6 +2078,7 @@
     currentIndex    = index;
     isOpen          = true;
 
+    resetImgError();
     toastImg.src             = photos[index];
     toastImg.alt             = captions[index] || '';
     toastCap.innerHTML       = captions[index] || '';
@@ -2039,7 +2099,12 @@
   function hideToast() {
     isOpen = false;
     toast.classList.remove('visible');
-    setTimeout(() => { toastImg.src = ''; }, 450);
+    setTimeout(() => {
+      toastImg.removeEventListener('error', showImgError);
+      toastImg.src = '';
+      resetImgError();
+      requestAnimationFrame(() => toastImg.addEventListener('error', showImgError));
+    }, 450);
   }
 
   /* ---- update captions on lang switch ---- */
@@ -2052,6 +2117,9 @@
     currentCaptions = getCaptions(card);
     toastCap.innerHTML     = currentCaptions[currentIndex] || '';
     toastCap.style.display = currentCaptions[currentIndex] ? '' : 'none';
+    if (toastErrWrap.classList.contains('visible')) {
+      toastErrMsg.textContent = _errStr[getLang()] || _errStr.en;
+    }
   };
 
   /* ---- arrow clicks ---- */
@@ -2071,25 +2139,19 @@
     const card   = btn.closest('[data-photos]');
     const photos = JSON.parse(card?.dataset.photos || '[]').map(dec);
 
-    // Preload on hover
     btn.addEventListener('mouseenter', () => preloadPhotos(photos), { passive: true });
     btn.addEventListener('focus',      () => preloadPhotos(photos), { passive: true });
 
     btn.addEventListener('click', e => {
       e.stopPropagation();
       if (!photos.length) return;
-
-      // Toggle off if same card
       if (isOpen && btn.classList.contains('active-toast')) {
         hideToast();
         btn.classList.remove('active-toast');
         return;
       }
-
-      // Mark active for lang sync
       document.querySelectorAll('.card-photo-btn').forEach(b => b.classList.remove('active-toast'));
       btn.classList.add('active-toast');
-
       showToast(photos, getCaptions(card), 0);
     });
   });
