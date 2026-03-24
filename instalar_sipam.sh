@@ -1,17 +1,14 @@
 #!/bin/bash
 # ─────────────────────────────────────────────────────────────
-#  Instalador SIPAM — INCMNSZ
-#  Configura iTerm2 con perfil SIPAM, teclas F1-F10 y acceso
-#  directo en el Dock. Compatible con Apple Silicon e Intel.
+#  Instalador SIPAM
+#  Compatible con Apple Silicon e Intel.
 # ─────────────────────────────────────────────────────────────
 
 # 1. Homebrew
 if ! command -v brew &>/dev/null; then
   echo "⬇️  Instalando Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  # Apple Silicon
   [ -f /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
-  # Intel
   [ -f /usr/local/bin/brew ]    && eval "$(/usr/local/bin/brew shellenv)"
 else
   echo "✅ Homebrew ya instalado — omitiendo"
@@ -26,36 +23,48 @@ else
   echo "✅ Telnet ya instalado — omitiendo"
 fi
 
-# 3. Perfil iTerm2 con teclas F1-F10 mapeadas
+# 3. Perfil iTerm2 — generado con Python para JSON válido
 echo "⚙️  Configurando perfil SIPAM en iTerm2..."
 PROFILE_DIR="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 mkdir -p "$PROFILE_DIR"
-cat > "$PROFILE_DIR/SIPAM.json" << 'EOF'
-{
+
+python3 - <<'PYEOF'
+import json, os
+
+esc = "\u001b"   # ESC character — valid JSON unicode escape
+
+profile = {
   "Profiles": [{
     "Name": "SIPAM",
-    "Guid": "sipam-incmnsz-001",
+    "Guid": "sipam-001",
     "Custom Command": "Yes",
     "Command": "telnet 192.168.205.5",
     "Terminal Type": "vt220",
+    "Use Custom Window Title": True,
+    "Window Title": "SIPAM",
     "Keyboard Map": {
-      "0xf704-0x0": { "Action": 12, "Text": "\033p" },
-      "0xf705-0x0": { "Action": 12, "Text": "\033q" },
-      "0xf706-0x0": { "Action": 12, "Text": "\033r" },
-      "0xf707-0x0": { "Action": 12, "Text": "\033s" },
-      "0xf708-0x0": { "Action": 12, "Text": "\033t" },
-      "0xf709-0x0": { "Action": 12, "Text": "\033u" },
-      "0xf70a-0x0": { "Action": 12, "Text": "\033v" },
-      "0xf70b-0x0": { "Action": 12, "Text": "\033w" },
-      "0xf70c-0x0": { "Action": 12, "Text": "\033[20~" },
-      "0xf70d-0x0": { "Action": 12, "Text": "\033[21~" }
-    },
-    "Use Custom Window Title": true,
-    "Window Title": "SIPAM — INCMNSZ"
+      "0xf704-0x0": {"Action": 12, "Text": esc + "p"},
+      "0xf705-0x0": {"Action": 12, "Text": esc + "q"},
+      "0xf706-0x0": {"Action": 12, "Text": esc + "r"},
+      "0xf707-0x0": {"Action": 12, "Text": esc + "s"},
+      "0xf708-0x0": {"Action": 12, "Text": esc + "t"},
+      "0xf709-0x0": {"Action": 12, "Text": esc + "u"},
+      "0xf70a-0x0": {"Action": 12, "Text": esc + "v"},
+      "0xf70b-0x0": {"Action": 12, "Text": esc + "w"},
+      "0xf70c-0x0": {"Action": 12, "Text": esc + "[20~"},
+      "0xf70d-0x0": {"Action": 12, "Text": esc + "[21~"}
+    }
   }]
 }
-EOF
-echo "✅ Perfil SIPAM creado en iTerm2"
+
+path = os.path.expanduser(
+    "~/Library/Application Support/iTerm2/DynamicProfiles/SIPAM.json"
+)
+with open(path, "w") as f:
+    json.dump(profile, f, indent=2, ensure_ascii=False)
+
+print("✅ Perfil SIPAM creado en iTerm2")
+PYEOF
 
 # 4. Aplicación SIPAM.app
 echo "⚙️  Creando SIPAM.app..."
