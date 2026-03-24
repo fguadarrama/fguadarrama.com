@@ -28,17 +28,27 @@ echo "⚙️  Configurando perfil SIPAM en iTerm2..."
 PROFILE_DIR="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 mkdir -p "$PROFILE_DIR"
 
-python3 - <<'PYEOF'
-import json, os
+# Detect telnet absolute path
+TELNET_PATH=$(command -v telnet 2>/dev/null)
+if [ -z "$TELNET_PATH" ]; then
+  # fallback for Apple Silicon / Intel
+  [ -f /opt/homebrew/bin/telnet ] && TELNET_PATH="/opt/homebrew/bin/telnet"
+  [ -f /usr/local/bin/telnet ]    && TELNET_PATH="/usr/local/bin/telnet"
+fi
+echo "   Usando telnet en: $TELNET_PATH"
 
-esc = "\u001b"   # ESC character — valid JSON unicode escape
+python3 - "$TELNET_PATH" <<'PYEOF'
+import json, os, sys
+
+esc = "\u001b"
+telnet_path = sys.argv[1] if len(sys.argv) > 1 else "telnet"
 
 profile = {
   "Profiles": [{
     "Name": "SIPAM",
     "Guid": "sipam-001",
     "Custom Command": "Yes",
-    "Command": "telnet 192.168.205.5",
+    "Command": telnet_path + " 192.168.205.5",
     "Terminal Type": "vt220",
     "Use Custom Window Title": True,
     "Window Title": "SIPAM",
