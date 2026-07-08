@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A compact, tactile landing page template with one clear action." />
+    <title>Minimal Landing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;560;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main aria-label="Minimal landing page">
+      <header class="top" data-enter>
+        <div>
+          <p class="eyebrow">static / github pages</p>
+          <h1>Minimal Landing</h1>
+        </div>
+        <nav class="top-right" aria-label="Page links">
+          <a href="#details">details</a>
+          <button class="tiny-button" data-copy="https://example.com">copy link</button>
+        </nav>
+      </header>
+
+      <section class="hero" data-enter>
+        <p class="tagline">
+          A compact, tactile one-page site for a product, practice, or small tool. One promise. One action. No visual bulk.
+        </p>
+        <div class="cta-row" aria-label="Primary actions">
+          <a class="primary-button" href="mailto:hello@example.com">
+            <span class="button-dot" aria-hidden="true"></span>
+            <span class="lockable">Contact</span>
+          </a>
+          <a class="secondary-link" href="#details">View structure</a>
+        </div>
+      </section>
+
+      <section class="ledger" aria-label="Page qualities" data-enter>
+        <div class="row">
+          <span class="row-name">layout</span>
+          <span class="row-value">Instrument</span>
+        </div>
+        <div class="row">
+          <span class="row-name">status</span>
+          <button class="status" type="button" aria-live="polite">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-label lockable-status">ready</span>
+          </button>
+        </div>
+        <div class="row">
+          <span class="row-name">stack</span>
+          <span class="row-value">HTML · CSS · JS</span>
+        </div>
+        <div class="row">
+          <span class="row-name">deploy</span>
+          <span class="counter" aria-label="Number of deploy files">3 files</span>
+        </div>
+      </section>
+
+      <section class="install" aria-labelledby="install-title" data-enter>
+        <h2 id="install-title">Action block</h2>
+        <button class="command" type="button" data-copy="Edit index.html, then upload this folder to GitHub Pages.">
+          <span class="dollar">$</span>
+          <span class="command-label">edit index.html → upload to GitHub Pages</span>
+          <span class="command-icon" aria-hidden="true">↗</span>
+        </button>
+      </section>
+
+      <section class="usage" id="details" aria-labelledby="details-title" data-enter>
+        <div class="usage-head">
+          <h2 id="details-title">Compact structure</h2>
+          <div class="tabs" role="tablist" aria-label="Code examples">
+            <button class="tab is-active" role="tab" aria-selected="true" aria-controls="panel-html" id="tab-html" data-panel="html">html</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="panel-css" id="tab-css" data-panel="css">css</button>
+            <button class="tab" role="tab" aria-selected="false" aria-controls="panel-js" id="tab-js" data-panel="js">js</button>
+          </div>
+        </div>
+        <div class="code-card">
+          <pre class="code-panel is-active" id="panel-html" role="tabpanel" aria-labelledby="tab-html"><code><span class="k">&lt;main&gt;</span>
+  <span class="k">&lt;h1&gt;</span>Product name<span class="k">&lt;/h1&gt;</span>
+  <span class="k">&lt;p&gt;</span>Plain promise.<span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;a&gt;</span>Primary CTA<span class="k">&lt;/a&gt;</span>
+<span class="k">&lt;/main&gt;</span></code></pre>
+          <pre class="code-panel" id="panel-css" role="tabpanel" aria-labelledby="tab-css" hidden><code><span class="k">main</span> {
+  max-width: <span class="s">440px</span>;
+  padding: <span class="s">56px 24px</span>;
+  display: <span class="s">grid</span>;
+  gap: <span class="s">36px</span>;
+}</code></pre>
+          <pre class="code-panel" id="panel-js" role="tabpanel" aria-labelledby="tab-js" hidden><code><span class="k">copy</span>(button.dataset.copy)
+button.textContent = <span class="s">"copied"</span>
+setTimeout(reset, <span class="s">1400</span>)</code></pre>
+        </div>
+      </section>
+
+      <footer data-enter>
+        <span>MIT-style static template</span>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
