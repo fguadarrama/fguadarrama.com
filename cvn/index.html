@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Francisco Guadarrama, MD — Medical Oncology and Internal Medicine. Compact professional landing page." />
+  <meta name="color-scheme" content="light dark" />
+  <meta property="og:title" content="Francisco Guadarrama, MD" />
+  <meta property="og:description" content="Medical Oncology · Internal Medicine" />
+  <meta property="og:type" content="website" />
+  <title>Francisco Guadarrama, MD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <main class="shell">
+    <header class="topbar" aria-label="Site controls">
+      <nav class="pill-nav" aria-label="Primary navigation">
+        <a href="#experience" data-i18n="navExperience">Experience</a>
+        <a href="#education" data-i18n="navEducation">Education</a>
+        <a href="#publications" data-i18n="navPublications">Publications</a>
+      </nav>
+      <div class="switches" aria-label="Language and theme controls">
+        <button class="ghost-button active" type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button class="ghost-button" type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </header>
+
+    <section class="hero compact-card" aria-labelledby="page-title">
+      <p class="eyebrow" data-i18n="updated">Updated March 21, 2026</p>
+      <h1 id="page-title">Francisco Guadarrama</h1>
+      <p class="role" data-i18n="role">Medical Oncology · Internal Medicine</p>
+      <p class="lede" data-i18n="ledeOne">Physician, board-certified in Internal Medicine and current Medical Oncology fellow, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization.</p>
+      <p class="lede muted" data-i18n="ledeTwo">Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education.</p>
+      <div class="action-row" aria-label="Primary links">
+        <a class="button primary" href="https://linkedin.com/in/FranciscoGuadarrama" rel="me noopener" target="_blank" data-i18n="linkedin">LinkedIn</a>
+        <a class="button" href="#contact" data-i18n="contactCta">Contact</a>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Professional snapshot">
+      <div class="metric compact-card">
+        <span class="metric-value">2</span>
+        <span class="metric-label" data-i18n="metricSpecialties">clinical tracks</span>
+      </div>
+      <div class="metric compact-card">
+        <span class="metric-value">3,100+</span>
+        <span class="metric-label" data-i18n="metricConsults">rural consultations</span>
+      </div>
+      <div class="metric compact-card">
+        <span class="metric-value">6</span>
+        <span class="metric-label" data-i18n="metricPublications">selected outputs</span>
+      </div>
+    </section>
+
+    <section id="experience" class="section" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <p class="section-kicker">01</p>
+        <h2 id="experience-title" data-i18n="experienceTitle">Experience</h2>
+      </div>
+      <div class="timeline" id="experience-list"></div>
+    </section>
+
+    <section id="education" class="section" aria-labelledby="education-title">
+      <div class="section-heading">
+        <p class="section-kicker">02</p>
+        <h2 id="education-title" data-i18n="educationTitle">Education</h2>
+      </div>
+      <div class="timeline" id="education-list"></div>
+    </section>
+
+    <section id="publications" class="section" aria-labelledby="publications-title">
+      <div class="section-heading">
+        <p class="section-kicker">03</p>
+        <h2 id="publications-title" data-i18n="publicationsTitle">Selected Publications</h2>
+      </div>
+      <div class="publication-list" id="publication-list"></div>
+    </section>
+
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="section-heading">
+        <p class="section-kicker">04</p>
+        <h2 id="contact-title" data-i18n="contactTitle">Contact</h2>
+      </div>
+      <div class="contact-card compact-card">
+        <div>
+          <p class="contact-copy" data-i18n="contactCopy">For professional contact, use LinkedIn or connect this compact shell to the form endpoint currently used on the main website.</p>
+          <p class="fine-print" data-i18n="contactFine">Static GitHub Pages build. No backend is included.</p>
+        </div>
+        <form class="mini-form" id="contact-form" novalidate>
+          <label>
+            <span data-i18n="emailLabel">Email</span>
+            <input type="email" name="email" autocomplete="email" placeholder="name@example.com" required>
+          </label>
+          <label>
+            <span data-i18n="messageLabel">Message</span>
+            <textarea name="message" rows="4" placeholder="Brief professional note" required></textarea>
+          </label>
+          <button class="button primary" type="submit" data-i18n="prepareButton">Validate note</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Francisco Guadarrama</span>
+      <button class="ghost-button" type="button" id="top-button" data-i18n="backTop">Back to top</button>
+    </footer>
+  </main>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
