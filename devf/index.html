@@ -1,0 +1,1248 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Francisco Guadarrama — Medical Oncology and Internal Medicine." />
+  <meta name="theme-color" content="#f7fcfe" />
+  <meta property="og:title" content="Francisco Guadarrama" />
+  <meta property="og:description" content="Medical Oncology · Internal Medicine" />
+  <meta property="og:type" content="website" />
+  <title>Francisco Guadarrama</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%233f41f5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%205h12%22%2F%3E%3Cpath%20d%3D%22M4%2012h10%22%2F%3E%3Cpath%20d%3D%22M12%2019h8%22%2F%3E%3C%2Fsvg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7fcfe;
+      --text: #2d2930;
+      --accent: #3f41f5;
+      --line: #2d2930;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --font: "Albert Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #2d2930;
+      --text: #f7fcfe;
+      --accent: #3f41f5;
+      --line: #f7fcfe;
+    }
+
+    @supports (color: color(display-p3 1 1 1)) {
+      @media (color-gamut: p3) {
+        :root {
+          --bg: color(display-p3 0.972147 0.987593 0.995052);
+          --text: color(display-p3 0.173795 0.161331 0.186196);
+          --accent: color(display-p3 0.248472 0.254646 0.924160);
+          --line: color(display-p3 0.173795 0.161331 0.186196);
+        }
+
+        html[data-theme="dark"] {
+          --bg: color(display-p3 0.173795 0.161331 0.186196);
+          --text: color(display-p3 0.972147 0.987593 0.995052);
+          --accent: color(display-p3 0.967883 0.803967 0.349426);
+          --line: color(display-p3 0.972147 0.987593 0.995052);
+        }
+
+        html,
+        body {
+          background-color: var(--bg);
+          background-image: none;
+        }
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      scroll-behavior: smooth;
+      font-synthesis-weight: none;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 12.9px;
+      font-weight: 360;
+      line-height: 1.48;
+      letter-spacing: -0.009em;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      user-select: text;
+      -webkit-user-select: text;
+      transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out);
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    .accent-dot {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 20;
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: transparent;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition:
+        background-color 180ms var(--ease-out),
+        transform 140ms var(--ease-out),
+        opacity 140ms var(--ease-out);
+    }
+
+    .accent-dot:hover,
+    .accent-dot:focus-visible {
+      transform: scale(1.55) translateZ(0);
+    }
+
+    .accent-dot:active {
+      transform: scale(1.2) translateZ(0);
+    }
+
+    .accent-dot:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--text);
+      text-underline-offset: 3px;
+      transition:
+        color 150ms var(--ease-out),
+        text-decoration-color 150ms var(--ease-out),
+        opacity 150ms var(--ease-out);
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    .page {
+      width: min(100% - 52px, 720px);
+      margin: 0 auto;
+      padding: 88px 0 56px;
+    }
+
+    .intro,
+    .section,
+    .footer {
+      opacity: 0;
+      transform: translateY(7px);
+      transition:
+        opacity 320ms var(--ease-out),
+        transform 320ms var(--ease-out);
+      transition-delay: calc(var(--stagger, 0) * 54ms);
+      will-change: opacity, transform;
+    }
+
+    body.is-ready .intro,
+    body.is-ready .section,
+    body.is-ready .footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro { --stagger: 0; margin: 0 0 46px; }
+    #experience { --stagger: 1; }
+    #education { --stagger: 2; }
+    #publications { --stagger: 3; }
+    #contact { --stagger: 4; }
+    .footer { --stagger: 5; }
+
+    .topline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .name,
+    .role,
+    .bio p,
+    h2,
+    .entry-button,
+    .entry-panel p,
+    .footer {
+      margin: 0;
+    }
+
+    .name {
+      color: var(--text);
+      font-size: 13.5px;
+      font-weight: 480;
+      line-height: 1.25;
+    }
+
+    .role {
+      margin-top: 3px;
+      color: var(--accent);
+      font-size: 12.7px;
+      font-weight: 360;
+      line-height: 1.25;
+    }
+
+    .theme-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 26px;
+      padding: 3px 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: none;
+      transition:
+        border-color 160ms var(--ease-out),
+        color 160ms var(--ease-out),
+        background-color 220ms var(--ease-out),
+        transform 140ms var(--ease-out),
+        box-shadow 160ms var(--ease-out);
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .theme-toggle:active { transform: scale(0.97); }
+
+    .switch-track {
+      position: relative;
+      width: 34px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--bg);
+      box-shadow: inset 0 0 0 1px var(--text);
+      transition: background-color 220ms var(--ease-out);
+    }
+
+    .switch-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--text);
+      transform: translateX(0);
+      transition:
+        transform 240ms var(--ease-in-out),
+        background-color 220ms var(--ease-out),
+        box-shadow 180ms var(--ease-out);
+      box-shadow: none;
+    }
+
+    html[data-theme="dark"] .switch-thumb {
+      transform: translateX(16px);
+      background: var(--accent);
+    }
+
+    .bio {
+      max-width: 590px;
+      margin-top: 34px;
+    }
+
+    .bio p {
+      color: var(--text);
+      font-size: 13.1px;
+      line-height: 1.5;
+      font-weight: 360;
+    }
+
+    .bio p + p { margin-top: 15px; }
+
+    .section {
+      margin-top: 46px;
+      scroll-margin-top: 42px;
+    }
+
+    h2 {
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 14.25px;
+      line-height: 1.2;
+      font-weight: 480;
+    }
+
+    .section-toggle {
+      width: 100%;
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 150ms var(--ease-out), transform 140ms var(--ease-out);
+    }
+
+    .section-toggle:hover,
+    .section-toggle:focus-visible,
+    .section-toggle[aria-expanded="true"] {
+      color: var(--accent);
+    }
+
+    .section-toggle:hover { transform: translateX(2px); }
+    .section-toggle:active { transform: translateX(2px) scale(0.992); }
+    .section-toggle:focus-visible {
+      border-radius: 7px;
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .list { margin-top: 0; }
+    .publications-list[hidden] { display: none; }
+
+    .entry {
+      border-bottom: 1px solid var(--line);
+      transition: border-color 220ms var(--ease-out), background-color 220ms var(--ease-out);
+    }
+
+    .entry[data-open="true"] {
+      border-color: var(--accent);
+    }
+
+    .entry-button {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 154px minmax(0, 1fr) 116px;
+      gap: 16px;
+      align-items: start;
+      min-height: 37px;
+      padding: 10px 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        color 160ms var(--ease-out),
+        transform 140ms var(--ease-out),
+        opacity 160ms var(--ease-out);
+    }
+
+    .entry-button:hover,
+    .entry-button:focus-visible,
+    .entry[data-open="true"] .entry-button {
+      color: var(--accent);
+    }
+
+    .entry-button:hover { transform: translateX(2px); }
+    .entry-button:active { transform: translateX(2px) scale(0.992); }
+
+    .entry-button:focus-visible {
+      border-radius: 7px;
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .entry-date,
+    .entry-title,
+    .entry-meta {
+      min-width: 0;
+      transition:
+        color 160ms var(--ease-out),
+        opacity 160ms var(--ease-out),
+        transform 160ms var(--ease-out);
+    }
+
+    .entry-date,
+    .entry-meta {
+      color: var(--text);
+      font-size: 12.65px;
+      font-weight: 360;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-title {
+      overflow: visible;
+      color: currentColor;
+      font-size: 12.9px;
+      font-weight: 480;
+      line-height: 1.34;
+      text-overflow: clip;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .entry-meta {
+      overflow: hidden;
+      text-align: right;
+      text-overflow: ellipsis;
+    }
+
+    .entry-button:hover .entry-date,
+    .entry-button:hover .entry-meta,
+    .entry-button:focus-visible .entry-date,
+    .entry-button:focus-visible .entry-meta,
+    .entry[data-open="true"] .entry-date,
+    .entry[data-open="true"] .entry-meta {
+      color: var(--accent);
+    }
+
+    .entry-panel {
+      height: 0;
+      overflow: clip;
+      transition: height 230ms var(--ease-out);
+      will-change: height;
+    }
+
+    .entry-panel[hidden] { display: block; }
+
+    .entry-panel-inner {
+      max-width: 530px;
+      padding: 0 0 16px 170px;
+      opacity: 0;
+      transform: translateY(-3px) scale(0.995);
+      filter: blur(1px);
+      transition:
+        opacity 190ms var(--ease-out),
+        transform 210ms var(--ease-out),
+        filter 210ms var(--ease-out);
+      transform-origin: top left;
+    }
+
+    .entry[data-open="true"] .entry-panel-inner {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .entry-panel p {
+      color: var(--text);
+      font-size: 12.45px;
+      font-weight: 360;
+      line-height: 1.5;
+    }
+
+    .entry-panel p + p { margin-top: 8px; }
+
+    .entry-panel em { font-style: italic; }
+
+
+
+    .contact-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .micro-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      font-size: 12.15px;
+      font-weight: 480;
+      letter-spacing: -0.006em;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition:
+        color 150ms var(--ease-out),
+        border-color 150ms var(--ease-out),
+        background-color 180ms var(--ease-out),
+        box-shadow 180ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .micro-button:hover,
+    .micro-button:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px) translateZ(0);
+      box-shadow: none;
+    }
+
+    .micro-button:active {
+      transform: translateY(0) scale(0.975) translateZ(0);
+      box-shadow: none;
+    }
+
+    .micro-button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .email-box {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--accent);
+      font-size: 12.15px;
+      font-weight: 480;
+      opacity: 0;
+      transform: translateY(3px) scale(0.98);
+      filter: blur(1px);
+      transition:
+        opacity 210ms var(--ease-out),
+        transform 240ms var(--ease-out),
+        filter 240ms var(--ease-out);
+    }
+
+    .email-box.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .email-box a {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 66px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12.35px;
+      font-weight: 360;
+    }
+
+    .footer a { color: var(--text); }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+
+    ::view-transition-group(root) {
+      animation-duration: 560ms;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (max-width: 740px) {
+      .page {
+        width: min(100% - 34px, 720px);
+        padding-top: 58px;
+      }
+
+      .entry-button {
+        grid-template-columns: 142px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .entry-meta { display: none; }
+      .entry-panel-inner { padding-left: 154px; }
+    }
+
+    @media (max-width: 430px) {
+      body { font-size: 12.65px; }
+      .page { width: min(100% - 28px, 720px); }
+      .topline { gap: 14px; }
+
+      .entry-button {
+        grid-template-columns: 136px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .entry-date,
+      .entry-title { font-size: 12.45px; }
+      .entry-panel-inner { padding-left: 146px; }
+      .entry-panel p { font-size: 12.15px; }
+    }
+
+    @media (max-width: 365px) {
+      .entry-button {
+        grid-template-columns: 124px minmax(0, 1fr);
+      }
+      .entry-panel-inner { padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .intro,
+      .section,
+      .footer {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="accent-dot" type="button" id="accentDot" aria-label="Change accent color" data-cuelume-press data-cuelume-release></button>
+  <main class="page" id="top">
+    <header class="intro" aria-labelledby="site-title">
+      <div class="topline">
+        <div>
+          <p class="name" id="site-title">Francisco Guadarrama</p>
+          <p class="role">Medical Oncology · Internal Medicine</p>
+        </div>
+
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release data-cuelume-toggle>
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+        </button>
+      </div>
+
+      <div class="bio">
+        <p>Physician, board-certified in Internal Medicine and current Medical Oncology fellow, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization.</p>
+        <p>Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education.</p>
+        <p>See <a data-cuelume-hover="tick" href="#experience">experience</a>, <a data-cuelume-hover="tick" href="#education">education</a>, <a data-cuelume-hover="tick" href="#publications" id="publicationsAnchor">publications</a>, or <a data-cuelume-hover="tick" href="#contact">contact information</a>.</p>
+      </div>
+    </header>
+
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <h2 id="experience-title">Experience</h2>
+      <div class="list" data-accordion>
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-1">
+            <span class="entry-date">Mar 2024 – Present</span>
+            <span class="entry-title">Medical Oncology Fellow &amp; Chief Resident</span>
+            <span class="entry-meta">INCMNSZ</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-1" hidden>
+            <div class="entry-panel-inner">
+              <p>Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.</p>
+              <p>Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-2">
+            <span class="entry-date">Mar 2020 – Feb 2024</span>
+            <span class="entry-title">Internal Medicine Residency</span>
+            <span class="entry-meta">HRAEB</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-2" hidden>
+            <div class="entry-panel-inner">
+              <p>Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.</p>
+              <p>Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM. Final GPA: 9.43/10.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-3">
+            <span class="entry-date">Mar 2020 – Feb 2024</span>
+            <span class="entry-title">Clinical Instructor in Internal Medicine</span>
+            <span class="entry-meta">UG</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-3" hidden>
+            <div class="entry-panel-inner">
+              <p>Universidad de Guanajuato. León, Guanajuato.</p>
+              <p>Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-4">
+            <span class="entry-date">Sep 2019 – Mar 2020</span>
+            <span class="entry-title">Research Assistant</span>
+            <span class="entry-meta">PIH Mexico</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-4" hidden>
+            <div class="entry-panel-inner">
+              <p>Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+              <p>Supported evaluation of a shared medical appointments programme for type 2 diabetes in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health, contributing to data management and contextualization of findings.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-5">
+            <span class="entry-date">Mar 2019 – Mar 2020</span>
+            <span class="entry-title">Research Assistant</span>
+            <span class="entry-meta">UAEMéx</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-5" hidden>
+            <div class="entry-panel-inner">
+              <p>UAEMéx. Toluca, Estado de México.</p>
+              <p>Hands-on participation in postgraduate neurochemistry research, working directly with murine models for behavioural assessment in memory maze paradigms.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-6">
+            <span class="entry-date">Jul 2017 – Aug 2018</span>
+            <span class="entry-title">Physician</span>
+            <span class="entry-meta">PIH Mexico</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-6" hidden>
+            <div class="entry-panel-inner">
+              <p>Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+              <p>Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-7">
+            <span class="entry-date">Oct 2015 – Jul 2017</span>
+            <span class="entry-title">Independent Contractor</span>
+            <span class="entry-meta">Figure 1</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-7" hidden>
+            <div class="entry-panel-inner">
+              <p>Figure 1. Toronto, Canada.</p>
+              <p>Medical translation and localization of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-8">
+            <span class="entry-date">Aug 2014 – Dec 2015</span>
+            <span class="entry-title">Tissue Biology Laboratory Instructor</span>
+            <span class="entry-meta">ITESM</span>
+          </button>
+          <div class="entry-panel" id="panel-experience-8" hidden>
+            <div class="entry-panel-inner">
+              <p>Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+              <p>Designed laboratory activities and assessment tools for undergraduate students and supported transition to blended and virtual laboratory instruction.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="education" aria-labelledby="education-title">
+      <h2 id="education-title">Education</h2>
+      <div class="list" data-accordion>
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-education-1">
+            <span class="entry-date">Mar 2020 – Feb 2024</span>
+            <span class="entry-title">Specialist Training in Internal Medicine</span>
+            <span class="entry-meta">UNAM</span>
+          </button>
+          <div class="entry-panel" id="panel-education-1" hidden>
+            <div class="entry-panel-inner">
+              <p>Universidad Nacional Autónoma de México. Ciudad de México.</p>
+              <p>Certified by the Mexican Board of Internal Medicine. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-education-2">
+            <span class="entry-date">Aug 2011 – Aug 2018</span>
+            <span class="entry-title">Medical Degree</span>
+            <span class="entry-meta">ITESM</span>
+          </button>
+          <div class="entry-panel" id="panel-education-2" hidden>
+            <div class="entry-panel-inner">
+              <p>Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+              <p>Merit-based academic scholarship. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Participation in community health brigades in underserved urban settings.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="publications" aria-labelledby="publications-title">
+      <h2 id="publications-title"><button class="section-toggle" type="button" id="publicationsToggle" aria-expanded="false" aria-controls="publicationsList" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>Selected Publications</button></h2>
+      <div class="list publications-list" id="publicationsList" data-accordion hidden aria-hidden="true">
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-1">
+            <span class="entry-date">2026</span>
+            <span class="entry-title">Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey.</span>
+            <span class="entry-meta">Abstract</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-1" hidden>
+            <div class="entry-panel-inner">
+              <p>Guadarrama-Conzuelo F, Barragán Ortega J, Leon-Rodriguez E, Demichelis R, Chavarri Guerra Y. Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey. <em>J Clin Oncol</em>. 2026;44(16_suppl):1599. <a href="https://doi.org/10.1200/JCO.2026.44.16_suppl.1599" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.1200/JCO.2026.44.16_suppl.1599</a>.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-2">
+            <span class="entry-date">2025</span>
+            <span class="entry-title">Breast cancer and health inequalities: Another never ending story?</span>
+            <span class="entry-meta">Editorial</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-2" hidden>
+            <div class="entry-panel-inner">
+              <p>Guadarrama F, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. <a href="https://doi.org/10.1016/j.ric.2025.100014" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.1016/j.ric.2025.100014</a>.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-3">
+            <span class="entry-date">2020</span>
+            <span class="entry-title">Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years.</span>
+            <span class="entry-meta">Article</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-3" hidden>
+            <div class="entry-panel-inner">
+              <p>Gutiérrez Castillo A, Gutiérrez Castillo J, Guadarrama F. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. <a href="https://doi.org/10.18502/jmehm.v13i22.4864" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.18502/jmehm.v13i22.4864</a>.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-4">
+            <span class="entry-date">2019</span>
+            <span class="entry-title">Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas.</span>
+            <span class="entry-meta">Policy</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-4" hidden>
+            <div class="entry-panel-inner">
+              <p>Rodríguez Cuevas FG, Guadarrama F. Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas. <em>Hablemos de Salud</em>. FUNSALUD. México, 2019.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-5">
+            <span class="entry-date">2021</span>
+            <span class="entry-title">Hipertensión durante la hospitalización.</span>
+            <span class="entry-meta">Book Chapter</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-5" hidden>
+            <div class="entry-panel-inner">
+              <p>Martínez Navarro LJ, Guadarrama F, Ortiz-Ledesma CI. Hipertensión durante la hospitalización. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-6">
+            <span class="entry-date">2021</span>
+            <span class="entry-title">Debilidad en el paciente hospitalizado.</span>
+            <span class="entry-meta">Book Chapter</span>
+          </button>
+          <div class="entry-panel" id="panel-publication-6" hidden>
+            <div class="entry-panel-inner">
+              <p>Bermúdez Maldonado L, Guadarrama F. Debilidad en el paciente hospitalizado. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact</h2>
+      <div class="list" data-accordion>
+        <article class="entry" data-open="false">
+          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-contact-1">
+            <span class="entry-date">Open</span>
+            <span class="entry-title">Professional contact</span>
+            <span class="entry-meta">LinkedIn</span>
+          </button>
+          <div class="entry-panel" id="panel-contact-1" hidden>
+            <div class="entry-panel-inner">
+              <p>For professional contact, connect through <a href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank" rel="noopener" data-cuelume-hover="tick">LinkedIn</a> or send me an <a href="#" id="emailLink" aria-label="Open e-mail client" rel="nofollow" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>e-mail</a>.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© Francisco Guadarrama</span>
+      <a data-cuelume-hover="tick" href="#top">Back to top</a>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const body = document.body;
+      const entries = Array.from(document.querySelectorAll('.entry'));
+      const themeToggle = document.getElementById('themeToggle');
+      const emailLink = document.getElementById('emailLink');
+      const publicationsToggle = document.getElementById('publicationsToggle');
+      const publicationsList = document.getElementById('publicationsList');
+      const publicationsAnchor = document.getElementById('publicationsAnchor');
+      const accentDot = document.getElementById('accentDot');
+      const storageKey = 'francisco-landing-theme';
+      const accentStorageKey = 'francisco-landing-accent';
+      const accentPairs = [
+        {
+          light: '#3f41f5',
+          dark: '#ffcb3b',
+          lightP3: 'color(display-p3 0.248472 0.254646 0.924160)',
+          darkP3: 'color(display-p3 0.967883 0.803967 0.349426)'
+        },
+        {
+          light: '#257563',
+          dark: '#96f4a6',
+          lightP3: 'color(display-p3 0.239564 0.452400 0.391226)',
+          darkP3: 'color(display-p3 0.673706 0.947526 0.678450)'
+        },
+        {
+          light: '#e43a1d',
+          dark: '#ff6838',
+          lightP3: 'color(display-p3 0.824163 0.286347 0.181046)',
+          darkP3: 'color(display-p3 0.929492 0.445516 0.278657)'
+        }
+      ];
+      const accentColors = accentPairs.map((pair) => pair.light);
+      let currentAccentIndex = 0;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const supportsP3Color = Boolean(
+        window.CSS &&
+        CSS.supports('color', 'color(display-p3 1 1 1)') &&
+        window.matchMedia('(color-gamut: p3)').matches
+      );
+
+      const Cuelume = (() => {
+        let context;
+        let master;
+        let primed = false;
+
+        const ensure = () => {
+          if (!context) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return null;
+            context = new AudioContext();
+            master = context.createGain();
+            master.gain.value = 0.055;
+            master.connect(context.destination);
+          }
+          if (context.state === 'suspended') context.resume().catch(() => {});
+          primed = true;
+          return context;
+        };
+
+        const tone = (frequency, duration, start, options = {}) => {
+          const ctx = ensure();
+          if (!ctx || !master) return;
+          const oscillator = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const t = ctx.currentTime + (start || 0);
+          const curve = options.curve || 'sine';
+          oscillator.type = options.type || 'sine';
+          oscillator.frequency.setValueAtTime(frequency, t);
+          if (options.to) oscillator.frequency.exponentialRampToValueAtTime(options.to, t + duration);
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.exponentialRampToValueAtTime(options.gain || 0.8, t + Math.min(0.018, duration * 0.28));
+          if (curve === 'soft') {
+            gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+          } else {
+            gain.gain.setTargetAtTime(0.0001, t + duration * 0.45, duration * 0.18);
+          }
+          oscillator.connect(gain);
+          gain.connect(master);
+          oscillator.start(t);
+          oscillator.stop(t + duration + 0.035);
+        };
+
+        const play = (cue = 'tick') => {
+          if (document.hidden) return;
+          if (!primed && cue === 'tick') return;
+          switch (cue) {
+            case 'press':
+              tone(196, 0.055, 0, { type: 'triangle', gain: 0.52, to: 168 });
+              break;
+            case 'release':
+              tone(300, 0.06, 0, { type: 'sine', gain: 0.45, to: 365 });
+              break;
+            case 'toggle':
+              tone(260, 0.075, 0, { type: 'sine', gain: 0.46, to: 390, curve: 'soft' });
+              tone(520, 0.09, 0.035, { type: 'sine', gain: 0.34, to: 650, curve: 'soft' });
+              break;
+            case 'success':
+              tone(440, 0.07, 0, { type: 'sine', gain: 0.42, curve: 'soft' });
+              tone(660, 0.1, 0.055, { type: 'sine', gain: 0.34, curve: 'soft' });
+              break;
+            case 'chime':
+              tone(392, 0.09, 0, { type: 'sine', gain: 0.34, curve: 'soft' });
+              tone(784, 0.12, 0.045, { type: 'sine', gain: 0.25, curve: 'soft' });
+              break;
+            case 'tick':
+            default:
+              tone(620, 0.032, 0, { type: 'sine', gain: 0.22, to: 740 });
+              break;
+          }
+        };
+
+        const bind = () => {
+          document.addEventListener('pointerdown', ensure, { once: true, passive: true });
+          document.querySelectorAll('[data-cuelume-hover]').forEach((node) => {
+            node.addEventListener('pointerenter', () => {
+              if (finePointer.matches) play(node.dataset.cuelumeHover || 'tick');
+            });
+          });
+          document.querySelectorAll('[data-cuelume-press]').forEach((node) => {
+            node.addEventListener('pointerdown', () => play('press'), { passive: true });
+          });
+          document.querySelectorAll('[data-cuelume-release]').forEach((node) => {
+            node.addEventListener('pointerup', () => play('release'), { passive: true });
+          });
+        };
+
+        return { bind, play };
+      })();
+
+      const findAccentIndex = (color) => {
+        const normalized = String(color || '').trim().toLowerCase();
+        const index = accentPairs.findIndex((pair) => pair.light === normalized || pair.dark === normalized);
+        return index >= 0 ? index : 0;
+      };
+
+      const applyAccentForTheme = () => {
+        const pair = accentPairs[currentAccentIndex] || accentPairs[0];
+        const isDark = root.dataset.theme === 'dark';
+        const appliedHex = isDark ? pair.dark : pair.light;
+        const appliedColor = supportsP3Color ? (isDark ? pair.darkP3 : pair.lightP3) : appliedHex;
+        root.style.setProperty('--accent', appliedColor);
+        if (accentDot) {
+          accentDot.style.backgroundColor = appliedColor;
+          accentDot.setAttribute('aria-label', `Change accent color. Current accent: ${appliedHex}`);
+        }
+      };
+
+      const setTheme = (theme, persist = true) => {
+        root.dataset.theme = theme;
+        const isDark = theme === 'dark';
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#2d2930' : '#f7fcfe');
+        applyAccentForTheme();
+        if (persist) localStorage.setItem(storageKey, theme);
+      };
+
+      const setAccent = (color, persist = true) => {
+        currentAccentIndex = findAccentIndex(color);
+        applyAccentForTheme();
+        if (persist) localStorage.setItem(accentStorageKey, accentPairs[currentAccentIndex].light);
+      };
+
+      const storedTheme = localStorage.getItem(storageKey);
+      const storedAccent = localStorage.getItem(accentStorageKey);
+      currentAccentIndex = findAccentIndex(storedAccent || accentPairs[0].light);
+      setTheme(storedTheme === 'dark' ? 'dark' : 'light', false);
+      setAccent(accentPairs[currentAccentIndex].light, false);
+
+      const runThemeTransition = (event, nextTheme) => {
+        if (reduceMotion.matches || !document.startViewTransition) {
+          setTheme(nextTheme);
+          return;
+        }
+
+        const x = event.clientX || window.innerWidth - 48;
+        const y = event.clientY || 48;
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+
+        const transition = document.startViewTransition(() => setTheme(nextTheme));
+        transition.ready.then(() => {
+          root.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`
+              ]
+            },
+            {
+              duration: 560,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        }).catch(() => {});
+      };
+
+      const closePublicationEntries = () => {
+        if (!publicationsList) return;
+        publicationsList.querySelectorAll('.entry').forEach((entry) => {
+          const button = entry.querySelector('.entry-button');
+          const panel = entry.querySelector('.entry-panel');
+          entry.dataset.open = 'false';
+          button?.setAttribute('aria-expanded', 'false');
+          if (panel) {
+            panel.style.height = '0px';
+            panel.hidden = true;
+          }
+        });
+      };
+
+      const setPublicationsVisible = (visible, playSound = true) => {
+        if (!publicationsList || !publicationsToggle) return;
+
+        if (!visible) {
+          closePublicationEntries();
+          publicationsList.hidden = true;
+          publicationsList.setAttribute('aria-hidden', 'true');
+          publicationsToggle.setAttribute('aria-expanded', 'false');
+          if (playSound) Cuelume.play('release');
+          return;
+        }
+
+        publicationsList.hidden = false;
+        publicationsList.setAttribute('aria-hidden', 'false');
+        publicationsToggle.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(() => {
+          publicationsList.querySelectorAll('.entry').forEach((entry) => openEntry(entry, { closeOthers: false, silent: true }));
+          if (playSound) Cuelume.play('chime');
+        });
+      };
+
+      const togglePublications = () => {
+        setPublicationsVisible(publicationsList?.hidden === true);
+      };
+
+      publicationsToggle?.addEventListener('click', togglePublications);
+      publicationsAnchor?.addEventListener('click', () => {
+        setPublicationsVisible(true);
+      });
+
+      accentDot?.addEventListener('click', () => {
+        currentAccentIndex = (currentAccentIndex + 1) % accentPairs.length;
+        Cuelume.play('toggle');
+        setAccent(accentPairs[currentAccentIndex].light);
+      });
+
+      themeToggle.addEventListener('click', (event) => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        Cuelume.play('toggle');
+        runThemeTransition(event, nextTheme);
+      });
+
+      const setPanelHeight = (panel, height) => {
+        panel.style.height = `${height}px`;
+      };
+
+      const closeEntry = (entry) => {
+        if (entry.dataset.open !== 'true') return;
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+        button.setAttribute('aria-expanded', 'false');
+        entry.dataset.open = 'false';
+        panel.style.height = `${panel.scrollHeight}px`;
+        requestAnimationFrame(() => setPanelHeight(panel, 0));
+      };
+
+      const openEntry = (entry, options = {}) => {
+        const shouldCloseOthers = options.closeOthers !== false;
+        if (shouldCloseOthers) {
+          entries.forEach((other) => {
+            if (other !== entry) closeEntry(other);
+          });
+        }
+
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+        panel.hidden = false;
+        panel.style.height = entry.dataset.open === 'true' ? `${panel.scrollHeight}px` : '0px';
+        entry.dataset.open = 'true';
+        button.setAttribute('aria-expanded', 'true');
+        if (!options.silent) Cuelume.play('chime');
+        requestAnimationFrame(() => setPanelHeight(panel, panel.scrollHeight));
+      };
+
+      entries.forEach((entry) => {
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+
+        button.addEventListener('click', () => {
+          if (entry.dataset.open === 'true') closeEntry(entry);
+          else openEntry(entry);
+        });
+
+        panel.addEventListener('transitionend', (event) => {
+          if (event.propertyName !== 'height') return;
+          if (entry.dataset.open === 'true') {
+            panel.style.height = 'auto';
+          } else {
+            panel.hidden = true;
+          }
+        });
+      });
+
+      const decodeContactAddress = () => {
+        const shifted = [114, 105, 108, 102, 108, 113, 100, 67, 105, 48, 106, 102, 49, 113, 104, 119];
+        return shifted.map((value) => String.fromCharCode(value - 3)).join('');
+      };
+
+      emailLink?.addEventListener('click', (event) => {
+        event.preventDefault();
+        Cuelume.play('success');
+        const scheme = ['mai', 'lto:'].join('');
+        window.location.href = scheme + decodeContactAddress();
+      });
+
+      const blockTextCopy = (event) => {
+        event.preventDefault();
+        if (event.clipboardData) {
+          event.clipboardData.setData('text/plain', '');
+        }
+        Cuelume.play('press');
+      };
+
+      document.addEventListener('copy', blockTextCopy, true);
+      document.addEventListener('cut', blockTextCopy, true);
+      document.addEventListener('dragstart', (event) => event.preventDefault(), true);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') entries.forEach(closeEntry);
+      });
+
+      Cuelume.bind();
+      requestAnimationFrame(() => body.classList.add('is-ready'));
+    })();
+  </script>
+</body>
+</html>
