@@ -1,19 +1,20 @@
-<!doctype html>
-<html lang="en" data-theme="light">
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Francisco Guadarrama — Medical Oncology and Internal Medicine." />
-  <meta name="theme-color" content="#f6f7fc" />
-  <meta property="og:title" content="Francisco Guadarrama" />
-  <meta property="og:description" content="Medical Oncology · Internal Medicine" />
-  <meta property="og:type" content="website" />
-  <title>Francisco Guadarrama</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%233f41f5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%205h12%22%2F%3E%3Cpath%20d%3D%22M4%2012h10%22%2F%3E%3Cpath%20d%3D%22M12%2019h8%22%2F%3E%3C%2Fsvg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&display=swap" rel="stylesheet" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Francisco Guadarrama — Medical Oncology and Internal Medicine." name="description"/>
+<meta content="#f6f7fc" name="theme-color"/>
+<meta content="Francisco Guadarrama" property="og:title"/>
+<meta content="Medical Oncology · Internal Medicine" property="og:description"/>
+<meta content="website" property="og:type"/>
+<title>Francisco Guadarrama</title>
+<link href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%233f41f5%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%205h12%22%2F%3E%3Cpath%20d%3D%22M4%2012h10%22%2F%3E%3Cpath%20d%3D%22M12%2019h8%22%2F%3E%3C%2Fsvg%3E" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;display=swap" rel="stylesheet"/>
+<style>
     :root {
       color-scheme: light;
       --bg: #f6f7fc;
@@ -251,6 +252,44 @@
       font-size: 12.7px;
       font-weight: 360;
       line-height: 1.25;
+    }
+
+
+
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 12.6px;
+      line-height: 1;
+      font-weight: 480;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .language-toggle:hover,
+    .language-toggle:focus-visible {
+      color: var(--accent);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .language-toggle:active { transform: scale(0.96) translateZ(0); }
+
+    .language-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .theme-toggle {
@@ -751,7 +790,45 @@
         line-height: 1.28;
       }
 
-      .theme-toggle {
+  
+
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 12.6px;
+      line-height: 1;
+      font-weight: 480;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .language-toggle:hover,
+    .language-toggle:focus-visible {
+      color: var(--accent);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .language-toggle:active { transform: scale(0.96) translateZ(0); }
+
+    .language-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .theme-toggle {
         width: 34px;
         height: 34px;
       }
@@ -866,305 +943,285 @@
   </style>
 </head>
 <body>
-  <main class="page" id="top">
-    <header class="intro" aria-labelledby="site-title">
-      <div class="topline">
-        <div>
-          <p class="name" id="site-title">Francisco Guadarrama</p>
-          <p class="role">Medical Oncology · Internal Medicine</p>
-        </div>
-
-        <div class="top-controls" aria-label="Theme and accent controls">
-          <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release data-cuelume-toggle>
-            <span class="theme-icon-wrap" aria-hidden="true">
-              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
-              </svg>
-              <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 2v2"></path>
-                <path d="M12 20v2"></path>
-                <path d="m4.93 4.93 1.41 1.41"></path>
-                <path d="m17.66 17.66 1.41 1.41"></path>
-                <path d="M2 12h2"></path>
-                <path d="M20 12h2"></path>
-                <path d="m6.34 17.66-1.41 1.41"></path>
-                <path d="m19.07 4.93-1.41 1.41"></path>
-              </svg>
-            </span>
-          </button>
-          <button class="accent-dot" type="button" id="accentDot" aria-label="Change accent color" data-cuelume-press data-cuelume-release><span class="accent-orbit accent-orbit-outer" aria-hidden="true"></span><span class="accent-orbit accent-orbit-inner" aria-hidden="true"></span><span class="accent-core" aria-hidden="true"></span></button>
-        </div>
-      </div>
-
-      <div class="bio">
-        <p>Physician, board-certified in Internal Medicine and current Medical Oncology fellow, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization.</p>
-        <p>Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education.</p>
-        <p>See <a data-cuelume-hover="tick" href="#experience">experience</a>, <a data-cuelume-hover="tick" href="#education">education</a>, <a data-cuelume-hover="tick" href="#publications" id="publicationsAnchor">publications</a>, or <a data-cuelume-hover="tick" href="#contact">contact information</a>.</p>
-      </div>
-    </header>
-
-    <section class="section" id="experience" aria-labelledby="experience-title">
-      <h2 id="experience-title">Experience</h2>
-      <div class="list" data-accordion>
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-1">
-            <span class="entry-date">Mar 2024 – Present</span>
-            <span class="entry-title">Medical Oncology Fellow &amp; Chief Resident</span>
-            <span class="entry-meta">INCMNSZ</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-1" hidden>
-            <div class="entry-panel-inner">
-              <p>Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.</p>
-              <p>Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-2">
-            <span class="entry-date">Mar 2020 – Feb 2024</span>
-            <span class="entry-title">Internal Medicine Residency</span>
-            <span class="entry-meta">HRAEB</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-2" hidden>
-            <div class="entry-panel-inner">
-              <p>Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.</p>
-              <p>Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM. Final GPA: 9.43/10.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-3">
-            <span class="entry-date">Mar 2020 – Feb 2024</span>
-            <span class="entry-title">Clinical Instructor in Internal Medicine</span>
-            <span class="entry-meta">UG</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-3" hidden>
-            <div class="entry-panel-inner">
-              <p>Universidad de Guanajuato. León, Guanajuato.</p>
-              <p>Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-4">
-            <span class="entry-date">Sep 2019 – Mar 2020</span>
-            <span class="entry-title">Research Assistant</span>
-            <span class="entry-meta">PIH Mexico</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-4" hidden>
-            <div class="entry-panel-inner">
-              <p>Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
-              <p>Supported evaluation of a shared medical appointments programme for type 2 diabetes in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health, contributing to data management and contextualization of findings.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-5">
-            <span class="entry-date">Mar 2019 – Mar 2020</span>
-            <span class="entry-title">Research Assistant</span>
-            <span class="entry-meta">UAEMéx</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-5" hidden>
-            <div class="entry-panel-inner">
-              <p>UAEMéx. Toluca, Estado de México.</p>
-              <p>Hands-on participation in postgraduate neurochemistry research, working directly with murine models for behavioural assessment in memory maze paradigms.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-6">
-            <span class="entry-date">Jul 2017 – Aug 2018</span>
-            <span class="entry-title">Physician</span>
-            <span class="entry-meta">PIH Mexico</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-6" hidden>
-            <div class="entry-panel-inner">
-              <p>Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
-              <p>Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-7">
-            <span class="entry-date">Oct 2015 – Jul 2017</span>
-            <span class="entry-title">Independent Contractor</span>
-            <span class="entry-meta">Figure 1</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-7" hidden>
-            <div class="entry-panel-inner">
-              <p>Figure 1. Toronto, Canada.</p>
-              <p>Medical translation and localization of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-experience-8">
-            <span class="entry-date">Aug 2014 – Dec 2015</span>
-            <span class="entry-title">Tissue Biology Laboratory Instructor</span>
-            <span class="entry-meta">ITESM</span>
-          </button>
-          <div class="entry-panel" id="panel-experience-8" hidden>
-            <div class="entry-panel-inner">
-              <p>Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
-              <p>Designed laboratory activities and assessment tools for undergraduate students and supported transition to blended and virtual laboratory instruction.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="education" aria-labelledby="education-title">
-      <h2 id="education-title">Education</h2>
-      <div class="list" data-accordion>
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-education-1">
-            <span class="entry-date">Mar 2020 – Feb 2024</span>
-            <span class="entry-title">Specialist Training in Internal Medicine</span>
-            <span class="entry-meta">UNAM</span>
-          </button>
-          <div class="entry-panel" id="panel-education-1" hidden>
-            <div class="entry-panel-inner">
-              <p>Universidad Nacional Autónoma de México. Ciudad de México.</p>
-              <p>Certified by the Mexican Board of Internal Medicine. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-education-2">
-            <span class="entry-date">Aug 2011 – Aug 2018</span>
-            <span class="entry-title">Medical Degree</span>
-            <span class="entry-meta">ITESM</span>
-          </button>
-          <div class="entry-panel" id="panel-education-2" hidden>
-            <div class="entry-panel-inner">
-              <p>Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
-              <p>Merit-based academic scholarship. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Participation in community health brigades in underserved urban settings.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="publications" aria-labelledby="publications-title">
-      <h2 id="publications-title"><button class="section-toggle" type="button" id="publicationsToggle" aria-expanded="false" aria-controls="publicationsList" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>Selected Publications</button></h2>
-      <div class="list publications-list" id="publicationsList" data-accordion hidden aria-hidden="true">
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-1">
-            <span class="entry-date">2026</span>
-            <span class="entry-title">Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey.</span>
-            <span class="entry-meta">Abstract</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-1" hidden>
-            <div class="entry-panel-inner">
-              <p>Guadarrama-Conzuelo F, Barragán Ortega J, Leon-Rodriguez E, Demichelis R, Chavarri Guerra Y. Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey. <em>J Clin Oncol</em>. 2026;44(16_suppl):1599. <a href="https://doi.org/10.1200/JCO.2026.44.16_suppl.1599" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.1200/JCO.2026.44.16_suppl.1599</a>.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-2">
-            <span class="entry-date">2025</span>
-            <span class="entry-title">Breast cancer and health inequalities: Another never ending story?</span>
-            <span class="entry-meta">Editorial</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-2" hidden>
-            <div class="entry-panel-inner">
-              <p>Guadarrama F, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. <a href="https://doi.org/10.1016/j.ric.2025.100014" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.1016/j.ric.2025.100014</a>.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-3">
-            <span class="entry-date">2020</span>
-            <span class="entry-title">Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years.</span>
-            <span class="entry-meta">Article</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-3" hidden>
-            <div class="entry-panel-inner">
-              <p>Gutiérrez Castillo A, Gutiérrez Castillo J, Guadarrama F. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. <a href="https://doi.org/10.18502/jmehm.v13i22.4864" target="_blank" rel="noopener" data-cuelume-hover="tick">doi:10.18502/jmehm.v13i22.4864</a>.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-4">
-            <span class="entry-date">2019</span>
-            <span class="entry-title">Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas.</span>
-            <span class="entry-meta">Policy</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-4" hidden>
-            <div class="entry-panel-inner">
-              <p>Rodríguez Cuevas FG, Guadarrama F. Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas. <em>Hablemos de Salud</em>. FUNSALUD. México, 2019.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-5">
-            <span class="entry-date">2021</span>
-            <span class="entry-title">Hipertensión durante la hospitalización.</span>
-            <span class="entry-meta">Book Chapter</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-5" hidden>
-            <div class="entry-panel-inner">
-              <p>Martínez Navarro LJ, Guadarrama F, Ortiz-Ledesma CI. Hipertensión durante la hospitalización. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-publication-6">
-            <span class="entry-date">2021</span>
-            <span class="entry-title">Debilidad en el paciente hospitalizado.</span>
-            <span class="entry-meta">Book Chapter</span>
-          </button>
-          <div class="entry-panel" id="panel-publication-6" hidden>
-            <div class="entry-panel-inner">
-              <p>Bermúdez Maldonado L, Guadarrama F. Debilidad en el paciente hospitalizado. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title">Contact</h2>
-      <div class="list" data-accordion>
-        <article class="entry contact-entry" data-open="false">
-          <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-contact-1">
-            <span class="entry-title">Show information</span>
-          </button>
-          <div class="entry-panel" id="panel-contact-1" hidden>
-            <div class="entry-panel-inner">
-              <p class="contact-links"><a href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank" rel="noopener" data-cuelume-hover="tick">LinkedIn</a><a href="#" id="emailLink" aria-label="Open e-mail client" rel="nofollow" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>e-mail</a></p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>© Francisco Guadarrama</span>
-      <a data-cuelume-hover="tick" href="#top">Back to top</a>
-    </footer>
-  </main>
-
-  <script>
+<main class="page" id="top">
+<header aria-labelledby="site-title" class="intro">
+<div class="topline">
+<div>
+<p class="name" id="site-title">Francisco Guadarrama</p>
+<p class="role" data-en="Medical Oncology · Internal Medicine" data-es="Oncología Médica · Medicina Interna">Medical Oncology · Internal Medicine</p>
+</div>
+<div aria-label="Theme and accent controls" class="top-controls">
+<button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button">En</button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
+<span aria-hidden="true" class="theme-icon-wrap">
+<svg class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
+</svg>
+<svg class="theme-icon theme-icon-sun" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path>
+<path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path>
+<path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path>
+<path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path>
+<path d="m19.07 4.93-1.41 1.41"></path>
+</svg>
+</span>
+</button>
+<button aria-label="Change accent color" class="accent-dot" data-cuelume-press="" data-cuelume-release="" id="accentDot" type="button"><span aria-hidden="true" class="accent-orbit accent-orbit-outer"></span><span aria-hidden="true" class="accent-orbit accent-orbit-inner"></span><span aria-hidden="true" class="accent-core"></span></button>
+</div>
+</div>
+<div class="bio">
+<p data-en="Physician, board-certified in Internal Medicine and current Medical Oncology fellow, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization." data-es="Médico, especialista certificado en Medicina Interna y residente de Oncología Médica, con experiencia de liderazgo en centros nacionales de referencia y sistemas de atención primaria que atienden a poblaciones en marginación extrema.">Physician, board-certified in Internal Medicine and current Medical Oncology fellow, with leadership experience across national referral centers and primary care systems serving populations in extreme marginalization.</p>
+<p data-en="Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education." data-es="Enfoque profesional en acceso a oncología, toma de decisiones basada en valor y fortalecimiento de sistemas de salud en países de ingresos medios, en la interfaz entre práctica clínica, política pública y educación médica.">Professional focus on oncology access, value-based decision-making, and health system strengthening in middle-income settings, at the interface of clinical practice, public policy, and medical education.</p>
+<p><span data-en="See " data-es="Ver ">See </span><a data-cuelume-hover="tick" data-en="experience" data-es="experiencia" href="#experience">experience</a><span data-en=", " data-es=", ">, </span><a data-cuelume-hover="tick" data-en="education" data-es="formación" href="#education">education</a><span data-en=", " data-es=", ">, </span><a data-cuelume-hover="tick" data-en="publications" data-es="publicaciones" href="#publications" id="publicationsAnchor">publications</a><span data-en=", or " data-es=" o ">, or </span><a data-cuelume-hover="tick" data-en="contact information" data-es="información de contacto" href="#contact">contact information</a><span data-en="." data-es=".">.</span></p>
+</div>
+</header>
+<section aria-labelledby="experience-title" class="section" id="experience">
+<h2 data-en="Experience" data-es="Experiencia" id="experience-title">Experience</h2>
+<div class="list" data-accordion="">
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2024 – Present" data-es="mar 2024 – presente">Mar 2024 – Present</span>
+<span class="entry-title" data-en="Medical Oncology Fellow &amp; Chief Resident" data-es="Residente de Oncología Médica y jefe de residentes">Medical Oncology Fellow &amp; Chief Resident</span>
+<span class="entry-meta" data-en="INCMNSZ" data-es="INCMNSZ">INCMNSZ</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-1">
+<div class="entry-panel-inner">
+<p data-en="Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México." data-es="Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.">Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.</p>
+<p data-en="Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation." data-es="Responsable de coordinación académica, supervisión de residentes junior y apoyo operativo de los servicios clínicos en uno de los principales centros nacionales de referencia en México. Participación activa en atención oncológica multidisciplinaria y toma de decisiones clínicas complejas, con contribuciones a la planeación del servicio y la asignación de recursos.">Responsible for academic coordination, supervision of junior trainees, and operational support of clinical services within Mexico's top referral center. Active participation in multidisciplinary oncology care and complex clinical decision-making, with major contributions to service planning and resource allocation.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Internal Medicine Residency" data-es="Residencia de Medicina Interna">Internal Medicine Residency</span>
+<span class="entry-meta" data-en="HRAEB" data-es="HRAEB">HRAEB</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-2">
+<div class="entry-panel-inner">
+<p data-en="Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato." data-es="Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.">Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.</p>
+<p data-en="Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM. Final GPA: 9.43/10." data-es="Formación como especialista en un hospital terciario de referencia. Atención clínica de primera línea durante la pandemia por COVID-19. Acreditación académica por la UNAM. Promedio final: 9.43/10.">Completed specialist training at a tertiary referral hospital. Provided frontline clinical care during the COVID-19 pandemic. Academic accreditation by UNAM. Final GPA: 9.43/10.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-3" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Clinical Instructor in Internal Medicine" data-es="Instructor clínico de Medicina Interna">Clinical Instructor in Internal Medicine</span>
+<span class="entry-meta" data-en="UG" data-es="UG">UG</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-3">
+<div class="entry-panel-inner">
+<p data-en="Universidad de Guanajuato. León, Guanajuato." data-es="Universidad de Guanajuato. León, Guanajuato.">Universidad de Guanajuato. León, Guanajuato.</p>
+<p data-en="Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality." data-es="Supervisión y mentoría de estudiantes de medicina, coordinación de rotaciones hospitalarias y enlace con servicios clínicos para mantener la calidad de la formación.">Supervised and mentored undergraduate medical students, coordinated hospital rotations, and liaised with clinical services to ensure training quality.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-4" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Sep 2019 – Mar 2020" data-es="sep 2019 – mar 2020">Sep 2019 – Mar 2020</span>
+<span class="entry-title" data-en="Research Assistant" data-es="Asistente de investigación">Research Assistant</span>
+<span class="entry-meta" data-en="PIH Mexico" data-es="PIH México">PIH Mexico</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-4">
+<div class="entry-panel-inner">
+<p data-en="Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas." data-es="Compañeros en Salud · Partners In Health México. Capitán Luis A. Vidal, Chiapas.">Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+<p data-en="Supported evaluation of a shared medical appointments programme for type 2 diabetes in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health, contributing to data management and contextualization of findings." data-es="Apoyo en la evaluación de un programa de consultas médicas compartidas para diabetes tipo 2 en entornos con recursos limitados. Colaboración internacional con Harvard T.H. Chan School of Public Health, con contribuciones al manejo de datos y la contextualización de hallazgos.">Supported evaluation of a shared medical appointments programme for type 2 diabetes in resource-limited settings. International collaboration with Harvard T.H. Chan School of Public Health, contributing to data management and contextualization of findings.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-5" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2019 – Mar 2020" data-es="mar 2019 – mar 2020">Mar 2019 – Mar 2020</span>
+<span class="entry-title" data-en="Research Assistant" data-es="Asistente de investigación">Research Assistant</span>
+<span class="entry-meta" data-en="UAEMéx" data-es="UAEMéx">UAEMéx</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-5">
+<div class="entry-panel-inner">
+<p data-en="UAEMéx. Toluca, Estado de México." data-es="UAEMéx. Toluca, Estado de México.">UAEMéx. Toluca, Estado de México.</p>
+<p data-en="Hands-on participation in postgraduate neurochemistry research, working directly with murine models for behavioural assessment in memory maze paradigms." data-es="Participación directa en investigación de posgrado en neuroquímica, trabajando con modelos murinos para evaluación conductual en paradigmas de laberinto y memoria.">Hands-on participation in postgraduate neurochemistry research, working directly with murine models for behavioural assessment in memory maze paradigms.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-6" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Jul 2017 – Aug 2018" data-es="jul 2017 – ago 2018">Jul 2017 – Aug 2018</span>
+<span class="entry-title" data-en="Physician" data-es="Médico">Physician</span>
+<span class="entry-meta" data-en="PIH Mexico" data-es="PIH México">PIH Mexico</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-6">
+<div class="entry-panel-inner">
+<p data-en="Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas." data-es="Compañeros en Salud · Partners In Health México. Capitán Luis A. Vidal, Chiapas.">Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+<p data-en="Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings." data-es="Responsabilidad médica y operativa integral de una clínica rural. Más de 3,100 consultas médicas y dirección de campañas comunitarias de salud, manteniendo atención basada en evidencia en contextos de alta restricción de recursos.">Full medical and operational responsibility for a rural health clinic. Provided over 3,100 medical consultations and directed community health campaigns, maintaining evidence-based care under highly resource-constrained settings.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-7" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Oct 2015 – Jul 2017" data-es="oct 2015 – jul 2017">Oct 2015 – Jul 2017</span>
+<span class="entry-title" data-en="Independent Contractor" data-es="Contratista independiente">Independent Contractor</span>
+<span class="entry-meta" data-en="Figure 1" data-es="Figure 1">Figure 1</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-7">
+<div class="entry-panel-inner">
+<p data-en="Figure 1. Toronto, Canada." data-es="Figure 1. Toronto, Canadá.">Figure 1. Toronto, Canada.</p>
+<p data-en="Medical translation and localization of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup." data-es="Traducción médica y localización de contenido clínico e interfaces de usuario para mercados hispanohablantes dentro de una startup de salud digital en etapa temprana.">Medical translation and localization of clinical content and user interfaces for Spanish-speaking markets within an early-stage digital health startup.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-8" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Aug 2014 – Dec 2015" data-es="ago 2014 – dic 2015">Aug 2014 – Dec 2015</span>
+<span class="entry-title" data-en="Tissue Biology Laboratory Instructor" data-es="Instructor de laboratorio de Biología Tisular">Tissue Biology Laboratory Instructor</span>
+<span class="entry-meta" data-en="ITESM" data-es="ITESM">ITESM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-8">
+<div class="entry-panel-inner">
+<p data-en="Tecnológico de Monterrey. Monterrey, Nuevo León." data-es="Tecnológico de Monterrey. Monterrey, Nuevo León.">Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+<p data-en="Designed laboratory activities and assessment tools for undergraduate students and supported transition to blended and virtual laboratory instruction." data-es="Diseño de actividades de laboratorio e instrumentos de evaluación para estudiantes de pregrado, además de apoyo a la transición hacia enseñanza de laboratorio híbrida y virtual.">Designed laboratory activities and assessment tools for undergraduate students and supported transition to blended and virtual laboratory instruction.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="education-title" class="section" id="education">
+<h2 data-en="Education" data-es="Formación" id="education-title">Education</h2>
+<div class="list" data-accordion="">
+<article class="entry" data-open="false">
+<button aria-controls="panel-education-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Specialist Training in Internal Medicine" data-es="Especialidad en Medicina Interna">Specialist Training in Internal Medicine</span>
+<span class="entry-meta" data-en="UNAM" data-es="UNAM">UNAM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-education-1">
+<div class="entry-panel-inner">
+<p data-en="Universidad Nacional Autónoma de México. Ciudad de México." data-es="Universidad Nacional Autónoma de México. Ciudad de México.">Universidad Nacional Autónoma de México. Ciudad de México.</p>
+<p data-en="Certified by the Mexican Board of Internal Medicine. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital." data-es="Certificado por el Consejo Mexicano de Medicina Interna. Tesis: Impacto de la pandemia por COVID-19 en el perfil clínico de pacientes masculinos con tumores de células germinales tratados en un hospital de tercer nivel de referencia.">Certified by the Mexican Board of Internal Medicine. Thesis: Impact of the COVID-19 pandemic on the clinical profile of male patients with germ cell tumors treated at a tertiary-level referral hospital.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-education-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Aug 2011 – Aug 2018" data-es="ago 2011 – ago 2018">Aug 2011 – Aug 2018</span>
+<span class="entry-title" data-en="Medical Degree" data-es="Médico cirujano">Medical Degree</span>
+<span class="entry-meta" data-en="ITESM" data-es="ITESM">ITESM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-education-2">
+<div class="entry-panel-inner">
+<p data-en="Tecnológico de Monterrey. Monterrey, Nuevo León." data-es="Tecnológico de Monterrey. Monterrey, Nuevo León.">Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+<p data-en="Merit-based academic scholarship. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Participation in community health brigades in underserved urban settings." data-es="Beca académica por mérito. Formación clínica en centros académicos de referencia y hospitales de alto volumen en México. Rotación clínica internacional en España. Participación en brigadas de salud comunitaria en zonas urbanas desatendidas.">Merit-based academic scholarship. Clinical training across academic referral and high-volume centers in Mexico. International clinical rotation in Spain. Participation in community health brigades in underserved urban settings.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="publications-title" class="section" id="publications">
+<h2 id="publications-title"><button aria-controls="publicationsList" aria-expanded="false" class="section-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Selected Publications" data-es="Publicaciones seleccionadas" id="publicationsToggle" type="button">Selected Publications</button></h2>
+<div aria-hidden="true" class="list publications-list" data-accordion="" hidden="" id="publicationsList">
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2026</span>
+<span class="entry-title">Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey.</span>
+<span class="entry-meta" data-en="Abstract" data-es="Resumen">Abstract</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-1">
+<div class="entry-panel-inner">
+<p>Guadarrama-Conzuelo F, Barragán Ortega J, Leon-Rodriguez E, Demichelis R, Chavarri Guerra Y. Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey. <em>J Clin Oncol</em>. 2026;44(16_suppl):1599. <a data-cuelume-hover="tick" href="https://doi.org/10.1200/JCO.2026.44.16_suppl.1599" rel="noopener" target="_blank">doi:10.1200/JCO.2026.44.16_suppl.1599</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2025</span>
+<span class="entry-title">Breast cancer and health inequalities: Another never ending story?</span>
+<span class="entry-meta" data-en="Editorial" data-es="Editorial">Editorial</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-2">
+<div class="entry-panel-inner">
+<p>Guadarrama F, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. <a data-cuelume-hover="tick" href="https://doi.org/10.1016/j.ric.2025.100014" rel="noopener" target="_blank">doi:10.1016/j.ric.2025.100014</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-3" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2020</span>
+<span class="entry-title">Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years.</span>
+<span class="entry-meta" data-en="Article" data-es="Artículo">Article</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-3">
+<div class="entry-panel-inner">
+<p>Gutiérrez Castillo A, Gutiérrez Castillo J, Guadarrama F. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. <a data-cuelume-hover="tick" href="https://doi.org/10.18502/jmehm.v13i22.4864" rel="noopener" target="_blank">doi:10.18502/jmehm.v13i22.4864</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-4" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2019</span>
+<span class="entry-title">Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas.</span>
+<span class="entry-meta" data-en="Policy" data-es="Política pública">Policy</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-4">
+<div class="entry-panel-inner">
+<p>Rodríguez Cuevas FG, Guadarrama F. Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas. <em>Hablemos de Salud</em>. FUNSALUD. México, 2019.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-5" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2021</span>
+<span class="entry-title">Hipertensión durante la hospitalización.</span>
+<span class="entry-meta" data-en="Book Chapter" data-es="Capítulo">Book Chapter</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-5">
+<div class="entry-panel-inner">
+<p>Martínez Navarro LJ, Guadarrama F, Ortiz-Ledesma CI. Hipertensión durante la hospitalización. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-6" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2021</span>
+<span class="entry-title">Debilidad en el paciente hospitalizado.</span>
+<span class="entry-meta" data-en="Book Chapter" data-es="Capítulo">Book Chapter</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-6">
+<div class="entry-panel-inner">
+<p>Bermúdez Maldonado L, Guadarrama F. Debilidad en el paciente hospitalizado. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="contact-title" class="section" id="contact">
+<h2 data-en="Contact" data-es="Contacto" id="contact-title">Contact</h2>
+<div class="list" data-accordion="">
+<article class="entry contact-entry" data-open="false">
+<button aria-controls="panel-contact-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-title" data-en="Show information" data-es="Mostrar información">Show information</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-contact-1">
+<div class="entry-panel-inner">
+<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-label="Open e-mail client" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="e-mail" data-es="correo electrónico" href="#" id="emailLink" rel="nofollow">e-mail</a></p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<footer class="footer">
+<span>© Francisco Guadarrama</span>
+<a data-cuelume-hover="tick" data-en="Back to top" data-es="Volver arriba" href="#top">Back to top</a>
+</footer>
+</main>
+<script>
     (() => {
       const root = document.documentElement;
       const body = document.body;
       const entries = Array.from(document.querySelectorAll('.entry'));
       const themeToggle = document.getElementById('themeToggle');
+      const languageToggle = document.getElementById('languageToggle');
       const emailLink = document.getElementById('emailLink');
       const publicationsToggle = document.getElementById('publicationsToggle');
       const publicationsList = document.getElementById('publicationsList');
@@ -1172,6 +1229,7 @@
       const accentDot = document.getElementById('accentDot');
       const storageKey = 'francisco-landing-theme';
       const accentStorageKey = 'francisco-landing-accent';
+      const languageStorageKey = 'francisco-landing-language';
       const accentPairs = [
         {
           light: '#3f41f5',
@@ -1292,6 +1350,35 @@
         return { bind, play };
       })();
 
+
+
+      const setLanguage = (language, persist = true) => {
+        const lang = language === 'es' ? 'es' : 'en';
+        root.lang = lang;
+        root.dataset.language = lang;
+        document.querySelectorAll('[data-en][data-es]').forEach((node) => {
+          node.textContent = lang === 'es' ? node.dataset.es : node.dataset.en;
+        });
+        if (languageToggle) {
+          languageToggle.textContent = lang === 'es' ? 'Es' : 'En';
+          languageToggle.setAttribute('aria-pressed', String(lang === 'es'));
+          languageToggle.setAttribute('aria-label', lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
+        }
+        if (publicationsToggle) {
+          const expanded = publicationsToggle.getAttribute('aria-expanded') === 'true';
+          publicationsToggle.setAttribute('aria-label', lang === 'es'
+            ? (expanded ? 'Ocultar publicaciones seleccionadas' : 'Mostrar publicaciones seleccionadas')
+            : (expanded ? 'Hide selected publications' : 'Show selected publications'));
+        }
+        document.querySelector('meta[name="description"]')?.setAttribute('content', lang === 'es'
+          ? 'Francisco Guadarrama — Oncología Médica y Medicina Interna.'
+          : 'Francisco Guadarrama — Medical Oncology and Internal Medicine.');
+        document.querySelector('meta[property="og:description"]')?.setAttribute('content', lang === 'es'
+          ? 'Oncología Médica · Medicina Interna'
+          : 'Medical Oncology · Internal Medicine');
+        if (persist) localStorage.setItem(languageStorageKey, lang);
+      };
+
       const findAccentIndex = (color) => {
         const normalized = String(color || '').trim().toLowerCase();
         const index = accentPairs.findIndex((pair) => pair.light === normalized || pair.dark === normalized);
@@ -1330,6 +1417,9 @@
       currentAccentIndex = findAccentIndex(storedAccent || accentPairs[0].light);
       setTheme(storedTheme === 'dark' ? 'dark' : 'light', false);
       setAccent(accentPairs[currentAccentIndex].light, false);
+
+      const storedLanguage = localStorage.getItem(languageStorageKey);
+      setLanguage(storedLanguage === 'es' ? 'es' : 'en', false);
 
       const runThemeTransition = (event, nextTheme) => {
         // Android/Chrome mobile renders View Transitions with clip-path inconsistently here.
@@ -1386,6 +1476,7 @@
           publicationsList.hidden = true;
           publicationsList.setAttribute('aria-hidden', 'true');
           publicationsToggle.setAttribute('aria-expanded', 'false');
+          setLanguage(root.lang || 'en', false);
           if (playSound) Cuelume.play('release');
           return;
         }
@@ -1393,6 +1484,7 @@
         publicationsList.hidden = false;
         publicationsList.setAttribute('aria-hidden', 'false');
         publicationsToggle.setAttribute('aria-expanded', 'true');
+        setLanguage(root.lang || 'en', false);
         requestAnimationFrame(() => {
           publicationsList.querySelectorAll('.entry').forEach((entry) => openEntry(entry, { closeOthers: false, silent: true }));
           if (playSound) Cuelume.play('chime');
@@ -1406,6 +1498,12 @@
       publicationsToggle?.addEventListener('click', togglePublications);
       publicationsAnchor?.addEventListener('click', () => {
         setPublicationsVisible(true);
+      });
+
+      languageToggle?.addEventListener('click', () => {
+        const nextLanguage = root.lang === 'es' ? 'en' : 'es';
+        Cuelume.play('toggle');
+        setLanguage(nextLanguage);
       });
 
       accentDot?.addEventListener('click', () => {
