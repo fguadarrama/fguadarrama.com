@@ -690,6 +690,165 @@
       .entry-panel-inner { padding-left: 0; }
     }
 
+
+
+    /* Theme icon state: on touch devices the icon must reflect the active theme, not a hover preview. */
+    html[data-theme="dark"] .theme-icon-moon {
+      opacity: 0;
+      transform: scale(0.5) rotate(18deg);
+    }
+
+    html[data-theme="dark"] .theme-icon-sun {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      html[data-theme="dark"] .theme-toggle:hover .theme-icon-moon,
+      html[data-theme="dark"] .theme-toggle:focus-visible .theme-icon-moon {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+
+      html[data-theme="dark"] .theme-toggle:hover .theme-icon-sun,
+      html[data-theme="dark"] .theme-toggle:focus-visible .theme-icon-sun {
+        opacity: 0;
+        transform: scale(0.5) rotate(-18deg);
+      }
+    }
+
+    /* Mobile reading pass: desktop remains unchanged. */
+    @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+      body {
+        font-size: 16.6px;
+        line-height: 1.54;
+        letter-spacing: -0.011em;
+      }
+
+      .page {
+        width: min(100% - 44px, 720px);
+        padding: 62px 0 60px;
+      }
+
+      .topline {
+        align-items: flex-start;
+        gap: 18px;
+      }
+
+      .top-controls {
+        gap: 10px;
+        padding-top: 1px;
+      }
+
+      .name {
+        font-size: 17.5px;
+        line-height: 1.22;
+      }
+
+      .role {
+        margin-top: 4px;
+        font-size: 17px;
+        line-height: 1.28;
+      }
+
+      .theme-toggle {
+        width: 34px;
+        height: 34px;
+      }
+
+      .theme-icon-wrap,
+      .theme-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      .bio {
+        max-width: none;
+        margin-top: 42px;
+      }
+
+      .bio p {
+        font-size: 17.7px;
+        line-height: 1.56;
+        letter-spacing: -0.012em;
+      }
+
+      .bio p + p { margin-top: 21px; }
+
+      .intro { margin-bottom: 60px; }
+
+      .section {
+        margin-top: 58px;
+        scroll-margin-top: 24px;
+      }
+
+      h2 {
+        padding-bottom: 12px;
+        font-size: 20.4px;
+        line-height: 1.18;
+      }
+
+      .entry-button {
+        grid-template-columns: 1fr !important;
+        gap: 5px;
+        min-height: 0;
+        padding: 15px 0 16px;
+      }
+
+      .entry-title {
+        order: 1;
+        font-size: 17.15px;
+        line-height: 1.34;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+
+      .entry-date {
+        order: 2;
+        font-size: 15.45px;
+        line-height: 1.35;
+        white-space: normal;
+      }
+
+      .entry-meta {
+        display: block;
+        order: 3;
+        text-align: left;
+        font-size: 14.75px;
+        line-height: 1.35;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+
+      .entry-panel-inner {
+        max-width: none;
+        padding: 0 0 20px 0 !important;
+        transform-origin: top left;
+      }
+
+      .entry-panel p {
+        font-size: 15.9px;
+        line-height: 1.58;
+      }
+
+      .entry-panel p + p { margin-top: 10px; }
+
+      .contact-links {
+        gap: 18px;
+      }
+
+      .footer {
+        margin-top: 62px;
+        font-size: 14.6px;
+      }
+
+      ::view-transition-group(root) {
+        animation-duration: 1ms;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 1ms !important;
@@ -1037,6 +1196,7 @@
       let currentAccentIndex = 0;
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const mobileThemeTransition = window.matchMedia('(max-width: 740px), (hover: none) and (pointer: coarse)');
       const supportsP3Color = Boolean(
         window.CSS &&
         CSS.supports('color', 'color(display-p3 1 1 1)') &&
@@ -1172,7 +1332,9 @@
       setAccent(accentPairs[currentAccentIndex].light, false);
 
       const runThemeTransition = (event, nextTheme) => {
-        if (reduceMotion.matches || !document.startViewTransition) {
+        // Android/Chrome mobile renders View Transitions with clip-path inconsistently here.
+        // On touch/mobile, use the faster native color transition and update the icon state immediately.
+        if (mobileThemeTransition.matches || reduceMotion.matches || !document.startViewTransition) {
           setTheme(nextTheme);
           return;
         }
@@ -1194,12 +1356,12 @@
               ]
             },
             {
-              duration: 560,
+              duration: 420,
               easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
               pseudoElement: '::view-transition-new(root)'
             }
           );
-        }).catch(() => {});
+        }).catch(() => setTheme(nextTheme));
       };
 
       const closePublicationEntries = () => {
