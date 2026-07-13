@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Francisco Guadarrama — Medical Oncology and Internal Medicine." />
-  <meta name="theme-color" content="#f7fcfe" />
+  <meta name="theme-color" content="#f6f7fc" />
   <meta property="og:title" content="Francisco Guadarrama" />
   <meta property="og:description" content="Medical Oncology · Internal Medicine" />
   <meta property="og:type" content="website" />
@@ -16,7 +16,7 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7fcfe;
+      --bg: #f6f7fc;
       --text: #2d2930;
       --accent: #3f41f5;
       --line: #2d2930;
@@ -28,25 +28,25 @@
     html[data-theme="dark"] {
       color-scheme: dark;
       --bg: #2d2930;
-      --text: #f7fcfe;
+      --text: #f6f7fc;
       --accent: #3f41f5;
-      --line: #f7fcfe;
+      --line: #f6f7fc;
     }
 
     @supports (color: color(display-p3 1 1 1)) {
       @media (color-gamut: p3) {
         :root {
-          --bg: color(display-p3 0.972147 0.987593 0.995052);
-          --text: color(display-p3 0.173795 0.161331 0.186196);
-          --accent: color(display-p3 0.248472 0.254646 0.924160);
-          --line: color(display-p3 0.173795 0.161331 0.186196);
+          --bg: color(display-p3 0.965457 0.968490 0.986342);
+          --text: color(display-p3 0.173807 0.161329 0.186174);
+          --accent: color(display-p3 0.248488 0.254644 0.924063);
+          --line: color(display-p3 0.173807 0.161329 0.186174);
         }
 
         html[data-theme="dark"] {
-          --bg: color(display-p3 0.173795 0.161331 0.186196);
-          --text: color(display-p3 0.972147 0.987593 0.995052);
-          --accent: color(display-p3 0.967883 0.803967 0.349426);
-          --line: color(display-p3 0.972147 0.987593 0.995052);
+          --bg: color(display-p3 0.173807 0.161329 0.186174);
+          --text: color(display-p3 0.965457 0.968490 0.986342);
+          --accent: color(display-p3 0.967942 0.803962 0.349413);
+          --line: color(display-p3 0.965457 0.968490 0.986342);
         }
 
         html,
@@ -84,26 +84,65 @@
 
     ::selection { background: var(--accent); color: var(--bg); }
 
+    .top-controls {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+      flex: 0 0 auto;
+    }
+
     .accent-dot {
-      position: fixed;
-      top: 18px;
-      left: 18px;
-      z-index: 20;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 8px;
       height: 8px;
       padding: 0;
       border: 0;
       border-radius: 999px;
-      background: var(--accent);
-      color: transparent;
+      background: transparent;
+      color: var(--accent);
       cursor: pointer;
       outline: none;
+      overflow: visible;
+      flex: 0 0 8px;
       -webkit-tap-highlight-color: transparent;
       transform: translateZ(0);
       transition:
-        background-color 180ms var(--ease-out),
+        color 180ms var(--ease-out),
         transform 140ms var(--ease-out),
         opacity 140ms var(--ease-out);
+    }
+
+    .accent-orbit,
+    .accent-core {
+      position: absolute;
+      pointer-events: none;
+      border-radius: 999px;
+    }
+
+    .accent-orbit-outer {
+      inset: -4px;
+      border: 0.75px dashed currentColor;
+      opacity: 0.82;
+      animation: orbit-spin 4s linear infinite;
+    }
+
+    .accent-orbit-inner {
+      inset: -1px;
+      border: 0.6px dashed currentColor;
+      opacity: 0.42;
+      animation: orbit-spin-reverse 6s linear infinite;
+    }
+
+    .accent-core {
+      inset: 2px;
+      background: currentColor;
+      box-shadow: 0 0 0 1px currentColor;
+      animation: dot-pulse 1.7s ease-in-out infinite;
     }
 
     .accent-dot:hover,
@@ -117,7 +156,20 @@
 
     .accent-dot:focus-visible {
       outline: 2px solid var(--accent);
-      outline-offset: 5px;
+      outline-offset: 8px;
+    }
+
+    @keyframes orbit-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes orbit-spin-reverse {
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes dot-pulse {
+      0%, 100% { opacity: 0.72; transform: scale(0.88); }
+      50% { opacity: 1; transform: scale(1.1); }
     }
 
     a {
@@ -206,69 +258,81 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 26px;
-      padding: 3px 4px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--bg);
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
       color: var(--text);
-      font: inherit;
+      font-family: inherit;
       cursor: pointer;
       outline: none;
       -webkit-tap-highlight-color: transparent;
       box-shadow: none;
+      overflow: hidden;
+      transform: translateZ(0);
       transition:
-        border-color 160ms var(--ease-out),
-        color 160ms var(--ease-out),
-        background-color 220ms var(--ease-out),
-        transform 140ms var(--ease-out),
-        box-shadow 160ms var(--ease-out);
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
     }
 
     .theme-toggle:hover,
     .theme-toggle:focus-visible {
       color: var(--accent);
-      border-color: var(--accent);
-      box-shadow: none;
+      transform: scale(1.02) translateZ(0);
     }
 
     .theme-toggle:focus-visible {
-      outline: 3px solid var(--accent);
+      outline: 2px solid var(--accent);
       outline-offset: 3px;
     }
 
-    .theme-toggle:active { transform: scale(0.97); }
+    .theme-toggle:active { transform: scale(0.96) translateZ(0); }
 
-    .switch-track {
+    .theme-icon-wrap {
       position: relative;
-      width: 34px;
-      height: 18px;
-      border-radius: 999px;
-      background: var(--bg);
-      box-shadow: inset 0 0 0 1px var(--text);
-      transition: background-color 220ms var(--ease-out);
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
     }
 
-    .switch-thumb {
+    .theme-icon {
       position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: var(--text);
-      transform: translateX(0);
+      inset: 0;
+      width: 16px;
+      height: 16px;
+      display: block;
+      stroke: currentColor;
+      transform-origin: 50% 50%;
       transition:
-        transform 240ms var(--ease-in-out),
-        background-color 220ms var(--ease-out),
-        box-shadow 180ms var(--ease-out);
-      box-shadow: none;
+        opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    html[data-theme="dark"] .switch-thumb {
-      transform: translateX(16px);
-      background: var(--accent);
+    .theme-icon-sun {
+      opacity: 0;
+      transform: scale(0.5) rotate(-18deg);
+    }
+
+    .theme-icon-moon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .theme-toggle:hover .theme-icon-moon,
+    .theme-toggle:focus-visible .theme-icon-moon {
+      opacity: 0;
+      transform: scale(0.5) rotate(18deg);
+    }
+
+    .theme-toggle:hover .theme-icon-sun,
+    .theme-toggle:focus-visible .theme-icon-sun {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
     }
 
     .bio {
@@ -461,6 +525,25 @@
 
     .entry-panel em { font-style: italic; }
 
+    .contact-entry .entry-button {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-entry .entry-title {
+      font-weight: 480;
+    }
+
+    .contact-entry .entry-panel-inner {
+      padding-left: 0;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
 
 
     .contact-actions {
@@ -624,7 +707,6 @@
   </style>
 </head>
 <body>
-  <button class="accent-dot" type="button" id="accentDot" aria-label="Change accent color" data-cuelume-press data-cuelume-release></button>
   <main class="page" id="top">
     <header class="intro" aria-labelledby="site-title">
       <div class="topline">
@@ -633,9 +715,27 @@
           <p class="role">Medical Oncology · Internal Medicine</p>
         </div>
 
-        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release data-cuelume-toggle>
-          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
-        </button>
+        <div class="top-controls" aria-label="Theme and accent controls">
+          <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release data-cuelume-toggle>
+            <span class="theme-icon-wrap" aria-hidden="true">
+              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
+              </svg>
+              <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+              </svg>
+            </span>
+          </button>
+          <button class="accent-dot" type="button" id="accentDot" aria-label="Change accent color" data-cuelume-press data-cuelume-release><span class="accent-orbit accent-orbit-outer" aria-hidden="true"></span><span class="accent-orbit accent-orbit-inner" aria-hidden="true"></span><span class="accent-core" aria-hidden="true"></span></button>
+        </div>
       </div>
 
       <div class="bio">
@@ -881,15 +981,13 @@
     <section class="section" id="contact" aria-labelledby="contact-title">
       <h2 id="contact-title">Contact</h2>
       <div class="list" data-accordion>
-        <article class="entry" data-open="false">
+        <article class="entry contact-entry" data-open="false">
           <button class="entry-button" type="button" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release aria-expanded="false" aria-controls="panel-contact-1">
-            <span class="entry-date">Open</span>
-            <span class="entry-title">Professional contact</span>
-            <span class="entry-meta">LinkedIn</span>
+            <span class="entry-title">Show information</span>
           </button>
           <div class="entry-panel" id="panel-contact-1" hidden>
             <div class="entry-panel-inner">
-              <p>For professional contact, connect through <a href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank" rel="noopener" data-cuelume-hover="tick">LinkedIn</a> or send me an <a href="#" id="emailLink" aria-label="Open e-mail client" rel="nofollow" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>e-mail</a>.</p>
+              <p class="contact-links"><a href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank" rel="noopener" data-cuelume-hover="tick">LinkedIn</a><a href="#" id="emailLink" aria-label="Open e-mail client" rel="nofollow" data-cuelume-hover="tick" data-cuelume-press data-cuelume-release>e-mail</a></p>
             </div>
           </div>
         </article>
@@ -919,20 +1017,20 @@
         {
           light: '#3f41f5',
           dark: '#ffcb3b',
-          lightP3: 'color(display-p3 0.248472 0.254646 0.924160)',
-          darkP3: 'color(display-p3 0.967883 0.803967 0.349426)'
+          lightP3: 'color(display-p3 0.248488 0.254644 0.924063)',
+          darkP3: 'color(display-p3 0.967942 0.803962 0.349413)'
         },
         {
           light: '#257563',
           dark: '#96f4a6',
-          lightP3: 'color(display-p3 0.239564 0.452400 0.391226)',
-          darkP3: 'color(display-p3 0.673706 0.947526 0.678450)'
+          lightP3: 'color(display-p3 0.239568 0.452395 0.391186)',
+          darkP3: 'color(display-p3 0.673732 0.947517 0.678388)'
         },
         {
           light: '#e43a1d',
           dark: '#ff6838',
-          lightP3: 'color(display-p3 0.824163 0.286347 0.181046)',
-          darkP3: 'color(display-p3 0.929492 0.445516 0.278657)'
+          lightP3: 'color(display-p3 0.824221 0.286354 0.181044)',
+          darkP3: 'color(display-p3 0.929555 0.445518 0.278643)'
         }
       ];
       const accentColors = accentPairs.map((pair) => pair.light);
@@ -1047,7 +1145,6 @@
         const appliedColor = supportsP3Color ? (isDark ? pair.darkP3 : pair.lightP3) : appliedHex;
         root.style.setProperty('--accent', appliedColor);
         if (accentDot) {
-          accentDot.style.backgroundColor = appliedColor;
           accentDot.setAttribute('aria-label', `Change accent color. Current accent: ${appliedHex}`);
         }
       };
@@ -1057,7 +1154,7 @@
         const isDark = theme === 'dark';
         themeToggle.setAttribute('aria-pressed', String(isDark));
         themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#2d2930' : '#f7fcfe');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#2d2930' : '#f6f7fc');
         applyAccentForTheme();
         if (persist) localStorage.setItem(storageKey, theme);
       };
