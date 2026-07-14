@@ -248,7 +248,7 @@
 
     .role {
       margin-top: 3px;
-      color: var(--accent);
+      color: var(--text);
       font-size: 12.7px;
       font-weight: 360;
       line-height: 1.25;
@@ -1204,7 +1204,7 @@
 </button>
 <div class="entry-panel" hidden="" id="panel-contact-1">
 <div class="entry-panel-inner">
-<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-label="Open e-mail client" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="e-mail" data-es="correo electrónico" href="#" id="emailLink" rel="nofollow">e-mail</a></p>
+<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-label="Open e-mail client" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="e-mail" data-es="e-mail" href="#" id="emailLink" rel="nofollow">e-mail</a></p>
 </div>
 </div>
 </article>
@@ -1418,8 +1418,18 @@
       setTheme(storedTheme === 'dark' ? 'dark' : 'light', false);
       setAccent(accentPairs[currentAccentIndex].light, false);
 
+      const getBrowserLanguage = () => {
+        const languages = Array.isArray(navigator.languages) && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || navigator.userLanguage || 'en'];
+        return languages.some((language) => String(language).toLowerCase().startsWith('es')) ? 'es' : 'en';
+      };
+
       const storedLanguage = localStorage.getItem(languageStorageKey);
-      setLanguage(storedLanguage === 'es' ? 'es' : 'en', false);
+      const initialLanguage = storedLanguage === 'es' || storedLanguage === 'en'
+        ? storedLanguage
+        : getBrowserLanguage();
+      setLanguage(initialLanguage, storedLanguage !== 'es' && storedLanguage !== 'en');
 
       const runThemeTransition = (event, nextTheme) => {
         // Android/Chrome mobile renders View Transitions with clip-path inconsistently here.
