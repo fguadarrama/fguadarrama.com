@@ -24,6 +24,11 @@
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
       --font: "Albert Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --stagger-dur: 500ms;
+      --stagger-distance: 12px;
+      --stagger-stagger: 40ms;
+      --stagger-blur: 3px;
+      --stagger-ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     html[data-theme="dark"] {
@@ -440,7 +445,7 @@
     }
 
     .entry[data-open="true"] {
-      border-color: var(--accent);
+      border-color: var(--line);
     }
 
     .entry-button {
@@ -537,20 +542,37 @@
     .entry-panel-inner {
       max-width: 530px;
       padding: 0 0 16px 170px;
-      opacity: 0;
-      transform: translateY(-3px) scale(0.995);
-      filter: blur(1px);
-      transition:
-        opacity 190ms var(--ease-out),
-        transform 210ms var(--ease-out),
-        filter 210ms var(--ease-out);
       transform-origin: top left;
     }
 
-    .entry[data-open="true"] .entry-panel-inner {
+    .t-stagger-line {
+      display: block;
+      opacity: 0;
+      transform: translateY(var(--stagger-distance));
+      filter: blur(var(--stagger-blur));
+      transition:
+        opacity var(--stagger-dur) var(--stagger-ease),
+        transform var(--stagger-dur) var(--stagger-ease),
+        filter var(--stagger-dur) var(--stagger-ease);
+      transition-delay: calc(var(--stagger-stagger) * var(--line-index, 0));
+      will-change: transform, opacity, filter;
+    }
+
+    .t-stagger.is-shown .t-stagger-line {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
       filter: blur(0);
+    }
+
+    .t-stagger.is-hiding .t-stagger-line {
+      opacity: 0;
+      transform: translateY(0);
+      filter: blur(0);
+      transition:
+        opacity 200ms ease,
+        transform 0s linear,
+        filter 0s linear;
+      transition-delay: 0s;
     }
 
     .entry-panel p {
@@ -1352,6 +1374,16 @@
 
 
 
+      const prepareTextReveal = () => {
+        document.querySelectorAll('.entry-panel-inner').forEach((inner) => {
+          inner.classList.add('t-stagger');
+          Array.from(inner.children).forEach((child, index) => {
+            child.classList.add('t-stagger-line');
+            child.style.setProperty('--line-index', String(index));
+          });
+        });
+      };
+
       const setLanguage = (language, persist = true) => {
         const lang = language === 'es' ? 'es' : 'en';
         root.lang = lang;
@@ -1411,6 +1443,8 @@
         applyAccentForTheme();
         if (persist) localStorage.setItem(accentStorageKey, accentPairs[currentAccentIndex].light);
       };
+
+      prepareTextReveal();
 
       const storedTheme = localStorage.getItem(storageKey);
       const storedAccent = localStorage.getItem(accentStorageKey);
@@ -1536,8 +1570,11 @@
         if (entry.dataset.open !== 'true') return;
         const button = entry.querySelector('.entry-button');
         const panel = entry.querySelector('.entry-panel');
+        const reveal = panel.querySelector('.t-stagger');
         button.setAttribute('aria-expanded', 'false');
         entry.dataset.open = 'false';
+        reveal?.classList.remove('is-shown');
+        reveal?.classList.add('is-hiding');
         panel.style.height = `${panel.scrollHeight}px`;
         requestAnimationFrame(() => setPanelHeight(panel, 0));
       };
@@ -1552,12 +1589,18 @@
 
         const button = entry.querySelector('.entry-button');
         const panel = entry.querySelector('.entry-panel');
+        const reveal = panel.querySelector('.t-stagger');
+        reveal?.classList.remove('is-hiding');
+        reveal?.classList.remove('is-shown');
         panel.hidden = false;
         panel.style.height = entry.dataset.open === 'true' ? `${panel.scrollHeight}px` : '0px';
         entry.dataset.open = 'true';
         button.setAttribute('aria-expanded', 'true');
         if (!options.silent) Cuelume.play('chime');
-        requestAnimationFrame(() => setPanelHeight(panel, panel.scrollHeight));
+        requestAnimationFrame(() => {
+          setPanelHeight(panel, panel.scrollHeight);
+          requestAnimationFrame(() => reveal?.classList.add('is-shown'));
+        });
       };
 
       entries.forEach((entry) => {
@@ -1575,6 +1618,7 @@
             panel.style.height = 'auto';
           } else {
             panel.hidden = true;
+            panel.querySelector('.t-stagger')?.classList.remove('is-hiding');
           }
         });
       });
