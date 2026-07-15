@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/slot-text@0.3.3/style.css" rel="stylesheet"/>
 <style>
     :root {
       color-scheme: light;
@@ -297,6 +298,38 @@
       outline-offset: 3px;
     }
 
+    .language-toggle {
+      overflow: hidden;
+    }
+
+    .language-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.36em;
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 140ms var(--ease-out),
+        transform 140ms var(--ease-out);
+      will-change: opacity, transform;
+    }
+
+    .language-label [aria-hidden="true"] {
+      pointer-events: none;
+    }
+
+    .language-label.is-exiting {
+      opacity: 0;
+      transform: translateY(-3px);
+      transition-duration: 90ms;
+    }
+
+    .language-label.is-entering {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+
     .theme-toggle {
       position: relative;
       display: inline-flex;
@@ -437,7 +470,31 @@
     }
 
     .list { margin-top: 0; }
-    .publications-list[hidden] { display: none; }
+
+    .publications-list {
+      display: block;
+      height: 0;
+      overflow: clip;
+      opacity: 0;
+      transform: translateY(6px);
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
+      transition:
+        height 240ms var(--ease-out),
+        opacity 240ms var(--ease-out),
+        transform 240ms var(--ease-out),
+        clip-path 240ms var(--ease-out);
+      will-change: height, opacity, transform, clip-path;
+    }
+
+    .publications-list.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      clip-path: inset(0);
+      pointer-events: auto;
+    }
+
+    .publications-list[hidden] { display: block; }
 
     .entry {
       border-bottom: 1px solid var(--line);
@@ -594,8 +651,35 @@
       font-weight: 480;
     }
 
+    .contact-entry .entry-panel {
+      transition: height 200ms var(--ease-out);
+    }
+
     .contact-entry .entry-panel-inner {
       padding-left: 0;
+    }
+
+    .contact-entry .t-stagger-line {
+      transform: translateY(3px);
+      filter: none;
+      transition:
+        opacity 160ms var(--ease-out),
+        transform 160ms var(--ease-out),
+        filter 0s linear;
+      transition-delay: 0s;
+    }
+
+    .contact-entry .t-stagger.is-shown .t-stagger-line {
+      opacity: 1;
+      transform: translateY(0);
+      filter: none;
+    }
+
+    .contact-entry .t-stagger.is-hiding .t-stagger-line {
+      opacity: 0;
+      transform: translateY(0);
+      filter: none;
+      transition: opacity 150ms ease;
     }
 
     .contact-links {
@@ -973,7 +1057,7 @@
 <p class="role" data-en="Medical Oncology · Internal Medicine" data-es="Oncología Médica · Medicina Interna">Medical Oncology · Internal Medicine</p>
 </div>
 <div aria-label="Theme and accent controls" class="top-controls">
-<button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button">En</button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
+<button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button"><span class="language-label">En</span></button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
 <span aria-hidden="true" class="theme-icon-wrap">
 <svg class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
 <path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
@@ -1372,6 +1456,74 @@
         return { bind, play };
       })();
 
+      let languageSlot = null;
+      let languageSlotReady = false;
+      const slotTextOptions = {
+        direction: 'up',
+        stagger: 30,
+        duration: 260,
+        exitOffset: 38,
+        bounce: 0.48,
+        interrupt: true
+      };
+
+      const getLanguageLabelElement = () => {
+        if (!languageToggle) return null;
+        let label = languageToggle.querySelector('.language-label');
+        if (!label) {
+          label = document.createElement('span');
+          label.className = 'language-label';
+          label.textContent = languageToggle.textContent.trim() || 'En';
+          languageToggle.textContent = '';
+          languageToggle.appendChild(label);
+        }
+        return label;
+      };
+
+      const initLanguageSlotText = async () => {
+        const label = getLanguageLabelElement();
+        if (!label) return;
+        try {
+          const module = await import('https://cdn.jsdelivr.net/npm/slot-text@0.3.3/+esm');
+          if (!module || typeof module.slotText !== 'function') return;
+          label.classList.remove('is-exiting', 'is-entering');
+          languageSlot = module.slotText(label, label.textContent.trim() || 'En', slotTextOptions);
+          languageSlotReady = true;
+        } catch (_) {
+          languageSlot = null;
+          languageSlotReady = false;
+        }
+      };
+
+      const setLanguageToggleLabel = (labelText, lang, animateToggle = false) => {
+        const label = getLanguageLabelElement();
+        if (!label) return;
+
+        if (languageSlotReady && languageSlot && !reduceMotion.matches) {
+          const direction = lang === 'es' ? 'up' : 'down';
+          languageSlot.set(labelText, { ...slotTextOptions, direction });
+          return;
+        }
+
+        const setFallbackLabelText = () => {
+          label.textContent = labelText;
+          label.classList.add('is-entering');
+          requestAnimationFrame(() => label.classList.remove('is-entering'));
+        };
+
+        if (animateToggle && !reduceMotion.matches && label.textContent !== labelText) {
+          label.classList.remove('is-entering');
+          label.classList.add('is-exiting');
+          window.setTimeout(() => {
+            label.classList.remove('is-exiting');
+            setFallbackLabelText();
+          }, 90);
+        } else {
+          label.classList.remove('is-exiting', 'is-entering');
+          label.textContent = labelText;
+        }
+      };
+
 
 
       const prepareTextReveal = () => {
@@ -1384,15 +1536,16 @@
         });
       };
 
-      const setLanguage = (language, persist = true) => {
+      const setLanguage = (language, persist = true, animateToggle = false) => {
         const lang = language === 'es' ? 'es' : 'en';
+        const labelText = lang === 'es' ? 'Es' : 'En';
         root.lang = lang;
         root.dataset.language = lang;
         document.querySelectorAll('[data-en][data-es]').forEach((node) => {
           node.textContent = lang === 'es' ? node.dataset.es : node.dataset.en;
         });
         if (languageToggle) {
-          languageToggle.textContent = lang === 'es' ? 'Es' : 'En';
+          setLanguageToggleLabel(labelText, lang, animateToggle);
           languageToggle.setAttribute('aria-pressed', String(lang === 'es'));
           languageToggle.setAttribute('aria-label', lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
         }
@@ -1464,6 +1617,7 @@
         ? storedLanguage
         : getBrowserLanguage();
       setLanguage(initialLanguage, storedLanguage !== 'es' && storedLanguage !== 'en');
+      initLanguageSlotText();
 
       const runThemeTransition = (event, nextTheme) => {
         // Android/Chrome mobile renders View Transitions with clip-path inconsistently here.
@@ -1503,8 +1657,11 @@
         publicationsList.querySelectorAll('.entry').forEach((entry) => {
           const button = entry.querySelector('.entry-button');
           const panel = entry.querySelector('.entry-panel');
+          const reveal = panel?.querySelector('.t-stagger');
           entry.dataset.open = 'false';
           button?.setAttribute('aria-expanded', 'false');
+          reveal?.classList.remove('is-shown');
+          reveal?.classList.add('is-hiding');
           if (panel) {
             panel.style.height = '0px';
             panel.hidden = true;
@@ -1512,26 +1669,47 @@
         });
       };
 
+      const finishPublicationsCollapse = () => {
+        if (!publicationsList || publicationsList.classList.contains('is-visible')) return;
+        publicationsList.hidden = true;
+        publicationsList.setAttribute('aria-hidden', 'true');
+        publicationsList.style.height = '0px';
+      };
+
       const setPublicationsVisible = (visible, playSound = true) => {
         if (!publicationsList || !publicationsToggle) return;
 
         if (!visible) {
-          closePublicationEntries();
-          publicationsList.hidden = true;
+          const currentHeight = publicationsList.scrollHeight;
+          publicationsList.style.height = `${currentHeight}px`;
+          publicationsList.classList.remove('is-visible');
           publicationsList.setAttribute('aria-hidden', 'true');
           publicationsToggle.setAttribute('aria-expanded', 'false');
           setLanguage(root.lang || 'en', false);
           if (playSound) Cuelume.play('release');
+          requestAnimationFrame(() => {
+            closePublicationEntries();
+            publicationsList.style.height = '0px';
+            window.setTimeout(finishPublicationsCollapse, 280);
+          });
           return;
         }
 
         publicationsList.hidden = false;
         publicationsList.setAttribute('aria-hidden', 'false');
+        publicationsList.classList.remove('is-visible');
+        publicationsList.style.height = '0px';
         publicationsToggle.setAttribute('aria-expanded', 'true');
         setLanguage(root.lang || 'en', false);
         requestAnimationFrame(() => {
+          publicationsList.classList.add('is-visible');
           publicationsList.querySelectorAll('.entry').forEach((entry) => openEntry(entry, { closeOthers: false, silent: true }));
-          if (playSound) Cuelume.play('chime');
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              publicationsList.style.height = `${publicationsList.scrollHeight}px`;
+              if (playSound) Cuelume.play('chime');
+            });
+          });
         });
       };
 
@@ -1544,10 +1722,19 @@
         setPublicationsVisible(true);
       });
 
+      publicationsList?.addEventListener('transitionend', (event) => {
+        if (event.propertyName !== 'height') return;
+        if (publicationsList.classList.contains('is-visible')) {
+          publicationsList.style.height = 'auto';
+        } else {
+          finishPublicationsCollapse();
+        }
+      });
+
       languageToggle?.addEventListener('click', () => {
         const nextLanguage = root.lang === 'es' ? 'en' : 'es';
         Cuelume.play('toggle');
-        setLanguage(nextLanguage);
+        setLanguage(nextLanguage, true, true);
       });
 
       accentDot?.addEventListener('click', () => {
@@ -1564,6 +1751,13 @@
 
       const setPanelHeight = (panel, height) => {
         panel.style.height = `${height}px`;
+      };
+
+      const syncPublicationsHeight = () => {
+        if (!publicationsList || !publicationsList.classList.contains('is-visible')) return;
+        if (publicationsList.style.height && publicationsList.style.height !== 'auto') {
+          publicationsList.style.height = `${publicationsList.scrollHeight}px`;
+        }
       };
 
       const closeEntry = (entry) => {
@@ -1620,6 +1814,7 @@
             panel.hidden = true;
             panel.querySelector('.t-stagger')?.classList.remove('is-hiding');
           }
+          syncPublicationsHeight();
         });
       });
 
