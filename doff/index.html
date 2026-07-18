@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7fc" />
+    <meta name="description" content="Francisco Guadarrama — personal website" />
+    <script>
+      ;(() => {
+        try {
+          const saved = localStorage.getItem('francisco-dot-grid-theme')
+          const theme = saved === 'dark' || saved === 'light'
+            ? saved
+            : matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+          document.documentElement.dataset.theme = theme
+          document.documentElement.style.colorScheme = theme
+          document.querySelector('meta[name="theme-color"]')?.setAttribute(
+            'content',
+            theme === 'dark' ? '#2d2930' : '#f6f7fc',
+          )
+        } catch {
+          // The stylesheet's light defaults remain available if storage is blocked.
+        }
+      })()
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@350;550&display=swap"
+      rel="stylesheet"
+    />
+    <title>Francisco Guadarrama</title>
+    <script type="module" crossorigin src="./assets/index-4nV6kWCL.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-jpF7A9ba.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
