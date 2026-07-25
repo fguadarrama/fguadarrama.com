@@ -122,37 +122,20 @@
                    (latFY[b] + (latFY[b + 1] - latFY[b]) * fxL) * fyL;
         const sxf = x - padDev + sDev * Fx;
         const syf = y - padDev + sDev * Fy;
-        // Rounded-rect coverage at the SOURCE point (the outline itself
-        // bends), 1px antialiased edge.
-        const dx1 = Math.min(sxf, sw - sxf);
-        const dy1 = Math.min(syf, sh - syf);
-        let d;
-        if (dx1 < rr && dy1 < rr) {
-          const ax = rr - dx1, ay = rr - dy1;
-          d = rr - Math.sqrt(ax * ax + ay * ay);
-        } else {
-          d = Math.min(dx1, dy1);
-        }
-        if (d <= 0) {
-          dst[di + 3] = 0;
-          continue;
-        }
-        // Bilinear photo fetch (clamped — the photo fills the box).
+        // Bilinear photo fetch. Preserve the WebP source alpha exactly so
+        // the transparent area outside the circular portrait never becomes black.
         let sx0 = Math.floor(sxf), sy0 = Math.floor(syf);
         if (sx0 < 0) sx0 = 0; else if (sx0 > sw - 2) sx0 = sw - 2;
         if (sy0 < 0) sy0 = 0; else if (sy0 > sh - 2) sy0 = sh - 2;
         const u = Math.min(Math.max(sxf - sx0, 0), 1);
         const v = Math.min(Math.max(syf - sy0, 0), 1);
-        const w00 = (1 - u) * (1 - v), w10 = u * (1 - v);
-        const w01 = (1 - u) * v, w11 = u * v;
-        const i00 = (sy0 * sw + sx0) * 4;
-        const i10 = i00 + 4;
-        const i01 = i00 + sw * 4;
-        const i11 = i01 + 4;
-        dst[di] = src[i00] * w00 + src[i10] * w10 + src[i01] * w01 + src[i11] * w11;
-        dst[di + 1] = src[i00 + 1] * w00 + src[i10 + 1] * w10 + src[i01 + 1] * w01 + src[i11 + 1] * w11;
-        dst[di + 2] = src[i00 + 2] * w00 + src[i10 + 2] * w10 + src[i01 + 2] * w01 + src[i11 + 2] * w11;
-        dst[di + 3] = d >= 1 ? 255 : 255 * d;
+        const w00 = (1-u)*(1-v), w10 = u*(1-v);
+        const w01 = (1-u)*v, w11 = u*v;
+        const i00=(sy0*sw+sx0)*4, i10=i00+4, i01=i00+sw*4, i11=i01+4;
+        dst[di]   = src[i00]*w00 + src[i10]*w10 + src[i01]*w01 + src[i11]*w11;
+        dst[di+1] = src[i00+1]*w00 + src[i10+1]*w10 + src[i01+1]*w01 + src[i11+1]*w11;
+        dst[di+2] = src[i00+2]*w00 + src[i10+2]*w10 + src[i01+2]*w01 + src[i11+2]*w11;
+        dst[di+3] = src[i00+3]*w00 + src[i10+3]*w10 + src[i01+3]*w01 + src[i11+3]*w11;
       }
     }
     cctx.putImageData(outData, 0, 0);
@@ -223,7 +206,7 @@
     // recalc every frame). 32px rest ↔ 16px open — must match the
     // .t-opentilt-card / .is-open CSS.
     const rFrom = parseFloat(getComputedStyle(card).borderTopLeftRadius) || 0;
-    const rTo = sign > 0 ? 16 : 32;
+    const rTo = 0;
     const flightEase = makeBendEase(
       readStr(sign > 0 ? "--opentilt-open-ease" : "--opentilt-close-ease")
     );
@@ -319,4 +302,38 @@
     }
   });
   document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&viewer.classList.contains("is-open")) closeViewer(); });
+})();
+
+(function initAvatarHover(){
+  const avatar=document.getElementById("avatar");
+  const magnetic=document.getElementById("avatarMagnetic");
+  const tilt=document.getElementById("avatarTilt");
+  if(!avatar||!magnetic||!tilt)return;
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let raf=0,target={mx:0,my:0,rx:0,ry:0,scale:1},current={mx:0,my:0,rx:0,ry:0,scale:1};
+  function tick(){
+    const k=.18;
+    for(const key in current) current[key]+=(target[key]-current[key])*k;
+    magnetic.style.transform=`translate3d(${current.mx}px,${current.my}px,0)`;
+    tilt.style.transform=`rotateX(${current.rx}deg) rotateY(${current.ry}deg) scale(${current.scale})`;
+    if(Math.max(...Object.keys(current).map(k=>Math.abs(target[k]-current[k])))>.001) raf=requestAnimationFrame(tick); else raf=0;
+  }
+  function animate(){if(!raf)raf=requestAnimationFrame(tick)}
+  function move(e){
+    if(reduced)return;
+    const r=avatar.getBoundingClientRect();
+    const nx=Math.max(-1,Math.min(1,(e.clientX-(r.left+r.width/2))/(r.width/2)));
+    const ny=Math.max(-1,Math.min(1,(e.clientY-(r.top+r.height/2))/(r.height/2)));
+    const dist=Math.min(1,Math.hypot(nx,ny));
+    const falloff=Math.pow(1-dist*.35,2);
+    const cs=getComputedStyle(document.documentElement);
+    const tiltAmount=parseFloat(cs.getPropertyValue('--hover-tilt'))||14;
+    const magneticAmount=parseFloat(cs.getPropertyValue('--hover-magnetic'))||9;
+    target.mx=nx*magneticAmount*falloff; target.my=ny*magneticAmount*falloff;
+    target.rx=-ny*tiltAmount; target.ry=nx*tiltAmount;
+    target.scale=parseFloat(cs.getPropertyValue('--hover-scale'))||1.085;
+    avatar.classList.add('is-hovering'); animate();
+  }
+  function leave(){target={mx:0,my:0,rx:0,ry:0,scale:1};avatar.classList.remove('is-hovering');animate()}
+  avatar.addEventListener('pointerenter',move); avatar.addEventListener('pointermove',move); avatar.addEventListener('pointerleave',leave); avatar.addEventListener('pointercancel',leave);
 })();

@@ -1,2 +1,1 @@
-# Francisco avatar
-Sitio estático listo para GitHub Pages. Sube todos los archivos juntos, conservando exactamente sus nombres y rutas relativas.
+Sitio estático. Sube los cinco archivos juntos a la misma carpeta de GitHub Pages. No cambies el nombre de avatar.webp.
