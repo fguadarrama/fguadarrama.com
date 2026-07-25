@@ -1,15 +1,28 @@
+<!-- © 2026 Francisco Guadarrama. All rights reserved. Unauthorized reproduction is prohibited. -->
 <!DOCTYPE html>
 
 <html data-theme="light" lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="Francisco Guadarrama — Medical Oncology and Internal Medicine." name="description"/>
-<meta content="#f6f7fc" name="theme-color"/>
-<meta content="Francisco Guadarrama" property="og:title"/>
-<meta content="Medical Oncology · Internal Medicine" property="og:description"/>
-<meta content="website" property="og:type"/>
-<title>Francisco Guadarrama</title>
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Francisco Guadarrama, MD</title>
+<meta name="description" content="Francisco Guadarrama, MD — advancing equitable cancer care through oncology access, stronger health systems, and high-value clinical decisions."/>
+<meta name="author" content="Francisco Guadarrama"/>
+<meta name="theme-color" content="#f6f7fc"/>
+<link rel="canonical" href="https://fguadarrama.com"/>
+<meta name="robots" content="index, follow, noarchive"/>
+
+<!-- Open Graph (LinkedIn, WhatsApp, etc.) -->
+<meta property="og:title" content="Francisco Guadarrama, MD"/>
+<meta property="og:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://fguadarrama.com"/>
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Francisco Guadarrama, MD"/>
+<meta name="twitter:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
+
 <link id="site-favicon" rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -88,8 +101,10 @@
       letter-spacing: -0.009em;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
-      user-select: text;
-      -webkit-user-select: text;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
       transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out);
     }
 
@@ -1184,7 +1199,186 @@
       padding-left: 0;
       padding-top: 14px;
     }
+
+
+    /* Casual-copy deterrence. Interactive controls remain selectable and keyboard-accessible. */
+    body,
+    body * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    a,
+    a *,
+    button,
+    button *,
+    input,
+    textarea,
+    select,
+    option,
+    label {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    img,
+    svg {
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    button svg,
+    .theme-icon,
+    .theme-icon-wrap {
+      pointer-events: none;
+    }
+
+    .print-only-notice { display: none; }
+
+    @media print {
+      body > *:not(.print-only-notice) {
+        display: none !important;
+      }
+
+      html,
+      body {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      .print-only-notice {
+        position: fixed;
+        inset: 0;
+        display: grid !important;
+        place-items: center;
+        padding: 40px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 16pt;
+        line-height: 1.45;
+      }
+
+      .print-message-es { display: none; }
+      html[lang="es"] .print-message-en { display: none; }
+      html[lang="es"] .print-message-es { display: block; }
+    }
+
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://fguadarrama.com/#person",
+      "name": "Francisco Guadarrama",
+      "alternateName": "Francisco Guadarrama Conzuelo",
+      "disambiguatingDescription": "Medical Oncologist and Internal Medicine Physician. Not to be confused with anesthesiologist Dr. Francisco Guadarrama Quijada, gynecologist Dr. Francisco Rafael Guadarrama Sanchez, or Oscar Francisco Guadarrama Morales.",
+      "url": "https://fguadarrama.com",
+      "jobTitle": "Medical Oncologist",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Board Certification",
+        "name": "Certified in Internal Medicine",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Consejo Mexicano de Medicina Interna, A.C."
+        }
+      },
+      "worksFor": [
+        {
+          "@type": "MedicalOrganization",
+          "name": "Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán",
+          "alternateName": "INCMNSZ"
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Internal Medicine Fellow",
+          "startDate": "2020",
+          "endDate": "2024",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Hospital Regional de Alta Especialidad del Bajío",
+            "alternateName": "HRAEB"
+          }
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Physician",
+          "startDate": "2017",
+          "endDate": "2020",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Compañeros en Salud",
+            "alternateName": "Partners In Health Mexico",
+            "url": "https://companerosensalud.mx/"
+          }
+        }
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Nacional Autónoma de México",
+          "alternateName": "UNAM"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Tecnológico de Monterrey",
+          "alternateName": "ITESM"
+        }
+      ],
+      "knowsAbout": [
+        "Medical Oncology",
+        "Oncology",
+        "Internal Medicine",
+        "Clinical Research",
+        "Cancer Care Access",
+        "Health Systems Strengthening",
+        "Value-Based Oncology"
+      ],
+      "sameAs": [
+        "https://orcid.org/0000-0003-2241-0791",
+        "https://www.wikidata.org/wiki/Q91155903",
+        "https://scholar.google.com/citations?user=YVW4b40AAAAJ",
+        "https://www.researchgate.net/profile/Francisco-Guadarrama-Conzuelo",
+        "https://github.com/fguadarrama/",
+        "https://linkedin.com/in/FranciscoGuadarrama",
+        "https://franciscoguadarrama.carrd.co/",
+        "https://en-franciscoguadarrama.carrd.co",
+        "https://dr-fg.com/"
+      ]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Euthanasia and physician-assisted suicide: a systematic review of medical students’ attitudes in the last 10 years",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7839145/",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Breast cancer and health inequalities: Another never ending story?",
+      "url": "https://www.sciencedirect.com/science/article/pii/S003483762500470X",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <main class="page" id="top">
@@ -1197,10 +1391,10 @@
 <div aria-label="Language and theme controls" class="top-controls">
 <button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button"><span class="language-label">En</span></button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
 <span aria-hidden="true" class="theme-icon-wrap">
-<svg class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<svg draggable="false" class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
 <path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
 </svg>
-<svg class="theme-icon theme-icon-sun" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<svg draggable="false" class="theme-icon theme-icon-sun" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
 <circle cx="12" cy="12" r="4"></circle>
 <path d="M12 2v2"></path>
 <path d="M12 20v2"></path>
@@ -1447,18 +1641,22 @@
 </div>
 </section>
 <footer class="footer">
-<span>© Francisco Guadarrama</span>
+<span data-en="© 2026 Francisco Guadarrama. All rights reserved." data-es="© 2026 Francisco Guadarrama. Todos los derechos reservados.">© 2026 Francisco Guadarrama. All rights reserved.</span>
 <a data-cuelume-hover="tick" data-en="Back to top" data-es="Volver arriba" href="#top">Back to top</a>
 </footer>
 </main>
 <aside aria-hidden="true" aria-label="Portrait of Francisco Guadarrama" class="photo-toast t-toast" id="portraitToast" role="status">
-  <img alt="Francisco Guadarrama" class="photo-toast-image" decoding="async" loading="eager" src="https://fguadarrama.com/assets/dittherpp.webp"/>
+  <img draggable="false" alt="Francisco Guadarrama" class="photo-toast-image" decoding="async" loading="eager" src="https://fguadarrama.com/assets/dittherpp.webp"/>
   <button aria-label="Close portrait" class="photo-toast-close" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="portraitClose" type="button">
-    <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24">
+    <svg draggable="false" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24">
       <path d="M5 5 19 19M19 5 5 19" stroke-width="2.4"/>
     </svg>
   </button>
 </aside>
+<div aria-hidden="true" class="print-only-notice">
+  <p class="print-message-en">Please contact the site owner to request a printable version.</p>
+  <p class="print-message-es">Contacte al propietario del sitio para solicitar una versión imprimible.</p>
+</div>
 <script>
     (() => {
       const root = document.documentElement;
@@ -1504,7 +1702,7 @@
         const pathMarkup = faviconPaths
           .map((d, index) => `<path d="${d}" stroke="${colors[index]}"/>`)
           .join('');
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>${pathMarkup}</svg>`;
+        const svg = `<svg draggable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>${pathMarkup}</svg>`;
         favicon.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
       };
 
@@ -1729,12 +1927,16 @@
             ? (expanded ? 'Ocultar información de contacto' : 'Mostrar información de contacto')
             : (expanded ? 'Hide contact information' : 'Show contact information'));
         }
-        document.querySelector('meta[name="description"]')?.setAttribute('content', lang === 'es'
-          ? 'Francisco Guadarrama — Oncología Médica y Medicina Interna.'
-          : 'Francisco Guadarrama — Medical Oncology and Internal Medicine.');
-        document.querySelector('meta[property="og:description"]')?.setAttribute('content', lang === 'es'
-          ? 'Oncología Médica · Medicina Interna'
-          : 'Medical Oncology · Internal Medicine');
+        const pageDescription = lang === 'es'
+          ? 'Francisco Guadarrama, MD — atención oncológica equitativa, sistemas de salud más sólidos y decisiones clínicas de alto valor.'
+          : 'Francisco Guadarrama, MD — advancing equitable cancer care through stronger health systems and high-value clinical decisions.';
+        const socialDescription = lang === 'es'
+          ? 'Atención oncológica equitativa, sistemas de salud más sólidos y decisiones de alto valor bajo restricciones reales.'
+          : 'Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints.';
+        document.title = 'Francisco Guadarrama, MD';
+        document.querySelector('meta[name="description"]')?.setAttribute('content', pageDescription);
+        document.querySelector('meta[property="og:description"]')?.setAttribute('content', socialDescription);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', socialDescription);
         if (persist) localStorage.setItem(languageStorageKey, lang);
       };
 
@@ -2075,7 +2277,16 @@
 
       document.addEventListener('copy', blockTextCopy, true);
       document.addEventListener('cut', blockTextCopy, true);
-      document.addEventListener('dragstart', (event) => event.preventDefault(), true);
+      document.addEventListener('contextmenu', (event) => {
+        if (event.target.closest?.('img, svg')) event.preventDefault();
+      }, true);
+
+      document.addEventListener('dragstart', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLImageElement || target.closest?.('img')) {
+          event.preventDefault();
+        }
+      }, true);
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
@@ -2091,6 +2302,28 @@
       });
     })();
   </script>
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const targetId = link.getAttribute('href');
+
+      // Ignore placeholder links such as the obfuscated e-mail control.
+      if (!targetId || targetId === '#') return;
+
+      const target = document.getElementById(targetId.slice(1));
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    });
+  });
+</script>
 <script>
   window.addEventListener('error', () => {
     document.body.classList.remove('js-loading');
