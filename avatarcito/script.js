@@ -267,68 +267,56 @@
   });
 })();
 (function initAvatarInteractions() {
-  const slot = document.getElementById("avatar-slot");
-  const shell = document.getElementById("hover-shell");
+  const avatar = document.getElementById("avatar");
+  const tilt = document.getElementById("avatarTilt");
+  const viewer = document.getElementById("viewer");
+  const backdrop = document.getElementById("viewerBackdrop");
   const card = document.getElementById("opentilt-card");
-  const backdrop = document.getElementById("backdrop");
-  if (!slot || !shell || !card || !backdrop) return;
+  if (!avatar || !tilt || !viewer || !backdrop || !card) return;
 
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let raf = 0;
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0, scale = 1;
 
-  const animate = () => {
-    currentX += (targetX - currentX) * 0.18;
-    currentY += (targetY - currentY) * 0.18;
-    shell.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg) scale(1.075)`;
-    if (Math.abs(targetX - currentX) > 0.02 || Math.abs(targetY - currentY) > 0.02) {
-      raf = requestAnimationFrame(animate);
-    } else {
-      raf = 0;
+  function render() {
+    cx += (tx - cx) * .2;
+    cy += (ty - cy) * .2;
+    scale += (1.085 - scale) * .2;
+    tilt.style.transform = `rotateX(${cx}deg) rotateY(${cy}deg) scale(${scale})`;
+    if (Math.abs(tx-cx)>.015 || Math.abs(ty-cy)>.015 || Math.abs(1.085-scale)>.002) raf=requestAnimationFrame(render); else raf=0;
+  }
+  avatar.addEventListener("pointermove", e => {
+    if (reduced || viewer.classList.contains("is-open")) return;
+    const r=avatar.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    tx=-y*16; ty=x*18;
+    tilt.style.setProperty("--mx", `${(x+.5)*100}%`);
+    tilt.style.setProperty("--my", `${(y+.5)*100}%`);
+    if(!raf) raf=requestAnimationFrame(render);
+  });
+  avatar.addEventListener("pointerenter",()=>{ scale=1; if(!raf&&!reduced) raf=requestAnimationFrame(render); });
+  avatar.addEventListener("pointerleave",()=>{
+    tx=ty=0; scale=1;
+    cancelAnimationFrame(raf); raf=0;
+    tilt.style.transform="rotateX(0deg) rotateY(0deg) scale(1)";
+  });
+
+  function openViewer(){
+    viewer.classList.add("is-open"); viewer.setAttribute("aria-hidden","false");
+    avatar.setAttribute("aria-expanded","true");
+    requestAnimationFrame(()=>card.click());
+  }
+  function closeViewer(){ if(card.classList.contains("is-open")) card.click(); }
+  avatar.addEventListener("click", openViewer);
+  backdrop.addEventListener("click", closeViewer);
+  card.addEventListener("click",()=>{
+    if(card.classList.contains("is-open")) return;
+    // the recipe click handler runs before this listener and has just started closing
+    if(card.classList.contains("is-closing")) {
+      setTimeout(()=>{
+        viewer.classList.remove("is-open"); viewer.setAttribute("aria-hidden","true");
+        avatar.setAttribute("aria-expanded","false");
+      },420);
     }
-  };
-
-  const setOpenUI = (open) => {
-    shell.classList.toggle("is-open", open);
-    backdrop.classList.toggle("is-visible", open);
-    backdrop.setAttribute("aria-hidden", String(!open));
-    if (open) {
-      targetX = targetY = currentX = currentY = 0;
-      shell.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
-      document.body.style.cursor = "default";
-    }
-  };
-
-  slot.addEventListener("pointermove", (event) => {
-    if (reduced || card.classList.contains("is-open")) return;
-    const rect = slot.getBoundingClientRect();
-    const px = (event.clientX - rect.left) / rect.width - 0.5;
-    const py = (event.clientY - rect.top) / rect.height - 0.5;
-    targetX = py * -15;
-    targetY = px * 18;
-    if (!raf) raf = requestAnimationFrame(animate);
   });
-
-  slot.addEventListener("pointerleave", () => {
-    if (card.classList.contains("is-open")) return;
-    targetX = targetY = 0;
-    cancelAnimationFrame(raf);
-    raf = 0;
-    shell.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
-  });
-
-  card.addEventListener("click", () => {
-    requestAnimationFrame(() => setOpenUI(card.classList.contains("is-open")));
-  });
-
-  backdrop.addEventListener("click", () => {
-    if (card.classList.contains("is-open")) card.click();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && card.classList.contains("is-open")) card.click();
-  });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&viewer.classList.contains("is-open")) closeViewer(); });
 })();
