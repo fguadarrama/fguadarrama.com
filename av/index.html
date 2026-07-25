@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f7f8fb">
-  <title>Comparación Image Open Tilt</title>
+  <title>Francisco Guadarrama — Open Tilt Tuner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -12,57 +12,78 @@
 </head>
 <body>
   <main class="page">
-    <header class="intro">
-      <h1>Comparación de apertura</h1>
-      <p>El hover es idéntico en las cuatro opciones. Haz clic en cada avatar para comparar la apertura.</p>
-    </header>
-
-    <section class="options" aria-label="Opciones de animación">
-      <article class="option">
-        <div class="option__number">01</div>
-        <h2>Alpha-aware bend</h2>
-        <p>Organic bend adaptado al canal alfa. Fuera del lienzo se renderiza transparencia, sin repetir píxeles periféricos.</p>
-        <button class="avatar" type="button" data-option="1" aria-label="Probar opción 1">
+    <section class="preview" aria-label="Vista previa">
+      <div class="identity">
+        <span>Francisco Guadarrama</span>
+        <button class="avatar" id="avatar" type="button" aria-label="Abrir fotografía">
           <span class="avatar__stage" aria-hidden="true"></span>
-          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
+          <span class="avatar__magnetic">
+            <span class="avatar__tilt">
+              <img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false">
+            </span>
+          </span>
         </button>
-      </article>
-
-      <article class="option">
-        <div class="option__number">02</div>
-        <h2>Plano transparente</h2>
-        <p>La receta trabaja sobre una superficie cuadrada invisible, con margen alfa alrededor del retrato.</p>
-        <button class="avatar" type="button" data-option="2" aria-label="Probar opción 2">
-          <span class="avatar__stage" aria-hidden="true"></span>
-          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
-        </button>
-      </article>
-
-      <article class="option">
-        <div class="option__number">03</div>
-        <h2>Tilt sin bend</h2>
-        <p>Conserva zoom, perspectiva, inclinación y elevación originales; elimina únicamente el canvas orgánico.</p>
-        <button class="avatar" type="button" data-option="3" aria-label="Probar opción 3">
-          <span class="avatar__stage" aria-hidden="true"></span>
-          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
-        </button>
-      </article>
-
-      <article class="option">
-        <div class="option__number">04</div>
-        <h2>FLIP + bend breve</h2>
-        <p>La imagen sale de su posición real, viaja al centro y aplica un bend corto sólo durante el inicio del vuelo.</p>
-        <button class="avatar" type="button" data-option="4" aria-label="Probar opción 4">
-          <span class="avatar__stage" aria-hidden="true"></span>
-          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
-        </button>
-      </article>
+      </div>
+      <p class="hint">Haz clic en el avatar para probar la animación.</p>
     </section>
+
+    <aside class="controls" aria-label="Controles de animación">
+      <div class="controls__header">
+        <div>
+          <h1>Open Tilt controls</h1>
+          <p>Los cambios se aplican a la siguiente apertura.</p>
+        </div>
+        <button id="reset" class="reset" type="button">Restablecer</button>
+      </div>
+
+      <div class="control-grid">
+        <label class="switch-row" for="enableTilt">
+          <span><strong>3D tilt</strong><small>Perspectiva durante el vuelo</small></span>
+          <input id="enableTilt" type="checkbox" checked>
+        </label>
+        <label class="switch-row" for="enableBend">
+          <span><strong>Organic bend</strong><small>Deformación alfa en canvas</small></span>
+          <input id="enableBend" type="checkbox" checked>
+        </label>
+      </div>
+
+      <div class="sliders">
+        <label>Duración apertura <output id="openDurationOut">560 ms</output>
+          <input id="openDuration" type="range" min="320" max="900" step="10" value="560">
+        </label>
+        <label>Duración cierre <output id="closeDurationOut">380 ms</output>
+          <input id="closeDuration" type="range" min="240" max="650" step="10" value="380">
+        </label>
+        <label>Tilt X <output id="tiltXOut">18°</output>
+          <input id="tiltX" type="range" min="0" max="28" step="1" value="18">
+        </label>
+        <label>Tilt Y <output id="tiltYOut">−11°</output>
+          <input id="tiltY" type="range" min="-24" max="24" step="1" value="-11">
+        </label>
+        <label>Elevación Z <output id="liftOut">54 px</output>
+          <input id="lift" type="range" min="0" max="110" step="2" value="54">
+        </label>
+        <label>Perspectiva <output id="perspectiveOut">980 px</output>
+          <input id="perspective" type="range" min="600" max="1600" step="20" value="980">
+        </label>
+        <label>Fuerza del bend <output id="bendStrengthOut">15 px</output>
+          <input id="bendStrength" type="range" min="0" max="36" step="1" value="15">
+        </label>
+        <label>Duración del bend <output id="bendDurationOut">175 ms</output>
+          <input id="bendDuration" type="range" min="80" max="360" step="5" value="175">
+        </label>
+        <label>Retraso del bend <output id="bendDelayOut">55 ms</output>
+          <input id="bendDelay" type="range" min="0" max="180" step="5" value="55">
+        </label>
+        <label>Pico del tilt <output id="tiltPeakOut">34%</output>
+          <input id="tiltPeak" type="range" min="20" max="60" step="1" value="34">
+        </label>
+      </div>
+    </aside>
   </main>
 
   <div class="viewer" id="viewer" aria-hidden="true">
     <button class="viewer__backdrop" type="button" aria-label="Cerrar"></button>
-    <div class="viewer__label" id="viewerLabel"></div>
     <div class="open-stage">
       <button class="open-card" id="openCard" type="button" aria-label="Cerrar imagen">
         <img class="open-img" src="./avatar.webp" alt="Francisco Guadarrama" draggable="false">

@@ -1,3 +1,5 @@
-# Comparación de cuatro aperturas
+# Francisco avatar — Open Tilt tuner
 
-Sitio estático sin dependencias. Subir `index.html`, `styles.css`, `script.js` y `avatar.webp` a la misma carpeta de GitHub Pages.
+Sitio estático sin dependencias de compilación.
+
+Sube `index.html`, `styles.css`, `script.js` y `avatar.webp` al mismo directorio de GitHub Pages.
