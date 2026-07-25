@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8fb">
+  <title>Comparación Image Open Tilt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <h1>Comparación de apertura</h1>
+      <p>El hover es idéntico en las cuatro opciones. Haz clic en cada avatar para comparar la apertura.</p>
+    </header>
+
+    <section class="options" aria-label="Opciones de animación">
+      <article class="option">
+        <div class="option__number">01</div>
+        <h2>Alpha-aware bend</h2>
+        <p>Organic bend adaptado al canal alfa. Fuera del lienzo se renderiza transparencia, sin repetir píxeles periféricos.</p>
+        <button class="avatar" type="button" data-option="1" aria-label="Probar opción 1">
+          <span class="avatar__stage" aria-hidden="true"></span>
+          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
+        </button>
+      </article>
+
+      <article class="option">
+        <div class="option__number">02</div>
+        <h2>Plano transparente</h2>
+        <p>La receta trabaja sobre una superficie cuadrada invisible, con margen alfa alrededor del retrato.</p>
+        <button class="avatar" type="button" data-option="2" aria-label="Probar opción 2">
+          <span class="avatar__stage" aria-hidden="true"></span>
+          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
+        </button>
+      </article>
+
+      <article class="option">
+        <div class="option__number">03</div>
+        <h2>Tilt sin bend</h2>
+        <p>Conserva zoom, perspectiva, inclinación y elevación originales; elimina únicamente el canvas orgánico.</p>
+        <button class="avatar" type="button" data-option="3" aria-label="Probar opción 3">
+          <span class="avatar__stage" aria-hidden="true"></span>
+          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
+        </button>
+      </article>
+
+      <article class="option">
+        <div class="option__number">04</div>
+        <h2>FLIP + bend breve</h2>
+        <p>La imagen sale de su posición real, viaja al centro y aplica un bend corto sólo durante el inicio del vuelo.</p>
+        <button class="avatar" type="button" data-option="4" aria-label="Probar opción 4">
+          <span class="avatar__stage" aria-hidden="true"></span>
+          <span class="avatar__magnetic"><span class="avatar__tilt"><img src="./avatar.webp" alt="Francisco Guadarrama" draggable="false"></span></span>
+        </button>
+      </article>
+    </section>
+  </main>
+
+  <div class="viewer" id="viewer" aria-hidden="true">
+    <button class="viewer__backdrop" type="button" aria-label="Cerrar"></button>
+    <div class="viewer__label" id="viewerLabel"></div>
+    <div class="open-stage">
+      <button class="open-card" id="openCard" type="button" aria-label="Cerrar imagen">
+        <img class="open-img" src="./avatar.webp" alt="Francisco Guadarrama" draggable="false">
+        <canvas class="open-canvas" aria-hidden="true"></canvas>
+      </button>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
