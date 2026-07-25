@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f8fb" />
+  <title>Francisco Guadarrama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="identity" aria-label="Francisco Guadarrama">
+    <span class="name">Francisco Guadarrama</span>
+
+    <div class="avatar-slot" id="avatar-slot">
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="hover-shell" id="hover-shell">
+        <div class="t-opentilt-stage">
+          <button
+            type="button"
+            class="t-opentilt-card"
+            id="opentilt-card"
+            aria-expanded="false"
+            aria-label="Abrir fotografía de Francisco Guadarrama"
+          >
+            <img class="t-opentilt-img" src="avatar.webp" alt="Francisco Guadarrama" draggable="false" />
+            <canvas class="t-opentilt-canvas" aria-hidden="true"></canvas>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+:root {
+  color-scheme: light;
+  --page-bg: #f7f8fb;
+  --text: #23252b;
+  --avatar-size: 72px;
+
+  /* Exact image-open-tilt parameters from the supplied Transitions Pro skill. */
+  --opentilt-open-dur: 620ms;
+  --opentilt-close-dur: 420ms;
+  --opentilt-open-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --opentilt-close-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --opentilt-closed-scale: 0.3;
+  --opentilt-tilt-x: 22deg;
+  --opentilt-tilt-y: -14deg;
+  --opentilt-lift: 70px;
+  --opentilt-perspective: 900px;
+  --opentilt-open-w: 240px;
+  --opentilt-open-h: 240px;
+  --opentilt-bend: 28;
+  --opentilt-bend-dur: 300ms;
+  --opentilt-bend-ease: ease-out;
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: "Albert Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.identity {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.name {
+  font-size: 15.5px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.avatar-slot {
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  flex: 0 0 var(--avatar-size);
+  perspective: 800px;
+  z-index: 3;
+}
+
+.hover-shell {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg) scale(1);
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.avatar-slot:hover .hover-shell:not(.is-open) {
+  transition: transform 160ms cubic-bezier(0.22, 1.45, 0.36, 1);
+}
+
+.orbit {
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.86);
+  background: conic-gradient(from 0deg, transparent 0 15%, #2643c6 27%, #e8523f 43%, transparent 58% 76%, #2643c6 91%, transparent);
+  filter: blur(0.2px);
+  transition: opacity 180ms ease, transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: orbit-spin 2.8s linear infinite;
+  pointer-events: none;
+}
+
+.avatar-slot:hover .orbit {
+  opacity: .9;
+  transform: scale(1);
+}
+
+.avatar-slot::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  border-radius: 999px;
+  background: var(--page-bg);
+  pointer-events: none;
+}
+
+@keyframes orbit-spin { to { rotate: 1turn; } }
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: rgba(247, 248, 251, 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+
+.backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Supplied image-open-tilt recipe, kept intact except for layering/background. */
+.t-opentilt-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--opentilt-open-w);
+  height: var(--opentilt-open-h);
+  translate: -50% -50%;
+  perspective: var(--opentilt-perspective);
+  z-index: 2;
+}
+
+.t-opentilt-card {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  position: relative;
+  width: var(--opentilt-open-w);
+  height: var(--opentilt-open-h);
+  border-radius: 32px;
+  overflow: visible;
+  cursor: pointer;
+  background: transparent;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.05),
+    0 4px 42px rgba(0, 0, 0, 0.06);
+  -webkit-tap-highlight-color: transparent;
+  transform-origin: center;
+  scale: var(--opentilt-closed-scale);
+  transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+  will-change: scale, transform;
+  transition:
+    scale var(--opentilt-close-dur) var(--opentilt-close-ease),
+    border-radius var(--opentilt-close-dur) var(--opentilt-close-ease);
+}
+
+.t-opentilt-canvas {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+
+.t-opentilt-card.is-bending { background: transparent; }
+.t-opentilt-card.is-bending .t-opentilt-img { visibility: hidden; }
+.t-opentilt-card.is-bending .t-opentilt-canvas { display: block; }
+
+.t-opentilt-card.is-open {
+  border-radius: 16px;
+  scale: 1;
+  transition:
+    scale var(--opentilt-open-dur) var(--opentilt-open-ease),
+    border-radius var(--opentilt-open-dur) var(--opentilt-open-ease);
+  animation: t-opentilt-open var(--opentilt-open-dur) both;
+}
+
+.t-opentilt-card.is-closing {
+  animation: t-opentilt-close var(--opentilt-close-dur) both;
+}
+
+@keyframes t-opentilt-open {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+    animation-timing-function: cubic-bezier(0.3, 0.7, 0.4, 1);
+  }
+  40% {
+    transform:
+      rotateX(var(--opentilt-tilt-x))
+      rotateY(var(--opentilt-tilt-y))
+      translateZ(var(--opentilt-lift));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  100% { transform: rotateX(0deg) rotateY(0deg) translateZ(0); }
+}
+
+@keyframes t-opentilt-close {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+    animation-timing-function: cubic-bezier(0.4, 0.4, 0.5, 1);
+  }
+  45% {
+    transform:
+      rotateX(calc(var(--opentilt-tilt-x) * -0.45))
+      rotateY(calc(var(--opentilt-tilt-y) * -0.45))
+      translateZ(calc(var(--opentilt-lift) * 0.4));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  100% { transform: rotateX(0deg) rotateY(0deg) translateZ(0); }
+}
+
+.t-opentilt-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  border-radius: inherit;
+  user-select: none;
+}
+
+.t-opentilt-card:focus-visible {
+  outline: 2px solid #2643c6;
+  outline-offset: 5px;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --opentilt-open-w: min(240px, 72vw);
+    --opentilt-open-h: min(240px, 72vw);
+  }
+  .identity { gap: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-shell, .orbit, .backdrop { animation: none; transition: none; }
+  .t-opentilt-card,
+  .t-opentilt-card.is-open { animation: none; transition: none; }
+}
