@@ -13,14 +13,14 @@
 <meta name="robots" content="index, follow, noarchive"/>
 
 <!-- Open Graph (LinkedIn, WhatsApp, etc.) -->
-<meta property="og:title" content="Francisco Guadarrama, MD"/>
+<meta property="og:title" content="Francisco Guadarrama"/>
 <meta property="og:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://fguadarrama.com"/>
 
 <!-- Twitter/X -->
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Francisco Guadarrama, MD"/>
+<meta name="twitter:title" content="Francisco Guadarrama"/>
 <meta name="twitter:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
 
 <link id="site-favicon" rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3C/svg%3E"/>
@@ -141,6 +141,80 @@
     a:focus-visible {
       color: var(--accent);
       text-decoration-color: var(--accent);
+    }
+
+    /* Animated underline links with one shared arrow at the end of the sentence. */
+    .intro-navigation {
+      --intro-arrow-stroke-offset: 46;
+      --intro-arrow-stroke-duration: 150ms;
+      --intro-arrow-stroke-easing: linear;
+      --intro-arrow-stroke-delay: 0ms;
+    }
+
+    .intro-underline {
+      --underline-background-size: 100%;
+      --underline-background-delay: 150ms;
+      position: relative;
+      color: var(--text);
+      text-decoration: none;
+      white-space: normal;
+    }
+
+    .intro-underline > span {
+      background-image: linear-gradient(0deg, currentColor 0%, currentColor 100%);
+      background-position: 100% 100%;
+      background-repeat: no-repeat;
+      background-size: var(--underline-background-size) 1px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      transition:
+        background-size 200ms linear var(--underline-background-delay),
+        color 150ms var(--ease-out);
+      transform: translateZ(0);
+    }
+
+    .intro-shared-arrow {
+      position: relative;
+      left: -0.08em;
+      display: inline-block;
+      width: 0.72em;
+      height: 1.1em;
+      overflow: visible;
+      vertical-align: -0.2em;
+      fill: none;
+      stroke: var(--text);
+      stroke-width: 1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 7.95 30;
+      stroke-dashoffset: var(--intro-arrow-stroke-offset);
+      transition:
+        stroke-dashoffset var(--intro-arrow-stroke-duration) var(--intro-arrow-stroke-easing) var(--intro-arrow-stroke-delay),
+        stroke 150ms var(--ease-out);
+      pointer-events: none;
+    }
+
+    .intro-underline:hover,
+    .intro-underline:focus-visible {
+      --underline-background-size: 0%;
+      --underline-background-delay: 0ms;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .intro-underline:hover ~ .intro-shared-arrow,
+    .intro-underline:focus-visible ~ .intro-shared-arrow {
+      --intro-arrow-stroke-offset: 26;
+      --intro-arrow-stroke-duration: 300ms;
+      --intro-arrow-stroke-easing: cubic-bezier(0.3, 1.5, 0.5, 1);
+      --intro-arrow-stroke-delay: 195ms;
+      stroke: var(--accent);
+    }
+
+    .intro-underline:focus-visible {
+      border-radius: 3px;
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
     .page {
@@ -1379,6 +1453,487 @@
   ]
 }
 </script>
+
+<style id="contact-component-styles">
+  /* Contact component adapted from the previous site. */
+  #trigger-btn,
+  #morph {
+    --contact-accent: var(--accent);
+    --contact-accent-mid: color-mix(in srgb, var(--accent) 82%, var(--text));
+    --contact-error: #FF1D58;
+    --contact-success: #3BC864;
+    --contact-bg: #f6f7fc;
+    --contact-surface: #ffffff;
+    --contact-surface-2: #f0f1f5;
+    --contact-border: #d6d8e0;
+    --contact-text: #2d2930;
+    --contact-text-2: #5a5d6e;
+    --contact-text-3: #9a9dae;
+  }
+
+  @supports (color: color(display-p3 0 0 0)) {
+    #trigger-btn,
+    #morph {
+      --contact-error: color(display-p3 1 0.114 0.345);
+      --contact-success: color(display-p3 0.231 0.784 0.392);
+    }
+  }
+
+  html[data-theme="dark"] #trigger-btn,
+  html[data-theme="dark"] #morph {
+    --contact-bg: #2d2930;
+    --contact-surface: #39343b;
+    --contact-surface-2: #252228;
+    --contact-border: #5a545e;
+    --contact-text: #f6f7fc;
+    --contact-text-2: #cbc7ce;
+    --contact-text-3: #96909a;
+  }
+
+  #contact .contact-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding: 12px 0 2px;
+  }
+
+  #trigger-btn {
+    display: inline;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 12.45px;
+    font-weight: 360;
+    letter-spacing: inherit;
+    line-height: 1.5;
+    text-decoration: underline;
+    text-decoration-color: var(--text);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    outline: none;
+    transition:
+      color 150ms var(--ease-out),
+      text-decoration-color 150ms var(--ease-out),
+      opacity 150ms var(--ease-out);
+  }
+
+  #trigger-btn:hover,
+  #trigger-btn:focus-visible {
+    background: transparent;
+    color: var(--contact-accent);
+    text-decoration-color: var(--contact-accent);
+  }
+
+  #trigger-btn:focus-visible {
+    border-radius: 3px;
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #trigger-btn:active { opacity: 0.72; }
+  #trigger-btn.is-hidden { visibility: hidden; }
+
+  #backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    background: transparent;
+  }
+
+  #morph {
+    position: fixed;
+    z-index: 1100;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--contact-text);
+    font-family: var(--font);
+  }
+
+  #morph.active { pointer-events: auto; }
+
+  #morph-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  #morph-content.visible { opacity: 1; }
+
+  #morph .pop-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-surface);
+  }
+
+  #morph .pop-label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    z-index: 2;
+    color: var(--contact-text-2);
+    font-size: 15px;
+    font-weight: 360;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+  }
+
+  #morph .pop-label.hidden { opacity: 0; }
+
+  #field-msg {
+    width: 100%;
+    min-height: 0;
+    flex: 1;
+    padding: 12px 10px 8px 16px;
+    border: 0;
+    outline: 0;
+    resize: none;
+    background: transparent;
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 360;
+    line-height: 1.5;
+  }
+
+  #morph .extra-fields {
+    display: flex;
+    flex-shrink: 0;
+    gap: 6px;
+    padding: 0 8px 4px;
+  }
+
+  #morph .extra-fields input {
+    min-width: 0;
+    flex: 1;
+    padding: 5px 8px;
+    border: 1px solid var(--contact-border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--contact-bg);
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 360;
+    transition: border-color 120ms ease;
+  }
+
+  #morph .extra-fields input::placeholder { color: var(--contact-text-3); }
+  #morph .extra-fields input:focus { border-color: var(--contact-accent); }
+
+  #morph .robot-row {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 4px 8px 8px 10px;
+  }
+
+  #morph .robot-row .cb-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--contact-text-2);
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #morph .robot-row .cb-label.locked {
+    color: var(--contact-text-3);
+    cursor: not-allowed;
+  }
+
+  #morph .cb-wrap {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  #morph .cb-wrap input {
+    display: block;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  #morph .cb-wrap input:disabled { cursor: not-allowed; }
+
+  #morph .cb-wrap svg {
+    position: absolute;
+    display: block;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  #morph .cb-bg {
+    top: -3px;
+    left: -3px;
+    width: 28px;
+    height: 28px;
+    fill: var(--contact-surface);
+    stroke: var(--contact-border);
+    stroke-width: 1px;
+    transition: stroke 250ms ease, fill 250ms ease;
+  }
+
+  #morph .cb-wrap.checked .cb-bg {
+    fill: var(--contact-accent);
+    stroke: var(--contact-accent);
+  }
+
+  #morph .cb-wrap.disabled .cb-bg {
+    fill: var(--contact-surface-2);
+    stroke: var(--contact-border);
+  }
+
+  #morph .cb-tick {
+    top: 6px;
+    left: 5px;
+    width: 12px;
+    height: 10px;
+    stroke: var(--contact-bg);
+    stroke-width: 2px;
+    stroke-dasharray: 14px;
+    stroke-dashoffset: 14px;
+    transition: stroke-dashoffset 150ms ease;
+  }
+
+  #morph .cb-wrap.checked .cb-tick {
+    stroke-dashoffset: 0;
+    transition-delay: 150ms;
+  }
+
+  #email-hint {
+    display: none;
+    flex-shrink: 0;
+    padding: 0 8px 4px 10px;
+    color: var(--contact-error);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  #error-msg {
+    display: none;
+    flex-shrink: 0;
+    padding: 0 10px 4px;
+    color: var(--contact-error);
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  #morph .pop-divider {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    border-top: 1px dashed var(--contact-border);
+    pointer-events: none;
+  }
+
+  #morph .ear {
+    position: absolute;
+    bottom: 35px;
+    z-index: 3;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--contact-border);
+    background: var(--contact-surface-2);
+  }
+
+  #morph .ear-left { left: -5px; border-radius: 0 4px 4px 0; }
+  #morph .ear-right { right: -5px; border-radius: 4px 0 0 4px; }
+
+  #morph .ear-mask {
+    position: absolute;
+    bottom: 35px;
+    z-index: 4;
+    width: 4px;
+    height: 8px;
+    background: var(--contact-surface);
+  }
+
+  #morph .ear-mask-left { left: 0; }
+  #morph .ear-mask-right { right: 0; }
+
+  #morph .pop-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  #submit-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 25px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 8px;
+    background: var(--contact-accent);
+    color: var(--contact-bg);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 480;
+    cursor: pointer;
+    transition:
+      transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 180ms ease,
+      opacity 150ms ease;
+  }
+
+  #submit-btn:hover:not(:disabled) {
+    background: var(--contact-accent-mid);
+    transform: scale(1.07);
+  }
+
+  #submit-btn:focus-visible {
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #submit-btn:active:not(:disabled) { transform: scale(0.97); }
+  #submit-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+
+  #morph .btn-label {
+    display: block;
+    transition: opacity 150ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #morph .btn-label.sending {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  #morph .spinner {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #morph .spinner.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #morph .spinner svg { animation: contact-spin 800ms linear infinite; }
+  @keyframes contact-spin { to { transform: rotate(360deg); } }
+
+  #success-view {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-16px);
+    pointer-events: none;
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #success-view.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  #morph .success-check { color: var(--contact-success); }
+  #morph .success-title {
+    margin: 0 0 4px;
+    color: var(--contact-text);
+    font-size: 14px;
+    font-weight: 480;
+    text-align: center;
+  }
+
+  #morph .success-sub {
+    margin: 0;
+    color: var(--contact-text-2);
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+  }
+
+  @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+    #trigger-btn {
+      min-height: 0;
+      padding: 0;
+      font-size: 15.9px;
+    }
+
+    #field-msg,
+    #morph .pop-label { font-size: 16px; }
+    #morph .extra-fields input { font-size: 15px; }
+    #morph .robot-row .cb-label { font-size: 15px; }
+    #email-hint,
+    #error-msg { font-size: 13.5px; }
+    #submit-btn { height: 30px; font-size: 14px; }
+  }
+
+  @media (max-width: 390px) {
+    #morph .extra-fields { gap: 5px; }
+    #morph .extra-fields input { padding-inline: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #trigger-btn,
+    #morph *,
+    #morph-content { transition-duration: 1ms !important; }
+  }
+</style>
 </head>
 <body>
 <main class="page" id="top">
@@ -1412,7 +1967,7 @@
 <div class="bio">
 <p data-en="I am a physician who cares for people with cancer and is driven by a specific question: how can we deliver high-value care when resources are limited?" data-es="Soy un médico que atiende a personas con cáncer y persigue una pregunta concreta: cómo ofrecer tratamientos oncológicos de alto valor cuando los recursos son limitados.">I am a physician who cares for people with cancer and is driven by a specific question: how can we deliver high-value cancer care when resources are limited?</p>
 <p data-en="My work has taken me from marginalized communities in the mountains of Mexico to national referral centers. That path shapes my focus on clinical decision-making under real constraints, reducing gaps in access to medicines, and strengthening health systems." data-es="He trabajado en comunidades marginadas en las montañas de México y en centros médicos de alta especialidad. Ese recorrido orienta mi trabajo hacia la toma de decisiones clínicas bajo restricciones reales, la reducción de las brechas en el acceso al tratamiento y el fortalecimiento de los sistemas de salud.">My work has taken me from marginalized communities in the mountains of Mexico to national referral centers. That path shapes my focus on clinical decision-making under real constraints, reducing gaps in access to treatment, and strengthening health systems.</p>
-<p><span data-en="See " data-es="Ver ">See </span><a data-cuelume-hover="tick" data-en="experience" data-es="experiencia" href="#experience">experience</a><span data-en=", " data-es=", ">, </span><a data-cuelume-hover="tick" data-en="education" data-es="formación académica" href="#education">education</a><span data-en=", " data-es=", ">, </span><a data-cuelume-hover="tick" data-en="publications" data-es="publicaciones" href="#publications" id="publicationsAnchor">publications</a><span data-en=", or " data-es=" o ">, or </span><a data-cuelume-hover="tick" data-en="contact information" data-es="información de contacto" href="#contact">contact information</a><span data-en="." data-es=".">.</span></p>
+<p class="intro-navigation"><span data-en="See " data-es="Ver ">See </span><a class="intro-underline" data-cuelume-hover="tick" href="#experience"><span data-en="experience," data-es="experiencia,">experience,</span></a> <a class="intro-underline" data-cuelume-hover="tick" href="#education"><span data-en="education," data-es="formación académica,">education,</span></a> <a class="intro-underline" data-cuelume-hover="tick" href="#publications" id="publicationsAnchor"><span data-en="publications," data-es="publicaciones,">publications,</span></a><span data-en=" or " data-es=" o "> or </span><a class="intro-underline" data-cuelume-hover="tick" href="#contact"><span data-en="contact information." data-es="información de contacto.">contact information.</span></a><svg aria-hidden="true" class="intro-shared-arrow" viewBox="0 0 13 20"><polyline points="0.5 19.5 3 19.5 12.5 10 3 0.5"></polyline></svg></p>
 </div>
 </header>
 <section aria-labelledby="experience-title" class="section" id="experience">
@@ -1636,7 +2191,10 @@
 <h2 id="contact-title"><button aria-controls="panel-contact-1" aria-expanded="false" class="section-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Contact" data-es="Contacto" id="contactToggle" type="button">Contact</button></h2>
 <div class="entry-panel" hidden="" id="panel-contact-1">
 <div class="entry-panel-inner">
-<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-label="Open e-mail client" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="e-mail" data-es="e-mail" href="#" id="emailLink" rel="nofollow">e-mail</a></p>
+<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a></p>
+<div class="contact-wrapper">
+<a aria-expanded="false" aria-haspopup="dialog" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Send me a message" data-es="Envíame un mensaje" href="#" id="trigger-btn" role="button">Send me a message</a>
+</div>
 </div>
 </div>
 </section>
@@ -1645,6 +2203,70 @@
 <a data-cuelume-hover="tick" data-en="Back to top" data-es="Volver arriba" href="#top">Back to top</a>
 </footer>
 </main>
+
+<div aria-hidden="true" id="backdrop"></div>
+<div aria-hidden="true" aria-label="Contact form" aria-modal="true" id="morph" role="dialog">
+  <div id="morph-content">
+    <div aria-live="polite" id="success-view" role="status">
+      <div class="success-check">
+        <svg aria-hidden="true" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <div>
+        <p class="success-title" data-en="Message sent" data-es="Mensaje enviado">Message sent</p>
+        <p class="success-sub" data-en="Thank you, I'll reply soon." data-es="Gracias, te responderé pronto.">Thank you, I'll reply soon.</p>
+      </div>
+    </div>
+
+    <div class="pop-inner">
+      <span class="pop-label" data-en="Please write your message" data-es="Por favor escribe tu mensaje" id="pop-label">Please write your message</span>
+      <textarea aria-label="Message" id="field-msg" maxlength="500"></textarea>
+
+      <div class="extra-fields" id="extra-fields" style="display:none;">
+        <input aria-label="Name" autocomplete="name" id="field-name" maxlength="60" placeholder="Name" type="text"/>
+        <input aria-label="Email address" autocomplete="email" id="field-email" inputmode="email" maxlength="80" placeholder="Email address" type="email"/>
+      </div>
+
+      <div aria-live="polite" data-en="Please enter a valid e-mail address." data-es="Por favor ingresa una dirección de correo electrónico válida." id="email-hint">Please enter a valid e-mail address.</div>
+
+      <div class="robot-row" id="robot-row" style="display:none;">
+        <label class="cb-label locked" for="not-robot" id="robot-label">
+          <span class="cb-wrap disabled" id="cb-wrap">
+            <input disabled id="not-robot" type="checkbox"/>
+            <svg aria-hidden="true" class="cb-bg" viewBox="0 0 28 28">
+              <path d="M3.5 8.49964C3.5 5.73822 5.73822 3.5 8.49964 3.5C10.3275 3.5 12.3499 3.5 14 3.5C15.6501 3.5 17.6725 3.5 19.5004 3.5C22.2618 3.5 24.5 5.73822 24.5 8.49964C24.5 10.3275 24.5 12.3499 24.5 14C24.5 15.6501 24.5 17.6725 24.5 19.5004C24.5 22.2618 22.2618 24.5 19.5004 24.5C17.6725 24.5 15.6501 24.5 14 24.5C12.3499 24.5 10.3275 24.5 8.49964 24.5C5.73822 24.5 3.5 22.2618 3.5 19.5004C3.5 17.6725 3.5 15.6501 3.5 14C3.5 12.3499 3.5 10.3275 3.5 8.49964Z"></path>
+            </svg>
+            <svg aria-hidden="true" class="cb-tick" viewBox="0 0 12 10">
+              <path d="M1.5 5.5L4.5 8.5L10.5 1.5"></path>
+            </svg>
+          </span>
+          <span data-en="I'm not a robot" data-es="No soy un robot">I'm not a robot</span>
+        </label>
+      </div>
+
+      <div aria-live="assertive" id="error-msg" role="alert"></div>
+      <div class="ear ear-left"></div>
+      <div class="ear-mask ear-mask-left"></div>
+      <div class="ear ear-right"></div>
+      <div class="ear-mask ear-mask-right"></div>
+      <div class="pop-divider"></div>
+
+      <div class="pop-footer">
+        <button data-cuelume-press="" data-cuelume-release="" disabled id="submit-btn" type="button">
+          <span class="btn-label" data-en="Send message" data-es="Enviar mensaje" id="btn-label">Send message</span>
+          <span aria-hidden="true" class="spinner" id="spinner">
+            <svg fill="none" height="14" viewBox="0 0 14 14" width="14">
+              <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"></circle>
+              <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="rgba(255,255,255,0.75)" stroke-linecap="round" stroke-width="1.5"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <aside aria-hidden="true" aria-label="Portrait of Francisco Guadarrama" class="photo-toast t-toast" id="portraitToast" role="status">
   <img draggable="false" alt="Francisco Guadarrama" class="photo-toast-image" decoding="async" loading="eager" src="https://fguadarrama.com/assets/dittherpp.webp"/>
   <button aria-label="Close portrait" class="photo-toast-close" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="portraitClose" type="button">
@@ -1933,10 +2555,11 @@
         const socialDescription = lang === 'es'
           ? 'Atención oncológica equitativa, sistemas de salud más sólidos y decisiones de alto valor bajo restricciones reales.'
           : 'Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints.';
-        document.title = 'Francisco Guadarrama, MD';
+        document.title = 'Francisco Guadarrama';
         document.querySelector('meta[name="description"]')?.setAttribute('content', pageDescription);
         document.querySelector('meta[property="og:description"]')?.setAttribute('content', socialDescription);
         document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', socialDescription);
+        window._contactLangSync?.(lang);
         if (persist) localStorage.setItem(languageStorageKey, lang);
       };
 
@@ -2302,6 +2925,411 @@
       });
     })();
   </script>
+
+<script id="contact-component-script">
+(() => {
+  const triggerBtn = document.getElementById('trigger-btn');
+  const morph = document.getElementById('morph');
+  const morphContent = document.getElementById('morph-content');
+  const backdrop = document.getElementById('backdrop');
+  const msgField = document.getElementById('field-msg');
+  const popLabel = document.getElementById('pop-label');
+  const extraFields = document.getElementById('extra-fields');
+  const nameField = document.getElementById('field-name');
+  const emailField = document.getElementById('field-email');
+  const emailHint = document.getElementById('email-hint');
+  const robotRow = document.getElementById('robot-row');
+  const robotLabel = document.getElementById('robot-label');
+  const notRobot = document.getElementById('not-robot');
+  const cbWrap = document.getElementById('cb-wrap');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnLabel = document.getElementById('btn-label');
+  const spinner = document.getElementById('spinner');
+  const successView = document.getElementById('success-view');
+  const errorMsg = document.getElementById('error-msg');
+
+  if (!triggerBtn || !morph || !morphContent || !backdrop || !msgField || !nameField || !emailField || !notRobot || !submitBtn) return;
+
+  const HONEYPOT_NAME = '_gotcha';
+  const MIN_FILL_MS = 3000;
+  const EASE = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
+  const DURATION = 300;
+
+  let formOpenedAt = null;
+  let endpointReady = false;
+  let endpoint = '';
+  let humanDetected = false;
+  let isOpen = false;
+  let animating = false;
+  let currentAnimation = null;
+
+  const strings = {
+    en: {
+      namePlaceholder: 'Name',
+      emailPlaceholder: 'Email address',
+      messageLabel: 'Message',
+      errFields: 'Please fill in all fields.',
+      errEmail: 'Please enter a valid e-mail address.',
+      errRobot: 'Please confirm you are not a robot.',
+      errTrap: 'Please review your message before sending.',
+      errConfig: 'Configuration error. Reload the page.',
+      errSend: 'Error sending. Please try again.',
+      dialogLabel: 'Contact form'
+    },
+    es: {
+      namePlaceholder: 'Nombre',
+      emailPlaceholder: 'Correo electrónico',
+      messageLabel: 'Mensaje',
+      errFields: 'Por favor completa todos los campos.',
+      errEmail: 'Por favor ingresa una dirección de correo electrónico válida.',
+      errRobot: 'Por favor confirma que no eres un robot.',
+      errTrap: 'Por favor revisa tu mensaje antes de enviar.',
+      errConfig: 'Error de configuración. Recarga la página.',
+      errSend: 'Error al enviar. Intenta de nuevo.',
+      dialogLabel: 'Formulario de contacto'
+    }
+  };
+
+  const activeStrings = () => strings[document.documentElement.lang === 'es' ? 'es' : 'en'];
+  const applyStyles = (element, styles) => Object.assign(element.style, styles);
+  const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const componentColors = () => {
+    const styles = getComputedStyle(morph);
+    return {
+      surface: styles.getPropertyValue('--contact-surface').trim() || '#ffffff',
+      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#f0f1f5',
+      border: styles.getPropertyValue('--contact-border').trim() || '#d6d8e0'
+    };
+  };
+
+  const popoverSize = () => ({
+    width: Math.min(364, Math.max(280, window.innerWidth - 24)),
+    height: window.innerWidth <= 390 ? 232 : 220
+  });
+
+  const popoverTarget = (buttonRect, width, height) => {
+    const margin = 12;
+    const left = Math.min(
+      Math.max(buttonRect.left + buttonRect.width / 2 - width / 2, margin),
+      Math.max(margin, window.innerWidth - width - margin)
+    );
+    const above = buttonRect.top - height - 8;
+    const below = buttonRect.bottom + 8;
+    const top = above >= margin
+      ? above
+      : Math.min(Math.max(below, margin), Math.max(margin, window.innerHeight - height - margin));
+    return { left, top };
+  };
+
+  function armEndpoint() {
+    if (endpointReady) return;
+    const base = atob('aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi8=');
+    const id = 'maqpznrg';
+    endpoint = base + id;
+    endpointReady = true;
+  }
+
+  function setHumanDetected() {
+    if (humanDetected) return;
+    humanDetected = true;
+    notRobot.disabled = false;
+    cbWrap.classList.remove('disabled');
+    robotLabel.classList.remove('locked');
+    document.removeEventListener('mousemove', setHumanDetected);
+    document.removeEventListener('touchstart', setHumanDetected);
+    document.removeEventListener('pointerdown', setHumanDetected);
+  }
+
+  function listenForHumanSignal() {
+    document.addEventListener('mousemove', setHumanDetected, { passive: true });
+    document.addEventListener('touchstart', setHumanDetected, { passive: true });
+    document.addEventListener('pointerdown', setHumanDetected, { passive: true });
+  }
+
+  listenForHumanSignal();
+
+  function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.style.display = 'block';
+  }
+
+  function clearError() {
+    errorMsg.textContent = '';
+    errorMsg.style.display = 'none';
+  }
+
+  function updateRobotRow() {
+    const show = msgField.value.trim().length > 0 && isEmail(emailField.value.trim());
+    if (!show) {
+      notRobot.checked = false;
+      cbWrap.classList.remove('checked');
+    }
+    robotRow.style.display = show ? 'flex' : 'none';
+  }
+
+  function updateSubmitState() {
+    submitBtn.disabled = !(
+      msgField.value.trim().length > 0 &&
+      isEmail(emailField.value.trim()) &&
+      notRobot.checked
+    );
+  }
+
+  function finishOpen(target, size, colors) {
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`,
+      borderRadius: '12px',
+      background: colors.surface2,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+    morphContent.classList.add('visible');
+    morph.setAttribute('aria-hidden', 'false');
+    triggerBtn.setAttribute('aria-expanded', 'true');
+    isOpen = true;
+    animating = false;
+    window.setTimeout(() => msgField.focus({ preventScroll: true }), 40);
+  }
+
+  function openPopover() {
+    if (isOpen || animating) return;
+    animating = true;
+    formOpenedAt = Date.now();
+
+    const buttonRect = triggerBtn.getBoundingClientRect();
+    const size = popoverSize();
+    const target = popoverTarget(buttonRect, size.width, size.height);
+    const colors = componentColors();
+
+    triggerBtn.classList.add('is-hidden');
+    backdrop.style.display = 'block';
+    morph.classList.add('active');
+
+    applyStyles(morph, {
+      left: `${buttonRect.left}px`,
+      top: `${buttonRect.top}px`,
+      width: `${buttonRect.width}px`,
+      height: `${buttonRect.height}px`,
+      borderRadius: '8px',
+      background: colors.surface,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishOpen(target, size, colors);
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${buttonRect.left}px`, top: `${buttonRect.top}px`,
+        width: `${buttonRect.width}px`, height: `${buttonRect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      },
+      {
+        left: `${target.left}px`, top: `${target.top}px`,
+        width: `${size.width}px`, height: `${size.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = () => {
+      currentAnimation = null;
+      finishOpen(target, size, colors);
+    };
+    currentAnimation.oncancel = () => { currentAnimation = null; animating = false; };
+  }
+
+  function finishClose() {
+    currentAnimation = null;
+    morph.removeAttribute('style');
+    morph.classList.remove('active');
+    morph.setAttribute('aria-hidden', 'true');
+    triggerBtn.classList.remove('is-hidden');
+    triggerBtn.setAttribute('aria-expanded', 'false');
+    animating = false;
+    triggerBtn.focus({ preventScroll: true });
+  }
+
+  function closePopover() {
+    if (!isOpen || animating) return;
+    animating = true;
+    isOpen = false;
+    morphContent.classList.remove('visible');
+    backdrop.style.display = 'none';
+
+    const buttonRect = triggerBtn.getBoundingClientRect();
+    const currentRect = morph.getBoundingClientRect();
+    const colors = componentColors();
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishClose();
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${currentRect.left}px`, top: `${currentRect.top}px`,
+        width: `${currentRect.width}px`, height: `${currentRect.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      },
+      {
+        left: `${buttonRect.left}px`, top: `${buttonRect.top}px`,
+        width: `${buttonRect.width}px`, height: `${buttonRect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = finishClose;
+    currentAnimation.oncancel = () => { currentAnimation = null; animating = false; };
+  }
+
+  function resetFields() {
+    msgField.value = '';
+    nameField.value = '';
+    emailField.value = '';
+    popLabel.classList.remove('hidden');
+    extraFields.style.display = 'none';
+    robotRow.style.display = 'none';
+    notRobot.checked = false;
+    notRobot.disabled = true;
+    robotLabel.classList.add('locked');
+    cbWrap.classList.remove('checked');
+    cbWrap.classList.add('disabled');
+    humanDetected = false;
+    listenForHumanSignal();
+    emailHint.style.display = 'none';
+    submitBtn.disabled = true;
+    btnLabel.classList.remove('sending');
+    spinner.classList.remove('active');
+    clearError();
+    successView.classList.remove('visible');
+    formOpenedAt = null;
+    endpointReady = false;
+    endpoint = '';
+  }
+
+  function closeAndReset() {
+    resetFields();
+    closePopover();
+  }
+
+  triggerBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    openPopover();
+  });
+  backdrop.addEventListener('click', closeAndReset);
+  msgField.addEventListener('focus', armEndpoint);
+
+  msgField.addEventListener('input', () => {
+    const hasMessage = msgField.value.length > 0;
+    popLabel.classList.toggle('hidden', hasMessage);
+    extraFields.style.display = hasMessage ? 'flex' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  emailField.addEventListener('input', () => {
+    const value = emailField.value.trim();
+    emailHint.style.display = value.length > 0 && !isEmail(value) ? 'block' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  emailField.addEventListener('blur', () => {
+    if (!emailField.value.trim()) emailHint.style.display = 'none';
+  });
+
+  notRobot.addEventListener('change', () => {
+    cbWrap.classList.toggle('checked', notRobot.checked);
+    updateSubmitState();
+  });
+
+  submitBtn.addEventListener('click', async () => {
+    const name = nameField.value.trim();
+    const email = emailField.value.trim();
+    const message = msgField.value.trim();
+    const copy = activeStrings();
+
+    clearError();
+
+    if (!name || !message) {
+      showError(copy.errFields);
+      return;
+    }
+    if (!isEmail(email)) {
+      showError(copy.errEmail);
+      return;
+    }
+    if (!notRobot.checked) {
+      showError(copy.errRobot);
+      return;
+    }
+    if (!formOpenedAt || Date.now() - formOpenedAt < MIN_FILL_MS) {
+      showError(copy.errTrap);
+      return;
+    }
+    if (!endpointReady) {
+      showError(copy.errConfig);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    btnLabel.classList.add('sending');
+    spinner.classList.add('active');
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('message', message);
+    formData.append(HONEYPOT_NAME, '');
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      });
+      if (!response.ok) throw new Error('Contact submission failed');
+      successView.classList.add('visible');
+      window.setTimeout(closeAndReset, 3200);
+    } catch (_) {
+      btnLabel.classList.remove('sending');
+      spinner.classList.remove('active');
+      submitBtn.disabled = false;
+      showError(activeStrings().errSend);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) closeAndReset();
+  });
+
+  window.addEventListener('resize', () => {
+    if (isOpen && !animating) closeAndReset();
+  }, { passive: true });
+
+  window._contactLangSync = (language) => {
+    const lang = language === 'es' ? 'es' : 'en';
+    const copy = strings[lang];
+    nameField.placeholder = copy.namePlaceholder;
+    nameField.setAttribute('aria-label', copy.namePlaceholder);
+    emailField.placeholder = copy.emailPlaceholder;
+    emailField.setAttribute('aria-label', copy.emailPlaceholder);
+    msgField.setAttribute('aria-label', copy.messageLabel);
+    morph.setAttribute('aria-label', copy.dialogLabel);
+  };
+
+  window._contactLangSync(document.documentElement.lang || 'en');
+})();
+</script>
 <script>
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
