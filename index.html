@@ -8,7 +8,7 @@
 <title>Francisco Guadarrama</title>
 <meta name="description" content="Francisco Guadarrama, MD — advancing equitable cancer care through oncology access, stronger health systems, and high-value clinical decisions."/>
 <meta name="author" content="Francisco Guadarrama"/>
-<meta name="theme-color" content="#f6f7fc"/>
+<meta name="theme-color" content="#fdfdfc"/>
 <link rel="canonical" href="https://fguadarrama.com"/>
 <meta name="robots" content="index, follow, noarchive"/>
 
@@ -31,11 +31,10 @@
 <style>
     :root {
       color-scheme: light;
-      --bg: #f6f7fc;
+      --bg: #fdfdfc;
       --text: #2d2930;
-      --accent: #2643c6;
+      --accent: #6c91a8;
       --line: #2d2930;
-      --controls-muted: rgba(45, 41, 48, 0.48);
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
       --font: "Albert Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -49,36 +48,9 @@
     html[data-theme="dark"] {
       color-scheme: dark;
       --bg: #2d2930;
-      --text: #f6f7fc;
-      --accent: #b2d7e7;
-      --line: #f6f7fc;
-      --controls-muted: rgba(246, 247, 252, 0.52);
-    }
-
-    @supports (color: color(display-p3 1 1 1)) {
-      @media (color-gamut: p3) {
-        :root {
-          --bg: color(display-p3 0.965457 0.968490 0.986342);
-          --text: color(display-p3 0.173807 0.161329 0.186174);
-          --accent: #2643c6;
-          --line: color(display-p3 0.173807 0.161329 0.186174);
-          --controls-muted: rgba(45, 41, 48, 0.48);
-        }
-
-        html[data-theme="dark"] {
-          --bg: color(display-p3 0.173807 0.161329 0.186174);
-          --text: color(display-p3 0.965457 0.968490 0.986342);
-          --accent: #b2d7e7;
-          --line: color(display-p3 0.965457 0.968490 0.986342);
-          --controls-muted: rgba(246, 247, 252, 0.52);
-        }
-
-        html,
-        body {
-          background-color: var(--bg);
-          background-image: none;
-        }
-      }
+      --text: #fdfdfc;
+      --accent: #99badc;
+      --line: #fdfdfc;
     }
 
     * { box-sizing: border-box; }
@@ -113,7 +85,7 @@
     .top-controls {
       position: fixed;
       top: 4px;
-      left: min(calc(100vw - 102px), calc(50% + 470px));
+      left: min(calc(100vw - 138px), calc(50% + 432px));
       right: auto;
       z-index: 20;
       display: inline-flex;
@@ -462,6 +434,100 @@
     .theme-toggle:focus-visible .theme-icon-sun {
       opacity: 1;
       transform: scale(1) rotate(0deg);
+    }
+
+
+
+    /* Transitions.dev — Icon swap */
+    :root {
+      --icon-swap-dur: 250ms;
+      --icon-swap-blur: 2px;
+      --icon-swap-start-scale: 0.25;
+      --icon-swap-ease: ease-in-out;
+    }
+
+    .contact-icon-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent);
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+      transform: translateZ(0);
+      transition:
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .contact-icon-toggle:hover,
+    .contact-icon-toggle:focus-visible {
+      color: var(--text);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .contact-icon-toggle:active {
+      transform: scale(0.96) translateZ(0);
+    }
+
+    .contact-icon-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .t-icon-swap {
+      position: relative;
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+    }
+
+    .t-icon-swap .t-icon {
+      grid-area: 1 / 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        opacity   var(--icon-swap-dur) var(--icon-swap-ease),
+        filter    var(--icon-swap-dur) var(--icon-swap-ease),
+        transform var(--icon-swap-dur) var(--icon-swap-ease);
+      transform-origin: 50% 50%;
+      will-change: opacity, filter, transform;
+      pointer-events: none;
+    }
+
+    .t-icon-swap .t-icon svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
+    .t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    .t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
+    .t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
+      opacity: 0;
+      filter: blur(var(--icon-swap-blur));
+      transform: scale(var(--icon-swap-start-scale));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .t-icon-swap .t-icon { transition: none !important; }
     }
 
     .bio {
@@ -922,11 +988,11 @@
       width: 30px;
       height: 30px;
       padding: 0;
-      border: 1px solid color-mix(in srgb, var(--line) 18%, transparent);
+      border: 1px solid var(--line);
       border-radius: 50%;
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      background: var(--bg);
       color: var(--text);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      box-shadow: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       cursor: pointer;
@@ -949,7 +1015,7 @@
     .photo-toast-close:focus-visible {
       color: var(--accent);
       border-color: var(--accent);
-      background: color-mix(in srgb, var(--bg) 96%, transparent);
+      background: var(--bg);
       transform: translateY(-1px) scale(1.025);
     }
 
@@ -1137,13 +1203,16 @@
       outline-offset: 3px;
     }
 
-    .theme-toggle {
+    .theme-toggle,
+    .contact-icon-toggle {
         width: 34px;
         height: 34px;
       }
 
       .theme-icon-wrap,
-      .theme-icon {
+      .theme-icon,
+      .t-icon-swap,
+      .t-icon-swap .t-icon svg {
         width: 18px;
         height: 18px;
       }
@@ -1328,8 +1397,8 @@
         height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        background: #fff !important;
-        color: #111 !important;
+        background: #fdfdfc !important;
+        color: #2d2930 !important;
       }
 
       .print-only-notice {
@@ -1459,35 +1528,28 @@
   #trigger-btn,
   #morph {
     --contact-accent: var(--accent);
-    --contact-accent-mid: color-mix(in srgb, var(--accent) 82%, var(--text));
+    --contact-accent-mid: var(--text);
     --contact-error: #FF1D58;
-    --contact-success: #3BC864;
-    --contact-bg: #f6f7fc;
-    --contact-surface: #ffffff;
-    --contact-surface-2: #f0f1f5;
-    --contact-border: #d6d8e0;
+    --contact-success: var(--accent);
+    --contact-bg: #fdfdfc;
+    --contact-surface: #fdfdfc;
+    --contact-surface-2: #fdfdfc;
+    --contact-border: #2d2930;
     --contact-text: #2d2930;
-    --contact-text-2: #5a5d6e;
-    --contact-text-3: #9a9dae;
-  }
-
-  @supports (color: color(display-p3 0 0 0)) {
-    #trigger-btn,
-    #morph {
-      --contact-error: color(display-p3 1 0.114 0.345);
-      --contact-success: color(display-p3 0.231 0.784 0.392);
-    }
+    --contact-text-2: #2d2930;
+    --contact-text-3: #2d2930;
   }
 
   html[data-theme="dark"] #trigger-btn,
   html[data-theme="dark"] #morph {
+    --contact-error: #F47983;
     --contact-bg: #2d2930;
-    --contact-surface: #39343b;
-    --contact-surface-2: #252228;
-    --contact-border: #5a545e;
-    --contact-text: #f6f7fc;
-    --contact-text-2: #cbc7ce;
-    --contact-text-3: #96909a;
+    --contact-surface: #2d2930;
+    --contact-surface-2: #2d2930;
+    --contact-border: #fdfdfc;
+    --contact-text: #fdfdfc;
+    --contact-text-2: #fdfdfc;
+    --contact-text-3: #fdfdfc;
   }
 
   #contact .contact-wrapper {
@@ -1533,7 +1595,7 @@
     outline-offset: 3px;
   }
 
-  #trigger-btn:active { opacity: 0.72; }
+  #trigger-btn:active { transform: translateY(1px); }
   #trigger-btn.is-hidden { visibility: hidden; }
 
   #backdrop {
@@ -1588,7 +1650,7 @@
     top: 12px;
     left: 16px;
     z-index: 2;
-    color: var(--contact-text-2);
+    color: var(--contact-text);
     font-size: 15px;
     font-weight: 360;
     pointer-events: none;
@@ -1635,7 +1697,7 @@
     transition: border-color 120ms ease;
   }
 
-  #morph .extra-fields input::placeholder { color: var(--contact-text-3); }
+  #morph .extra-fields input::placeholder { color: var(--contact-text); }
   #morph .extra-fields input:focus { border-color: var(--contact-accent); }
 
   #morph .robot-row {
@@ -1650,14 +1712,14 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    color: var(--contact-text-2);
+    color: var(--contact-text);
     font-size: 14px;
     cursor: pointer;
     user-select: none;
   }
 
   #morph .robot-row .cb-label.locked {
-    color: var(--contact-text-3);
+    color: var(--contact-text);
     cursor: not-allowed;
   }
 
@@ -1830,7 +1892,13 @@
   }
 
   #submit-btn:active:not(:disabled) { transform: scale(0.97); }
-  #submit-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+  #submit-btn:disabled {
+    border: 1px solid var(--contact-accent);
+    background: var(--contact-bg);
+    color: var(--contact-accent);
+    opacity: 1;
+    cursor: not-allowed;
+  }
 
   #morph .btn-label {
     display: block;
@@ -1844,6 +1912,7 @@
 
   #morph .spinner {
     position: absolute;
+    color: var(--contact-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1901,7 +1970,7 @@
 
   #morph .success-sub {
     margin: 0;
-    color: var(--contact-text-2);
+    color: var(--contact-text);
     font-size: 14px;
     font-style: italic;
     text-align: center;
@@ -1944,7 +2013,12 @@
 
 </div>
 <div aria-label="Language and theme controls" class="top-controls">
-<button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button"><span class="language-label">En</span></button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
+<button aria-controls="morph" aria-expanded="false" aria-haspopup="dialog" aria-labelledby="trigger-btn" class="contact-icon-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="contactIconToggle" type="button">
+<span aria-hidden="true" class="t-icon-swap" data-state="a">
+<span class="t-icon" data-icon="a"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.13,16.13,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78l.09-.07L83,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,224h0ZM216,192H80a8,8,0,0,0-5.23,1.95L40,224V64H216ZM88,112a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm0,32a8,8,0,0,1,8-8h64a8,8,0,1,1,0,16H96A8,8,0,0,1,88,144Z"></path></svg></span>
+<span class="t-icon" data-icon="b"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path></svg></span>
+</span>
+</button><button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button"><span class="language-label">En</span></button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
 <span aria-hidden="true" class="theme-icon-wrap">
 <svg draggable="false" class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
 <path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
@@ -2258,8 +2332,8 @@
           <span class="btn-label" data-en="Send message" data-es="Enviar mensaje" id="btn-label">Send message</span>
           <span aria-hidden="true" class="spinner" id="spinner">
             <svg fill="none" height="14" viewBox="0 0 14 14" width="14">
-              <circle cx="7" cy="7" r="5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"></circle>
-              <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="rgba(255,255,255,0.75)" stroke-linecap="round" stroke-width="1.5"></path>
+              <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
             </svg>
           </span>
         </button>
@@ -2296,8 +2370,8 @@
         "M13.5 19.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
         "M18.5 14.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"
       ];
-      const faviconLightAccent = '#2643c6';
-      const faviconDarkAccent = '#b2d7e7';
+      const faviconLightAccent = '#6c91a8';
+      const faviconDarkAccent = '#99badc';
 
       const shuffle = (items) => {
         const copy = [...items];
@@ -2579,7 +2653,7 @@
 
         document.querySelector('meta[name="theme-color"]')?.setAttribute(
           'content',
-          isDark ? '#2d2930' : '#f6f7fc'
+          isDark ? '#2d2930' : '#fdfdfc'
         );
 
         if (persist) localStorage.setItem(storageKey, normalizedTheme);
@@ -2929,6 +3003,8 @@
 <script id="contact-component-script">
 (() => {
   const triggerBtn = document.getElementById('trigger-btn');
+  const contactIconBtn = document.getElementById('contactIconToggle');
+  const contactIconSwap = contactIconBtn?.querySelector('.t-icon-swap');
   const morph = document.getElementById('morph');
   const morphContent = document.getElementById('morph-content');
   const backdrop = document.getElementById('backdrop');
@@ -2950,6 +3026,7 @@
 
   if (!triggerBtn || !morph || !morphContent || !backdrop || !msgField || !nameField || !emailField || !notRobot || !submitBtn) return;
 
+  const contactTriggers = [triggerBtn, contactIconBtn].filter(Boolean);
   const HONEYPOT_NAME = '_gotcha';
   const MIN_FILL_MS = 3000;
   const EASE = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
@@ -2962,6 +3039,8 @@
   let isOpen = false;
   let animating = false;
   let currentAnimation = null;
+  let activeTrigger = triggerBtn;
+  let viewportFrame = null;
 
   const strings = {
     en: {
@@ -2997,29 +3076,41 @@
   const componentColors = () => {
     const styles = getComputedStyle(morph);
     return {
-      surface: styles.getPropertyValue('--contact-surface').trim() || '#ffffff',
-      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#f0f1f5',
-      border: styles.getPropertyValue('--contact-border').trim() || '#d6d8e0'
+      surface: styles.getPropertyValue('--contact-surface').trim() || '#fdfdfc',
+      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#fdfdfc',
+      border: styles.getPropertyValue('--contact-border').trim() || '#2d2930'
     };
   };
 
-  const popoverSize = () => ({
-    width: Math.min(364, Math.max(280, window.innerWidth - 24)),
-    height: window.innerWidth <= 390 ? 232 : 220
-  });
+  const viewportMetrics = () => {
+    const viewport = window.visualViewport;
+    return {
+      width: viewport?.width || window.innerWidth,
+      height: viewport?.height || window.innerHeight,
+      offsetLeft: viewport?.offsetLeft || 0,
+      offsetTop: viewport?.offsetTop || 0
+    };
+  };
 
-  const popoverTarget = (buttonRect, width, height) => {
+  const popoverSize = () => {
+    const viewport = viewportMetrics();
+    const width = Math.min(364, Math.max(280, viewport.width - 24));
+    const preferredHeight = window.innerWidth <= 390 ? 232 : 220;
+    const height = Math.min(preferredHeight, Math.max(180, viewport.height - 24));
+    return { width, height };
+  };
+
+  const popoverTarget = (width, height) => {
     const margin = 12;
-    const left = Math.min(
-      Math.max(buttonRect.left + buttonRect.width / 2 - width / 2, margin),
-      Math.max(margin, window.innerWidth - width - margin)
-    );
-    const above = buttonRect.top - height - 8;
-    const below = buttonRect.bottom + 8;
-    const top = above >= margin
-      ? above
-      : Math.min(Math.max(below, margin), Math.max(margin, window.innerHeight - height - margin));
+    const viewport = viewportMetrics();
+    const left = viewport.offsetLeft + Math.max(margin, (viewport.width - width) / 2);
+    const top = viewport.offsetTop + Math.max(margin, (viewport.height - height) / 2);
     return { left, top };
+  };
+
+  const setContactState = (open) => {
+    contactTriggers.forEach((button) => button.setAttribute('aria-expanded', String(open)));
+    if (contactIconSwap) contactIconSwap.dataset.state = open ? 'b' : 'a';
   };
 
   function armEndpoint() {
@@ -3076,6 +3167,27 @@
     );
   }
 
+  function placeOpenPopover() {
+    if (!isOpen || animating) return;
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`
+    });
+  }
+
+  function scheduleOpenPopoverPlacement() {
+    if (!isOpen || animating) return;
+    if (viewportFrame !== null) cancelAnimationFrame(viewportFrame);
+    viewportFrame = requestAnimationFrame(() => {
+      viewportFrame = null;
+      placeOpenPopover();
+    });
+  }
+
   function finishOpen(target, size, colors) {
     applyStyles(morph, {
       left: `${target.left}px`,
@@ -3089,25 +3201,27 @@
     });
     morphContent.classList.add('visible');
     morph.setAttribute('aria-hidden', 'false');
-    triggerBtn.setAttribute('aria-expanded', 'true');
+    setContactState(true);
     isOpen = true;
     animating = false;
     window.setTimeout(() => msgField.focus({ preventScroll: true }), 40);
   }
 
-  function openPopover() {
+  function openPopover(sourceTrigger = triggerBtn) {
     if (isOpen || animating) return;
+    activeTrigger = sourceTrigger || triggerBtn;
     animating = true;
     formOpenedAt = Date.now();
 
-    const buttonRect = triggerBtn.getBoundingClientRect();
+    const buttonRect = activeTrigger.getBoundingClientRect();
     const size = popoverSize();
-    const target = popoverTarget(buttonRect, size.width, size.height);
+    const target = popoverTarget(size.width, size.height);
     const colors = componentColors();
 
-    triggerBtn.classList.add('is-hidden');
+    if (activeTrigger === triggerBtn) triggerBtn.classList.add('is-hidden');
     backdrop.style.display = 'block';
     morph.classList.add('active');
+    setContactState(true);
 
     applyStyles(morph, {
       left: `${buttonRect.left}px`,
@@ -3152,9 +3266,9 @@
     morph.classList.remove('active');
     morph.setAttribute('aria-hidden', 'true');
     triggerBtn.classList.remove('is-hidden');
-    triggerBtn.setAttribute('aria-expanded', 'false');
+    setContactState(false);
     animating = false;
-    triggerBtn.focus({ preventScroll: true });
+    activeTrigger?.focus({ preventScroll: true });
   }
 
   function closePopover() {
@@ -3164,7 +3278,7 @@
     morphContent.classList.remove('visible');
     backdrop.style.display = 'none';
 
-    const buttonRect = triggerBtn.getBoundingClientRect();
+    const buttonRect = activeTrigger.getBoundingClientRect();
     const currentRect = morph.getBoundingClientRect();
     const colors = componentColors();
 
@@ -3221,10 +3335,18 @@
     closePopover();
   }
 
-  triggerBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    openPopover();
+  contactTriggers.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (isOpen) {
+        activeTrigger = button;
+        closeAndReset();
+      } else {
+        openPopover(button);
+      }
+    });
   });
+
   backdrop.addEventListener('click', closeAndReset);
   msgField.addEventListener('focus', armEndpoint);
 
@@ -3312,9 +3434,9 @@
     if (event.key === 'Escape' && isOpen) closeAndReset();
   });
 
-  window.addEventListener('resize', () => {
-    if (isOpen && !animating) closeAndReset();
-  }, { passive: true });
+  window.addEventListener('resize', scheduleOpenPopoverPlacement, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleOpenPopoverPlacement, { passive: true });
+  window.visualViewport?.addEventListener('scroll', scheduleOpenPopoverPlacement, { passive: true });
 
   window._contactLangSync = (language) => {
     const lang = language === 'es' ? 'es' : 'en';
@@ -3325,6 +3447,7 @@
     emailField.setAttribute('aria-label', copy.emailPlaceholder);
     msgField.setAttribute('aria-label', copy.messageLabel);
     morph.setAttribute('aria-label', copy.dialogLabel);
+    contactIconBtn?.setAttribute('aria-label', lang === 'es' ? triggerBtn.dataset.es : triggerBtn.dataset.en);
   };
 
   window._contactLangSync(document.documentElement.lang || 'en');
