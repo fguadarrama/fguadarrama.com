@@ -244,8 +244,15 @@
     }
 
     .name {
+      --name-cue-width: 0.25em;
+      --name-cue-height: 0.42em;
+      --name-cue-gap: 0.54em;
+      --name-cue-stroke: 0.07em;
+      --name-cue-pulse: 0.04em;
+      --name-cue-offset-y: 0.18em;
       display: inline-flex;
       align-items: center;
+      gap: 0;
       padding: 0;
       border: 0;
       background: transparent;
@@ -259,16 +266,54 @@
       cursor: pointer;
       outline: none;
       -webkit-tap-highlight-color: transparent;
-      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+      transition: color 150ms var(--ease-out);
+    }
+
+    .name-cue-arrow {
+      display: block;
+      width: var(--name-cue-width);
+      height: var(--name-cue-height);
+      margin-top: var(--name-cue-offset-y);
+      margin-left: var(--name-cue-gap);
+      align-self: flex-start;
+      flex: 0 0 auto;
+      overflow: visible;
+      color: var(--accent);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: var(--name-cue-stroke);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: translateX(0);
+      transform-origin: center;
+      pointer-events: none;
+      transition: color 150ms var(--ease-out);
+      will-change: transform;
     }
 
     .name:hover,
     .name:focus-visible {
       color: var(--accent);
-      transform: translateY(-1px);
     }
 
-    .name:active { transform: translateY(0) scale(0.985); }
+    .name:hover .name-cue-arrow,
+    .name:focus-visible .name-cue-arrow,
+    .name:active .name-cue-arrow,
+    .name[aria-expanded="true"] .name-cue-arrow {
+      color: var(--text);
+    }
+
+    .name:hover .name-cue-arrow,
+    .name:focus-visible .name-cue-arrow {
+      animation: name-cue-pulse-right 760ms var(--ease-in-out) infinite;
+    }
+
+    @keyframes name-cue-pulse-right {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(var(--name-cue-pulse)); }
+    }
+
+    .name:active { transform: scale(0.985); }
 
     .name:focus-visible {
       border-radius: 5px;
@@ -1313,6 +1358,11 @@
         scroll-behavior: auto !important;
       }
 
+      .name-cue-arrow {
+        animation: none !important;
+        transform: none !important;
+      }
+
       .intro,
       .section,
       .footer {
@@ -2303,7 +2353,7 @@
 <header aria-labelledby="site-title" class="intro">
 <div class="topline">
 <div>
-<button aria-controls="portraitToast" aria-expanded="false" class="name" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="site-title" type="button">Francisco Guadarrama</button>
+<button aria-controls="portraitToast" aria-expanded="false" class="name" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="site-title" type="button"><span>Francisco Guadarrama</span><svg aria-hidden="true" class="name-cue-arrow" preserveAspectRatio="none" viewBox="0 0 4 7"><path class="name-cue-path" d="M0.5 0.5 L3.5 3.5 L0.5 6.5"></path></svg></button>
 
 </div>
 <div aria-label="Language and theme controls" class="top-controls">
@@ -2751,7 +2801,134 @@
       const portraitToast = document.getElementById('portraitToast');
       const portraitClose = document.getElementById('portraitClose');
       const portraitImage = portraitToast?.querySelector('.photo-toast-image');
+      const nameCueArrow = portraitTrigger?.querySelector('.name-cue-arrow');
+      const nameCuePath = nameCueArrow?.querySelector('.name-cue-path');
       let portraitTimer = null;
+
+      /*
+       * The cue is calibrated against the rendered lowercase “o” in the name.
+       * Ratios measured from the supplied 158 × 142 px reference:
+       * o: 31 × 35 px; cue: 13 × 23 px; clear gap: 31 px.
+       * Effective contour widths: o 5.04118 px; cue 3.44662 px.
+       */
+      const calibrateNameCue = () => {
+        if (!portraitTrigger || !nameCueArrow || !nameCuePath) return;
+
+        const styles = getComputedStyle(portraitTrigger);
+        const fontSize = Number.parseFloat(styles.fontSize);
+        if (!Number.isFinite(fontSize) || fontSize <= 0) return;
+
+        const scale = 16;
+        const padding = Math.ceil(fontSize * scale * 1.5);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(256, padding * 3);
+        canvas.height = Math.max(256, padding * 3);
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (!context) return;
+
+        const scaledSize = fontSize * scale;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = '#000';
+        context.textBaseline = 'alphabetic';
+        context.font = `${styles.fontStyle} ${styles.fontWeight} ${scaledSize}px ${styles.fontFamily}`;
+        const computedLetterSpacing = Number.parseFloat(styles.letterSpacing);
+        if ('letterSpacing' in context && Number.isFinite(computedLetterSpacing)) {
+          context.letterSpacing = `${computedLetterSpacing * scale}px`;
+        }
+        const oMetrics = context.measureText('o');
+        const nameMetrics = context.measureText('Francisco Guadarrama');
+        const baseline = padding + scaledSize;
+        context.fillText('o', padding, baseline);
+
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+        const alpha = pixels.data;
+        let minX = canvas.width;
+        let maxX = -1;
+        let minY = canvas.height;
+        let maxY = -1;
+
+        for (let y = 0; y < canvas.height; y += 1) {
+          for (let x = 0; x < canvas.width; x += 1) {
+            const value = alpha[(y * canvas.width + x) * 4 + 3];
+            if (value <= 2) continue;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+
+        if (maxX < minX || maxY < minY) return;
+
+        const oWidth = (maxX - minX + 1) / scale;
+        const oHeight = (maxY - minY + 1) / scale;
+        const midpointX = (minX + maxX) / 2;
+        const centerY = (minY + maxY) / 2;
+        const sampleRadius = Math.max(1, Math.round((maxY - minY + 1) * 0.08));
+        const strokeSamples = [];
+
+        for (
+          let y = Math.max(minY, Math.round(centerY) - sampleRadius);
+          y <= Math.min(maxY, Math.round(centerY) + sampleRadius);
+          y += 1
+        ) {
+          let leftCoverage = 0;
+          let rightCoverage = 0;
+          for (let x = minX; x <= maxX; x += 1) {
+            const coverage = alpha[(y * canvas.width + x) * 4 + 3] / 255;
+            if (x <= midpointX) leftCoverage += coverage;
+            else rightCoverage += coverage;
+          }
+          strokeSamples.push(leftCoverage / scale, rightCoverage / scale);
+        }
+
+        const oContour = strokeSamples.reduce((sum, value) => sum + value, 0) / strokeSamples.length;
+        if (![oWidth, oHeight, oContour].every(Number.isFinite)) return;
+
+        const cueWidth = oWidth * (13 / 31);
+        const cueHeight = oHeight * (23 / 35);
+        const trailingSideBearing = Math.max(
+          0,
+          (nameMetrics.width - nameMetrics.actualBoundingBoxRight) / scale
+        );
+        const cueGap = Math.max(0, oWidth - trailingSideBearing);
+        const cueStroke = oContour * 0.68369282581916;
+        const cuePulse = oWidth * 0.08;
+
+        const lineHeight = Number.parseFloat(styles.lineHeight) * scale;
+        const fontAscent = oMetrics.fontBoundingBoxAscent ?? oMetrics.actualBoundingBoxAscent;
+        const fontDescent = oMetrics.fontBoundingBoxDescent ?? oMetrics.actualBoundingBoxDescent;
+        const fontBoxHeight = fontAscent + fontDescent;
+        const oTopInLine = Number.isFinite(lineHeight) && Number.isFinite(fontBoxHeight)
+          ? ((lineHeight - fontBoxHeight) / 2 + fontAscent - oMetrics.actualBoundingBoxAscent) / scale
+          : Math.max(0, (Number.parseFloat(styles.lineHeight) - cueHeight) / 2);
+        const halfStroke = cueStroke / 2;
+
+        portraitTrigger.style.setProperty('--name-cue-width', `${cueWidth}px`);
+        portraitTrigger.style.setProperty('--name-cue-height', `${cueHeight}px`);
+        portraitTrigger.style.setProperty('--name-cue-gap', `${cueGap}px`);
+        portraitTrigger.style.setProperty('--name-cue-stroke', `${cueStroke}px`);
+        portraitTrigger.style.setProperty('--name-cue-pulse', `${cuePulse}px`);
+        portraitTrigger.style.setProperty('--name-cue-offset-y', `${Math.max(0, oTopInLine)}px`);
+
+        nameCueArrow.setAttribute('viewBox', `0 0 ${cueWidth} ${cueHeight}`);
+        nameCuePath.setAttribute(
+          'd',
+          `M ${halfStroke} ${halfStroke} L ${cueWidth - halfStroke} ${cueHeight / 2} L ${halfStroke} ${cueHeight - halfStroke}`
+        );
+      };
+
+      const scheduleNameCueCalibration = () => {
+        requestAnimationFrame(() => requestAnimationFrame(calibrateNameCue));
+      };
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(scheduleNameCueCalibration).catch(scheduleNameCueCalibration);
+      } else {
+        scheduleNameCueCalibration();
+      }
+
+      window.addEventListener('resize', scheduleNameCueCalibration, { passive: true });
 
       const placePortraitToast = () => {
         if (!portraitToast) return;
