@@ -26,7 +26,7 @@
 <link id="site-favicon" rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/slot-text@0.3.3/style.css" rel="stylesheet"/>
 <style>
     :root {
@@ -2003,6 +2003,300 @@
     #morph-content { transition-duration: 1ms !important; }
   }
 </style>
+
+<style id="cv-download-component-styles">
+  #cv-morph {
+    --contact-accent: var(--accent);
+    --contact-error: #FF1D58;
+    --contact-bg: #fdfdfc;
+    --contact-surface: #fdfdfc;
+    --contact-surface-2: #fdfdfc;
+    --contact-border: #2d2930;
+    --contact-text: #2d2930;
+  }
+
+  html[data-theme="dark"] #cv-morph {
+    --contact-error: #F47983;
+    --contact-bg: #2d2930;
+    --contact-surface: #2d2930;
+    --contact-surface-2: #2d2930;
+    --contact-border: #fdfdfc;
+    --contact-text: #fdfdfc;
+  }
+
+  #cv-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1190;
+    background: transparent;
+  }
+
+  #cv-morph {
+    position: fixed;
+    z-index: 1200;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--contact-text);
+    font-family: var(--font);
+  }
+
+  #cv-morph.active { pointer-events: auto; }
+
+  #cv-morph-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  #cv-morph-content.visible { opacity: 1; }
+
+  #cv-morph .pop-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-surface);
+  }
+
+  #cv-morph .cv-input-area {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px 8px;
+  }
+
+  #cv-morph .cv-input-shell {
+    position: relative;
+    display: block;
+    width: 18rem;
+    max-width: 100%;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-bg);
+    transition:
+      border-color 150ms var(--ease-out),
+      box-shadow 180ms var(--ease-out),
+      transform 180ms var(--ease-out);
+  }
+
+  #cv-morph .cv-input-shell:hover { border-color: var(--contact-text); }
+
+  #cv-morph .cv-input-shell:focus-within {
+    border-color: var(--contact-accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--contact-accent) 20%, transparent);
+  }
+
+  #cv-morph .cv-input-shell.is-error {
+    border-color: var(--contact-error);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--contact-error) 20%, transparent);
+    animation: cv-password-error 330ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  @keyframes cv-password-error {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(2px); }
+  }
+
+  #cv-password {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 10px 48px 10px 14px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 360;
+    letter-spacing: normal;
+    line-height: 1.25;
+  }
+
+  #cv-password.is-visible {
+    font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+
+  #cv-password::-ms-reveal,
+  #cv-password::-ms-clear { display: none; }
+
+  #cv-password-eye-root {
+    display: contents;
+  }
+
+  #cv-password-visibility {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 50%;
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    color: color-mix(in srgb, var(--contact-text) 62%, transparent);
+    cursor: pointer;
+    outline: none;
+    line-height: 0;
+    transform: translateY(-50%) scale(1);
+    transform-origin: 50% 50%;
+    transition:
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  #cv-password-visibility::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+
+  #cv-password-visibility:hover {
+    color: var(--contact-text);
+  }
+
+  #cv-password-visibility:focus-visible {
+    color: var(--contact-text);
+    outline: 1px solid var(--contact-accent);
+    outline-offset: 1px;
+  }
+
+  #cv-password-visibility:active {
+    transform: translateY(-50%) scale(0.9);
+  }
+
+  #cv-password-visibility .cv-eye {
+    display: block;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+  }
+
+    #cv-morph .pop-divider {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    border-top: 1px dashed var(--contact-border);
+    pointer-events: none;
+  }
+
+  #cv-morph .ear {
+    position: absolute;
+    bottom: 35px;
+    z-index: 3;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--contact-border);
+    background: var(--contact-surface-2);
+  }
+
+  #cv-morph .ear-left { left: -5px; border-radius: 0 4px 4px 0; }
+  #cv-morph .ear-right { right: -5px; border-radius: 4px 0 0 4px; }
+
+  #cv-morph .ear-mask {
+    position: absolute;
+    bottom: 35px;
+    z-index: 4;
+    width: 4px;
+    height: 8px;
+    background: var(--contact-surface);
+  }
+
+  #cv-morph .ear-mask-left { left: 0; }
+  #cv-morph .ear-mask-right { right: 0; }
+
+  #cv-morph .pop-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  #cv-password-submit {
+    position: relative;
+    display: inline-flex;
+    width: 42px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: var(--contact-accent);
+    color: var(--contact-bg);
+    cursor: pointer;
+    outline: none;
+    transition:
+      transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 150ms ease;
+  }
+
+  #cv-password-submit:hover:not(:disabled) { transform: scale(1.07); }
+  #cv-password-submit:active:not(:disabled) { transform: scale(0.95); }
+  #cv-password-submit:focus-visible {
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #cv-password-submit:disabled {
+    border: 1px solid var(--contact-accent);
+    background: var(--contact-bg);
+    color: var(--contact-accent);
+    cursor: not-allowed;
+  }
+
+  #cv-password-submit svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+
+  #cv-password-submit.is-validating svg { animation: cv-submit-spin 700ms linear infinite; }
+  @keyframes cv-submit-spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+    #cv-password { font-size: 16px; }
+    #cv-password-submit { height: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cv-morph *,
+    #cv-morph-content { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+  }
+</style>
 </head>
 <body>
 <main class="page" id="top">
@@ -2265,7 +2559,7 @@
 <h2 id="contact-title"><button aria-controls="panel-contact-1" aria-expanded="false" class="section-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Contact" data-es="Contacto" id="contactToggle" type="button">Contact</button></h2>
 <div class="entry-panel" hidden="" id="panel-contact-1">
 <div class="entry-panel-inner">
-<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a></p>
+<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-controls="cv-morph" aria-expanded="false" aria-haspopup="dialog" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Download CV" data-es="Descargar currículum" href="#" id="cvDownloadLink">Download CV</a></p>
 <div class="contact-wrapper">
 <a aria-expanded="false" aria-haspopup="dialog" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Send me a message" data-es="Envíame un mensaje" href="#" id="trigger-btn" role="button">Send me a message</a>
 </div>
@@ -2336,6 +2630,47 @@
               <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
             </svg>
           </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div aria-hidden="true" id="cv-backdrop"></div>
+<div aria-hidden="true" aria-label="Password" aria-modal="true" id="cv-morph" role="dialog">
+  <div id="cv-morph-content">
+    <div class="pop-inner">
+      <div class="cv-input-area">
+        <div class="cv-input-shell" id="cv-input-shell">
+          <input aria-label="Password" autocomplete="off" id="cv-password" inputmode="text" spellcheck="false" type="password"/>
+          <span id="cv-password-eye-root">
+            <button aria-label="Show password" aria-pressed="false" data-state="hidden" id="cv-password-visibility" type="button">
+              <svg aria-hidden="true" class="cv-eye" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24">
+                <defs>
+                  <clipPath id="cv-password-eye-fallback-clip">
+                    <path d="M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12 C23 12 19 20 12 20 C5 20 1 12 1 12Z"></path>
+                  </clipPath>
+                </defs>
+                <path d="M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12"></path>
+                <path d="M1 12 C1 12 5 20 12 20 C19 20 23 12 23 12"></path>
+                <g clip-path="url(#cv-password-eye-fallback-clip)">
+                  <circle cx="12" cy="12" fill="currentColor" r="3" stroke="none"></circle>
+                </g>
+              </svg>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="ear ear-left"></div>
+      <div class="ear-mask ear-mask-left"></div>
+      <div class="ear ear-right"></div>
+      <div class="ear-mask ear-mask-right"></div>
+      <div class="pop-divider"></div>
+      <div class="pop-footer">
+        <button aria-label="Continue" disabled id="cv-password-submit" type="button">
+          <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
         </button>
       </div>
     </div>
@@ -2992,6 +3327,7 @@
         }
       });
 
+      window._playFranciscoCue = (cue = 'tick') => Cuelume.play(cue);
       Cuelume.bind();
       requestAnimationFrame(() => {
         body.classList.remove('js-loading');
@@ -3453,6 +3789,579 @@
   window._contactLangSync(document.documentElement.lang || 'en');
 })();
 </script>
+
+<script id="cv-download-component-script">
+(() => {
+  const trigger = document.getElementById('cvDownloadLink');
+  const morph = document.getElementById('cv-morph');
+  const content = document.getElementById('cv-morph-content');
+  const backdrop = document.getElementById('cv-backdrop');
+  const input = document.getElementById('cv-password');
+  const inputShell = document.getElementById('cv-input-shell');
+  const submit = document.getElementById('cv-password-submit');
+  if (!trigger || !morph || !content || !backdrop || !input || !inputShell || !submit) return;
+
+  const EXPECTED_HASH = '8e0c43cbcfdcf1123f0362790a86cbfa9654e3528f9ce22e4f2924b1c679ad8d';
+  const EASE = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
+  const DURATION = 300;
+  const encodedTargets = {
+    en: { salt: 73, bytes: [33,46,31,12,254,164,128,239,183,133,134,101,113,71,69,58,56,7,26,162,254,193,210,255,128,129,112,113,81,69,104,29,7,29,200,202,242,200,253,215,155,119,127,22,5,116,97,70,9,238,253] },
+    es: { salt: 131, bytes: [235,224,209,198,180,226,198,213,109,123,88,95,43,1,3,240,242,201,212,232,180,135,148,37,122,95,78,43,43,3,174,215,208,196,134,128,184,142,59,45,65,73,33,108,95,178,167,140,195,160,179] }
+  };
+
+  let isOpen = false;
+  let animating = false;
+  let currentAnimation = null;
+  let viewportFrame = null;
+
+  const applyStyles = (element, styles) => Object.assign(element.style, styles);
+
+  const componentColors = () => {
+    const styles = getComputedStyle(morph);
+    return {
+      surface: styles.getPropertyValue('--contact-surface').trim() || '#fdfdfc',
+      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#fdfdfc',
+      border: styles.getPropertyValue('--contact-border').trim() || '#2d2930'
+    };
+  };
+
+  const viewportMetrics = () => {
+    const viewport = window.visualViewport;
+    return {
+      width: viewport?.width || window.innerWidth,
+      height: viewport?.height || window.innerHeight,
+      offsetLeft: viewport?.offsetLeft || 0,
+      offsetTop: viewport?.offsetTop || 0
+    };
+  };
+
+  const popoverSize = () => {
+    const viewport = viewportMetrics();
+    return {
+      width: Math.min(364, Math.max(280, viewport.width - 24)),
+      height: Math.min(136, Math.max(124, viewport.height - 24))
+    };
+  };
+
+  const popoverTarget = (width, height) => {
+    const margin = 12;
+    const viewport = viewportMetrics();
+    return {
+      left: viewport.offsetLeft + Math.max(margin, (viewport.width - width) / 2),
+      top: viewport.offsetTop + Math.max(margin, (viewport.height - height) / 2)
+    };
+  };
+
+  const setState = (open) => trigger.setAttribute('aria-expanded', String(open));
+
+  const reset = () => {
+    input.value = '';
+    input.type = 'password';
+    input.classList.remove('is-visible');
+    input.setAttribute('aria-invalid', 'false');
+    inputShell.classList.remove('is-error');
+    window.dispatchEvent(new Event('cv-password-eye-reset'));
+    submit.disabled = true;
+    submit.classList.remove('is-validating');
+  };
+
+  const placeOpenPopover = () => {
+    if (!isOpen || animating) return;
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`
+    });
+  };
+
+  const schedulePlacement = () => {
+    if (!isOpen || animating) return;
+    if (viewportFrame !== null) cancelAnimationFrame(viewportFrame);
+    viewportFrame = requestAnimationFrame(() => {
+      viewportFrame = null;
+      placeOpenPopover();
+    });
+  };
+
+  const finishOpen = (target, size, colors) => {
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`,
+      borderRadius: '12px',
+      background: colors.surface2,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+    content.classList.add('visible');
+    morph.setAttribute('aria-hidden', 'false');
+    setState(true);
+    isOpen = true;
+    animating = false;
+    window.setTimeout(() => {
+      input.focus({ preventScroll: true });
+    }, 40);
+  };
+
+  const open = () => {
+    if (isOpen || animating) return;
+    reset();
+    animating = true;
+
+    const rect = trigger.getBoundingClientRect();
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    const colors = componentColors();
+
+    backdrop.style.display = 'block';
+    morph.classList.add('active');
+    setState(true);
+
+    applyStyles(morph, {
+      left: `${rect.left}px`,
+      top: `${rect.top}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      borderRadius: '8px',
+      background: colors.surface,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishOpen(target, size, colors);
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${rect.left}px`, top: `${rect.top}px`,
+        width: `${rect.width}px`, height: `${rect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      },
+      {
+        left: `${target.left}px`, top: `${target.top}px`,
+        width: `${size.width}px`, height: `${size.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = () => {
+      currentAnimation = null;
+      finishOpen(target, size, colors);
+    };
+    currentAnimation.oncancel = () => {
+      currentAnimation = null;
+      animating = false;
+    };
+  };
+
+  const finishClose = () => {
+    currentAnimation = null;
+    morph.removeAttribute('style');
+    morph.classList.remove('active');
+    morph.setAttribute('aria-hidden', 'true');
+    setState(false);
+    animating = false;
+    reset();
+    trigger.focus({ preventScroll: true });
+  };
+
+  const close = () => {
+    if (!isOpen || animating) return;
+    animating = true;
+    isOpen = false;
+    content.classList.remove('visible');
+    backdrop.style.display = 'none';
+
+    const rect = trigger.getBoundingClientRect();
+    const currentRect = morph.getBoundingClientRect();
+    const colors = componentColors();
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishClose();
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${currentRect.left}px`, top: `${currentRect.top}px`,
+        width: `${currentRect.width}px`, height: `${currentRect.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      },
+      {
+        left: `${rect.left}px`, top: `${rect.top}px`,
+        width: `${rect.width}px`, height: `${rect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = finishClose;
+    currentAnimation.oncancel = () => {
+      currentAnimation = null;
+      animating = false;
+    };
+  };
+
+  const sha256 = (value) => {
+    const bytes = new TextEncoder().encode(value);
+    const constants = new Uint32Array([
+      0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+      0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+      0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+      0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+      0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+      0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+      0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+      0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+    ]);
+    const state = new Uint32Array([
+      0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,
+      0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
+    ]);
+    const bitLength = bytes.length * 8;
+    const paddedLength = Math.ceil((bytes.length + 9) / 64) * 64;
+    const padded = new Uint8Array(paddedLength);
+    padded.set(bytes);
+    padded[bytes.length] = 0x80;
+    const view = new DataView(padded.buffer);
+    view.setUint32(paddedLength - 8, Math.floor(bitLength / 0x100000000), false);
+    view.setUint32(paddedLength - 4, bitLength >>> 0, false);
+    const words = new Uint32Array(64);
+    const rotateRight = (word, amount) => (word >>> amount) | (word << (32 - amount));
+
+    for (let offset = 0; offset < paddedLength; offset += 64) {
+      for (let index = 0; index < 16; index += 1) {
+        words[index] = view.getUint32(offset + index * 4, false);
+      }
+      for (let index = 16; index < 64; index += 1) {
+        const x = words[index - 15];
+        const y = words[index - 2];
+        const sigma0 = rotateRight(x, 7) ^ rotateRight(x, 18) ^ (x >>> 3);
+        const sigma1 = rotateRight(y, 17) ^ rotateRight(y, 19) ^ (y >>> 10);
+        words[index] = (words[index - 16] + sigma0 + words[index - 7] + sigma1) >>> 0;
+      }
+
+      let [a,b,c,d,e,f,g,h] = state;
+      for (let index = 0; index < 64; index += 1) {
+        const sum1 = rotateRight(e, 6) ^ rotateRight(e, 11) ^ rotateRight(e, 25);
+        const choice = (e & f) ^ (~e & g);
+        const temp1 = (h + sum1 + choice + constants[index] + words[index]) >>> 0;
+        const sum0 = rotateRight(a, 2) ^ rotateRight(a, 13) ^ rotateRight(a, 22);
+        const majority = (a & b) ^ (a & c) ^ (b & c);
+        const temp2 = (sum0 + majority) >>> 0;
+        h = g;
+        g = f;
+        f = e;
+        e = (d + temp1) >>> 0;
+        d = c;
+        c = b;
+        b = a;
+        a = (temp1 + temp2) >>> 0;
+      }
+
+      state[0] = (state[0] + a) >>> 0;
+      state[1] = (state[1] + b) >>> 0;
+      state[2] = (state[2] + c) >>> 0;
+      state[3] = (state[3] + d) >>> 0;
+      state[4] = (state[4] + e) >>> 0;
+      state[5] = (state[5] + f) >>> 0;
+      state[6] = (state[6] + g) >>> 0;
+      state[7] = (state[7] + h) >>> 0;
+    }
+
+    return Array.from(state, (word) => word.toString(16).padStart(8, '0')).join('');
+  };
+
+  const decodeTarget = (language) => {
+    const key = language === 'es' ? 'es' : 'en';
+    const target = encodedTargets[key];
+    return target.bytes
+      .map((byte, index) => String.fromCharCode(byte ^ ((index * 17 + target.salt) & 255)))
+      .join('');
+  };
+
+  const revealAndDownload = () => {
+    const language = document.documentElement.lang === 'es' ? 'es' : 'en';
+    const transient = document.createElement('a');
+    transient.href = decodeTarget(language);
+    transient.download = '';
+    transient.rel = 'noopener';
+    transient.style.display = 'none';
+    document.body.appendChild(transient);
+    transient.click();
+    transient.remove();
+  };
+
+  const showError = () => {
+    input.setAttribute('aria-invalid', 'true');
+    inputShell.classList.remove('is-error');
+    void inputShell.offsetWidth;
+    inputShell.classList.add('is-error');
+    input.select();
+  };
+
+  const validate = () => {
+    if (!input.value || submit.disabled) return;
+    submit.disabled = true;
+    submit.classList.add('is-validating');
+    inputShell.classList.remove('is-error');
+    input.setAttribute('aria-invalid', 'false');
+
+    try {
+      const valid = sha256(input.value) === EXPECTED_HASH;
+      if (!valid) {
+        submit.classList.remove('is-validating');
+        submit.disabled = false;
+        showError();
+        return;
+      }
+      revealAndDownload();
+      submit.classList.remove('is-validating');
+      close();
+    } catch (_) {
+      submit.classList.remove('is-validating');
+      submit.disabled = false;
+      showError();
+    }
+  };
+
+
+
+  const fallbackVisibility = document.getElementById('cv-password-visibility');
+  fallbackVisibility?.addEventListener('mouseenter', () => window._playFranciscoCue?.('tick'));
+  fallbackVisibility?.addEventListener('click', () => {
+    const visible = input.type === 'password';
+    input.type = visible ? 'text' : 'password';
+    input.classList.toggle('is-visible', visible);
+    fallbackVisibility.setAttribute('aria-pressed', String(visible));
+    fallbackVisibility.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+    fallbackVisibility.dataset.state = visible ? 'visible' : 'hidden';
+    input.focus({ preventScroll: true });
+  });
+
+  trigger.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (isOpen) close();
+    else open();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  input.addEventListener('input', () => {
+    inputShell.classList.remove('is-error');
+    input.setAttribute('aria-invalid', 'false');
+    submit.disabled = input.value.length === 0;
+  });
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      validate();
+    }
+  });
+
+
+  submit.addEventListener('click', validate);
+
+  morph.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab' || !isOpen) return;
+    const visibilityControl = document.getElementById('cv-password-visibility');
+    const focusable = [input, visibilityControl, submit].filter((element) => element && !element.disabled);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) close();
+  });
+
+  window.addEventListener('resize', schedulePlacement, { passive: true });
+  window.visualViewport?.addEventListener('resize', schedulePlacement, { passive: true });
+  window.visualViewport?.addEventListener('scroll', schedulePlacement, { passive: true });
+})();
+</script>
+
+<script id="cv-password-eye-motion-component" type="module">
+import React, { useEffect, useId, useRef, useState } from 'https://esm.sh/react@19.2.4';
+import { createRoot } from 'https://esm.sh/react-dom@19.2.4/client?deps=react@19.2.4';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'https://esm.sh/motion@12.42.0/react?deps=react@19.2.4';
+
+const EYE_OPEN_TOP = 'M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12';
+const EYE_CLOSED_TOP = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12';
+const EYE_OPEN_BOTTOM = 'M1 12 C1 12 5 20 12 20 C19 20 23 12 23 12';
+const EYE_CLOSED_BOTTOM = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12';
+const CLIP_OPEN = 'M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12 C23 12 19 20 12 20 C5 20 1 12 1 12Z';
+const CLIP_CLOSED = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12 C23 12 19 12 12 12 C5 12 1 12 1 12Z';
+const PUPIL_RX = 5;
+const PUPIL_RY = 3.5;
+const h = React.createElement;
+
+function PasswordVisibility() {
+  const [visible, setVisible] = useState(false);
+  const [blinking, setBlinking] = useState(false);
+  const eyeRef = useRef(null);
+  const reactId = useId();
+  const clipId = `${reactId}-eye-clip`;
+  const prefersReducedMotion = useReducedMotion();
+
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 350, damping: 28, mass: 0.4 });
+  const sy = useSpring(py, { stiffness: 350, damping: 28, mass: 0.4 });
+
+  const syncInput = (nextVisible) => {
+    const input = document.getElementById('cv-password');
+    const shell = document.getElementById('cv-input-shell');
+    if (!input) return;
+    input.type = nextVisible ? 'text' : 'password';
+    input.classList.toggle('is-visible', nextVisible);
+    if (shell) shell.dataset.state = nextVisible ? 'visible' : 'hidden';
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || prefersReducedMotion) return;
+    const handle = (event) => {
+      const element = eyeRef.current;
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = event.clientX - centerX;
+      const dy = event.clientY - centerY;
+      const distance = Math.hypot(dx, dy) || 1;
+      const normalX = dx / distance;
+      const normalY = dy / distance;
+      const reach = Math.min(1, distance / 240);
+      px.set(normalX * PUPIL_RX * reach);
+      py.set(normalY * PUPIL_RY * reach);
+    };
+    window.addEventListener('mousemove', handle);
+    return () => window.removeEventListener('mousemove', handle);
+  }, [px, py, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    let timer;
+    let blinkTimer;
+    const schedule = () => {
+      const next = 2000 + Math.random() * 4000;
+      timer = window.setTimeout(() => {
+        setBlinking(true);
+        blinkTimer = window.setTimeout(() => setBlinking(false), 120);
+        schedule();
+      }, next);
+    };
+    schedule();
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(blinkTimer);
+    };
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const reset = () => {
+      syncInput(false);
+      setVisible(false);
+    };
+    window.addEventListener('cv-password-eye-reset', reset);
+    return () => window.removeEventListener('cv-password-eye-reset', reset);
+  }, []);
+
+  const closed = blinking || visible;
+  const transition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.14, ease: [0.22, 1, 0.36, 1] };
+
+  const toggleVisible = () => {
+    setVisible((current) => {
+      const next = !current;
+      syncInput(next);
+      return next;
+    });
+    window.requestAnimationFrame(() => {
+      document.getElementById('cv-password')?.focus({ preventScroll: true });
+    });
+  };
+
+  return h(
+    'button',
+    {
+      type: 'button',
+      id: 'cv-password-visibility',
+      'aria-label': visible ? 'Hide password' : 'Show password',
+      'aria-pressed': visible,
+      'data-state': visible ? 'visible' : 'hidden',
+      onMouseEnter: () => window._playFranciscoCue?.('tick'),
+      onClick: toggleVisible,
+    },
+    h(
+      'svg',
+      {
+        ref: eyeRef,
+        className: 'cv-eye',
+        viewBox: '0 0 24 24',
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: 1.7,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        'aria-hidden': 'true',
+      },
+      h(
+        'defs',
+        null,
+        h(
+          'clipPath',
+          { id: clipId },
+          h(motion.path, {
+            d: CLIP_OPEN,
+            animate: { d: closed ? CLIP_CLOSED : CLIP_OPEN },
+            transition,
+          }),
+        ),
+      ),
+      h(motion.path, {
+        d: EYE_OPEN_TOP,
+        animate: { d: closed ? EYE_CLOSED_TOP : EYE_OPEN_TOP },
+        transition,
+      }),
+      h(motion.path, {
+        d: EYE_OPEN_BOTTOM,
+        animate: { d: closed ? EYE_CLOSED_BOTTOM : EYE_OPEN_BOTTOM },
+        transition,
+      }),
+      h(
+        'g',
+        { clipPath: `url(#${clipId})` },
+        h(
+          motion.g,
+          { style: { x: sx, y: sy } },
+          h('circle', { cx: 12, cy: 12, r: 3, fill: 'currentColor', stroke: 'none' }),
+        ),
+      ),
+    ),
+  );
+}
+
+const mount = document.getElementById('cv-password-eye-root');
+if (mount) createRoot(mount).render(h(PasswordVisibility));
+</script>
+
 <script>
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
