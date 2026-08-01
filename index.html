@@ -2743,31 +2743,75 @@
 import { WebHaptics } from 'https://esm.sh/web-haptics@0.0.6';
 
 const haptics = new WebHaptics({ debug: false, showSwitch: false });
-const patterns = Object.freeze({
-  tap: [{ duration: 8, intensity: 0.14 }],
-  selection: [{ duration: 6, intensity: 0.12 }],
-  open: [{ duration: 11, intensity: 0.16 }],
-  close: [{ duration: 7, intensity: 0.11 }],
-  success: [
-    { duration: 9, intensity: 0.18 },
-    { delay: 34, duration: 11, intensity: 0.13 }
-  ],
-  error: [
-    { duration: 11, intensity: 0.20 },
-    { delay: 27, duration: 10, intensity: 0.15 }
-  ]
-});
 
-window._franciscoHaptic = (name = 'tap') => {
-  const pattern = patterns[name] || patterns.tap;
+const DEFAULT_PATTERN = Object.freeze([
+  { duration: 15 }
+]);
+
+const NUDGE_PATTERN = Object.freeze([
+  { duration: 80, intensity: 0.8 },
+  { delay: 80, duration: 50, intensity: 0.3 }
+]);
+
+const EMAIL_ERROR_PATTERN = Object.freeze([
+  { duration: 40, intensity: 0.7 },
+  { delay: 40, duration: 40, intensity: 0.7 },
+  { delay: 40, duration: 40, intensity: 0.9 },
+  { delay: 40, duration: 50, intensity: 0.6 }
+]);
+
+const CLICKABLE_SELECTOR = [
+  'a[href]',
+  'button',
+  'input:not([type="hidden"])',
+  'textarea',
+  'select',
+  '[role="button"]',
+  '#backdrop',
+  '#cv-backdrop',
+  '.photo-toast-image'
+].join(',');
+
+const NUDGE_SELECTOR = [
+  '#themeToggle',
+  '#languageToggle',
+  '#contactIconToggle',
+  '#site-title',
+  '.contact-links a[href*="linkedin.com"]',
+  '#cvDownloadLink',
+  '#trigger-btn'
+].join(',');
+
+const triggerPattern = (pattern, options) => {
   try {
-    const result = haptics.trigger(pattern);
+    const result = haptics.trigger(pattern, options);
     result?.catch?.(() => {});
   } catch (_) {
-    // Haptics are progressive enhancement; the interface remains fully functional without them.
+    // Progressive enhancement: unsupported devices retain full functionality.
   }
 };
 
+const isDisabled = (element) => (
+  element.matches(':disabled, [aria-disabled="true"]') ||
+  element.closest('fieldset:disabled') !== null
+);
+
+document.addEventListener('click', (event) => {
+  const source = event.target instanceof Element ? event.target : null;
+  const clickable = source?.closest(CLICKABLE_SELECTOR);
+  if (!clickable || isDisabled(clickable)) return;
+
+  if (clickable.matches(NUDGE_SELECTOR)) {
+    triggerPattern(NUDGE_PATTERN);
+    return;
+  }
+
+  triggerPattern(DEFAULT_PATTERN, { intensity: 0.4 });
+}, { capture: true });
+
+window._franciscoHaptic = (name) => {
+  if (name === 'email-error') triggerPattern(EMAIL_ERROR_PATTERN);
+};
 </script>
 <script>
     (() => {
@@ -3290,7 +3334,6 @@ window._franciscoHaptic = (name = 'tap') => {
           setLanguage(root.lang || 'en', false);
           if (playSound) {
             Cuelume.play('release');
-            window._franciscoHaptic?.('close');
           }
           requestAnimationFrame(() => {
             closePublicationEntries();
@@ -3314,7 +3357,6 @@ window._franciscoHaptic = (name = 'tap') => {
               publicationsList.style.height = `${publicationsList.scrollHeight}px`;
               if (playSound) {
                 Cuelume.play('chime');
-                window._franciscoHaptic?.('open');
               }
             });
           });
@@ -3350,7 +3392,6 @@ window._franciscoHaptic = (name = 'tap') => {
           contactPanel.hidden = false;
           contactPanel.style.height = '0px';
           Cuelume.play('chime');
-          window._franciscoHaptic?.('open');
           requestAnimationFrame(() => {
             contactPanel.style.height = `${contactPanel.scrollHeight}px`;
             requestAnimationFrame(() => reveal?.classList.add('is-shown'));
@@ -3360,7 +3401,6 @@ window._franciscoHaptic = (name = 'tap') => {
           reveal?.classList.add('is-hiding');
           contactPanel.style.height = `${contactPanel.scrollHeight}px`;
           Cuelume.play('release');
-          window._franciscoHaptic?.('close');
           requestAnimationFrame(() => { contactPanel.style.height = '0px'; });
         }
       };
@@ -3385,7 +3425,6 @@ window._franciscoHaptic = (name = 'tap') => {
         if (!portraitToast || !portraitToast.classList.contains('is-open')) return;
         window.clearTimeout(portraitTimer);
         portraitToast.classList.remove('is-open');
-        if (haptic) window._franciscoHaptic?.('close');
         portraitToast.setAttribute('aria-hidden', 'true');
         portraitTrigger?.setAttribute('aria-expanded', 'false');
         if (restoreFocus) {
@@ -3401,7 +3440,6 @@ window._franciscoHaptic = (name = 'tap') => {
         portraitTrigger?.setAttribute('aria-expanded', 'true');
         requestAnimationFrame(() => {
           portraitToast.classList.add('is-open');
-          window._franciscoHaptic?.('open');
         });
         portraitTimer = window.setTimeout(() => closePortrait({ haptic: false }), 10000);
       };
@@ -3428,7 +3466,6 @@ window._franciscoHaptic = (name = 'tap') => {
       languageToggle?.addEventListener('click', () => {
         const nextLanguage = root.lang === 'es' ? 'en' : 'es';
         Cuelume.play('toggle');
-        window._franciscoHaptic?.('selection');
         setLanguage(nextLanguage, true, true);
       });
 
@@ -3436,7 +3473,6 @@ window._franciscoHaptic = (name = 'tap') => {
       themeToggle.addEventListener('click', (event) => {
         const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
         Cuelume.play('toggle');
-        window._franciscoHaptic?.('selection');
         runThemeTransition(event, nextTheme);
       });
 
@@ -3698,10 +3734,10 @@ window._franciscoHaptic = (name = 'tap') => {
 
   listenForHumanSignal();
 
-  function showError(message) {
-    window._franciscoHaptic?.('error');
+  function showError(message, hapticKind = '') {
     errorMsg.textContent = message;
     errorMsg.style.display = 'block';
+    if (hapticKind === 'email-error') window._franciscoHaptic?.('email-error');
   }
 
   function clearError() {
@@ -3781,8 +3817,6 @@ window._franciscoHaptic = (name = 'tap') => {
     backdrop.style.display = 'block';
     morph.classList.add('active');
     setContactState(true);
-    window._franciscoHaptic?.('open');
-
     applyStyles(morph, {
       left: `${buttonRect.left}px`,
       top: `${buttonRect.top}px`,
@@ -3837,8 +3871,6 @@ window._franciscoHaptic = (name = 'tap') => {
     isOpen = false;
     morphContent.classList.remove('visible');
     backdrop.style.display = 'none';
-    if (haptic) window._franciscoHaptic?.('close');
-
     const buttonRect = activeTrigger.getBoundingClientRect();
     const currentRect = morph.getBoundingClientRect();
     const colors = componentColors();
@@ -3921,7 +3953,12 @@ window._franciscoHaptic = (name = 'tap') => {
 
   emailField.addEventListener('input', () => {
     const value = emailField.value.trim();
-    emailHint.style.display = value.length > 0 && !isEmail(value) ? 'block' : 'none';
+    const shouldShowEmailError = value.length > 0 && !isEmail(value);
+    const emailErrorWasVisible = emailHint.style.display === 'block';
+    emailHint.style.display = shouldShowEmailError ? 'block' : 'none';
+    if (shouldShowEmailError && !emailErrorWasVisible) {
+      window._franciscoHaptic?.('email-error');
+    }
     updateRobotRow();
     updateSubmitState();
   });
@@ -3931,7 +3968,6 @@ window._franciscoHaptic = (name = 'tap') => {
   });
 
   notRobot.addEventListener('change', () => {
-    window._franciscoHaptic?.('selection');
     cbWrap.classList.toggle('checked', notRobot.checked);
     updateSubmitState();
   });
@@ -3949,7 +3985,7 @@ window._franciscoHaptic = (name = 'tap') => {
       return;
     }
     if (!isEmail(email)) {
-      showError(copy.errEmail);
+      showError(copy.errEmail, 'email-error');
       return;
     }
     if (!notRobot.checked) {
@@ -3983,7 +4019,6 @@ window._franciscoHaptic = (name = 'tap') => {
       });
       if (!response.ok) throw new Error('Contact submission failed');
       successView.classList.add('visible');
-      window._franciscoHaptic?.('success');
       window.setTimeout(() => closeAndReset({ haptic: false }), 3200);
     } catch (_) {
       btnLabel.classList.remove('sending');
@@ -4147,8 +4182,6 @@ window._franciscoHaptic = (name = 'tap') => {
     backdrop.style.display = 'block';
     morph.classList.add('active');
     setState(true);
-    window._franciscoHaptic?.('open');
-
     applyStyles(morph, {
       left: `${rect.left}px`,
       top: `${rect.top}px`,
@@ -4206,8 +4239,6 @@ window._franciscoHaptic = (name = 'tap') => {
     isOpen = false;
     content.classList.remove('visible');
     backdrop.style.display = 'none';
-    if (haptic) window._franciscoHaptic?.('close');
-
     const rect = trigger.getBoundingClientRect();
     const currentRect = morph.getBoundingClientRect();
     const colors = componentColors();
@@ -4329,7 +4360,6 @@ window._franciscoHaptic = (name = 'tap') => {
   };
 
   const showError = () => {
-    window._franciscoHaptic?.('error');
     input.setAttribute('aria-invalid', 'true');
     inputShell.classList.remove('is-error');
     void inputShell.offsetWidth;
@@ -4353,7 +4383,6 @@ window._franciscoHaptic = (name = 'tap') => {
         return;
       }
       revealAndDownload();
-      window._franciscoHaptic?.('success');
       submit.classList.remove('is-validating');
       close({ haptic: false });
     } catch (_) {
@@ -4368,7 +4397,6 @@ window._franciscoHaptic = (name = 'tap') => {
   const fallbackVisibility = document.getElementById('cv-password-visibility');
   fallbackVisibility?.addEventListener('mouseenter', () => window._playFranciscoCue?.('tick'));
   fallbackVisibility?.addEventListener('click', () => {
-    window._franciscoHaptic?.('selection');
     const visible = input.type === 'password';
     input.type = visible ? 'text' : 'password';
     input.classList.toggle('is-visible', visible);
@@ -4520,7 +4548,6 @@ function PasswordVisibility() {
     : { duration: 0.14, ease: [0.22, 1, 0.36, 1] };
 
   const toggleVisible = () => {
-    window._franciscoHaptic?.('selection');
     setVisible((current) => {
       const next = !current;
       syncInput(next);
