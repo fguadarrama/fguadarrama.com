@@ -28,6 +28,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/slot-text@0.3.3/style.css" rel="stylesheet"/>
+<link rel="modulepreload" href="https://esm.sh/web-haptics@0.0.6"/>
 <style>
     :root {
       color-scheme: light;
@@ -2738,6 +2739,36 @@
   <p class="print-message-en">Please contact the site owner to request a printable version.</p>
   <p class="print-message-es">Contacte al propietario del sitio para solicitar una versión imprimible.</p>
 </div>
+<script id="web-haptics-component" type="module">
+import { WebHaptics } from 'https://esm.sh/web-haptics@0.0.6';
+
+const haptics = new WebHaptics({ debug: false, showSwitch: false });
+const patterns = Object.freeze({
+  tap: [{ duration: 8, intensity: 0.14 }],
+  selection: [{ duration: 6, intensity: 0.12 }],
+  open: [{ duration: 11, intensity: 0.16 }],
+  close: [{ duration: 7, intensity: 0.11 }],
+  success: [
+    { duration: 9, intensity: 0.18 },
+    { delay: 34, duration: 11, intensity: 0.13 }
+  ],
+  error: [
+    { duration: 11, intensity: 0.20 },
+    { delay: 27, duration: 10, intensity: 0.15 }
+  ]
+});
+
+window._franciscoHaptic = (name = 'tap') => {
+  const pattern = patterns[name] || patterns.tap;
+  try {
+    const result = haptics.trigger(pattern);
+    result?.catch?.(() => {});
+  } catch (_) {
+    // Haptics are progressive enhancement; the interface remains fully functional without them.
+  }
+};
+
+</script>
 <script>
     (() => {
       const root = document.documentElement;
@@ -3257,7 +3288,10 @@
           publicationsList.setAttribute('aria-hidden', 'true');
           publicationsToggle.setAttribute('aria-expanded', 'false');
           setLanguage(root.lang || 'en', false);
-          if (playSound) Cuelume.play('release');
+          if (playSound) {
+            Cuelume.play('release');
+            window._franciscoHaptic?.('close');
+          }
           requestAnimationFrame(() => {
             closePublicationEntries();
             publicationsList.style.height = '0px';
@@ -3278,7 +3312,10 @@
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               publicationsList.style.height = `${publicationsList.scrollHeight}px`;
-              if (playSound) Cuelume.play('chime');
+              if (playSound) {
+                Cuelume.play('chime');
+                window._franciscoHaptic?.('open');
+              }
             });
           });
         });
@@ -3313,6 +3350,7 @@
           contactPanel.hidden = false;
           contactPanel.style.height = '0px';
           Cuelume.play('chime');
+          window._franciscoHaptic?.('open');
           requestAnimationFrame(() => {
             contactPanel.style.height = `${contactPanel.scrollHeight}px`;
             requestAnimationFrame(() => reveal?.classList.add('is-shown'));
@@ -3322,6 +3360,7 @@
           reveal?.classList.add('is-hiding');
           contactPanel.style.height = `${contactPanel.scrollHeight}px`;
           Cuelume.play('release');
+          window._franciscoHaptic?.('close');
           requestAnimationFrame(() => { contactPanel.style.height = '0px'; });
         }
       };
@@ -3342,10 +3381,11 @@
 
 
 
-      const closePortrait = ({ restoreFocus = false } = {}) => {
+      const closePortrait = ({ restoreFocus = false, haptic = true } = {}) => {
         if (!portraitToast || !portraitToast.classList.contains('is-open')) return;
         window.clearTimeout(portraitTimer);
         portraitToast.classList.remove('is-open');
+        if (haptic) window._franciscoHaptic?.('close');
         portraitToast.setAttribute('aria-hidden', 'true');
         portraitTrigger?.setAttribute('aria-expanded', 'false');
         if (restoreFocus) {
@@ -3359,8 +3399,11 @@
         placePortraitToast();
         portraitToast.setAttribute('aria-hidden', 'false');
         portraitTrigger?.setAttribute('aria-expanded', 'true');
-        requestAnimationFrame(() => portraitToast.classList.add('is-open'));
-        portraitTimer = window.setTimeout(() => closePortrait(), 10000);
+        requestAnimationFrame(() => {
+          portraitToast.classList.add('is-open');
+          window._franciscoHaptic?.('open');
+        });
+        portraitTimer = window.setTimeout(() => closePortrait({ haptic: false }), 10000);
       };
 
       portraitTrigger?.addEventListener('click', () => {
@@ -3385,6 +3428,7 @@
       languageToggle?.addEventListener('click', () => {
         const nextLanguage = root.lang === 'es' ? 'en' : 'es';
         Cuelume.play('toggle');
+        window._franciscoHaptic?.('selection');
         setLanguage(nextLanguage, true, true);
       });
 
@@ -3392,6 +3436,7 @@
       themeToggle.addEventListener('click', (event) => {
         const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
         Cuelume.play('toggle');
+        window._franciscoHaptic?.('selection');
         runThemeTransition(event, nextTheme);
       });
 
@@ -3654,6 +3699,7 @@
   listenForHumanSignal();
 
   function showError(message) {
+    window._franciscoHaptic?.('error');
     errorMsg.textContent = message;
     errorMsg.style.display = 'block';
   }
@@ -3735,6 +3781,7 @@
     backdrop.style.display = 'block';
     morph.classList.add('active');
     setContactState(true);
+    window._franciscoHaptic?.('open');
 
     applyStyles(morph, {
       left: `${buttonRect.left}px`,
@@ -3784,12 +3831,13 @@
     activeTrigger?.focus({ preventScroll: true });
   }
 
-  function closePopover() {
+  function closePopover({ haptic = true } = {}) {
     if (!isOpen || animating) return;
     animating = true;
     isOpen = false;
     morphContent.classList.remove('visible');
     backdrop.style.display = 'none';
+    if (haptic) window._franciscoHaptic?.('close');
 
     const buttonRect = activeTrigger.getBoundingClientRect();
     const currentRect = morph.getBoundingClientRect();
@@ -3843,9 +3891,9 @@
     endpoint = '';
   }
 
-  function closeAndReset() {
+  function closeAndReset({ haptic = true } = {}) {
     resetFields();
-    closePopover();
+    closePopover({ haptic });
   }
 
   contactTriggers.forEach((button) => {
@@ -3883,6 +3931,7 @@
   });
 
   notRobot.addEventListener('change', () => {
+    window._franciscoHaptic?.('selection');
     cbWrap.classList.toggle('checked', notRobot.checked);
     updateSubmitState();
   });
@@ -3934,7 +3983,8 @@
       });
       if (!response.ok) throw new Error('Contact submission failed');
       successView.classList.add('visible');
-      window.setTimeout(closeAndReset, 3200);
+      window._franciscoHaptic?.('success');
+      window.setTimeout(() => closeAndReset({ haptic: false }), 3200);
     } catch (_) {
       btnLabel.classList.remove('sending');
       spinner.classList.remove('active');
@@ -4097,6 +4147,7 @@
     backdrop.style.display = 'block';
     morph.classList.add('active');
     setState(true);
+    window._franciscoHaptic?.('open');
 
     applyStyles(morph, {
       left: `${rect.left}px`,
@@ -4149,12 +4200,13 @@
     trigger.focus({ preventScroll: true });
   };
 
-  const close = () => {
+  const close = ({ haptic = true } = {}) => {
     if (!isOpen || animating) return;
     animating = true;
     isOpen = false;
     content.classList.remove('visible');
     backdrop.style.display = 'none';
+    if (haptic) window._franciscoHaptic?.('close');
 
     const rect = trigger.getBoundingClientRect();
     const currentRect = morph.getBoundingClientRect();
@@ -4277,6 +4329,7 @@
   };
 
   const showError = () => {
+    window._franciscoHaptic?.('error');
     input.setAttribute('aria-invalid', 'true');
     inputShell.classList.remove('is-error');
     void inputShell.offsetWidth;
@@ -4300,8 +4353,9 @@
         return;
       }
       revealAndDownload();
+      window._franciscoHaptic?.('success');
       submit.classList.remove('is-validating');
-      close();
+      close({ haptic: false });
     } catch (_) {
       submit.classList.remove('is-validating');
       submit.disabled = false;
@@ -4314,6 +4368,7 @@
   const fallbackVisibility = document.getElementById('cv-password-visibility');
   fallbackVisibility?.addEventListener('mouseenter', () => window._playFranciscoCue?.('tick'));
   fallbackVisibility?.addEventListener('click', () => {
+    window._franciscoHaptic?.('selection');
     const visible = input.type === 'password';
     input.type = visible ? 'text' : 'password';
     input.classList.toggle('is-visible', visible);
@@ -4465,6 +4520,7 @@ function PasswordVisibility() {
     : { duration: 0.14, ease: [0.22, 1, 0.36, 1] };
 
   const toggleVisible = () => {
+    window._franciscoHaptic?.('selection');
     setVisible((current) => {
       const next = !current;
       syncInput(next);
