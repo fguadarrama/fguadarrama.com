@@ -1,0 +1,4627 @@
+<!-- © 2026 Francisco Guadarrama. All rights reserved. Unauthorized reproduction is prohibited. -->
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Francisco Guadarrama</title>
+<meta name="description" content="Francisco Guadarrama, MD — advancing equitable cancer care through oncology access, stronger health systems, and high-value clinical decisions."/>
+<meta name="author" content="Francisco Guadarrama"/>
+<meta name="theme-color" content="#fdfdfc"/>
+<link rel="canonical" href="https://fguadarrama.com"/>
+<meta name="robots" content="index, follow, noarchive"/>
+
+<!-- Open Graph (LinkedIn, WhatsApp, etc.) -->
+<meta property="og:title" content="Francisco Guadarrama"/>
+<meta property="og:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://fguadarrama.com"/>
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Francisco Guadarrama"/>
+<meta name="twitter:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints."/>
+
+<link id="site-favicon" rel="icon" type="image/svg+xml" sizes="any" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22%3E%3C/svg%3E"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,360;0,480;1,360;1,480&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/slot-text@0.3.3/style.css" rel="stylesheet"/>
+<link rel="modulepreload" href="https://esm.sh/web-haptics@0.0.6"/>
+<style>
+    :root {
+      color-scheme: light;
+      --bg: #fdfdfc;
+      --text: #2d2930;
+      --accent: #3179BA;
+      --line: #2d2930;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+      --font: "Albert Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --stagger-dur: 500ms;
+      --stagger-distance: 12px;
+      --stagger-stagger: 40ms;
+      --stagger-blur: 3px;
+      --stagger-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #2d2930;
+      --text: #fdfdfc;
+      --accent: #99badc;
+      --line: #fdfdfc;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      scroll-behavior: smooth;
+      font-synthesis-weight: none;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 12.9px;
+      font-weight: 360;
+      line-height: 1.48;
+      letter-spacing: -0.009em;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out);
+    }
+
+    ::selection { background: var(--accent); color: var(--bg); }
+
+    .top-controls {
+      position: fixed;
+      top: 4px;
+      left: min(calc(100vw - 138px), calc(50% + 432px));
+      right: auto;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+      flex: 0 0 auto;
+      color: var(--text);
+    }
+
+
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: var(--text);
+      text-underline-offset: 3px;
+      transition:
+        color 150ms var(--ease-out),
+        text-decoration-color 150ms var(--ease-out),
+        opacity 150ms var(--ease-out);
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    /* Animated underline links with one shared arrow at the end of the sentence. */
+    .intro-navigation {
+      --intro-arrow-stroke-offset: 46;
+      --intro-arrow-stroke-duration: 150ms;
+      --intro-arrow-stroke-easing: linear;
+      --intro-arrow-stroke-delay: 0ms;
+    }
+
+    .intro-underline {
+      --underline-background-size: 100%;
+      --underline-background-delay: 150ms;
+      position: relative;
+      color: var(--text);
+      text-decoration: none;
+      white-space: normal;
+    }
+
+    .intro-underline > span {
+      background-image: linear-gradient(0deg, currentColor 0%, currentColor 100%);
+      background-position: 100% 100%;
+      background-repeat: no-repeat;
+      background-size: var(--underline-background-size) 1px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      transition:
+        background-size 200ms linear var(--underline-background-delay),
+        color 150ms var(--ease-out);
+      transform: translateZ(0);
+    }
+
+    .intro-shared-arrow {
+      position: relative;
+      left: -0.08em;
+      display: inline-block;
+      width: 0.72em;
+      height: 1.1em;
+      overflow: visible;
+      vertical-align: -0.2em;
+      fill: none;
+      stroke: var(--text);
+      stroke-width: 1;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 7.95 30;
+      stroke-dashoffset: var(--intro-arrow-stroke-offset);
+      transition:
+        stroke-dashoffset var(--intro-arrow-stroke-duration) var(--intro-arrow-stroke-easing) var(--intro-arrow-stroke-delay),
+        stroke 150ms var(--ease-out);
+      pointer-events: none;
+    }
+
+    .intro-underline:hover,
+    .intro-underline:focus-visible {
+      --underline-background-size: 0%;
+      --underline-background-delay: 0ms;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .intro-underline:hover ~ .intro-shared-arrow,
+    .intro-underline:focus-visible ~ .intro-shared-arrow {
+      --intro-arrow-stroke-offset: 26;
+      --intro-arrow-stroke-duration: 300ms;
+      --intro-arrow-stroke-easing: cubic-bezier(0.3, 1.5, 0.5, 1);
+      --intro-arrow-stroke-delay: 195ms;
+      stroke: var(--accent);
+    }
+
+    .intro-underline:focus-visible {
+      border-radius: 3px;
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .page {
+      width: min(100% - 52px, 720px);
+      margin: 0 auto;
+      padding: 88px 0 56px;
+    }
+
+    .intro,
+    .section,
+    .footer {
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 320ms var(--ease-out),
+        transform 320ms var(--ease-out);
+      transition-delay: calc(var(--stagger, 0) * 54ms);
+      will-change: opacity, transform;
+    }
+
+    body.js-loading .intro,
+    body.js-loading .section,
+    body.js-loading .footer {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+
+    body.is-ready .intro,
+    body.is-ready .section,
+    body.is-ready .footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro { --stagger: 0; margin: 0 0 46px; }
+    #experience { --stagger: 1; }
+    #education { --stagger: 2; }
+    #publications { --stagger: 3; }
+    #contact { --stagger: 4; }
+    .footer { --stagger: 5; }
+
+    .topline {
+      display: block;
+      padding-top: 31px;
+    }
+
+    .name,
+    .role,
+    .bio p,
+    h2,
+    .entry-button,
+    .entry-panel p,
+    .footer {
+      margin: 0;
+    }
+
+    .name {
+      --name-cue-width: 0.25em;
+      --name-cue-height: 0.42em;
+      --name-cue-gap: 0.54em;
+      --name-cue-stroke: 0.07em;
+      --name-cue-pulse: 0.04em;
+      --name-cue-offset-y: 0.18em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 15.5px;
+      font-weight: 480;
+      line-height: 1.25;
+      letter-spacing: inherit;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 150ms var(--ease-out);
+    }
+
+    .name-cue-arrow {
+      display: block;
+      width: var(--name-cue-width);
+      height: var(--name-cue-height);
+      margin-top: var(--name-cue-offset-y);
+      margin-left: var(--name-cue-gap);
+      align-self: flex-start;
+      flex: 0 0 auto;
+      overflow: visible;
+      color: var(--accent);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: var(--name-cue-stroke);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transform: translateX(0);
+      transform-origin: center;
+      pointer-events: none;
+      transition: color 150ms var(--ease-out);
+      will-change: transform;
+    }
+
+    .name:hover,
+    .name:focus-visible {
+      color: var(--accent);
+    }
+
+    .name:hover .name-cue-arrow,
+    .name:focus-visible .name-cue-arrow,
+    .name:active .name-cue-arrow,
+    .name[aria-expanded="true"] .name-cue-arrow {
+      color: var(--text);
+    }
+
+    .name:hover .name-cue-arrow,
+    .name:focus-visible .name-cue-arrow {
+      animation: name-cue-pulse-right 760ms var(--ease-in-out) infinite;
+    }
+
+    @keyframes name-cue-pulse-right {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(var(--name-cue-pulse)); }
+    }
+
+    .name:active { transform: scale(0.985); }
+
+    .name:focus-visible {
+      border-radius: 5px;
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .role {
+      margin-top: 3px;
+      color: var(--text);
+      font-size: 12.7px;
+      font-weight: 360;
+      line-height: 1.25;
+    }
+
+
+
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 12.6px;
+      line-height: 1;
+      font-weight: 480;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .language-toggle:hover,
+    .language-toggle:focus-visible {
+      color: var(--accent);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .language-toggle:active { transform: scale(0.96) translateZ(0); }
+
+    .language-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .language-toggle {
+      overflow: hidden;
+    }
+
+    .language-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.36em;
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 140ms var(--ease-out),
+        transform 140ms var(--ease-out);
+      will-change: opacity, transform;
+    }
+
+    .language-label [aria-hidden="true"] {
+      pointer-events: none;
+    }
+
+    .language-label.is-exiting {
+      opacity: 0;
+      transform: translateY(-3px);
+      transition-duration: 90ms;
+    }
+
+    .language-label.is-entering {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+
+    .theme-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: none;
+      overflow: hidden;
+      transform: translateZ(0);
+      transition:
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      color: var(--accent);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .theme-toggle:active { transform: scale(0.96) translateZ(0); }
+
+    .theme-icon-wrap {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .theme-icon {
+      position: absolute;
+      inset: 0;
+      width: 16px;
+      height: 16px;
+      display: block;
+      stroke: currentColor;
+      transform-origin: 50% 50%;
+      transition:
+        opacity 260ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .theme-icon-sun {
+      opacity: 0;
+      transform: scale(0.5) rotate(-18deg);
+    }
+
+    .theme-icon-moon {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .theme-toggle:hover .theme-icon-moon,
+    .theme-toggle:focus-visible .theme-icon-moon {
+      opacity: 0;
+      transform: scale(0.5) rotate(18deg);
+    }
+
+    .theme-toggle:hover .theme-icon-sun,
+    .theme-toggle:focus-visible .theme-icon-sun {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+
+
+    /* Transitions.dev — Icon swap */
+    :root {
+      --icon-swap-dur: 250ms;
+      --icon-swap-blur: 2px;
+      --icon-swap-start-scale: 0.25;
+      --icon-swap-ease: ease-in-out;
+    }
+
+    .contact-icon-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent);
+      font-family: inherit;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+      transform: translateZ(0);
+      transition:
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .contact-icon-toggle:hover,
+    .contact-icon-toggle:focus-visible {
+      color: var(--text);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .contact-icon-toggle:active {
+      transform: scale(0.96) translateZ(0);
+    }
+
+    .contact-icon-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .t-icon-swap {
+      position: relative;
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+    }
+
+    .t-icon-swap .t-icon {
+      grid-area: 1 / 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition:
+        opacity   var(--icon-swap-dur) var(--icon-swap-ease),
+        filter    var(--icon-swap-dur) var(--icon-swap-ease),
+        transform var(--icon-swap-dur) var(--icon-swap-ease);
+      transform-origin: 50% 50%;
+      will-change: opacity, filter, transform;
+      pointer-events: none;
+    }
+
+    .t-icon-swap .t-icon svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
+    .t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+
+    .t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
+    .t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
+      opacity: 0;
+      filter: blur(var(--icon-swap-blur));
+      transform: scale(var(--icon-swap-start-scale));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .t-icon-swap .t-icon { transition: none !important; }
+    }
+
+    .bio {
+      max-width: 590px;
+      margin-top: 14px;
+    }
+
+    .bio p {
+      color: var(--text);
+      font-size: 13.1px;
+      line-height: 1.5;
+      font-weight: 360;
+    }
+
+    .bio p + p { margin-top: 15px; }
+
+    .section {
+      margin-top: 46px;
+      scroll-margin-top: 42px;
+    }
+
+    h2 {
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 14.25px;
+      line-height: 1.2;
+      font-weight: 480;
+    }
+
+    .section-toggle {
+      width: 100%;
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 150ms var(--ease-out), transform 140ms var(--ease-out);
+    }
+
+    .section-toggle:hover,
+    .section-toggle:focus-visible,
+    .section-toggle[aria-expanded="true"] {
+      color: var(--accent);
+    }
+
+    .section-toggle:hover { transform: translateX(2px); }
+    .section-toggle:active { transform: translateX(2px) scale(0.992); }
+    .section-toggle:focus-visible {
+      border-radius: 7px;
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .list { margin-top: 0; }
+
+    .publications-list {
+      display: block;
+      height: 0;
+      overflow: clip;
+      opacity: 0;
+      transform: translateY(6px);
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
+      transition:
+        height 240ms var(--ease-out),
+        opacity 240ms var(--ease-out),
+        transform 240ms var(--ease-out),
+        clip-path 240ms var(--ease-out);
+      will-change: height, opacity, transform, clip-path;
+    }
+
+    .publications-list.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      clip-path: inset(0);
+      pointer-events: auto;
+    }
+
+    .publications-list[hidden] { display: block; }
+
+    .entry {
+      border-bottom: 1px solid var(--line);
+      transition: border-color 220ms var(--ease-out), background-color 220ms var(--ease-out);
+    }
+
+    .entry[data-open="true"] {
+      border-color: var(--line);
+    }
+
+    .entry-button {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 154px minmax(0, 1fr) 116px;
+      gap: 16px;
+      align-items: start;
+      min-height: 37px;
+      padding: 10px 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        color 160ms var(--ease-out),
+        transform 140ms var(--ease-out),
+        opacity 160ms var(--ease-out);
+    }
+
+    .entry-button:hover,
+    .entry-button:focus-visible,
+    .entry[data-open="true"] .entry-button {
+      color: var(--accent);
+    }
+
+    .entry-button:hover { transform: translateX(2px); }
+    .entry-button:active { transform: translateX(2px) scale(0.992); }
+
+    .entry-button:focus-visible {
+      border-radius: 7px;
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .entry-date,
+    .entry-title,
+    .entry-meta {
+      min-width: 0;
+      transition:
+        color 160ms var(--ease-out),
+        opacity 160ms var(--ease-out),
+        transform 160ms var(--ease-out);
+    }
+
+    .entry-date,
+    .entry-meta {
+      color: var(--text);
+      font-size: 12.65px;
+      font-weight: 360;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-title {
+      overflow: visible;
+      color: currentColor;
+      font-size: 12.9px;
+      font-weight: 480;
+      line-height: 1.34;
+      text-overflow: clip;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .entry-meta {
+      overflow: hidden;
+      text-align: right;
+      text-overflow: ellipsis;
+    }
+
+    .entry-button:hover .entry-date,
+    .entry-button:hover .entry-meta,
+    .entry-button:focus-visible .entry-date,
+    .entry-button:focus-visible .entry-meta,
+    .entry[data-open="true"] .entry-date,
+    .entry[data-open="true"] .entry-meta {
+      color: var(--accent);
+    }
+
+    .entry-panel {
+      height: 0;
+      overflow: clip;
+      transition: height 230ms var(--ease-out);
+      will-change: height;
+    }
+
+    .entry-panel[hidden] { display: block; }
+
+    .entry-panel-inner {
+      max-width: 530px;
+      padding: 0 0 16px 170px;
+      transform-origin: top left;
+    }
+
+    .t-stagger-line {
+      display: block;
+      opacity: 0;
+      transform: translateY(var(--stagger-distance));
+      filter: blur(var(--stagger-blur));
+      transition:
+        opacity var(--stagger-dur) var(--stagger-ease),
+        transform var(--stagger-dur) var(--stagger-ease),
+        filter var(--stagger-dur) var(--stagger-ease);
+      transition-delay: calc(var(--stagger-stagger) * var(--line-index, 0));
+      will-change: transform, opacity, filter;
+    }
+
+    .t-stagger.is-shown .t-stagger-line {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .t-stagger.is-hiding .t-stagger-line {
+      opacity: 0;
+      transform: translateY(0);
+      filter: blur(0);
+      transition:
+        opacity 200ms ease,
+        transform 0s linear,
+        filter 0s linear;
+      transition-delay: 0s;
+    }
+
+    .entry-panel p {
+      color: var(--text);
+      font-size: 12.45px;
+      font-weight: 360;
+      line-height: 1.5;
+    }
+
+    .entry-panel p + p { margin-top: 8px; }
+
+    .entry-panel em { font-style: italic; }
+
+    .contact-entry .entry-button {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-entry .entry-title {
+      font-weight: 480;
+    }
+
+    .contact-entry .entry-panel {
+      transition: height 200ms var(--ease-out);
+    }
+
+    .contact-entry .entry-panel-inner {
+      padding-left: 0;
+    }
+
+    .contact-entry .t-stagger-line {
+      transform: translateY(3px);
+      filter: none;
+      transition:
+        opacity 160ms var(--ease-out),
+        transform 160ms var(--ease-out),
+        filter 0s linear;
+      transition-delay: 0s;
+    }
+
+    .contact-entry .t-stagger.is-shown .t-stagger-line {
+      opacity: 1;
+      transform: translateY(0);
+      filter: none;
+    }
+
+    .contact-entry .t-stagger.is-hiding .t-stagger-line {
+      opacity: 0;
+      transform: translateY(0);
+      filter: none;
+      transition: opacity 150ms ease;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+
+
+    .contact-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .micro-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+      font-size: 12.15px;
+      font-weight: 480;
+      letter-spacing: -0.006em;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition:
+        color 150ms var(--ease-out),
+        border-color 150ms var(--ease-out),
+        background-color 180ms var(--ease-out),
+        box-shadow 180ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .micro-button:hover,
+    .micro-button:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px) translateZ(0);
+      box-shadow: none;
+    }
+
+    .micro-button:active {
+      transform: translateY(0) scale(0.975) translateZ(0);
+      box-shadow: none;
+    }
+
+    .micro-button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .email-box {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--accent);
+      font-size: 12.15px;
+      font-weight: 480;
+      opacity: 0;
+      transform: translateY(3px) scale(0.98);
+      filter: blur(1px);
+      transition:
+        opacity 210ms var(--ease-out),
+        transform 240ms var(--ease-out),
+        filter 240ms var(--ease-out);
+    }
+
+    .email-box.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .email-box a {
+      color: var(--accent);
+      text-decoration-color: var(--accent);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 66px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12.35px;
+      font-weight: 360;
+    }
+
+    .footer a { color: var(--text); }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+
+    ::view-transition-group(root) {
+      animation-duration: 560ms;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+
+
+
+
+    /* Transitions.dev — Toast open / close */
+    :root {
+      --toast-open: 350ms;
+      --toast-close: 250ms;
+      --toast-distance: 16px;
+      --toast-blur: 2px;
+      --toast-scale: 0.97;
+      --toast-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .photo-toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      z-index: 1000;
+      width: min(300px, calc(100vw - 40px));
+      padding: 0;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      box-shadow: none;
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + var(--toast-distance))) scale(var(--toast-scale));
+      filter: blur(var(--toast-blur));
+      visibility: hidden;
+      pointer-events: none;
+      will-change: transform, opacity, filter;
+      transition:
+        opacity var(--toast-close) var(--toast-ease),
+        transform var(--toast-close) var(--toast-ease),
+        filter var(--toast-close) var(--toast-ease),
+        visibility 0s linear var(--toast-close);
+    }
+
+    .photo-toast.is-open {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      filter: blur(0);
+      visibility: visible;
+      pointer-events: auto;
+      transition:
+        opacity var(--toast-open) var(--toast-ease),
+        transform var(--toast-open) var(--toast-ease),
+        filter var(--toast-open) var(--toast-ease),
+        visibility 0s linear 0s;
+    }
+
+    .photo-toast-image {
+      display: block;
+      width: 100%;
+      max-height: min(520px, 76vh);
+      object-fit: cover;
+      object-position: center;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .photo-toast-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--bg);
+      color: var(--text);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        color 150ms var(--ease-out),
+        border-color 150ms var(--ease-out),
+        background-color 180ms var(--ease-out),
+        transform 150ms var(--ease-out);
+    }
+
+    .photo-toast-close svg {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+
+    .photo-toast-close:hover,
+    .photo-toast-close:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--bg);
+      transform: translateY(-1px) scale(1.025);
+    }
+
+    .photo-toast-close:active {
+      transform: translateY(0) scale(0.94);
+    }
+
+    .photo-toast-close:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+      .photo-toast {
+        width: min(360px, calc(100vw - 28px));
+        max-height: calc(100svh - 32px);
+        border-radius: 16px;
+      }
+
+      .photo-toast-image {
+        width: 100%;
+        max-height: calc(100svh - 32px);
+        object-fit: contain;
+        border-radius: 16px;
+      }
+
+      .photo-toast-close {
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+      }
+
+      .photo-toast-close svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .photo-toast { transition: none !important; }
+    }
+
+    @media (max-width: 740px) {
+      .page {
+        width: min(100% - 34px, 720px);
+        padding-top: 58px;
+      }
+
+      .entry-button {
+        grid-template-columns: 142px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .entry-meta { display: none; }
+      .entry-panel-inner { padding-left: 154px; }
+    }
+
+    @media (max-width: 430px) {
+      body { font-size: 12.65px; }
+      .page { width: min(100% - 28px, 720px); }
+      .topline { gap: 14px; }
+
+      .entry-button {
+        grid-template-columns: 136px minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .entry-date,
+      .entry-title { font-size: 12.45px; }
+      .entry-panel-inner { padding-left: 146px; }
+      .entry-panel p { font-size: 12.15px; }
+    }
+
+    @media (max-width: 365px) {
+      .entry-button {
+        grid-template-columns: 124px minmax(0, 1fr);
+      }
+      .entry-panel-inner { padding-left: 0; }
+    }
+
+
+
+    /* Theme icon state: on touch devices the icon must reflect the active theme, not a hover preview. */
+    html[data-theme="dark"] .theme-icon-moon {
+      opacity: 0;
+      transform: scale(0.5) rotate(18deg);
+    }
+
+    html[data-theme="dark"] .theme-icon-sun {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      html[data-theme="dark"] .theme-toggle:hover .theme-icon-moon,
+      html[data-theme="dark"] .theme-toggle:focus-visible .theme-icon-moon {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+
+      html[data-theme="dark"] .theme-toggle:hover .theme-icon-sun,
+      html[data-theme="dark"] .theme-toggle:focus-visible .theme-icon-sun {
+        opacity: 0;
+        transform: scale(0.5) rotate(-18deg);
+      }
+    }
+
+    /* Mobile reading pass: desktop remains unchanged. */
+    @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+      body {
+        font-size: 16.6px;
+        line-height: 1.54;
+        letter-spacing: -0.011em;
+      }
+
+      .page {
+        width: min(100% - 44px, 720px);
+        padding: 62px 0 60px;
+      }
+
+      .topline {
+        position: relative;
+        display: block;
+        padding-top: 54px;
+      }
+
+      .top-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: auto;
+        z-index: 20;
+        gap: 10px;
+        padding-top: 0;
+        color: var(--text);
+      }
+
+      .name {
+        font-size: 19px;
+        line-height: 1.22;
+      }
+
+      .role {
+        margin-top: 4px;
+        font-size: 17px;
+        line-height: 1.28;
+      }
+
+  
+
+    .language-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 36px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 12.6px;
+      line-height: 1;
+      font-weight: 480;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transform: translateZ(0);
+      transition: color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+
+    .language-toggle:hover,
+    .language-toggle:focus-visible {
+      color: var(--accent);
+      transform: scale(1.02) translateZ(0);
+    }
+
+    .language-toggle:active { transform: scale(0.96) translateZ(0); }
+
+    .language-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .theme-toggle,
+    .contact-icon-toggle {
+        width: 34px;
+        height: 34px;
+      }
+
+      .theme-icon-wrap,
+      .theme-icon,
+      .t-icon-swap,
+      .t-icon-swap .t-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .bio {
+        max-width: none;
+        margin-top: 42px;
+      }
+
+      .bio p {
+        font-size: 17.7px;
+        line-height: 1.56;
+        letter-spacing: -0.012em;
+      }
+
+      .bio p + p { margin-top: 21px; }
+
+      .intro { margin-bottom: 60px; }
+
+      .section {
+        margin-top: 58px;
+        scroll-margin-top: 24px;
+      }
+
+      h2 {
+        padding-bottom: 12px;
+        font-size: 20.4px;
+        line-height: 1.18;
+      }
+
+      .entry-button {
+        grid-template-columns: 1fr !important;
+        gap: 5px;
+        min-height: 0;
+        padding: 15px 0 16px;
+      }
+
+      .entry-title {
+        order: 1;
+        font-size: 17.15px;
+        line-height: 1.34;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+
+      .entry-date {
+        order: 2;
+        font-size: 15.45px;
+        line-height: 1.35;
+        white-space: normal;
+      }
+
+      .entry-meta {
+        display: block;
+        order: 3;
+        text-align: left;
+        font-size: 14.75px;
+        line-height: 1.35;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+
+      .entry-panel-inner {
+        max-width: none;
+        padding: 0 0 20px 0 !important;
+        transform-origin: top left;
+      }
+
+      .entry-panel p {
+        font-size: 15.9px;
+        line-height: 1.58;
+      }
+
+      .entry-panel p + p { margin-top: 10px; }
+
+      .contact-links {
+        gap: 18px;
+      }
+
+      .footer {
+        margin-top: 62px;
+        font-size: 14.6px;
+      }
+
+      ::view-transition-group(root) {
+        animation-duration: 1ms;
+      }
+
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .name-cue-arrow {
+        animation: none !important;
+        transform: none !important;
+      }
+
+      .intro,
+      .section,
+      .footer {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  
+
+    /* Open publication entries retain the base text color; accent is reserved for hover/focus. */
+    .publications-list .entry[data-open="true"] .entry-button,
+    .publications-list .entry[data-open="true"] .entry-date,
+    .publications-list .entry[data-open="true"] .entry-meta {
+      color: var(--text);
+    }
+
+    .publications-list .entry[data-open="true"] .entry-button:hover,
+    .publications-list .entry[data-open="true"] .entry-button:focus-visible,
+    .publications-list .entry[data-open="true"] .entry-button:hover .entry-date,
+    .publications-list .entry[data-open="true"] .entry-button:hover .entry-meta,
+    .publications-list .entry[data-open="true"] .entry-button:focus-visible .entry-date,
+    .publications-list .entry[data-open="true"] .entry-button:focus-visible .entry-meta {
+      color: var(--accent);
+    }
+
+    #contact .entry-panel-inner {
+      padding-left: 0;
+      padding-top: 14px;
+    }
+
+
+    /* Casual-copy deterrence. Interactive controls remain selectable and keyboard-accessible. */
+    body,
+    body * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    a,
+    a *,
+    button,
+    button *,
+    input,
+    textarea,
+    select,
+    option,
+    label {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    img,
+    svg {
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    button svg,
+    .theme-icon,
+    .theme-icon-wrap {
+      pointer-events: none;
+    }
+
+    .print-only-notice { display: none; }
+
+    @media print {
+      body > *:not(.print-only-notice) {
+        display: none !important;
+      }
+
+      html,
+      body {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fdfdfc !important;
+        color: #2d2930 !important;
+      }
+
+      .print-only-notice {
+        position: fixed;
+        inset: 0;
+        display: grid !important;
+        place-items: center;
+        padding: 40px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 16pt;
+        line-height: 1.45;
+      }
+
+      .print-message-es { display: none; }
+      html[lang="es"] .print-message-en { display: none; }
+      html[lang="es"] .print-message-es { display: block; }
+    }
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://fguadarrama.com/#person",
+      "name": "Francisco Guadarrama",
+      "alternateName": "Francisco Guadarrama Conzuelo",
+      "disambiguatingDescription": "Medical Oncologist and Internal Medicine Physician. Not to be confused with anesthesiologist Dr. Francisco Guadarrama Quijada, gynecologist Dr. Francisco Rafael Guadarrama Sanchez, or Oscar Francisco Guadarrama Morales.",
+      "url": "https://fguadarrama.com",
+      "jobTitle": "Medical Oncologist",
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "Board Certification",
+        "name": "Certified in Internal Medicine",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Consejo Mexicano de Medicina Interna, A.C."
+        }
+      },
+      "worksFor": [
+        {
+          "@type": "MedicalOrganization",
+          "name": "Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán",
+          "alternateName": "INCMNSZ"
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Internal Medicine Fellow",
+          "startDate": "2020",
+          "endDate": "2024",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Hospital Regional de Alta Especialidad del Bajío",
+            "alternateName": "HRAEB"
+          }
+        },
+        {
+          "@type": "EmployeeRole",
+          "roleName": "Physician",
+          "startDate": "2017",
+          "endDate": "2020",
+          "worksFor": {
+            "@type": "MedicalOrganization",
+            "name": "Compañeros en Salud",
+            "alternateName": "Partners In Health Mexico",
+            "url": "https://companerosensalud.mx/"
+          }
+        }
+      ],
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Nacional Autónoma de México",
+          "alternateName": "UNAM"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Tecnológico de Monterrey",
+          "alternateName": "ITESM"
+        }
+      ],
+      "knowsAbout": [
+        "Medical Oncology",
+        "Oncology",
+        "Internal Medicine",
+        "Clinical Research",
+        "Cancer Care Access",
+        "Health Systems Strengthening",
+        "Value-Based Oncology"
+      ],
+      "sameAs": [
+        "https://orcid.org/0000-0003-2241-0791",
+        "https://www.wikidata.org/wiki/Q91155903",
+        "https://scholar.google.com/citations?user=YVW4b40AAAAJ",
+        "https://www.researchgate.net/profile/Francisco-Guadarrama-Conzuelo",
+        "https://github.com/fguadarrama/",
+        "https://linkedin.com/in/FranciscoGuadarrama",
+        "https://franciscoguadarrama.carrd.co/",
+        "https://en-franciscoguadarrama.carrd.co",
+        "https://dr-fg.com/"
+      ]
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Euthanasia and physician-assisted suicide: a systematic review of medical students’ attitudes in the last 10 years",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7839145/",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "headline": "Breast cancer and health inequalities: Another never ending story?",
+      "url": "https://www.sciencedirect.com/science/article/pii/S003483762500470X",
+      "author": {
+        "@id": "https://fguadarrama.com/#person"
+      }
+    }
+  ]
+}
+</script>
+
+<style id="contact-component-styles">
+  /* Contact component adapted from the previous site. */
+  #trigger-btn,
+  #morph {
+    --contact-accent: var(--accent);
+    --contact-accent-mid: var(--text);
+    --contact-error: #FF1D58;
+    --contact-success: var(--accent);
+    --contact-bg: #fdfdfc;
+    --contact-surface: #fdfdfc;
+    --contact-surface-2: #fdfdfc;
+    --contact-border: #2d2930;
+    --contact-text: #2d2930;
+    --contact-text-2: #2d2930;
+    --contact-text-3: #2d2930;
+  }
+
+  html[data-theme="dark"] #trigger-btn,
+  html[data-theme="dark"] #morph {
+    --contact-error: #F47983;
+    --contact-bg: #2d2930;
+    --contact-surface: #2d2930;
+    --contact-surface-2: #2d2930;
+    --contact-border: #fdfdfc;
+    --contact-text: #fdfdfc;
+    --contact-text-2: #fdfdfc;
+    --contact-text-3: #fdfdfc;
+  }
+
+  #contact .contact-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    padding: 12px 0 2px;
+  }
+
+  #trigger-btn {
+    display: inline;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 12.45px;
+    font-weight: 360;
+    letter-spacing: inherit;
+    line-height: 1.5;
+    text-decoration: underline;
+    text-decoration-color: var(--text);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    outline: none;
+    transition:
+      color 150ms var(--ease-out),
+      text-decoration-color 150ms var(--ease-out),
+      opacity 150ms var(--ease-out);
+  }
+
+  #trigger-btn:hover,
+  #trigger-btn:focus-visible {
+    background: transparent;
+    color: var(--contact-accent);
+    text-decoration-color: var(--contact-accent);
+  }
+
+  #trigger-btn:focus-visible {
+    border-radius: 3px;
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #trigger-btn:active { transform: translateY(1px); }
+  #trigger-btn.is-hidden { visibility: hidden; }
+
+  #backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    background: transparent;
+  }
+
+  #morph {
+    position: fixed;
+    z-index: 1100;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--contact-text);
+    font-family: var(--font);
+  }
+
+  #morph.active { pointer-events: auto; }
+
+  #morph-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  #morph-content.visible { opacity: 1; }
+
+  #morph .pop-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-surface);
+  }
+
+  #morph .pop-label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    z-index: 2;
+    color: var(--contact-text);
+    font-size: 15px;
+    font-weight: 360;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+  }
+
+  #morph .pop-label.hidden { opacity: 0; }
+
+  #field-msg {
+    width: 100%;
+    min-height: 0;
+    flex: 1;
+    padding: 12px 10px 8px 16px;
+    border: 0;
+    outline: 0;
+    resize: none;
+    background: transparent;
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 360;
+    line-height: 1.5;
+  }
+
+  #morph .extra-fields {
+    display: flex;
+    flex-shrink: 0;
+    gap: 6px;
+    padding: 0 8px 4px;
+  }
+
+  #morph .extra-fields input {
+    min-width: 0;
+    flex: 1;
+    padding: 5px 8px;
+    border: 1px solid var(--contact-border);
+    border-radius: 6px;
+    outline: none;
+    background: var(--contact-bg);
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 360;
+    transition: border-color 120ms ease;
+  }
+
+  #morph .extra-fields input::placeholder { color: var(--contact-text); }
+  #morph .extra-fields input:focus { border-color: var(--contact-accent); }
+
+  #morph .robot-row {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 8px;
+    padding: 4px 8px 8px 10px;
+  }
+
+  #morph .robot-row .cb-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--contact-text);
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #morph .robot-row .cb-label.locked {
+    color: var(--contact-text);
+    cursor: not-allowed;
+  }
+
+  #morph .cb-wrap {
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  #morph .cb-wrap input {
+    display: block;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  #morph .cb-wrap input:disabled { cursor: not-allowed; }
+
+  #morph .cb-wrap svg {
+    position: absolute;
+    display: block;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  #morph .cb-bg {
+    top: -3px;
+    left: -3px;
+    width: 28px;
+    height: 28px;
+    fill: var(--contact-surface);
+    stroke: var(--contact-border);
+    stroke-width: 1px;
+    transition: stroke 250ms ease, fill 250ms ease;
+  }
+
+  #morph .cb-wrap.checked .cb-bg {
+    fill: var(--contact-accent);
+    stroke: var(--contact-accent);
+  }
+
+  #morph .cb-wrap.disabled .cb-bg {
+    fill: var(--contact-surface-2);
+    stroke: var(--contact-border);
+  }
+
+  #morph .cb-tick {
+    top: 6px;
+    left: 5px;
+    width: 12px;
+    height: 10px;
+    stroke: var(--contact-bg);
+    stroke-width: 2px;
+    stroke-dasharray: 14px;
+    stroke-dashoffset: 14px;
+    transition: stroke-dashoffset 150ms ease;
+  }
+
+  #morph .cb-wrap.checked .cb-tick {
+    stroke-dashoffset: 0;
+    transition-delay: 150ms;
+  }
+
+  #email-hint {
+    display: none;
+    flex-shrink: 0;
+    padding: 0 8px 4px 10px;
+    color: var(--contact-error);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  #error-msg {
+    display: none;
+    flex-shrink: 0;
+    padding: 0 10px 4px;
+    color: var(--contact-error);
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  #morph .pop-divider {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    border-top: 1px dashed var(--contact-border);
+    pointer-events: none;
+  }
+
+  #morph .ear {
+    position: absolute;
+    bottom: 35px;
+    z-index: 3;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--contact-border);
+    background: var(--contact-surface-2);
+  }
+
+  #morph .ear-left { left: -5px; border-radius: 0 4px 4px 0; }
+  #morph .ear-right { right: -5px; border-radius: 4px 0 0 4px; }
+
+  #morph .ear-mask {
+    position: absolute;
+    bottom: 35px;
+    z-index: 4;
+    width: 4px;
+    height: 8px;
+    background: var(--contact-surface);
+  }
+
+  #morph .ear-mask-left { left: 0; }
+  #morph .ear-mask-right { right: 0; }
+
+  #morph .pop-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  #submit-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 25px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 8px;
+    background: var(--contact-accent);
+    color: var(--contact-bg);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 480;
+    cursor: pointer;
+    transition:
+      transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 180ms ease,
+      opacity 150ms ease;
+  }
+
+  #submit-btn:hover:not(:disabled) {
+    background: var(--contact-accent-mid);
+    transform: scale(1.07);
+  }
+
+  #submit-btn:focus-visible {
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #submit-btn:active:not(:disabled) { transform: scale(0.97); }
+  #submit-btn:disabled {
+    border: 1px solid var(--contact-accent);
+    background: var(--contact-bg);
+    color: var(--contact-accent);
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  #morph .btn-label {
+    display: block;
+    transition: opacity 150ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #morph .btn-label.sending {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  #morph .spinner {
+    position: absolute;
+    color: var(--contact-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #morph .spinner.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #morph .spinner svg { animation: contact-spin 800ms linear infinite; }
+  @keyframes contact-spin { to { transform: rotate(360deg); } }
+
+  #success-view {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(-16px);
+    pointer-events: none;
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #success-view.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  #morph .success-check { color: var(--contact-success); }
+  #morph .success-title {
+    margin: 0 0 4px;
+    color: var(--contact-text);
+    font-size: 14px;
+    font-weight: 480;
+    text-align: center;
+  }
+
+  #morph .success-sub {
+    margin: 0;
+    color: var(--contact-text);
+    font-size: 14px;
+    font-style: italic;
+    text-align: center;
+  }
+
+  @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+    #trigger-btn {
+      min-height: 0;
+      padding: 0;
+      font-size: 15.9px;
+    }
+
+    #field-msg,
+    #morph .pop-label { font-size: 16px; }
+    #morph .extra-fields input { font-size: 15px; }
+    #morph .robot-row .cb-label { font-size: 15px; }
+    #email-hint,
+    #error-msg { font-size: 13.5px; }
+    #submit-btn { height: 30px; font-size: 14px; }
+  }
+
+  @media (max-width: 390px) {
+    #morph .extra-fields { gap: 5px; }
+    #morph .extra-fields input { padding-inline: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #trigger-btn,
+    #morph *,
+    #morph-content { transition-duration: 1ms !important; }
+  }
+</style>
+
+<style id="cv-download-component-styles">
+  #cv-morph {
+    --contact-accent: var(--accent);
+    --contact-error: #FF1D58;
+    --contact-bg: #fdfdfc;
+    --contact-surface: #fdfdfc;
+    --contact-surface-2: #fdfdfc;
+    --contact-border: #2d2930;
+    --contact-text: #2d2930;
+  }
+
+  html[data-theme="dark"] #cv-morph {
+    --contact-error: #F47983;
+    --contact-bg: #2d2930;
+    --contact-surface: #2d2930;
+    --contact-surface-2: #2d2930;
+    --contact-border: #fdfdfc;
+    --contact-text: #fdfdfc;
+  }
+
+  #cv-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1190;
+    background: transparent;
+  }
+
+  #cv-morph {
+    position: fixed;
+    z-index: 1200;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--contact-text);
+    font-family: var(--font);
+  }
+
+  #cv-morph.active { pointer-events: auto; }
+
+  #cv-morph-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 12px;
+    background: var(--contact-surface-2);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  #cv-morph-content.visible { opacity: 1; }
+
+  #cv-morph .pop-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-surface);
+  }
+
+  #cv-morph .cv-input-area {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px 8px;
+  }
+
+  #cv-morph .cv-input-shell {
+    position: relative;
+    display: block;
+    width: 18rem;
+    max-width: 100%;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--contact-border);
+    border-radius: 8px;
+    background: var(--contact-bg);
+    transition:
+      border-color 150ms var(--ease-out),
+      box-shadow 180ms var(--ease-out),
+      transform 180ms var(--ease-out);
+  }
+
+  #cv-morph .cv-input-shell:hover { border-color: var(--contact-text); }
+
+  #cv-morph .cv-input-shell:focus-within {
+    border-color: var(--contact-accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--contact-accent) 20%, transparent);
+  }
+
+  #cv-morph .cv-input-shell.is-error {
+    border-color: var(--contact-error);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--contact-error) 20%, transparent);
+    animation: cv-password-error 330ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  @keyframes cv-password-error {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(2px); }
+  }
+
+  #cv-password {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 10px 48px 10px 14px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--contact-text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 360;
+    letter-spacing: normal;
+    line-height: 1.25;
+  }
+
+  #cv-password.is-visible {
+    font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+  }
+
+  #cv-password::-ms-reveal,
+  #cv-password::-ms-clear { display: none; }
+
+  #cv-password-eye-root {
+    display: contents;
+  }
+
+  #cv-password-visibility {
+    position: absolute;
+    inset-inline-end: 12px;
+    top: 50%;
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: transparent;
+    color: color-mix(in srgb, var(--contact-text) 62%, transparent);
+    cursor: pointer;
+    outline: none;
+    line-height: 0;
+    transform: translateY(-50%) scale(1);
+    transform-origin: 50% 50%;
+    transition:
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  #cv-password-visibility::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+
+  #cv-password-visibility:hover {
+    color: var(--contact-text);
+  }
+
+  #cv-password-visibility:focus-visible {
+    color: var(--contact-text);
+    outline: 1px solid var(--contact-accent);
+    outline-offset: 1px;
+  }
+
+  #cv-password-visibility:active {
+    transform: translateY(-50%) scale(0.9);
+  }
+
+  #cv-password-visibility .cv-eye {
+    display: block;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+  }
+
+    #cv-morph .pop-divider {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    border-top: 1px dashed var(--contact-border);
+    pointer-events: none;
+  }
+
+  #cv-morph .ear {
+    position: absolute;
+    bottom: 35px;
+    z-index: 3;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--contact-border);
+    background: var(--contact-surface-2);
+  }
+
+  #cv-morph .ear-left { left: -5px; border-radius: 0 4px 4px 0; }
+  #cv-morph .ear-right { right: -5px; border-radius: 4px 0 0 4px; }
+
+  #cv-morph .ear-mask {
+    position: absolute;
+    bottom: 35px;
+    z-index: 4;
+    width: 4px;
+    height: 8px;
+    background: var(--contact-surface);
+  }
+
+  #cv-morph .ear-mask-left { left: 0; }
+  #cv-morph .ear-mask-right { right: 0; }
+
+  #cv-morph .pop-footer {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 40px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  #cv-password-submit {
+    position: relative;
+    display: inline-flex;
+    width: 42px;
+    height: 25px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: var(--contact-accent);
+    color: var(--contact-bg);
+    cursor: pointer;
+    outline: none;
+    transition:
+      transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 150ms ease;
+  }
+
+  #cv-password-submit:hover:not(:disabled) { transform: scale(1.07); }
+  #cv-password-submit:active:not(:disabled) { transform: scale(0.95); }
+  #cv-password-submit:focus-visible {
+    outline: 2px solid var(--contact-accent);
+    outline-offset: 3px;
+  }
+
+  #cv-password-submit:disabled {
+    border: 1px solid var(--contact-accent);
+    background: var(--contact-bg);
+    color: var(--contact-accent);
+    cursor: not-allowed;
+  }
+
+  #cv-password-submit svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+  }
+
+  #cv-password-submit.is-validating svg { animation: cv-submit-spin 700ms linear infinite; }
+  @keyframes cv-submit-spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 740px), (hover: none) and (pointer: coarse) {
+    #cv-password { font-size: 16px; }
+    #cv-password-submit { height: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cv-morph *,
+    #cv-morph-content { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+  }
+</style>
+</head>
+<body>
+<main class="page" id="top">
+<header aria-labelledby="site-title" class="intro">
+<div class="topline">
+<div>
+<button aria-controls="portraitToast" aria-expanded="false" class="name" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="site-title" type="button"><span>Francisco Guadarrama</span><svg aria-hidden="true" class="name-cue-arrow" preserveAspectRatio="none" viewBox="0 0 4 7"><path class="name-cue-path" d="M0.5 0.5 L3.5 3.5 L0.5 6.5"></path></svg></button>
+
+</div>
+<div aria-label="Language and theme controls" class="top-controls">
+<button aria-controls="morph" aria-expanded="false" aria-haspopup="dialog" aria-labelledby="trigger-btn" class="contact-icon-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="contactIconToggle" type="button">
+<span aria-hidden="true" class="t-icon-swap" data-state="a">
+<span class="t-icon" data-icon="a"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M216,48H40A16,16,0,0,0,24,64V224a15.85,15.85,0,0,0,9.24,14.5A16.13,16.13,0,0,0,40,240a15.89,15.89,0,0,0,10.25-3.78l.09-.07L83,208H216a16,16,0,0,0,16-16V64A16,16,0,0,0,216,48ZM40,224h0ZM216,192H80a8,8,0,0,0-5.23,1.95L40,224V64H216ZM88,112a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H96A8,8,0,0,1,88,112Zm0,32a8,8,0,0,1,8-8h64a8,8,0,1,1,0,16H96A8,8,0,0,1,88,144Z"></path></svg></span>
+<span class="t-icon" data-icon="b"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"></path></svg></span>
+</span>
+</button><button aria-label="Switch to Spanish" aria-pressed="false" class="language-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="languageToggle" type="button"><span class="language-label">En</span></button><button aria-label="Switch to dark theme" aria-pressed="false" class="theme-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-cuelume-toggle="" id="themeToggle" type="button">
+<span aria-hidden="true" class="theme-icon-wrap">
+<svg draggable="false" class="theme-icon theme-icon-moon" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 3a6 6 0 0 0 9 7.1A9 9 0 1 1 12 3Z"></path>
+</svg>
+<svg draggable="false" class="theme-icon theme-icon-sun" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="4"></circle>
+<path d="M12 2v2"></path>
+<path d="M12 20v2"></path>
+<path d="m4.93 4.93 1.41 1.41"></path>
+<path d="m17.66 17.66 1.41 1.41"></path>
+<path d="M2 12h2"></path>
+<path d="M20 12h2"></path>
+<path d="m6.34 17.66-1.41 1.41"></path>
+<path d="m19.07 4.93-1.41 1.41"></path>
+</svg>
+</span>
+</button>
+</div>
+</div>
+<div class="bio">
+<p data-en="I am a physician who cares for people with cancer and is driven by a specific question: how can we deliver high-value care when resources are limited?" data-es="Soy un médico que atiende a personas con cáncer y persigue una pregunta concreta: cómo ofrecer tratamientos oncológicos de alto valor cuando los recursos son limitados.">I am a physician who cares for people with cancer and is driven by a specific question: how can we deliver high-value cancer care when resources are limited?</p>
+<p data-en="My work has taken me from marginalized communities in the mountains of Mexico to national referral centers. That path shapes my focus on clinical decision-making under real constraints, reducing gaps in access to medicines, and strengthening health systems." data-es="He trabajado en comunidades marginadas en las montañas de México y en centros médicos de alta especialidad. Ese recorrido orienta mi trabajo hacia la toma de decisiones clínicas bajo restricciones reales, la reducción de las brechas en el acceso al tratamiento y el fortalecimiento de los sistemas de salud.">My work has taken me from marginalized communities in the mountains of Mexico to national referral centers. That path shapes my focus on clinical decision-making under real constraints, reducing gaps in access to treatment, and strengthening health systems.</p>
+<p class="intro-navigation"><span data-en="See " data-es="Ver ">See </span><a class="intro-underline" data-cuelume-hover="tick" href="#experience"><span data-en="experience," data-es="experiencia,">experience,</span></a> <a class="intro-underline" data-cuelume-hover="tick" href="#education"><span data-en="education," data-es="formación académica,">education,</span></a> <a class="intro-underline" data-cuelume-hover="tick" href="#publications" id="publicationsAnchor"><span data-en="publications," data-es="publicaciones,">publications,</span></a><span data-en=" or " data-es=" o "> or </span><a class="intro-underline" data-cuelume-hover="tick" href="#contact"><span data-en="contact information." data-es="información de contacto.">contact information.</span></a><svg aria-hidden="true" class="intro-shared-arrow" viewBox="0 0 13 20"><polyline points="0.5 19.5 3 19.5 12.5 10 3 0.5"></polyline></svg></p>
+</div>
+</header>
+<section aria-labelledby="experience-title" class="section" id="experience">
+<h2 data-en="Experience" data-es="Experiencia" id="experience-title">Experience</h2>
+<div class="list" data-accordion="">
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2024 – Present" data-es="mar 2024 – presente">Mar 2024 – Present</span>
+<span class="entry-title" data-en="Medical Oncology Fellow &amp; Chief Resident" data-es="Residente de Oncología Médica y jefe de residentes">Medical Oncology Fellow &amp; Chief Resident</span>
+<span class="entry-meta" data-en="INCMNSZ" data-es="INCMNSZ">INCMNSZ</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-1">
+<div class="entry-panel-inner">
+<p data-en="Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México." data-es="Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.">Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán. Tlalpan, Ciudad de México.</p>
+<p data-en="I help coordinate academic training and supervise junior residents at a national referral center. My work spans multidisciplinary cancer care, complex clinical decisions, and the day-to-day planning of services and resources." data-es="Participo en la coordinación académica y la supervisión de residentes en un centro nacional de referencia. Mi trabajo abarca la atención multidisciplinaria de pacientes con cáncer, la toma de decisiones clínicas complejas y la planeación cotidiana de servicios y recursos.">I help coordinate academic training and supervise junior residents at a national referral center. My work spans multidisciplinary cancer care, complex clinical decisions, and the day-to-day planning of services and resources.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Internal Medicine Residency" data-es="Residente de Medicina Interna">Internal Medicine Residency</span>
+<span class="entry-meta" data-en="HRAEB" data-es="HRAEB">HRAEB</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-2">
+<div class="entry-panel-inner">
+<p data-en="Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato." data-es="Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.">Hospital Regional de Alta Especialidad del Bajío. León, Guanajuato.</p>
+<p data-en="I trained in Internal Medicine at a tertiary academic hospital and provided frontline care during the COVID-19 pandemic." data-es="Completé mi residencia en Medicina Interna en un hospital universitario de tercer nivel y estuve en la primera línea de atención durante la pandemia de COVID-19.">I trained in Internal Medicine at a tertiary academic hospital and provided frontline care during the COVID-19 pandemic.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-3" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Clinical Instructor in Internal Medicine" data-es="Instructor clínico de Medicina Interna">Clinical Instructor in Internal Medicine</span>
+<span class="entry-meta" data-en="UG" data-es="UG">UG</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-3">
+<div class="entry-panel-inner">
+<p data-en="Universidad de Guanajuato. León, Guanajuato." data-es="Universidad de Guanajuato. León, Guanajuato.">Universidad de Guanajuato. León, Guanajuato.</p>
+<p data-en="I supervised and mentored medical students throughout their hospital rotations. I coordinated their integration into clinical teams and helped ensure the quality of their training." data-es="Supervisé y acompañé a estudiantes de medicina durante sus rotaciones hospitalarias. Coordiné su integración con los servicios clínicos y contribuí a mantener la calidad de su formación.">I supervised and mentored medical students throughout their hospital rotations. I coordinated their integration into clinical teams and helped ensure the quality of their training.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-4" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Sep 2019 – Mar 2020" data-es="sep 2019 – mar 2020">Sep 2019 – Mar 2020</span>
+<span class="entry-title" data-en="Clinical Research Liaison" data-es="Enlace de investigación clínica">Clinical Research Liaison</span>
+<span class="entry-meta" data-en="PIH Mexico" data-es="PIH México">PIH Mexico</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-4">
+<div class="entry-panel-inner">
+<p data-en="Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas." data-es="Compañeros en Salud · Partners In Health México. Capitán Luis A. Vidal, Chiapas.">Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+<p data-en="I served as a local liaison on a Harvard T.H. Chan School of Public Health study evaluating shared medical appointments in a rural setting, providing field translation, interview transcription, and contextual interpretation of the data." data-es="Colaboré como enlace local en un estudio liderado por la Escuela de Salud Pública T.H. Chan de Harvard sobre consultas médicas grupales en una comunidad rural, facilitando la traducción, transcripción de entrevistas y la interpretación cultural de los hallazgos.">I served as a local liaison on a Harvard T.H. Chan School of Public Health study evaluating shared medical appointments in a rural setting, providing field translation, interview transcription, and contextual interpretation of the data.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-5" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2019 – Mar 2020" data-es="mar 2019 – mar 2020">Mar 2019 – Mar 2020</span>
+<span class="entry-title" data-en="Research Assistant" data-es="Asistente de investigación">Research Assistant</span>
+<span class="entry-meta" data-en="UAEMéx" data-es="UAEMéx">UAEMéx</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-5">
+<div class="entry-panel-inner">
+<p data-en="UAEMéx. Toluca, Estado de México." data-es="UAEMéx. Toluca, Estado de México.">UAEMéx. Toluca, Estado de México.</p>
+<p data-en="I worked directly with mouse models, assisting neurochemistry graduate students by evaluating memory and behavior through maze paradigms." data-es="Trabajé directamente con modelos murinos en un proyecto de neuroquímica de posgrado, realizando evaluaciones conductuales mediante paradigmas de memoria en laberintos.">I worked directly with mouse models, assisting neurochemistry graduate students by evaluating memory and behavior through maze paradigms.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-6" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Jul 2017 – Aug 2018" data-es="jul 2017 – ago 2018">Jul 2017 – Aug 2018</span>
+<span class="entry-title" data-en="Physician" data-es="Médico">Physician</span>
+<span class="entry-meta" data-en="PIH Mexico" data-es="PIH México">PIH Mexico</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-6">
+<div class="entry-panel-inner">
+<p data-en="Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas." data-es="Compañeros en Salud · Partners In Health México. Capitán Luis A. Vidal, Chiapas.">Compañeros en Salud · Partners In Health Mexico. Capitán Luis A. Vidal, Chiapas.</p>
+<p data-en="I led the clinical and operational work of a rural clinic in the mountains of Chiapas. I delivered more than 3,100 consultations, ran community health campaigns, and supervised local staff while maintaining high-quality, evidence-based care under severe resource constraints." data-es="Tuve la responsabilidad clínica y operativa de un centro de salud rural en las montañas de Chiapas. Brindé más de 3,100 consultas, dirigí campañas comunitarias y supervisé al personal local, manteniendo altos estándares de atención basada en evidencia a pesar de una profunda limitación de recursos.">I led the clinical and operational work of a rural health facility in the mountains of Chiapas. I delivered more than 3,100 consultations, ran community health campaigns, and supervised local staff while maintaining high-quality, evidence-based care under severe resource constraints.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-7" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Oct 2015 – Jul 2017" data-es="oct 2015 – jul 2017">Oct 2015 – Jul 2017</span>
+<span class="entry-title" data-en="Independent Contractor" data-es="Contratista independiente">Independent Contractor</span>
+<span class="entry-meta" data-en="Figure 1" data-es="Figure 1">Figure 1</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-7">
+<div class="entry-panel-inner">
+<p data-en="Figure 1. Toronto, Canada." data-es="Figure 1. Toronto, Canadá.">Figure 1. Toronto, Canada.</p>
+<p data-en="I translated and localized clinical content and digital interfaces for Spanish-speaking users at an international digital health startup." data-es="Traduje y adapté contenido clínico e interfaces digitales para usuarios hispanohablantes en una startup internacional de salud digital.">I translated and localized clinical content and digital interfaces for Spanish-speaking users at an international digital health startup.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-experience-8" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Aug 2014 – Dec 2015" data-es="ago 2014 – dic 2015">Aug 2014 – Dec 2015</span>
+<span class="entry-title" data-en="Tissue Biology Laboratory Instructor" data-es="Instructor de laboratorio de Biología Tisular">Tissue Biology Laboratory Instructor</span>
+<span class="entry-meta" data-en="ITESM" data-es="ITESM">ITESM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-experience-8">
+<div class="entry-panel-inner">
+<p data-en="Tecnológico de Monterrey. Monterrey, Nuevo León." data-es="Tecnológico de Monterrey. Monterrey, Nuevo León.">Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+<p data-en="I designed innovative lab sessions and assessments for medical students, while facilitating the transition to hybrid and virtual learning." data-es="Diseñé prácticas de laboratorio y evaluaciones novedosas para estudiantes de medicina, además de facilitar la transición hacia la enseñanza híbrida y virtual.">I designed innovative lab sessions and assessments for medical students, while facilitating the transition to hybrid and virtual learning.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="education-title" class="section" id="education">
+<h2 data-en="Education" data-es="Formación académica" id="education-title">Education</h2>
+<div class="list" data-accordion="">
+<article class="entry" data-open="false">
+<button aria-controls="panel-education-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Mar 2020 – Feb 2024" data-es="mar 2020 – feb 2024">Mar 2020 – Feb 2024</span>
+<span class="entry-title" data-en="Specialist Training in Internal Medicine" data-es="Especialidad en Medicina Interna">Specialist Training in Internal Medicine</span>
+<span class="entry-meta" data-en="UNAM" data-es="UNAM">UNAM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-education-1">
+<div class="entry-panel-inner">
+<p data-en="Universidad Nacional Autónoma de México. Ciudad de México." data-es="Universidad Nacional Autónoma de México. Ciudad de México.">Universidad Nacional Autónoma de México. Ciudad de México.</p>
+<p data-en="Board-certified Internal Medicine specialist. My graduate thesis investigated the impact of the COVID-19 pandemic on germ cell tumor care at a tertiary referral center." data-es="Especialista certificado por el Consejo Mexicano de Medicina Interna. Mi tesis examinó el impacto de la pandemia de COVID-19 en la atención de pacientes con tumores de células germinales en un hospital de tercer nivel.">Board-certified Internal Medicine specialist. My graduate thesis investigated the impact of the COVID-19 pandemic on germ cell tumor care at a tertiary referral center.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-education-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date" data-en="Aug 2011 – Aug 2018" data-es="ago 2011 – ago 2018">Aug 2011 – Aug 2018</span>
+<span class="entry-title" data-en="Medical Degree" data-es="Médico cirujano">Medical Degree</span>
+<span class="entry-meta" data-en="ITESM" data-es="ITESM">ITESM</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-education-2">
+<div class="entry-panel-inner">
+<p data-en="Tecnológico de Monterrey. Monterrey, Nuevo León." data-es="Tecnológico de Monterrey. Monterrey, Nuevo León.">Tecnológico de Monterrey. Monterrey, Nuevo León.</p>
+<p data-en="I earned my medical degree on a merit-based scholarship, trained in high-volume hospitals across the country’s major cities, and completed an international medical rotation. I regularly volunteered in community health outreach." data-es="Estudié la carrera con una beca por mérito académico, desarrollé mi práctica clínica en hospitales de alto volumen en las principales ciudades del país y completé una estancia médica internacional. Participé regularmente en brigadas de salud comunitaria.">I earned my medical degree on a merit-based scholarship, trained in high-volume hospitals across the country’s major cities, and completed an international medical rotation. I regularly volunteered in community health outreach.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="publications-title" class="section" id="publications">
+<h2 id="publications-title"><button aria-controls="publicationsList" aria-expanded="false" class="section-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Selected Publications" data-es="Publicaciones seleccionadas" id="publicationsToggle" type="button">Selected Publications</button></h2>
+<div aria-hidden="true" class="list publications-list" data-accordion="" hidden="" id="publicationsList">
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-1" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2026</span>
+<span class="entry-title">Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey.</span>
+<span class="entry-meta" data-en="Abstract" data-es="Resumen">Abstract</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-1">
+<div class="entry-panel-inner">
+<p>Guadarrama-Conzuelo F, Barragán Ortega J, Leon-Rodriguez E, Demichelis R, Chavarri Guerra Y. Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey. <em>J Clin Oncol</em>. 2026;44(16_suppl):1599. <a data-cuelume-hover="tick" href="https://doi.org/10.1200/JCO.2026.44.16_suppl.1599" rel="noopener" target="_blank">doi:10.1200/JCO.2026.44.16_suppl.1599</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-2" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2025</span>
+<span class="entry-title">Breast cancer and health inequalities: Another never ending story?</span>
+<span class="entry-meta" data-en="Editorial" data-es="Editorial">Editorial</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-2">
+<div class="entry-panel-inner">
+<p>Guadarrama F, Ulloa-Aguirre A, Chavarri-Guerra Y. Breast cancer and health inequalities: Another never ending story? <em>Rev Invest Clin</em>. 2025;77(4):100014. <a data-cuelume-hover="tick" href="https://doi.org/10.1016/j.ric.2025.100014" rel="noopener" target="_blank">doi:10.1016/j.ric.2025.100014</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-3" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2020</span>
+<span class="entry-title">Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years.</span>
+<span class="entry-meta" data-en="Article" data-es="Artículo">Article</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-3">
+<div class="entry-panel-inner">
+<p>Gutiérrez Castillo A, Gutiérrez Castillo J, Guadarrama F. Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years. <em>Journal of Medical Ethics and History of Medicine</em>. 2020. <a data-cuelume-hover="tick" href="https://doi.org/10.18502/jmehm.v13i22.4864" rel="noopener" target="_blank">doi:10.18502/jmehm.v13i22.4864</a>.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-4" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2019</span>
+<span class="entry-title">Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas.</span>
+<span class="entry-meta" data-en="Policy" data-es="Política pública">Policy</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-4">
+<div class="entry-panel-inner">
+<p>Rodríguez Cuevas FG, Guadarrama F. Integración de servicios de salud mental al nivel primario de atención: una propuesta basada en un modelo escalonado implementado en áreas rurales de Chiapas. <em>Hablemos de Salud</em>. FUNSALUD. México, 2019.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-5" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2021</span>
+<span class="entry-title">Hipertensión durante la hospitalización.</span>
+<span class="entry-meta" data-en="Book Chapter" data-es="Capítulo">Book Chapter</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-5">
+<div class="entry-panel-inner">
+<p>Martínez Navarro LJ, Guadarrama F, Ortiz-Ledesma CI. Hipertensión durante la hospitalización. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+</div>
+</div>
+</article>
+<article class="entry" data-open="false">
+<button aria-controls="panel-publication-6" aria-expanded="false" class="entry-button" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" type="button">
+<span class="entry-date">2021</span>
+<span class="entry-title">Debilidad en el paciente hospitalizado.</span>
+<span class="entry-meta" data-en="Book Chapter" data-es="Capítulo">Book Chapter</span>
+</button>
+<div class="entry-panel" hidden="" id="panel-publication-6">
+<div class="entry-panel-inner">
+<p>Bermúdez Maldonado L, Guadarrama F. Debilidad en el paciente hospitalizado. <em>Manual de Medicina Interna Hospitalaria</em>. Zarpra Ediciones. 2021. ISBN: 9786078795086.</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section aria-labelledby="contact-title" class="section" id="contact">
+<h2 id="contact-title"><button aria-controls="panel-contact-1" aria-expanded="false" class="section-toggle" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Contact" data-es="Contacto" id="contactToggle" type="button">Contact</button></h2>
+<div class="entry-panel" hidden="" id="panel-contact-1">
+<div class="entry-panel-inner">
+<p class="contact-links"><a data-cuelume-hover="tick" href="https://linkedin.com/in/FranciscoGuadarrama" rel="noopener" target="_blank">LinkedIn</a><a aria-controls="cv-morph" aria-expanded="false" aria-haspopup="dialog" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Download CV" data-es="Descargar currículum" href="#" id="cvDownloadLink">Download CV</a></p>
+<div class="contact-wrapper">
+<a aria-expanded="false" aria-haspopup="dialog" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" data-en="Send me a message" data-es="Envíame un mensaje" href="#" id="trigger-btn" role="button">Send me a message</a>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<span data-en="© 2026 Francisco Guadarrama. All rights reserved." data-es="© 2026 Francisco Guadarrama. Todos los derechos reservados.">© 2026 Francisco Guadarrama. All rights reserved.</span>
+<a data-cuelume-hover="tick" data-en="Back to top" data-es="Volver arriba" href="#top">Back to top</a>
+</footer>
+</main>
+
+<div aria-hidden="true" id="backdrop"></div>
+<div aria-hidden="true" aria-label="Contact form" aria-modal="true" id="morph" role="dialog">
+  <div id="morph-content">
+    <div aria-live="polite" id="success-view" role="status">
+      <div class="success-check">
+        <svg aria-hidden="true" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <div>
+        <p class="success-title" data-en="Message sent" data-es="Mensaje enviado">Message sent</p>
+        <p class="success-sub" data-en="Thank you, I'll reply soon." data-es="Gracias, te responderé pronto.">Thank you, I'll reply soon.</p>
+      </div>
+    </div>
+
+    <div class="pop-inner">
+      <span class="pop-label" data-en="Please write your message" data-es="Por favor escribe tu mensaje" id="pop-label">Please write your message</span>
+      <textarea aria-label="Message" id="field-msg" maxlength="500"></textarea>
+
+      <div class="extra-fields" id="extra-fields" style="display:none;">
+        <input aria-label="Name" autocomplete="name" id="field-name" maxlength="60" placeholder="Name" type="text"/>
+        <input aria-label="Email address" autocomplete="email" id="field-email" inputmode="email" maxlength="80" placeholder="Email address" type="email"/>
+      </div>
+
+      <div aria-live="polite" data-en="Please enter a valid e-mail address." data-es="Por favor ingresa una dirección de correo electrónico válida." id="email-hint">Please enter a valid e-mail address.</div>
+
+      <div class="robot-row" id="robot-row" style="display:none;">
+        <label class="cb-label locked" for="not-robot" id="robot-label">
+          <span class="cb-wrap disabled" id="cb-wrap">
+            <input disabled id="not-robot" type="checkbox"/>
+            <svg aria-hidden="true" class="cb-bg" viewBox="0 0 28 28">
+              <path d="M3.5 8.49964C3.5 5.73822 5.73822 3.5 8.49964 3.5C10.3275 3.5 12.3499 3.5 14 3.5C15.6501 3.5 17.6725 3.5 19.5004 3.5C22.2618 3.5 24.5 5.73822 24.5 8.49964C24.5 10.3275 24.5 12.3499 24.5 14C24.5 15.6501 24.5 17.6725 24.5 19.5004C24.5 22.2618 22.2618 24.5 19.5004 24.5C17.6725 24.5 15.6501 24.5 14 24.5C12.3499 24.5 10.3275 24.5 8.49964 24.5C5.73822 24.5 3.5 22.2618 3.5 19.5004C3.5 17.6725 3.5 15.6501 3.5 14C3.5 12.3499 3.5 10.3275 3.5 8.49964Z"></path>
+            </svg>
+            <svg aria-hidden="true" class="cb-tick" viewBox="0 0 12 10">
+              <path d="M1.5 5.5L4.5 8.5L10.5 1.5"></path>
+            </svg>
+          </span>
+          <span data-en="I'm not a robot" data-es="No soy un robot">I'm not a robot</span>
+        </label>
+      </div>
+
+      <div aria-live="assertive" id="error-msg" role="alert"></div>
+      <div class="ear ear-left"></div>
+      <div class="ear-mask ear-mask-left"></div>
+      <div class="ear ear-right"></div>
+      <div class="ear-mask ear-mask-right"></div>
+      <div class="pop-divider"></div>
+
+      <div class="pop-footer">
+        <button data-cuelume-press="" data-cuelume-release="" disabled id="submit-btn" type="button">
+          <span class="btn-label" data-en="Send message" data-es="Enviar mensaje" id="btn-label">Send message</span>
+          <span aria-hidden="true" class="spinner" id="spinner">
+            <svg fill="none" height="14" viewBox="0 0 14 14" width="14">
+              <circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M7 1.5A5.5 5.5 0 0 1 12.5 7" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div aria-hidden="true" id="cv-backdrop"></div>
+<div aria-hidden="true" aria-label="Password" aria-modal="true" id="cv-morph" role="dialog">
+  <div id="cv-morph-content">
+    <div class="pop-inner">
+      <div class="cv-input-area">
+        <div class="cv-input-shell" id="cv-input-shell">
+          <input aria-label="Password" autocomplete="off" id="cv-password" inputmode="text" spellcheck="false" type="password"/>
+          <span id="cv-password-eye-root">
+            <button aria-label="Show password" aria-pressed="false" data-state="hidden" id="cv-password-visibility" type="button">
+              <svg aria-hidden="true" class="cv-eye" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24">
+                <defs>
+                  <clipPath id="cv-password-eye-fallback-clip">
+                    <path d="M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12 C23 12 19 20 12 20 C5 20 1 12 1 12Z"></path>
+                  </clipPath>
+                </defs>
+                <path d="M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12"></path>
+                <path d="M1 12 C1 12 5 20 12 20 C19 20 23 12 23 12"></path>
+                <g clip-path="url(#cv-password-eye-fallback-clip)">
+                  <circle cx="12" cy="12" fill="currentColor" r="3" stroke="none"></circle>
+                </g>
+              </svg>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="ear ear-left"></div>
+      <div class="ear-mask ear-mask-left"></div>
+      <div class="ear ear-right"></div>
+      <div class="ear-mask ear-mask-right"></div>
+      <div class="pop-divider"></div>
+      <div class="pop-footer">
+        <button aria-label="Continue" disabled id="cv-password-submit" type="button">
+          <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<aside aria-hidden="true" aria-label="Portrait of Francisco Guadarrama" class="photo-toast t-toast" id="portraitToast" role="status">
+  <img draggable="false" alt="Francisco Guadarrama" class="photo-toast-image" decoding="async" loading="eager" src="https://fguadarrama.com/assets/dittherpp.webp"/>
+  <button aria-label="Close portrait" class="photo-toast-close" data-cuelume-hover="tick" data-cuelume-press="" data-cuelume-release="" id="portraitClose" type="button">
+    <svg draggable="false" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" viewBox="0 0 24 24">
+      <path d="M5 5 19 19M19 5 5 19" stroke-width="2.4"/>
+    </svg>
+  </button>
+</aside>
+<div aria-hidden="true" class="print-only-notice">
+  <p class="print-message-en">Please contact the site owner to request a printable version.</p>
+  <p class="print-message-es">Contacte al propietario del sitio para solicitar una versión imprimible.</p>
+</div>
+<script id="web-haptics-component" type="module">
+import { WebHaptics } from 'https://esm.sh/web-haptics@0.0.6';
+
+const haptics = new WebHaptics({ debug: false, showSwitch: false });
+const patterns = Object.freeze({
+  tap: [{ duration: 8, intensity: 0.14 }],
+  selection: [{ duration: 6, intensity: 0.12 }],
+  open: [{ duration: 11, intensity: 0.16 }],
+  close: [{ duration: 7, intensity: 0.11 }],
+  success: [
+    { duration: 9, intensity: 0.18 },
+    { delay: 34, duration: 11, intensity: 0.13 }
+  ],
+  error: [
+    { duration: 11, intensity: 0.20 },
+    { delay: 27, duration: 10, intensity: 0.15 }
+  ]
+});
+
+window._franciscoHaptic = (name = 'tap') => {
+  const pattern = patterns[name] || patterns.tap;
+  try {
+    const result = haptics.trigger(pattern);
+    result?.catch?.(() => {});
+  } catch (_) {
+    // Haptics are progressive enhancement; the interface remains fully functional without them.
+  }
+};
+
+</script>
+<script>
+    (() => {
+      const root = document.documentElement;
+      const body = document.body;
+      body.classList.add('js-loading');
+
+      const favicon = document.getElementById('site-favicon');
+      const faviconPaths = [
+        "M3.5 9.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M8.5 4.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M8.5 14.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M3.5 19.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M13.5 9.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M18.5 4.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M13.5 19.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+        "M18.5 14.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"
+      ];
+      const faviconLightAccent = '#6c91a8';
+      const faviconDarkAccent = '#99badc';
+
+      const shuffle = (items) => {
+        const copy = [...items];
+        for (let index = copy.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+        }
+        return copy;
+      };
+
+      const buildRandomFavicon = () => {
+        if (!favicon) return;
+        const storageName = 'francisco-favicon-light-count';
+        const previousCount = Number(sessionStorage.getItem(storageName));
+        const availableCounts = [1, 2, 3, 4, 5, 6, 7].filter((count) => count !== previousCount);
+        const lightCount = availableCounts[Math.floor(Math.random() * availableCounts.length)];
+        sessionStorage.setItem(storageName, String(lightCount));
+
+        const colors = shuffle([
+          ...Array(lightCount).fill(faviconLightAccent),
+          ...Array(8 - lightCount).fill(faviconDarkAccent)
+        ]);
+
+        const pathMarkup = faviconPaths
+          .map((d, index) => `<path d="${d}" stroke="${colors[index]}"/>`)
+          .join('');
+        const svg = `<svg draggable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>${pathMarkup}</svg>`;
+        favicon.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+      };
+
+      buildRandomFavicon();
+      const entries = Array.from(document.querySelectorAll('.entry'));
+      const themeToggle = document.getElementById('themeToggle');
+      const languageToggle = document.getElementById('languageToggle');
+      const emailLink = document.getElementById('emailLink');
+      const publicationsToggle = document.getElementById('publicationsToggle');
+      const publicationsList = document.getElementById('publicationsList');
+      const publicationsAnchor = document.getElementById('publicationsAnchor');
+      const contactToggle = document.getElementById('contactToggle');
+      const contactPanel = document.getElementById('panel-contact-1');
+      const portraitTrigger = document.getElementById('site-title');
+      const portraitToast = document.getElementById('portraitToast');
+      const portraitClose = document.getElementById('portraitClose');
+      const portraitImage = portraitToast?.querySelector('.photo-toast-image');
+      const nameCueArrow = portraitTrigger?.querySelector('.name-cue-arrow');
+      const nameCuePath = nameCueArrow?.querySelector('.name-cue-path');
+      let portraitTimer = null;
+
+      /*
+       * The cue is calibrated against the rendered lowercase “o” in the name.
+       * Ratios measured from the supplied 158 × 142 px reference:
+       * o: 31 × 35 px; cue: 13 × 23 px; clear gap: 31 px.
+       * Effective contour widths: o 5.04118 px; cue 3.44662 px.
+       */
+      const calibrateNameCue = () => {
+        if (!portraitTrigger || !nameCueArrow || !nameCuePath) return;
+
+        const styles = getComputedStyle(portraitTrigger);
+        const fontSize = Number.parseFloat(styles.fontSize);
+        if (!Number.isFinite(fontSize) || fontSize <= 0) return;
+
+        const scale = 16;
+        const padding = Math.ceil(fontSize * scale * 1.5);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(256, padding * 3);
+        canvas.height = Math.max(256, padding * 3);
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (!context) return;
+
+        const scaledSize = fontSize * scale;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = '#000';
+        context.textBaseline = 'alphabetic';
+        context.font = `${styles.fontStyle} ${styles.fontWeight} ${scaledSize}px ${styles.fontFamily}`;
+        const computedLetterSpacing = Number.parseFloat(styles.letterSpacing);
+        if ('letterSpacing' in context && Number.isFinite(computedLetterSpacing)) {
+          context.letterSpacing = `${computedLetterSpacing * scale}px`;
+        }
+        const oMetrics = context.measureText('o');
+        const nameMetrics = context.measureText('Francisco Guadarrama');
+        const baseline = padding + scaledSize;
+        context.fillText('o', padding, baseline);
+
+        const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+        const alpha = pixels.data;
+        let minX = canvas.width;
+        let maxX = -1;
+        let minY = canvas.height;
+        let maxY = -1;
+
+        for (let y = 0; y < canvas.height; y += 1) {
+          for (let x = 0; x < canvas.width; x += 1) {
+            const value = alpha[(y * canvas.width + x) * 4 + 3];
+            if (value <= 2) continue;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+
+        if (maxX < minX || maxY < minY) return;
+
+        const oWidth = (maxX - minX + 1) / scale;
+        const oHeight = (maxY - minY + 1) / scale;
+        const midpointX = (minX + maxX) / 2;
+        const centerY = (minY + maxY) / 2;
+        const sampleRadius = Math.max(1, Math.round((maxY - minY + 1) * 0.08));
+        const strokeSamples = [];
+
+        for (
+          let y = Math.max(minY, Math.round(centerY) - sampleRadius);
+          y <= Math.min(maxY, Math.round(centerY) + sampleRadius);
+          y += 1
+        ) {
+          let leftCoverage = 0;
+          let rightCoverage = 0;
+          for (let x = minX; x <= maxX; x += 1) {
+            const coverage = alpha[(y * canvas.width + x) * 4 + 3] / 255;
+            if (x <= midpointX) leftCoverage += coverage;
+            else rightCoverage += coverage;
+          }
+          strokeSamples.push(leftCoverage / scale, rightCoverage / scale);
+        }
+
+        const oContour = strokeSamples.reduce((sum, value) => sum + value, 0) / strokeSamples.length;
+        if (![oWidth, oHeight, oContour].every(Number.isFinite)) return;
+
+        const cueWidth = oWidth * (13 / 31);
+        const cueHeight = oHeight * (23 / 35);
+        const trailingSideBearing = Math.max(
+          0,
+          (nameMetrics.width - nameMetrics.actualBoundingBoxRight) / scale
+        );
+        const cueGap = Math.max(0, oWidth - trailingSideBearing);
+        const cueStroke = oContour * 0.68369282581916;
+        const cuePulse = oWidth * 0.08;
+
+        const lineHeight = Number.parseFloat(styles.lineHeight) * scale;
+        const fontAscent = oMetrics.fontBoundingBoxAscent ?? oMetrics.actualBoundingBoxAscent;
+        const fontDescent = oMetrics.fontBoundingBoxDescent ?? oMetrics.actualBoundingBoxDescent;
+        const fontBoxHeight = fontAscent + fontDescent;
+        const oTopInLine = Number.isFinite(lineHeight) && Number.isFinite(fontBoxHeight)
+          ? ((lineHeight - fontBoxHeight) / 2 + fontAscent - oMetrics.actualBoundingBoxAscent) / scale
+          : Math.max(0, (Number.parseFloat(styles.lineHeight) - cueHeight) / 2);
+        const halfStroke = cueStroke / 2;
+
+        portraitTrigger.style.setProperty('--name-cue-width', `${cueWidth}px`);
+        portraitTrigger.style.setProperty('--name-cue-height', `${cueHeight}px`);
+        portraitTrigger.style.setProperty('--name-cue-gap', `${cueGap}px`);
+        portraitTrigger.style.setProperty('--name-cue-stroke', `${cueStroke}px`);
+        portraitTrigger.style.setProperty('--name-cue-pulse', `${cuePulse}px`);
+        portraitTrigger.style.setProperty('--name-cue-offset-y', `${Math.max(0, oTopInLine)}px`);
+
+        nameCueArrow.setAttribute('viewBox', `0 0 ${cueWidth} ${cueHeight}`);
+        nameCuePath.setAttribute(
+          'd',
+          `M ${halfStroke} ${halfStroke} L ${cueWidth - halfStroke} ${cueHeight / 2} L ${halfStroke} ${cueHeight - halfStroke}`
+        );
+      };
+
+      const scheduleNameCueCalibration = () => {
+        requestAnimationFrame(() => requestAnimationFrame(calibrateNameCue));
+      };
+
+      if (document.fonts?.ready) {
+        document.fonts.ready.then(scheduleNameCueCalibration).catch(scheduleNameCueCalibration);
+      } else {
+        scheduleNameCueCalibration();
+      }
+
+      window.addEventListener('resize', scheduleNameCueCalibration, { passive: true });
+
+      const placePortraitToast = () => {
+        if (!portraitToast) return;
+        portraitToast.style.removeProperty('--portrait-toast-left');
+        portraitToast.style.removeProperty('--portrait-toast-top');
+      };
+      const storageKey = 'francisco-landing-theme';
+      const languageStorageKey = 'francisco-landing-language';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+      const mobileThemeTransition = window.matchMedia('(max-width: 740px), (hover: none) and (pointer: coarse)');
+
+      const Cuelume = (() => {
+        let context;
+        let master;
+        let primed = false;
+
+        const ensure = () => {
+          if (!context) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return null;
+            context = new AudioContext();
+            master = context.createGain();
+            master.gain.value = 0.055;
+            master.connect(context.destination);
+          }
+          if (context.state === 'suspended') context.resume().catch(() => {});
+          primed = true;
+          return context;
+        };
+
+        const tone = (frequency, duration, start, options = {}) => {
+          const ctx = ensure();
+          if (!ctx || !master) return;
+          const oscillator = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const t = ctx.currentTime + (start || 0);
+          const curve = options.curve || 'sine';
+          oscillator.type = options.type || 'sine';
+          oscillator.frequency.setValueAtTime(frequency, t);
+          if (options.to) oscillator.frequency.exponentialRampToValueAtTime(options.to, t + duration);
+          gain.gain.setValueAtTime(0.0001, t);
+          gain.gain.exponentialRampToValueAtTime(options.gain || 0.8, t + Math.min(0.018, duration * 0.28));
+          if (curve === 'soft') {
+            gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+          } else {
+            gain.gain.setTargetAtTime(0.0001, t + duration * 0.45, duration * 0.18);
+          }
+          oscillator.connect(gain);
+          gain.connect(master);
+          oscillator.start(t);
+          oscillator.stop(t + duration + 0.035);
+        };
+
+        const play = (cue = 'tick') => {
+          if (document.hidden) return;
+          if (!primed && cue === 'tick') return;
+          switch (cue) {
+            case 'press':
+              tone(196, 0.055, 0, { type: 'triangle', gain: 0.52, to: 168 });
+              break;
+            case 'release':
+              tone(300, 0.06, 0, { type: 'sine', gain: 0.45, to: 365 });
+              break;
+            case 'toggle':
+              tone(260, 0.075, 0, { type: 'sine', gain: 0.46, to: 390, curve: 'soft' });
+              tone(520, 0.09, 0.035, { type: 'sine', gain: 0.34, to: 650, curve: 'soft' });
+              break;
+            case 'success':
+              tone(440, 0.07, 0, { type: 'sine', gain: 0.42, curve: 'soft' });
+              tone(660, 0.1, 0.055, { type: 'sine', gain: 0.34, curve: 'soft' });
+              break;
+            case 'chime':
+              tone(392, 0.09, 0, { type: 'sine', gain: 0.34, curve: 'soft' });
+              tone(784, 0.12, 0.045, { type: 'sine', gain: 0.25, curve: 'soft' });
+              break;
+            case 'tick':
+            default:
+              tone(620, 0.032, 0, { type: 'sine', gain: 0.22, to: 740 });
+              break;
+          }
+        };
+
+        const bind = () => {
+          document.addEventListener('pointerdown', ensure, { once: true, passive: true });
+          document.querySelectorAll('[data-cuelume-hover]').forEach((node) => {
+            node.addEventListener('pointerenter', () => {
+              if (finePointer.matches) play(node.dataset.cuelumeHover || 'tick');
+            });
+          });
+          document.querySelectorAll('[data-cuelume-press]').forEach((node) => {
+            node.addEventListener('pointerdown', () => play('press'), { passive: true });
+          });
+          document.querySelectorAll('[data-cuelume-release]').forEach((node) => {
+            node.addEventListener('pointerup', () => play('release'), { passive: true });
+          });
+        };
+
+        return { bind, play };
+      })();
+
+      let languageSlot = null;
+      let languageSlotReady = false;
+      const slotTextOptions = {
+        direction: 'up',
+        stagger: 30,
+        duration: 260,
+        exitOffset: 38,
+        bounce: 0.48,
+        interrupt: true
+      };
+
+      const getLanguageLabelElement = () => {
+        if (!languageToggle) return null;
+        let label = languageToggle.querySelector('.language-label');
+        if (!label) {
+          label = document.createElement('span');
+          label.className = 'language-label';
+          label.textContent = languageToggle.textContent.trim() || 'En';
+          languageToggle.textContent = '';
+          languageToggle.appendChild(label);
+        }
+        return label;
+      };
+
+      const initLanguageSlotText = async () => {
+        const label = getLanguageLabelElement();
+        if (!label) return;
+        try {
+          const module = await import('https://cdn.jsdelivr.net/npm/slot-text@0.3.3/+esm');
+          if (!module || typeof module.slotText !== 'function') return;
+          label.classList.remove('is-exiting', 'is-entering');
+          languageSlot = module.slotText(label, label.textContent.trim() || 'En', slotTextOptions);
+          languageSlotReady = true;
+        } catch (_) {
+          languageSlot = null;
+          languageSlotReady = false;
+        }
+      };
+
+      const setLanguageToggleLabel = (labelText, lang, animateToggle = false) => {
+        const label = getLanguageLabelElement();
+        if (!label) return;
+
+        if (languageSlotReady && languageSlot && !reduceMotion.matches) {
+          const direction = lang === 'es' ? 'up' : 'down';
+          languageSlot.set(labelText, { ...slotTextOptions, direction });
+          return;
+        }
+
+        const setFallbackLabelText = () => {
+          label.textContent = labelText;
+          label.classList.add('is-entering');
+          requestAnimationFrame(() => label.classList.remove('is-entering'));
+        };
+
+        if (animateToggle && !reduceMotion.matches && label.textContent !== labelText) {
+          label.classList.remove('is-entering');
+          label.classList.add('is-exiting');
+          window.setTimeout(() => {
+            label.classList.remove('is-exiting');
+            setFallbackLabelText();
+          }, 90);
+        } else {
+          label.classList.remove('is-exiting', 'is-entering');
+          label.textContent = labelText;
+        }
+      };
+
+
+
+      const prepareTextReveal = () => {
+        document.querySelectorAll('.entry-panel-inner').forEach((inner) => {
+          inner.classList.add('t-stagger');
+          Array.from(inner.children).forEach((child, index) => {
+            child.classList.add('t-stagger-line');
+            child.style.setProperty('--line-index', String(index));
+          });
+        });
+      };
+
+      const setLanguage = (language, persist = true, animateToggle = false) => {
+        const lang = language === 'es' ? 'es' : 'en';
+        const labelText = lang === 'es' ? 'Es' : 'En';
+        root.lang = lang;
+        root.dataset.language = lang;
+        document.querySelectorAll('[data-en][data-es]').forEach((node) => {
+          node.textContent = lang === 'es' ? node.dataset.es : node.dataset.en;
+        });
+        if (languageToggle) {
+          setLanguageToggleLabel(labelText, lang, animateToggle);
+          languageToggle.setAttribute('aria-pressed', String(lang === 'es'));
+          languageToggle.setAttribute('aria-label', lang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
+        }
+        if (publicationsToggle) {
+          const expanded = publicationsToggle.getAttribute('aria-expanded') === 'true';
+          publicationsToggle.setAttribute('aria-label', lang === 'es'
+            ? (expanded ? 'Ocultar publicaciones seleccionadas' : 'Mostrar publicaciones seleccionadas')
+            : (expanded ? 'Hide selected publications' : 'Show selected publications'));
+        }
+        if (contactToggle) {
+          const expanded = contactToggle.getAttribute('aria-expanded') === 'true';
+          contactToggle.setAttribute('aria-label', lang === 'es'
+            ? (expanded ? 'Ocultar información de contacto' : 'Mostrar información de contacto')
+            : (expanded ? 'Hide contact information' : 'Show contact information'));
+        }
+        const pageDescription = lang === 'es'
+          ? 'Francisco Guadarrama, MD — atención oncológica equitativa, sistemas de salud más sólidos y decisiones clínicas de alto valor.'
+          : 'Francisco Guadarrama, MD — advancing equitable cancer care through stronger health systems and high-value clinical decisions.';
+        const socialDescription = lang === 'es'
+          ? 'Atención oncológica equitativa, sistemas de salud más sólidos y decisiones de alto valor bajo restricciones reales.'
+          : 'Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints.';
+        document.title = 'Francisco Guadarrama';
+        document.querySelector('meta[name="description"]')?.setAttribute('content', pageDescription);
+        document.querySelector('meta[property="og:description"]')?.setAttribute('content', socialDescription);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', socialDescription);
+        window._contactLangSync?.(lang);
+        if (persist) localStorage.setItem(languageStorageKey, lang);
+      };
+
+      const setTheme = (theme, persist = true) => {
+        const normalizedTheme = theme === 'dark' ? 'dark' : 'light';
+        const isDark = normalizedTheme === 'dark';
+
+        root.dataset.theme = normalizedTheme;
+
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', String(isDark));
+          themeToggle.setAttribute(
+            'aria-label',
+            isDark ? 'Switch to light theme' : 'Switch to dark theme'
+          );
+        }
+
+        document.querySelector('meta[name="theme-color"]')?.setAttribute(
+          'content',
+          isDark ? '#2d2930' : '#fdfdfc'
+        );
+
+        if (persist) localStorage.setItem(storageKey, normalizedTheme);
+      };
+
+      prepareTextReveal();
+
+      const storedTheme = localStorage.getItem(storageKey);
+      setTheme(storedTheme === 'dark' ? 'dark' : 'light', false);
+
+      const getBrowserLanguage = () => {
+        const languages = Array.isArray(navigator.languages) && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || navigator.userLanguage || 'en'];
+        return languages.some((language) => String(language).toLowerCase().startsWith('es')) ? 'es' : 'en';
+      };
+
+      const storedLanguage = localStorage.getItem(languageStorageKey);
+      const initialLanguage = storedLanguage === 'es' || storedLanguage === 'en'
+        ? storedLanguage
+        : getBrowserLanguage();
+      setLanguage(initialLanguage, storedLanguage !== 'es' && storedLanguage !== 'en');
+      initLanguageSlotText();
+
+      const runThemeTransition = (event, nextTheme) => {
+        // Android/Chrome mobile renders View Transitions with clip-path inconsistently here.
+        // On touch/mobile, use the faster native color transition and update the icon state immediately.
+        if (mobileThemeTransition.matches || reduceMotion.matches || !document.startViewTransition) {
+          setTheme(nextTheme);
+          return;
+        }
+
+        const x = event.clientX || window.innerWidth - 48;
+        const y = event.clientY || 48;
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+
+        const transition = document.startViewTransition(() => setTheme(nextTheme));
+        transition.ready.then(() => {
+          root.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`
+              ]
+            },
+            {
+              duration: 420,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        }).catch(() => setTheme(nextTheme));
+      };
+
+      const closePublicationEntries = () => {
+        if (!publicationsList) return;
+        publicationsList.querySelectorAll('.entry').forEach((entry) => {
+          const button = entry.querySelector('.entry-button');
+          const panel = entry.querySelector('.entry-panel');
+          const reveal = panel?.querySelector('.t-stagger');
+          entry.dataset.open = 'false';
+          button?.setAttribute('aria-expanded', 'false');
+          reveal?.classList.remove('is-shown');
+          reveal?.classList.add('is-hiding');
+          if (panel) {
+            panel.style.height = '0px';
+            panel.hidden = true;
+          }
+        });
+      };
+
+      const finishPublicationsCollapse = () => {
+        if (!publicationsList || publicationsList.classList.contains('is-visible')) return;
+        publicationsList.hidden = true;
+        publicationsList.setAttribute('aria-hidden', 'true');
+        publicationsList.style.height = '0px';
+      };
+
+      const setPublicationsVisible = (visible, playSound = true) => {
+        if (!publicationsList || !publicationsToggle) return;
+
+        if (!visible) {
+          const currentHeight = publicationsList.scrollHeight;
+          publicationsList.style.height = `${currentHeight}px`;
+          publicationsList.classList.remove('is-visible');
+          publicationsList.setAttribute('aria-hidden', 'true');
+          publicationsToggle.setAttribute('aria-expanded', 'false');
+          setLanguage(root.lang || 'en', false);
+          if (playSound) {
+            Cuelume.play('release');
+            window._franciscoHaptic?.('close');
+          }
+          requestAnimationFrame(() => {
+            closePublicationEntries();
+            publicationsList.style.height = '0px';
+            window.setTimeout(finishPublicationsCollapse, 280);
+          });
+          return;
+        }
+
+        publicationsList.hidden = false;
+        publicationsList.setAttribute('aria-hidden', 'false');
+        publicationsList.classList.remove('is-visible');
+        publicationsList.style.height = '0px';
+        publicationsToggle.setAttribute('aria-expanded', 'true');
+        setLanguage(root.lang || 'en', false);
+        requestAnimationFrame(() => {
+          publicationsList.classList.add('is-visible');
+          publicationsList.querySelectorAll('.entry').forEach((entry) => openEntry(entry, { closeOthers: false, silent: true }));
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              publicationsList.style.height = `${publicationsList.scrollHeight}px`;
+              if (playSound) {
+                Cuelume.play('chime');
+                window._franciscoHaptic?.('open');
+              }
+            });
+          });
+        });
+      };
+
+      const togglePublications = () => {
+        setPublicationsVisible(publicationsList?.hidden === true);
+      };
+
+      publicationsToggle?.addEventListener('click', togglePublications);
+      publicationsAnchor?.addEventListener('click', () => {
+        setPublicationsVisible(true);
+      });
+
+      publicationsList?.addEventListener('transitionend', (event) => {
+        if (event.propertyName !== 'height') return;
+        if (publicationsList.classList.contains('is-visible')) {
+          publicationsList.style.height = 'auto';
+        } else {
+          finishPublicationsCollapse();
+        }
+      });
+
+      const setContactVisible = (visible) => {
+        if (!contactToggle || !contactPanel) return;
+        const reveal = contactPanel.querySelector('.t-stagger');
+        contactToggle.setAttribute('aria-expanded', String(visible));
+        setLanguage(root.lang || 'en', false);
+
+        if (visible) {
+          reveal?.classList.remove('is-hiding', 'is-shown');
+          contactPanel.hidden = false;
+          contactPanel.style.height = '0px';
+          Cuelume.play('chime');
+          window._franciscoHaptic?.('open');
+          requestAnimationFrame(() => {
+            contactPanel.style.height = `${contactPanel.scrollHeight}px`;
+            requestAnimationFrame(() => reveal?.classList.add('is-shown'));
+          });
+        } else {
+          reveal?.classList.remove('is-shown');
+          reveal?.classList.add('is-hiding');
+          contactPanel.style.height = `${contactPanel.scrollHeight}px`;
+          Cuelume.play('release');
+          window._franciscoHaptic?.('close');
+          requestAnimationFrame(() => { contactPanel.style.height = '0px'; });
+        }
+      };
+
+      contactToggle?.addEventListener('click', () => {
+        setContactVisible(contactToggle.getAttribute('aria-expanded') !== 'true');
+      });
+
+      contactPanel?.addEventListener('transitionend', (event) => {
+        if (event.propertyName !== 'height') return;
+        if (contactToggle?.getAttribute('aria-expanded') === 'true') {
+          contactPanel.style.height = 'auto';
+        } else {
+          contactPanel.hidden = true;
+          contactPanel.querySelector('.t-stagger')?.classList.remove('is-hiding');
+        }
+      });
+
+
+
+      const closePortrait = ({ restoreFocus = false, haptic = true } = {}) => {
+        if (!portraitToast || !portraitToast.classList.contains('is-open')) return;
+        window.clearTimeout(portraitTimer);
+        portraitToast.classList.remove('is-open');
+        if (haptic) window._franciscoHaptic?.('close');
+        portraitToast.setAttribute('aria-hidden', 'true');
+        portraitTrigger?.setAttribute('aria-expanded', 'false');
+        if (restoreFocus) {
+          window.setTimeout(() => portraitTrigger?.focus({ preventScroll: true }), reduceMotion.matches ? 0 : 250);
+        }
+      };
+
+      const openPortrait = () => {
+        if (!portraitToast) return;
+        window.clearTimeout(portraitTimer);
+        placePortraitToast();
+        portraitToast.setAttribute('aria-hidden', 'false');
+        portraitTrigger?.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(() => {
+          portraitToast.classList.add('is-open');
+          window._franciscoHaptic?.('open');
+        });
+        portraitTimer = window.setTimeout(() => closePortrait({ haptic: false }), 10000);
+      };
+
+      portraitTrigger?.addEventListener('click', () => {
+        if (portraitToast?.classList.contains('is-open')) closePortrait();
+        else openPortrait();
+      });
+
+      portraitClose?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closePortrait({ restoreFocus: true });
+      });
+
+      portraitImage?.addEventListener('click', () => closePortrait());
+
+      window.addEventListener('resize', () => {
+        if (portraitToast?.classList.contains('is-open')) placePortraitToast();
+      }, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (portraitToast?.classList.contains('is-open')) placePortraitToast();
+      }, { passive: true });
+
+      languageToggle?.addEventListener('click', () => {
+        const nextLanguage = root.lang === 'es' ? 'en' : 'es';
+        Cuelume.play('toggle');
+        window._franciscoHaptic?.('selection');
+        setLanguage(nextLanguage, true, true);
+      });
+
+
+      themeToggle.addEventListener('click', (event) => {
+        const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        Cuelume.play('toggle');
+        window._franciscoHaptic?.('selection');
+        runThemeTransition(event, nextTheme);
+      });
+
+      const setPanelHeight = (panel, height) => {
+        panel.style.height = `${height}px`;
+      };
+
+      const syncPublicationsHeight = () => {
+        if (!publicationsList || !publicationsList.classList.contains('is-visible')) return;
+        if (publicationsList.style.height && publicationsList.style.height !== 'auto') {
+          publicationsList.style.height = `${publicationsList.scrollHeight}px`;
+        }
+      };
+
+      const closeEntry = (entry) => {
+        if (entry.dataset.open !== 'true') return;
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+        const reveal = panel.querySelector('.t-stagger');
+        button.setAttribute('aria-expanded', 'false');
+        entry.dataset.open = 'false';
+        reveal?.classList.remove('is-shown');
+        reveal?.classList.add('is-hiding');
+        panel.style.height = `${panel.scrollHeight}px`;
+        requestAnimationFrame(() => setPanelHeight(panel, 0));
+      };
+
+      const openEntry = (entry, options = {}) => {
+        const shouldCloseOthers = options.closeOthers !== false;
+        if (shouldCloseOthers) {
+          entries.forEach((other) => {
+            if (other !== entry) closeEntry(other);
+          });
+        }
+
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+        const reveal = panel.querySelector('.t-stagger');
+        reveal?.classList.remove('is-hiding');
+        reveal?.classList.remove('is-shown');
+        panel.hidden = false;
+        panel.style.height = entry.dataset.open === 'true' ? `${panel.scrollHeight}px` : '0px';
+        entry.dataset.open = 'true';
+        button.setAttribute('aria-expanded', 'true');
+        if (!options.silent) Cuelume.play('chime');
+        requestAnimationFrame(() => {
+          setPanelHeight(panel, panel.scrollHeight);
+          requestAnimationFrame(() => reveal?.classList.add('is-shown'));
+        });
+      };
+
+      entries.forEach((entry) => {
+        const button = entry.querySelector('.entry-button');
+        const panel = entry.querySelector('.entry-panel');
+
+        button.addEventListener('click', () => {
+          if (entry.dataset.open === 'true') closeEntry(entry);
+          else openEntry(entry);
+        });
+
+        panel.addEventListener('transitionend', (event) => {
+          if (event.propertyName !== 'height') return;
+          if (entry.dataset.open === 'true') {
+            panel.style.height = 'auto';
+          } else {
+            panel.hidden = true;
+            panel.querySelector('.t-stagger')?.classList.remove('is-hiding');
+          }
+          syncPublicationsHeight();
+        });
+      });
+
+      const decodeContactAddress = () => {
+        const shifted = [114, 105, 108, 102, 108, 113, 100, 67, 105, 48, 106, 102, 49, 113, 104, 119];
+        return shifted.map((value) => String.fromCharCode(value - 3)).join('');
+      };
+
+      emailLink?.addEventListener('click', (event) => {
+        event.preventDefault();
+        Cuelume.play('success');
+        const scheme = ['mai', 'lto:'].join('');
+        window.location.href = scheme + decodeContactAddress();
+      });
+
+      const blockTextCopy = (event) => {
+        event.preventDefault();
+        if (event.clipboardData) {
+          event.clipboardData.setData('text/plain', '');
+        }
+        Cuelume.play('press');
+      };
+
+      document.addEventListener('copy', blockTextCopy, true);
+      document.addEventListener('cut', blockTextCopy, true);
+      document.addEventListener('contextmenu', (event) => {
+        if (event.target.closest?.('img, svg')) event.preventDefault();
+      }, true);
+
+      document.addEventListener('dragstart', (event) => {
+        const target = event.target;
+        if (target instanceof HTMLImageElement || target.closest?.('img')) {
+          event.preventDefault();
+        }
+      }, true);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          entries.forEach(closeEntry);
+          closePortrait({ restoreFocus: true });
+        }
+      });
+
+      window._playFranciscoCue = (cue = 'tick') => Cuelume.play(cue);
+      Cuelume.bind();
+      requestAnimationFrame(() => {
+        body.classList.remove('js-loading');
+        body.classList.add('is-ready');
+      });
+    })();
+  </script>
+
+<script id="contact-component-script">
+(() => {
+  const triggerBtn = document.getElementById('trigger-btn');
+  const contactIconBtn = document.getElementById('contactIconToggle');
+  const contactIconSwap = contactIconBtn?.querySelector('.t-icon-swap');
+  const morph = document.getElementById('morph');
+  const morphContent = document.getElementById('morph-content');
+  const backdrop = document.getElementById('backdrop');
+  const msgField = document.getElementById('field-msg');
+  const popLabel = document.getElementById('pop-label');
+  const extraFields = document.getElementById('extra-fields');
+  const nameField = document.getElementById('field-name');
+  const emailField = document.getElementById('field-email');
+  const emailHint = document.getElementById('email-hint');
+  const robotRow = document.getElementById('robot-row');
+  const robotLabel = document.getElementById('robot-label');
+  const notRobot = document.getElementById('not-robot');
+  const cbWrap = document.getElementById('cb-wrap');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnLabel = document.getElementById('btn-label');
+  const spinner = document.getElementById('spinner');
+  const successView = document.getElementById('success-view');
+  const errorMsg = document.getElementById('error-msg');
+
+  if (!triggerBtn || !morph || !morphContent || !backdrop || !msgField || !nameField || !emailField || !notRobot || !submitBtn) return;
+
+  const contactTriggers = [triggerBtn, contactIconBtn].filter(Boolean);
+  const HONEYPOT_NAME = '_gotcha';
+  const MIN_FILL_MS = 3000;
+  const EASE = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
+  const DURATION = 300;
+
+  let formOpenedAt = null;
+  let endpointReady = false;
+  let endpoint = '';
+  let humanDetected = false;
+  let isOpen = false;
+  let animating = false;
+  let currentAnimation = null;
+  let activeTrigger = triggerBtn;
+  let viewportFrame = null;
+
+  const strings = {
+    en: {
+      namePlaceholder: 'Name',
+      emailPlaceholder: 'Email address',
+      messageLabel: 'Message',
+      errFields: 'Please fill in all fields.',
+      errEmail: 'Please enter a valid e-mail address.',
+      errRobot: 'Please confirm you are not a robot.',
+      errTrap: 'Please review your message before sending.',
+      errConfig: 'Configuration error. Reload the page.',
+      errSend: 'Error sending. Please try again.',
+      dialogLabel: 'Contact form'
+    },
+    es: {
+      namePlaceholder: 'Nombre',
+      emailPlaceholder: 'Correo electrónico',
+      messageLabel: 'Mensaje',
+      errFields: 'Por favor completa todos los campos.',
+      errEmail: 'Por favor ingresa una dirección de correo electrónico válida.',
+      errRobot: 'Por favor confirma que no eres un robot.',
+      errTrap: 'Por favor revisa tu mensaje antes de enviar.',
+      errConfig: 'Error de configuración. Recarga la página.',
+      errSend: 'Error al enviar. Intenta de nuevo.',
+      dialogLabel: 'Formulario de contacto'
+    }
+  };
+
+  const activeStrings = () => strings[document.documentElement.lang === 'es' ? 'es' : 'en'];
+  const applyStyles = (element, styles) => Object.assign(element.style, styles);
+  const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  const componentColors = () => {
+    const styles = getComputedStyle(morph);
+    return {
+      surface: styles.getPropertyValue('--contact-surface').trim() || '#fdfdfc',
+      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#fdfdfc',
+      border: styles.getPropertyValue('--contact-border').trim() || '#2d2930'
+    };
+  };
+
+  const viewportMetrics = () => {
+    const viewport = window.visualViewport;
+    return {
+      width: viewport?.width || window.innerWidth,
+      height: viewport?.height || window.innerHeight,
+      offsetLeft: viewport?.offsetLeft || 0,
+      offsetTop: viewport?.offsetTop || 0
+    };
+  };
+
+  const popoverSize = () => {
+    const viewport = viewportMetrics();
+    const width = Math.min(364, Math.max(280, viewport.width - 24));
+    const preferredHeight = window.innerWidth <= 390 ? 232 : 220;
+    const height = Math.min(preferredHeight, Math.max(180, viewport.height - 24));
+    return { width, height };
+  };
+
+  const popoverTarget = (width, height) => {
+    const margin = 12;
+    const viewport = viewportMetrics();
+    const left = viewport.offsetLeft + Math.max(margin, (viewport.width - width) / 2);
+    const top = viewport.offsetTop + Math.max(margin, (viewport.height - height) / 2);
+    return { left, top };
+  };
+
+  const setContactState = (open) => {
+    contactTriggers.forEach((button) => button.setAttribute('aria-expanded', String(open)));
+    if (contactIconSwap) contactIconSwap.dataset.state = open ? 'b' : 'a';
+  };
+
+  function armEndpoint() {
+    if (endpointReady) return;
+    const base = atob('aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi8=');
+    const id = 'maqpznrg';
+    endpoint = base + id;
+    endpointReady = true;
+  }
+
+  function setHumanDetected() {
+    if (humanDetected) return;
+    humanDetected = true;
+    notRobot.disabled = false;
+    cbWrap.classList.remove('disabled');
+    robotLabel.classList.remove('locked');
+    document.removeEventListener('mousemove', setHumanDetected);
+    document.removeEventListener('touchstart', setHumanDetected);
+    document.removeEventListener('pointerdown', setHumanDetected);
+  }
+
+  function listenForHumanSignal() {
+    document.addEventListener('mousemove', setHumanDetected, { passive: true });
+    document.addEventListener('touchstart', setHumanDetected, { passive: true });
+    document.addEventListener('pointerdown', setHumanDetected, { passive: true });
+  }
+
+  listenForHumanSignal();
+
+  function showError(message) {
+    window._franciscoHaptic?.('error');
+    errorMsg.textContent = message;
+    errorMsg.style.display = 'block';
+  }
+
+  function clearError() {
+    errorMsg.textContent = '';
+    errorMsg.style.display = 'none';
+  }
+
+  function updateRobotRow() {
+    const show = msgField.value.trim().length > 0 && isEmail(emailField.value.trim());
+    if (!show) {
+      notRobot.checked = false;
+      cbWrap.classList.remove('checked');
+    }
+    robotRow.style.display = show ? 'flex' : 'none';
+  }
+
+  function updateSubmitState() {
+    submitBtn.disabled = !(
+      msgField.value.trim().length > 0 &&
+      isEmail(emailField.value.trim()) &&
+      notRobot.checked
+    );
+  }
+
+  function placeOpenPopover() {
+    if (!isOpen || animating) return;
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`
+    });
+  }
+
+  function scheduleOpenPopoverPlacement() {
+    if (!isOpen || animating) return;
+    if (viewportFrame !== null) cancelAnimationFrame(viewportFrame);
+    viewportFrame = requestAnimationFrame(() => {
+      viewportFrame = null;
+      placeOpenPopover();
+    });
+  }
+
+  function finishOpen(target, size, colors) {
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`,
+      borderRadius: '12px',
+      background: colors.surface2,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+    morphContent.classList.add('visible');
+    morph.setAttribute('aria-hidden', 'false');
+    setContactState(true);
+    isOpen = true;
+    animating = false;
+    window.setTimeout(() => msgField.focus({ preventScroll: true }), 40);
+  }
+
+  function openPopover(sourceTrigger = triggerBtn) {
+    if (isOpen || animating) return;
+    activeTrigger = sourceTrigger || triggerBtn;
+    animating = true;
+    formOpenedAt = Date.now();
+
+    const buttonRect = activeTrigger.getBoundingClientRect();
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    const colors = componentColors();
+
+    if (activeTrigger === triggerBtn) triggerBtn.classList.add('is-hidden');
+    backdrop.style.display = 'block';
+    morph.classList.add('active');
+    setContactState(true);
+    window._franciscoHaptic?.('open');
+
+    applyStyles(morph, {
+      left: `${buttonRect.left}px`,
+      top: `${buttonRect.top}px`,
+      width: `${buttonRect.width}px`,
+      height: `${buttonRect.height}px`,
+      borderRadius: '8px',
+      background: colors.surface,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishOpen(target, size, colors);
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${buttonRect.left}px`, top: `${buttonRect.top}px`,
+        width: `${buttonRect.width}px`, height: `${buttonRect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      },
+      {
+        left: `${target.left}px`, top: `${target.top}px`,
+        width: `${size.width}px`, height: `${size.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = () => {
+      currentAnimation = null;
+      finishOpen(target, size, colors);
+    };
+    currentAnimation.oncancel = () => { currentAnimation = null; animating = false; };
+  }
+
+  function finishClose() {
+    currentAnimation = null;
+    morph.removeAttribute('style');
+    morph.classList.remove('active');
+    morph.setAttribute('aria-hidden', 'true');
+    triggerBtn.classList.remove('is-hidden');
+    setContactState(false);
+    animating = false;
+    activeTrigger?.focus({ preventScroll: true });
+  }
+
+  function closePopover({ haptic = true } = {}) {
+    if (!isOpen || animating) return;
+    animating = true;
+    isOpen = false;
+    morphContent.classList.remove('visible');
+    backdrop.style.display = 'none';
+    if (haptic) window._franciscoHaptic?.('close');
+
+    const buttonRect = activeTrigger.getBoundingClientRect();
+    const currentRect = morph.getBoundingClientRect();
+    const colors = componentColors();
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishClose();
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${currentRect.left}px`, top: `${currentRect.top}px`,
+        width: `${currentRect.width}px`, height: `${currentRect.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      },
+      {
+        left: `${buttonRect.left}px`, top: `${buttonRect.top}px`,
+        width: `${buttonRect.width}px`, height: `${buttonRect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = finishClose;
+    currentAnimation.oncancel = () => { currentAnimation = null; animating = false; };
+  }
+
+  function resetFields() {
+    msgField.value = '';
+    nameField.value = '';
+    emailField.value = '';
+    popLabel.classList.remove('hidden');
+    extraFields.style.display = 'none';
+    robotRow.style.display = 'none';
+    notRobot.checked = false;
+    notRobot.disabled = true;
+    robotLabel.classList.add('locked');
+    cbWrap.classList.remove('checked');
+    cbWrap.classList.add('disabled');
+    humanDetected = false;
+    listenForHumanSignal();
+    emailHint.style.display = 'none';
+    submitBtn.disabled = true;
+    btnLabel.classList.remove('sending');
+    spinner.classList.remove('active');
+    clearError();
+    successView.classList.remove('visible');
+    formOpenedAt = null;
+    endpointReady = false;
+    endpoint = '';
+  }
+
+  function closeAndReset({ haptic = true } = {}) {
+    resetFields();
+    closePopover({ haptic });
+  }
+
+  contactTriggers.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (isOpen) {
+        activeTrigger = button;
+        closeAndReset();
+      } else {
+        openPopover(button);
+      }
+    });
+  });
+
+  backdrop.addEventListener('click', closeAndReset);
+  msgField.addEventListener('focus', armEndpoint);
+
+  msgField.addEventListener('input', () => {
+    const hasMessage = msgField.value.length > 0;
+    popLabel.classList.toggle('hidden', hasMessage);
+    extraFields.style.display = hasMessage ? 'flex' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  emailField.addEventListener('input', () => {
+    const value = emailField.value.trim();
+    emailHint.style.display = value.length > 0 && !isEmail(value) ? 'block' : 'none';
+    updateRobotRow();
+    updateSubmitState();
+  });
+
+  emailField.addEventListener('blur', () => {
+    if (!emailField.value.trim()) emailHint.style.display = 'none';
+  });
+
+  notRobot.addEventListener('change', () => {
+    window._franciscoHaptic?.('selection');
+    cbWrap.classList.toggle('checked', notRobot.checked);
+    updateSubmitState();
+  });
+
+  submitBtn.addEventListener('click', async () => {
+    const name = nameField.value.trim();
+    const email = emailField.value.trim();
+    const message = msgField.value.trim();
+    const copy = activeStrings();
+
+    clearError();
+
+    if (!name || !message) {
+      showError(copy.errFields);
+      return;
+    }
+    if (!isEmail(email)) {
+      showError(copy.errEmail);
+      return;
+    }
+    if (!notRobot.checked) {
+      showError(copy.errRobot);
+      return;
+    }
+    if (!formOpenedAt || Date.now() - formOpenedAt < MIN_FILL_MS) {
+      showError(copy.errTrap);
+      return;
+    }
+    if (!endpointReady) {
+      showError(copy.errConfig);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    btnLabel.classList.add('sending');
+    spinner.classList.add('active');
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('message', message);
+    formData.append(HONEYPOT_NAME, '');
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' }
+      });
+      if (!response.ok) throw new Error('Contact submission failed');
+      successView.classList.add('visible');
+      window._franciscoHaptic?.('success');
+      window.setTimeout(() => closeAndReset({ haptic: false }), 3200);
+    } catch (_) {
+      btnLabel.classList.remove('sending');
+      spinner.classList.remove('active');
+      submitBtn.disabled = false;
+      showError(activeStrings().errSend);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) closeAndReset();
+  });
+
+  window.addEventListener('resize', scheduleOpenPopoverPlacement, { passive: true });
+  window.visualViewport?.addEventListener('resize', scheduleOpenPopoverPlacement, { passive: true });
+  window.visualViewport?.addEventListener('scroll', scheduleOpenPopoverPlacement, { passive: true });
+
+  window._contactLangSync = (language) => {
+    const lang = language === 'es' ? 'es' : 'en';
+    const copy = strings[lang];
+    nameField.placeholder = copy.namePlaceholder;
+    nameField.setAttribute('aria-label', copy.namePlaceholder);
+    emailField.placeholder = copy.emailPlaceholder;
+    emailField.setAttribute('aria-label', copy.emailPlaceholder);
+    msgField.setAttribute('aria-label', copy.messageLabel);
+    morph.setAttribute('aria-label', copy.dialogLabel);
+    contactIconBtn?.setAttribute('aria-label', lang === 'es' ? triggerBtn.dataset.es : triggerBtn.dataset.en);
+  };
+
+  window._contactLangSync(document.documentElement.lang || 'en');
+})();
+</script>
+
+<script id="cv-download-component-script">
+(() => {
+  const trigger = document.getElementById('cvDownloadLink');
+  const morph = document.getElementById('cv-morph');
+  const content = document.getElementById('cv-morph-content');
+  const backdrop = document.getElementById('cv-backdrop');
+  const input = document.getElementById('cv-password');
+  const inputShell = document.getElementById('cv-input-shell');
+  const submit = document.getElementById('cv-password-submit');
+  if (!trigger || !morph || !content || !backdrop || !input || !inputShell || !submit) return;
+
+  const EXPECTED_HASH = '8e0c43cbcfdcf1123f0362790a86cbfa9654e3528f9ce22e4f2924b1c679ad8d';
+  const EASE = 'cubic-bezier(0.34, 1.04, 0.64, 1)';
+  const DURATION = 300;
+  const encodedTargets = {
+    en: { salt: 73, bytes: [33,46,31,12,254,164,128,239,183,133,134,101,113,71,69,58,56,7,26,162,254,193,210,255,128,129,112,113,81,69,104,29,7,29,200,202,242,200,253,215,155,119,127,22,5,116,97,70,9,238,253] },
+    es: { salt: 131, bytes: [235,224,209,198,180,226,198,213,109,123,88,95,43,1,3,240,242,201,212,232,180,135,148,37,122,95,78,43,43,3,174,215,208,196,134,128,184,142,59,45,65,73,33,108,95,178,167,140,195,160,179] }
+  };
+
+  let isOpen = false;
+  let animating = false;
+  let currentAnimation = null;
+  let viewportFrame = null;
+
+  const applyStyles = (element, styles) => Object.assign(element.style, styles);
+
+  const componentColors = () => {
+    const styles = getComputedStyle(morph);
+    return {
+      surface: styles.getPropertyValue('--contact-surface').trim() || '#fdfdfc',
+      surface2: styles.getPropertyValue('--contact-surface-2').trim() || '#fdfdfc',
+      border: styles.getPropertyValue('--contact-border').trim() || '#2d2930'
+    };
+  };
+
+  const viewportMetrics = () => {
+    const viewport = window.visualViewport;
+    return {
+      width: viewport?.width || window.innerWidth,
+      height: viewport?.height || window.innerHeight,
+      offsetLeft: viewport?.offsetLeft || 0,
+      offsetTop: viewport?.offsetTop || 0
+    };
+  };
+
+  const popoverSize = () => {
+    const viewport = viewportMetrics();
+    return {
+      width: Math.min(364, Math.max(280, viewport.width - 24)),
+      height: Math.min(136, Math.max(124, viewport.height - 24))
+    };
+  };
+
+  const popoverTarget = (width, height) => {
+    const margin = 12;
+    const viewport = viewportMetrics();
+    return {
+      left: viewport.offsetLeft + Math.max(margin, (viewport.width - width) / 2),
+      top: viewport.offsetTop + Math.max(margin, (viewport.height - height) / 2)
+    };
+  };
+
+  const setState = (open) => trigger.setAttribute('aria-expanded', String(open));
+
+  const reset = () => {
+    input.value = '';
+    input.type = 'password';
+    input.classList.remove('is-visible');
+    input.setAttribute('aria-invalid', 'false');
+    inputShell.classList.remove('is-error');
+    window.dispatchEvent(new Event('cv-password-eye-reset'));
+    submit.disabled = true;
+    submit.classList.remove('is-validating');
+  };
+
+  const placeOpenPopover = () => {
+    if (!isOpen || animating) return;
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`
+    });
+  };
+
+  const schedulePlacement = () => {
+    if (!isOpen || animating) return;
+    if (viewportFrame !== null) cancelAnimationFrame(viewportFrame);
+    viewportFrame = requestAnimationFrame(() => {
+      viewportFrame = null;
+      placeOpenPopover();
+    });
+  };
+
+  const finishOpen = (target, size, colors) => {
+    applyStyles(morph, {
+      left: `${target.left}px`,
+      top: `${target.top}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`,
+      borderRadius: '12px',
+      background: colors.surface2,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+    content.classList.add('visible');
+    morph.setAttribute('aria-hidden', 'false');
+    setState(true);
+    isOpen = true;
+    animating = false;
+    window.setTimeout(() => {
+      input.focus({ preventScroll: true });
+    }, 40);
+  };
+
+  const open = () => {
+    if (isOpen || animating) return;
+    reset();
+    animating = true;
+
+    const rect = trigger.getBoundingClientRect();
+    const size = popoverSize();
+    const target = popoverTarget(size.width, size.height);
+    const colors = componentColors();
+
+    backdrop.style.display = 'block';
+    morph.classList.add('active');
+    setState(true);
+    window._franciscoHaptic?.('open');
+
+    applyStyles(morph, {
+      left: `${rect.left}px`,
+      top: `${rect.top}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      borderRadius: '8px',
+      background: colors.surface,
+      border: `1px solid ${colors.border}`,
+      opacity: '1'
+    });
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishOpen(target, size, colors);
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${rect.left}px`, top: `${rect.top}px`,
+        width: `${rect.width}px`, height: `${rect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      },
+      {
+        left: `${target.left}px`, top: `${target.top}px`,
+        width: `${size.width}px`, height: `${size.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = () => {
+      currentAnimation = null;
+      finishOpen(target, size, colors);
+    };
+    currentAnimation.oncancel = () => {
+      currentAnimation = null;
+      animating = false;
+    };
+  };
+
+  const finishClose = () => {
+    currentAnimation = null;
+    morph.removeAttribute('style');
+    morph.classList.remove('active');
+    morph.setAttribute('aria-hidden', 'true');
+    setState(false);
+    animating = false;
+    reset();
+    trigger.focus({ preventScroll: true });
+  };
+
+  const close = ({ haptic = true } = {}) => {
+    if (!isOpen || animating) return;
+    animating = true;
+    isOpen = false;
+    content.classList.remove('visible');
+    backdrop.style.display = 'none';
+    if (haptic) window._franciscoHaptic?.('close');
+
+    const rect = trigger.getBoundingClientRect();
+    const currentRect = morph.getBoundingClientRect();
+    const colors = componentColors();
+
+    if (typeof morph.animate !== 'function' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finishClose();
+      return;
+    }
+
+    currentAnimation?.cancel();
+    currentAnimation = morph.animate([
+      {
+        left: `${currentRect.left}px`, top: `${currentRect.top}px`,
+        width: `${currentRect.width}px`, height: `${currentRect.height}px`,
+        borderRadius: '12px', background: colors.surface2
+      },
+      {
+        left: `${rect.left}px`, top: `${rect.top}px`,
+        width: `${rect.width}px`, height: `${rect.height}px`,
+        borderRadius: '8px', background: colors.surface
+      }
+    ], { duration: DURATION, easing: EASE });
+
+    currentAnimation.onfinish = finishClose;
+    currentAnimation.oncancel = () => {
+      currentAnimation = null;
+      animating = false;
+    };
+  };
+
+  const sha256 = (value) => {
+    const bytes = new TextEncoder().encode(value);
+    const constants = new Uint32Array([
+      0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+      0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+      0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+      0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+      0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+      0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+      0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+      0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+    ]);
+    const state = new Uint32Array([
+      0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,
+      0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
+    ]);
+    const bitLength = bytes.length * 8;
+    const paddedLength = Math.ceil((bytes.length + 9) / 64) * 64;
+    const padded = new Uint8Array(paddedLength);
+    padded.set(bytes);
+    padded[bytes.length] = 0x80;
+    const view = new DataView(padded.buffer);
+    view.setUint32(paddedLength - 8, Math.floor(bitLength / 0x100000000), false);
+    view.setUint32(paddedLength - 4, bitLength >>> 0, false);
+    const words = new Uint32Array(64);
+    const rotateRight = (word, amount) => (word >>> amount) | (word << (32 - amount));
+
+    for (let offset = 0; offset < paddedLength; offset += 64) {
+      for (let index = 0; index < 16; index += 1) {
+        words[index] = view.getUint32(offset + index * 4, false);
+      }
+      for (let index = 16; index < 64; index += 1) {
+        const x = words[index - 15];
+        const y = words[index - 2];
+        const sigma0 = rotateRight(x, 7) ^ rotateRight(x, 18) ^ (x >>> 3);
+        const sigma1 = rotateRight(y, 17) ^ rotateRight(y, 19) ^ (y >>> 10);
+        words[index] = (words[index - 16] + sigma0 + words[index - 7] + sigma1) >>> 0;
+      }
+
+      let [a,b,c,d,e,f,g,h] = state;
+      for (let index = 0; index < 64; index += 1) {
+        const sum1 = rotateRight(e, 6) ^ rotateRight(e, 11) ^ rotateRight(e, 25);
+        const choice = (e & f) ^ (~e & g);
+        const temp1 = (h + sum1 + choice + constants[index] + words[index]) >>> 0;
+        const sum0 = rotateRight(a, 2) ^ rotateRight(a, 13) ^ rotateRight(a, 22);
+        const majority = (a & b) ^ (a & c) ^ (b & c);
+        const temp2 = (sum0 + majority) >>> 0;
+        h = g;
+        g = f;
+        f = e;
+        e = (d + temp1) >>> 0;
+        d = c;
+        c = b;
+        b = a;
+        a = (temp1 + temp2) >>> 0;
+      }
+
+      state[0] = (state[0] + a) >>> 0;
+      state[1] = (state[1] + b) >>> 0;
+      state[2] = (state[2] + c) >>> 0;
+      state[3] = (state[3] + d) >>> 0;
+      state[4] = (state[4] + e) >>> 0;
+      state[5] = (state[5] + f) >>> 0;
+      state[6] = (state[6] + g) >>> 0;
+      state[7] = (state[7] + h) >>> 0;
+    }
+
+    return Array.from(state, (word) => word.toString(16).padStart(8, '0')).join('');
+  };
+
+  const decodeTarget = (language) => {
+    const key = language === 'es' ? 'es' : 'en';
+    const target = encodedTargets[key];
+    return target.bytes
+      .map((byte, index) => String.fromCharCode(byte ^ ((index * 17 + target.salt) & 255)))
+      .join('');
+  };
+
+  const revealAndDownload = () => {
+    const language = document.documentElement.lang === 'es' ? 'es' : 'en';
+    const transient = document.createElement('a');
+    transient.href = decodeTarget(language);
+    transient.download = '';
+    transient.rel = 'noopener';
+    transient.style.display = 'none';
+    document.body.appendChild(transient);
+    transient.click();
+    transient.remove();
+  };
+
+  const showError = () => {
+    window._franciscoHaptic?.('error');
+    input.setAttribute('aria-invalid', 'true');
+    inputShell.classList.remove('is-error');
+    void inputShell.offsetWidth;
+    inputShell.classList.add('is-error');
+    input.select();
+  };
+
+  const validate = () => {
+    if (!input.value || submit.disabled) return;
+    submit.disabled = true;
+    submit.classList.add('is-validating');
+    inputShell.classList.remove('is-error');
+    input.setAttribute('aria-invalid', 'false');
+
+    try {
+      const valid = sha256(input.value) === EXPECTED_HASH;
+      if (!valid) {
+        submit.classList.remove('is-validating');
+        submit.disabled = false;
+        showError();
+        return;
+      }
+      revealAndDownload();
+      window._franciscoHaptic?.('success');
+      submit.classList.remove('is-validating');
+      close({ haptic: false });
+    } catch (_) {
+      submit.classList.remove('is-validating');
+      submit.disabled = false;
+      showError();
+    }
+  };
+
+
+
+  const fallbackVisibility = document.getElementById('cv-password-visibility');
+  fallbackVisibility?.addEventListener('mouseenter', () => window._playFranciscoCue?.('tick'));
+  fallbackVisibility?.addEventListener('click', () => {
+    window._franciscoHaptic?.('selection');
+    const visible = input.type === 'password';
+    input.type = visible ? 'text' : 'password';
+    input.classList.toggle('is-visible', visible);
+    fallbackVisibility.setAttribute('aria-pressed', String(visible));
+    fallbackVisibility.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+    fallbackVisibility.dataset.state = visible ? 'visible' : 'hidden';
+    input.focus({ preventScroll: true });
+  });
+
+  trigger.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (isOpen) close();
+    else open();
+  });
+
+  backdrop.addEventListener('click', close);
+
+  input.addEventListener('input', () => {
+    inputShell.classList.remove('is-error');
+    input.setAttribute('aria-invalid', 'false');
+    submit.disabled = input.value.length === 0;
+  });
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      validate();
+    }
+  });
+
+
+  submit.addEventListener('click', validate);
+
+  morph.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab' || !isOpen) return;
+    const visibilityControl = document.getElementById('cv-password-visibility');
+    const focusable = [input, visibilityControl, submit].filter((element) => element && !element.disabled);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen) close();
+  });
+
+  window.addEventListener('resize', schedulePlacement, { passive: true });
+  window.visualViewport?.addEventListener('resize', schedulePlacement, { passive: true });
+  window.visualViewport?.addEventListener('scroll', schedulePlacement, { passive: true });
+})();
+</script>
+
+<script id="cv-password-eye-motion-component" type="module">
+import React, { useEffect, useId, useRef, useState } from 'https://esm.sh/react@19.2.4';
+import { createRoot } from 'https://esm.sh/react-dom@19.2.4/client?deps=react@19.2.4';
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'https://esm.sh/motion@12.42.0/react?deps=react@19.2.4';
+
+const EYE_OPEN_TOP = 'M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12';
+const EYE_CLOSED_TOP = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12';
+const EYE_OPEN_BOTTOM = 'M1 12 C1 12 5 20 12 20 C19 20 23 12 23 12';
+const EYE_CLOSED_BOTTOM = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12';
+const CLIP_OPEN = 'M1 12 C1 12 5 4 12 4 C19 4 23 12 23 12 C23 12 19 20 12 20 C5 20 1 12 1 12Z';
+const CLIP_CLOSED = 'M1 12 C1 12 5 12 12 12 C19 12 23 12 23 12 C23 12 19 12 12 12 C5 12 1 12 1 12Z';
+const PUPIL_RX = 5;
+const PUPIL_RY = 3.5;
+const h = React.createElement;
+
+function PasswordVisibility() {
+  const [visible, setVisible] = useState(false);
+  const [blinking, setBlinking] = useState(false);
+  const eyeRef = useRef(null);
+  const reactId = useId();
+  const clipId = `${reactId}-eye-clip`;
+  const prefersReducedMotion = useReducedMotion();
+
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const sx = useSpring(px, { stiffness: 350, damping: 28, mass: 0.4 });
+  const sy = useSpring(py, { stiffness: 350, damping: 28, mass: 0.4 });
+
+  const syncInput = (nextVisible) => {
+    const input = document.getElementById('cv-password');
+    const shell = document.getElementById('cv-input-shell');
+    if (!input) return;
+    input.type = nextVisible ? 'text' : 'password';
+    input.classList.toggle('is-visible', nextVisible);
+    if (shell) shell.dataset.state = nextVisible ? 'visible' : 'hidden';
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || prefersReducedMotion) return;
+    const handle = (event) => {
+      const element = eyeRef.current;
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = event.clientX - centerX;
+      const dy = event.clientY - centerY;
+      const distance = Math.hypot(dx, dy) || 1;
+      const normalX = dx / distance;
+      const normalY = dy / distance;
+      const reach = Math.min(1, distance / 240);
+      px.set(normalX * PUPIL_RX * reach);
+      py.set(normalY * PUPIL_RY * reach);
+    };
+    window.addEventListener('mousemove', handle);
+    return () => window.removeEventListener('mousemove', handle);
+  }, [px, py, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    let timer;
+    let blinkTimer;
+    const schedule = () => {
+      const next = 2000 + Math.random() * 4000;
+      timer = window.setTimeout(() => {
+        setBlinking(true);
+        blinkTimer = window.setTimeout(() => setBlinking(false), 120);
+        schedule();
+      }, next);
+    };
+    schedule();
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(blinkTimer);
+    };
+  }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    const reset = () => {
+      syncInput(false);
+      setVisible(false);
+    };
+    window.addEventListener('cv-password-eye-reset', reset);
+    return () => window.removeEventListener('cv-password-eye-reset', reset);
+  }, []);
+
+  const closed = blinking || visible;
+  const transition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.14, ease: [0.22, 1, 0.36, 1] };
+
+  const toggleVisible = () => {
+    window._franciscoHaptic?.('selection');
+    setVisible((current) => {
+      const next = !current;
+      syncInput(next);
+      return next;
+    });
+    window.requestAnimationFrame(() => {
+      document.getElementById('cv-password')?.focus({ preventScroll: true });
+    });
+  };
+
+  return h(
+    'button',
+    {
+      type: 'button',
+      id: 'cv-password-visibility',
+      'aria-label': visible ? 'Hide password' : 'Show password',
+      'aria-pressed': visible,
+      'data-state': visible ? 'visible' : 'hidden',
+      onMouseEnter: () => window._playFranciscoCue?.('tick'),
+      onClick: toggleVisible,
+    },
+    h(
+      'svg',
+      {
+        ref: eyeRef,
+        className: 'cv-eye',
+        viewBox: '0 0 24 24',
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: 1.7,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        'aria-hidden': 'true',
+      },
+      h(
+        'defs',
+        null,
+        h(
+          'clipPath',
+          { id: clipId },
+          h(motion.path, {
+            d: CLIP_OPEN,
+            animate: { d: closed ? CLIP_CLOSED : CLIP_OPEN },
+            transition,
+          }),
+        ),
+      ),
+      h(motion.path, {
+        d: EYE_OPEN_TOP,
+        animate: { d: closed ? EYE_CLOSED_TOP : EYE_OPEN_TOP },
+        transition,
+      }),
+      h(motion.path, {
+        d: EYE_OPEN_BOTTOM,
+        animate: { d: closed ? EYE_CLOSED_BOTTOM : EYE_OPEN_BOTTOM },
+        transition,
+      }),
+      h(
+        'g',
+        { clipPath: `url(#${clipId})` },
+        h(
+          motion.g,
+          { style: { x: sx, y: sy } },
+          h('circle', { cx: 12, cy: 12, r: 3, fill: 'currentColor', stroke: 'none' }),
+        ),
+      ),
+    ),
+  );
+}
+
+const mount = document.getElementById('cv-password-eye-root');
+if (mount) createRoot(mount).render(h(PasswordVisibility));
+</script>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const targetId = link.getAttribute('href');
+
+      // Ignore placeholder links such as the obfuscated e-mail control.
+      if (!targetId || targetId === '#') return;
+
+      const target = document.getElementById(targetId.slice(1));
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    });
+  });
+</script>
+<script>
+  window.addEventListener('error', () => {
+    document.body.classList.remove('js-loading');
+    document.body.classList.add('is-ready');
+  });
+</script>
+</body>
+</html>
