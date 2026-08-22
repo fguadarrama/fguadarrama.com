@@ -1,0 +1,36 @@
+node_modules/
+dist/
+dist-ssr/
+dist-protected/
+release/
+*.local
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Generated data (rebuilt from lab_data.xlsx at build time)
+src/data/lab-data.json
+lab_data.xlsx
+src/data/sources/
+src/data/weight-records.local.json
+src/data/parameter-layout.json
+DATA_RECONCILIATION.md
+output/
+
+# Env
+.env
+.env.local
+.env.*.local

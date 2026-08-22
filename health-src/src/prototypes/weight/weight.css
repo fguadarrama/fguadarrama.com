@@ -1,0 +1,147 @@
+:root { --bg:#f6f7fc; --ink:#2d2930; --muted:#2d2930; --border:#2d2930; --surface:#fff; --green:#2d694c; --alarm:#ff1d58; --ease:cubic-bezier(.23,1,.32,1); font-family:'Albert Sans Variable',Arial,sans-serif; color:var(--ink); background:var(--bg); font-synthesis:none; }
+* { box-sizing:border-box; }
+html,body,#root,#stage { min-height:100%; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:inherit; font-size:16px; font-weight:375; line-height:1.45; -webkit-font-smoothing:antialiased; }
+button,input { color:inherit; font:inherit; }
+button:focus-visible,input:focus-visible { outline:2px solid var(--green); outline-offset:2px; }
+h1,h2,h3,p,dl,dd { margin:0; }
+.weight-page { min-height:100vh; animation:weight-fade 220ms var(--ease) both; }
+.weight-app-header { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; padding:14px clamp(20px,4vw,60px); border-bottom:1px solid var(--border); background:rgba(246,247,252,.88); }
+.weight-brand { display:flex; align-items:center; gap:11px; }
+.weight-brand > span { display:grid; width:34px; height:34px; place-items:center; border-radius:50%; background:var(--ink); color:#fff; font-size:11px; letter-spacing:.08em; }
+.weight-brand strong,.weight-profile strong { font-size:13px; font-weight:500; }
+.weight-app-header nav { display:flex; gap:5px; padding:3px; border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--muted); font-size:12px; }
+.weight-app-header nav span,.weight-app-header nav b { padding:6px 11px; font-weight:375; }
+.weight-app-header nav b { border-radius:999px; background:var(--ink); color:#fff; }
+.weight-profile { display:flex; flex-direction:column; align-items:flex-end; }
+.weight-profile small { color:var(--muted); font-size:11px; }
+.weight-eyebrow { display:block; margin-bottom:5px; color:var(--muted); font-size:11px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; }
+.weight-primary { padding:9px 14px; border:1px solid var(--ink); border-radius:9px; background:var(--ink); color:#fff; font-size:13px; cursor:pointer; transition:transform 130ms var(--ease),background-color 150ms ease-out; }
+.weight-primary:active { transform:scale(.97); }
+.weight-page-title { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; }
+.weight-page-title h1 { font-size:clamp(34px,4vw,48px); font-weight:500; line-height:1; letter-spacing:-.045em; }
+.weight-toggle { display:flex; width:max-content; gap:3px; padding:3px; border:1px solid var(--border); border-radius:999px; background:#fff; }
+.weight-toggle button { padding:6px 10px; border:0; border-radius:999px; background:transparent; color:var(--muted); font-size:11px; cursor:pointer; }
+.weight-toggle button[data-active] { background:var(--ink); color:#fff; }
+.weight-chart { width:100%; height:330px; }
+.weight-chart--compact { height:200px; }
+.weight-tooltip { min-width:145px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,.96); box-shadow:0 8px 24px #2d293014; font-family:'Albert Sans Variable',Arial,sans-serif; }
+.weight-tooltip > span,.weight-tooltip > p { display:block; color:var(--muted); font-size:10px; }
+.weight-tooltip > strong { display:block; margin:3px 0; font-size:17px; font-weight:500; font-variant-numeric:tabular-nums; }
+.weight-tooltip small { color:var(--muted); font-size:11px; font-weight:375; }
+
+/* Registro clínico */
+.clinical-main { width:min(1440px,100%); margin:0 auto; padding:35px clamp(20px,4vw,58px) 100px; }
+.clinical-card { overflow:hidden; margin-top:25px; border:1px solid var(--border); border-top:4px solid var(--green); border-radius:14px; background:#fff; }
+.clinical-summary { display:grid; grid-template-columns:230px 250px 1fr; align-items:end; gap:26px; padding:20px 22px; border-bottom:1px solid var(--border); }
+.clinical-summary > div > span { color:var(--muted); font-size:11px; }
+.clinical-summary p { margin-top:3px; font-size:29px; font-weight:450; line-height:1; letter-spacing:-.035em; }
+.clinical-summary p small { color:var(--muted); font-size:12px; font-weight:375; }
+.clinical-summary em { color:var(--muted); font-size:10px; font-style:normal; }
+.clinical-summary .weight-toggle { justify-self:end; }
+.clinical-grid { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(440px,.9fr); min-height:430px; }
+.clinical-grid h2 { font-size:18px; font-weight:500; }
+.clinical-chart,.clinical-ledger { padding:22px; }
+.clinical-chart { border-right:1px solid var(--border); }
+.clinical-chart .weight-chart { margin-top:10px; }
+.weight-table-wrap { margin-top:15px; overflow:auto; border-bottom:1px solid var(--ink); }
+.weight-table-wrap table { width:100%; border-collapse:collapse; white-space:nowrap; }
+.weight-table-wrap th { padding:9px 8px; border-bottom:1px solid var(--ink); color:var(--muted); font-size:10px; font-weight:500; letter-spacing:.05em; text-align:right; text-transform:uppercase; }
+.weight-table-wrap td { padding:11px 8px; border-bottom:1px solid var(--border); font-size:12px; font-variant-numeric:tabular-nums; text-align:right; }
+.weight-table-wrap th:first-child,.weight-table-wrap td:first-child { text-align:left; }
+
+/* Progreso */
+.progress-main { width:min(1280px,100%); margin:0 auto; padding:45px clamp(20px,5vw,70px) 110px; }
+.progress-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
+.progress-hero h1 { display:flex; align-items:baseline; gap:9px; font-size:clamp(64px,9vw,112px); font-weight:400; letter-spacing:-.07em; line-height:.87; }
+.progress-hero h1 small { color:var(--muted); font-size:18px; font-weight:375; letter-spacing:0; }
+.progress-hero p { margin-top:12px; color:var(--muted); font-size:12px; }
+.progress-stats { display:grid; grid-template-columns:repeat(3,1fr); margin-top:38px; border-block:1px solid var(--border); }
+.progress-stats article { padding:18px 24px; border-right:1px solid var(--border); }
+.progress-stats article:first-child { padding-left:0; }
+.progress-stats article:last-child { border:0; }
+.progress-stats span { display:block; color:var(--muted); font-size:11px; }
+.progress-stats strong { display:block; margin-top:3px; font-size:23px; font-weight:450; }
+.progress-chart-card { margin-top:30px; padding:22px 22px 8px; border:1px solid var(--border); border-radius:16px; background:#fff; }
+.progress-chart-card > div:first-child { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.progress-chart-card h2,.progress-strip h2 { font-size:19px; font-weight:500; }
+.progress-chart-card p { color:var(--muted); font-size:11px; }
+.progress-chart-card .weight-chart { height:390px; margin-top:8px; }
+.progress-strip { margin-top:34px; }
+.progress-strip > div { display:grid; grid-template-columns:repeat(6,minmax(130px,1fr)); margin-top:13px; overflow-x:auto; border-block:1px solid var(--border); }
+.progress-strip article { min-width:130px; padding:14px; border-right:1px solid var(--border); }
+.progress-strip article:first-child { padding-left:0; }
+.progress-strip span,.progress-strip small { display:block; color:var(--muted); font-size:10px; }
+.progress-strip strong { display:block; margin:3px 0; font-size:16px; font-weight:500; }
+
+/* Diario */
+.journal-main { display:grid; grid-template-columns:minmax(340px,.75fr) minmax(520px,1.25fr); width:min(1180px,100%); margin:0 auto; padding:42px clamp(20px,4vw,54px) 110px; }
+.journal-summary { position:sticky; top:30px; align-self:start; padding:29px; border:1px solid var(--border); border-radius:18px; background:#fff; }
+.journal-summary h1 { display:flex; align-items:baseline; gap:8px; font-size:66px; font-weight:400; line-height:1; letter-spacing:-.065em; }
+.journal-summary h1 small { color:var(--muted); font-size:15px; font-weight:375; letter-spacing:0; }
+.journal-summary > p { margin-top:7px; color:var(--muted); font-size:12px; }
+.journal-mini { margin:20px -14px 0; padding-top:12px; border-top:1px solid var(--border); }
+.journal-summary dl { border-block:1px solid var(--border); }
+.journal-summary dl > div { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.journal-summary dl > div:last-child { border:0; }
+.journal-summary dt { color:var(--muted); }
+.journal-summary dd { font-weight:500; }
+.journal-summary > .weight-primary { width:100%; margin-top:20px; }
+.journal-feed { padding:7px 0 0 55px; }
+.journal-feed header { padding-bottom:20px; border-bottom:1px solid var(--ink); }
+.journal-feed h2 { font-size:28px; font-weight:500; letter-spacing:-.035em; }
+.journal-feed ol { margin:0; padding:0; list-style:none; }
+.journal-feed li { position:relative; display:grid; grid-template-columns:165px 1fr; gap:23px; padding:19px 0 19px 18px; border-bottom:1px solid var(--border); }
+.journal-feed li::before { position:absolute; top:0; bottom:0; left:0; width:1px; background:var(--border); content:''; }
+.journal-dot { position:absolute; top:28px; left:-4px; width:9px; height:9px; border:2px solid var(--green); border-radius:50%; background:var(--bg); }
+.journal-date { display:flex; flex-direction:column; }
+.journal-date strong { font-size:13px; font-weight:500; }
+.journal-date span { color:var(--muted); font-size:11px; }
+.journal-feed article { display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; }
+.journal-feed article > div > span { display:block; color:var(--muted); font-size:10px; }
+.journal-feed article strong { font-size:20px; font-weight:450; }
+.journal-feed article strong small { color:var(--muted); font-size:10px; font-weight:375; }
+.journal-feed article p { grid-column:1/-1; color:var(--muted); font-size:10px; }
+
+/* Diálogo de captura */
+.weight-dialog-layer { position:fixed; inset:0; z-index:80; display:grid; place-items:center; padding:18px; }
+.weight-dialog-backdrop { position:absolute; inset:0; width:100%; border:0; background:#2d29304c; backdrop-filter:blur(4px); cursor:default; animation:weight-fade 180ms var(--ease) both; }
+.weight-dialog { position:relative; width:min(460px,100%); padding:24px; border-radius:17px; background:#fff; box-shadow:0 30px 80px #2d29302e; animation:weight-pop 210ms var(--ease) both; }
+.weight-dialog-head { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
+.weight-dialog h2 { font-size:25px; font-weight:500; letter-spacing:-.035em; }
+.weight-close { display:grid; width:34px; height:34px; place-items:center; padding:0 0 2px; border:1px solid var(--border); border-radius:50%; background:#fff; font-size:21px; cursor:pointer; }
+.weight-dialog form { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px; }
+.weight-dialog label { position:relative; color:var(--muted); font-size:11px; }
+.weight-dialog label span { float:right; }
+.weight-dialog input { width:100%; margin-top:5px; padding:9px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; font-size:14px; font-variant-numeric:tabular-nums; }
+.weight-form-error { grid-column:1/-1; color:var(--alarm); font-size:11px; }
+.weight-dialog-actions { grid-column:1/-1; display:flex; justify-content:flex-end; gap:8px; margin-top:7px; }
+.weight-dialog-actions > button:first-child { padding:9px 12px; border:1px solid var(--border); border-radius:9px; background:#fff; font-size:13px; cursor:pointer; }
+
+@keyframes weight-fade { from{opacity:0} to{opacity:1} }
+@keyframes weight-pop { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
+
+/* Prototype picker — verbatim skill chrome. */
+.proto-picker { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:2147483647; display:flex; align-items:center; gap:2px; padding:4px; border-radius:999px; background:rgba(10,10,10,.82); -webkit-backdrop-filter:blur(12px) saturate(1.4); backdrop-filter:blur(12px) saturate(1.4); box-shadow:0 0 0 1px rgba(255,255,255,.08) inset,0 8px 24px rgba(0,0,0,.24),0 2px 6px rgba(0,0,0,.12); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; font-size:13px; line-height:1; -webkit-font-smoothing:antialiased; user-select:none; -webkit-user-select:none; }
+.proto-picker-highlight { position:absolute; top:4px; left:0; height:28px; border-radius:999px; background:rgba(255,255,255,.12); will-change:transform; }
+.proto-picker[data-ready] .proto-picker-highlight { transition:transform 250ms cubic-bezier(.23,1,.32,1),width 250ms cubic-bezier(.23,1,.32,1); }
+.proto-picker-item { position:relative; display:flex; align-items:center; height:28px; padding:0 12px; border:0; border-radius:999px; background:transparent; color:rgba(255,255,255,.55); font:inherit; cursor:pointer; transition:color 150ms ease-out; }
+.proto-picker-item:hover { color:rgba(255,255,255,.85); }
+.proto-picker-item:active { transform:scale(.97); }
+.proto-picker-item:focus-visible { outline:2px solid rgba(255,255,255,.4); outline-offset:2px; }
+.proto-picker-item[data-active] { color:#fff; }
+.proto-picker-divider { width:1px; height:16px; margin:0 4px; background:rgba(255,255,255,.12); }
+.proto-picker-replay { padding:0 10px; font-size:14px; }
+.proto-picker[data-position="top"] { bottom:auto; top:24px; }
+
+@media (max-width:920px) { .weight-app-header { grid-template-columns:1fr auto; }.weight-app-header nav{display:none}.weight-profile{display:none}.clinical-grid{grid-template-columns:1fr}.clinical-chart{border-right:0;border-bottom:1px solid var(--border)}.journal-main{grid-template-columns:1fr}.journal-summary{position:static}.journal-feed{padding:38px 0 0}.progress-strip>div{grid-template-columns:repeat(6,150px)} }
+@media (max-width:620px) { .clinical-main,.progress-main,.journal-main{padding-inline:14px}.clinical-summary{grid-template-columns:1fr 1fr}.clinical-summary .weight-toggle{grid-column:1/-1;justify-self:start}.clinical-grid{min-height:0}.clinical-ledger{padding:18px 12px}.progress-hero{align-items:flex-start}.progress-hero h1{font-size:65px}.progress-stats{grid-template-columns:1fr}.progress-stats article,.progress-stats article:first-child{padding:13px 0;border-right:0;border-bottom:1px solid var(--border)}.progress-chart-card{padding:16px 8px 4px}.progress-chart-card>div:first-child{padding-inline:8px}.progress-chart-card .weight-chart{height:300px}.journal-summary{padding:22px}.journal-feed li{grid-template-columns:1fr}.weight-dialog form{grid-template-columns:1fr}.weight-dialog-actions,.weight-form-error{grid-column:1}.proto-picker{max-width:calc(100vw - 16px);overflow-x:auto} }
+@media (prefers-reduced-motion:reduce) { .weight-page,.weight-dialog-backdrop,.weight-dialog{animation:none}.proto-picker[data-ready] .proto-picker-highlight{transition:none} }
+
+/* Strict readability palette: full-opacity ink, alarm, or section accent only. */
+* { box-shadow:none !important; text-shadow:none !important; }
+body :where(p,span,small,strong,em,label,button,th,td,dt,dd) { color:var(--ink) !important; }
+.is-abnormal,.is-abnormal *,.weight-form-error { color:var(--alarm) !important; }
+.weight-eyebrow,.clinical-card h2 { color:var(--green) !important; }
+.proto-picker { background:#fff !important; border:1px solid var(--ink); backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+.proto-picker-highlight { background:transparent !important; border:1px solid var(--ink); }

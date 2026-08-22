@@ -1,0 +1,44 @@
+{
+  "name": "lab-viz",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Personal lab results visualizer — reads lab_data.xlsx and renders trends, abnormalities, and PDF reports.",
+  "scripts": {
+    "prebuild:data": "node scripts/build-data.mjs",
+    "dev": "npm run prebuild:data && vite",
+    "dev:prototype": "vite --open /prototype.html",
+    "build": "npm run prebuild:data && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "audit:privacy": "node scripts/audit-git-privacy.mjs",
+    "protect": "node scripts/protect-index.mjs && node scripts/audit-release.mjs",
+    "build:protected": "npm run prebuild:data && tsc --noEmit && vite build --config vite.protected.config.ts && npm run protect"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.7.0",
+    "@fontsource-variable/albert-sans": "^5.3.0",
+    "@fontsource/albert-sans": "^5.3.0",
+    "@number-flow/react": "^0.6.2",
+    "@react-pdf/renderer": "^4.0.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.0",
+    "goey-toast": "^0.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "recharts": "^3.8.1",
+    "sonner": "^2.0.7",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vite-plugin-singlefile": "^2.3.3",
+    "xlsx": "^0.18.5"
+  }
+}
