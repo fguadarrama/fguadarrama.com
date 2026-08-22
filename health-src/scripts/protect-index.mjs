@@ -7,8 +7,8 @@ import { resolve } from 'node:path'
 import { webcrypto } from 'node:crypto'
 
 const password = process.env.LABS_PASSWORD || ''
-if (password.length < 20) {
-  throw new Error('LABS_PASSWORD must contain at least 20 characters. Use a unique passphrase and do not commit it.')
+if (password.length < 16) {
+  throw new Error('LABS_PASSWORD must contain at least 16 characters. Use a unique passphrase and do not commit it.')
 }
 
 const root = resolve(process.cwd())
