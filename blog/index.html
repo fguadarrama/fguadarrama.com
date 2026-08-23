@@ -10,42 +10,47 @@
 
 <style>
 /* ===========================================================
-   TOKENS  —  todo lo ajustable vive aquí
+   TOKENS
    =========================================================== */
 :root{
-  /* color (los valores P3 los inyecta el script) */
   --bg:#f8f8f8;
-  --text:#272a3f;
-  --accent:#FF1D58;
+  --text:#2c292f;
+  --accent:#5037f9;
+  --sec:0.95;
 
-  /* nombre / cabecera */
-  --n-size:30px; --n-weight:400; --n-ls:-0.01em;
+  --t-size:64px; --t-weight:580; --t-lh:58px; --t-ls:-0.08em; --t-ws:0.05em;
+  --b-size:17px; --b-weight:350; --b-lh:22px; --b-ls:-0.05em; --b-ws:-0.04em; --b-gap:15px;
+  --n-size:26px; --n-weight:470; --n-ls:-0.06em;
+  --m-size:16px; --m-weight:300; --m-ls:-0.04em;
+  --l-size:16px; --l-weight:300; --l-ls:-0.04em;
+  --v-size:16px; --v-weight:530; --v-lh:14px; --v-ls:-0.05em;
+  --p-size:12px; --p-weight:620; --p-ls:-0.04em;
 
-  /* meta del post (capítulo · rango) */
-  --m-size:15px; --m-weight:400; --m-ls:0em;
+  --tick-gap:17px;
+  --tick-stroke:1.5px;
+  --tick-base:14px;
+  --tick-ext:16px;
+  --tick-falloff:0.62;
 
-  /* título */
-  --t-size:64px; --t-weight:580; --t-lh:65px; --t-ls:-0.02em; --t-ws:0em;
+  --col-rail:110px; --col-text:590px; --col-side:260px; --gap:60px;
 
-  /* cuerpo */
-  --b-size:18px; --b-weight:400; --b-lh:28px; --b-ls:0em; --b-ws:0em; --b-gap:28px;
+  /* alto real de la barra superior; lo mide el script */
+  --topbar-h:74px;
 
-  /* etiquetas de la columna derecha */
-  --l-size:15px; --l-weight:400; --l-ls:0em;
+  /* curvas y tiempos */
+  --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast:160ms;
+  --dur-ui:200ms;
+  --dur-move:260ms;
+}
 
-  /* valores de la columna derecha */
-  --v-size:18px; --v-weight:400; --v-lh:26px; --v-ls:0em;
-
-  /* píldora de fecha en la línea del tiempo */
-  --p-size:12px; --p-weight:500; --p-ls:0em;
-
-  /* rejilla */
-  --col-rail:155px; --col-text:495px; --col-side:270px; --gap:56px;
-  --tick-gap:22px;
-
-  /* opacidad de elementos secundarios.
-     1 = solo los 3 colores puros. Bájala si quieres jerarquía tonal. */
-  --sec:1;
+@supports (color: color(display-p3 1 1 1)){
+  :root{
+    --bg: color(display-p3 0.9725 0.9725 0.9725);
+    --text: color(display-p3 0.1725 0.1608 0.1843);
+    --accent: color(display-p3 0.3137 0.2157 0.9765);
+  }
 }
 
 /* ===========================================================
@@ -54,141 +59,177 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg);
-  color:var(--text);
+  background:var(--bg);color:var(--text);
   font-family:"Albert Sans",system-ui,sans-serif;
-  font-synthesis-weight:none;
-  -webkit-font-smoothing:antialiased;
+  font-synthesis-weight:none;-webkit-font-smoothing:antialiased;
   min-height:100vh;
 }
-a{color:inherit}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-.wrap{max-width:1160px;margin:0 auto;padding:36px 30px 120px}
-
-/* --- cabecera --- */
-.masthead{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:74px;
+/* ===========================================================
+   BARRA SUPERIOR — zona protegida, siempre visible
+   Fondo sólido del mismo color: el texto pasa por debajo y
+   desaparece sin degradados ni desenfoque.
+   =========================================================== */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  background:var(--bg);
 }
-.masthead h1{
+.topbar .inner{
+  max-width:1160px;margin:0 auto;padding:22px 30px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.topbar h1{
   font-size:var(--n-size);font-weight:var(--n-weight);
   letter-spacing:var(--n-ls);line-height:1.1;opacity:var(--sec);
 }
 .menu{
-  width:44px;height:44px;border-radius:50%;
-  border:1px solid var(--text);
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--text);
   display:grid;place-items:center;flex:none;
-  transition:background .18s ease,color .18s ease,border-color .18s ease;
+  transition:background var(--dur-fast) ease,color var(--dur-fast) ease;
 }
-.menu:hover{background:var(--text);color:var(--bg)}
-.menu svg{display:block}
+@media (hover:hover) and (pointer:fine){
+  .menu:hover{background:var(--text);color:var(--bg)}
+}
+.menu[aria-expanded="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 
-/* --- rejilla principal --- */
+/* índice de entradas */
+.index{
+  position:absolute;right:30px;top:calc(100% - 6px);z-index:41;
+  min-width:270px;max-width:min(360px, calc(100vw - 60px));
+  background:var(--bg);border:1px solid var(--text);border-radius:14px;
+  padding:8px;transform-origin:top right;
+  opacity:0;transform:scale(0.97) translateY(-4px);pointer-events:none;
+  transition:opacity var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
+}
+.index.open{opacity:1;transform:none;pointer-events:auto}
+.index button{
+  display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;
+  transition:background var(--dur-fast) ease,color var(--dur-fast) ease;
+}
+.index button .d{
+  display:block;font-size:calc(var(--l-size) - 3px);font-weight:var(--l-weight);
+  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:2px;
+}
+.index button .t{
+  display:block;font-size:var(--v-size);font-weight:var(--v-weight);
+  letter-spacing:var(--v-ls);line-height:1.25;
+}
+@media (hover:hover) and (pointer:fine){
+  .index button:hover{background:var(--accent);color:var(--bg)}
+  .index button:hover .d{opacity:1}
+}
+.index button[aria-current="true"] .t{color:var(--accent)}
+.index button[aria-current="true"]:hover .t{color:var(--bg)}
+
+/* ===========================================================
+   REJILLA
+   =========================================================== */
+.wrap{max-width:1160px;margin:0 auto;padding:calc(var(--topbar-h) + 46px) 30px 140px}
 .layout{
   display:grid;
   grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
-  gap:var(--gap);
-  align-items:start;
+  gap:var(--gap);align-items:start;
 }
 
-/* --- línea del tiempo --- */
-.rail{position:sticky;top:36px;padding-top:4px}
-.tickrow{
-  position:relative;height:var(--tick-gap);
-  display:flex;align-items:center;
-  width:100%;justify-content:flex-start;
-}
-.tickrow .mark{
-  display:block;height:1.5px;width:14px;background:var(--text);
+/* ===========================================================
+   LÍNEA DEL TIEMPO
+   =========================================================== */
+.rail{position:sticky;top:calc(var(--topbar-h) + 20px);overflow:visible}
+.rail svg{display:block;overflow:visible;touch-action:pan-y}
+.rail line{
+  stroke:var(--text);stroke-width:var(--tick-stroke);stroke-linecap:round;
   opacity:var(--sec);
-  transition:width .18s ease,background .18s ease,opacity .18s ease;
+  transition:stroke var(--dur-ui) ease,opacity var(--dur-ui) ease;
 }
-.tickrow.major .mark{width:24px}
-.tickrow.post .mark{width:24px;opacity:1}
-.tickrow.post{cursor:pointer}
-.tickrow.post:hover .mark{width:34px;background:var(--accent)}
-.tickrow.active .mark{background:var(--accent);width:24px;opacity:1}
+.rail line.entry{stroke:var(--accent);opacity:1}
+.rail svg[data-phase="fold"] line{stroke:var(--text);opacity:var(--sec)}
 .pill{
-  position:absolute;left:32px;top:50%;transform:translateY(-50%);
+  position:absolute;left:calc(var(--tick-base) + var(--tick-ext) + 14px);top:0;
   background:var(--accent);color:var(--bg);
   font-size:var(--p-size);font-weight:var(--p-weight);letter-spacing:var(--p-ls);
-  padding:7px 13px;border-radius:999px;white-space:nowrap;line-height:1;
+  padding:6px 11px;border-radius:999px;white-space:nowrap;line-height:1;
+  opacity:0;
+  transition:transform var(--dur-move) var(--ease-in-out),opacity var(--dur-ui) var(--ease-out);
 }
+.pill.on{opacity:1}
 
-/* --- post --- */
-.postmeta{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;margin-bottom:44px;
-}
+/* ===========================================================
+   ENTRADA
+   =========================================================== */
+.postmeta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:44px}
 .postmeta .who{
-  font-size:var(--m-size);font-weight:var(--m-weight);letter-spacing:var(--m-ls);
-  opacity:var(--sec);
+  font-size:var(--m-size);font-weight:var(--m-weight);letter-spacing:var(--m-ls);opacity:var(--sec);
 }
-.nav{display:flex;gap:10px;flex:none}
+.nav{display:flex;gap:8px;flex:none}
 .nav button{
-  width:30px;height:30px;border-radius:50%;
-  display:grid;place-items:center;font-size:19px;line-height:1;
-  opacity:var(--sec);
-  transition:background .18s ease,color .18s ease,opacity .18s ease;
+  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-size:19px;line-height:1;opacity:var(--sec);
+  transition:background var(--dur-fast) ease,color var(--dur-fast) ease,opacity var(--dur-fast) ease;
 }
-.nav button:hover:not([disabled]){background:var(--accent);color:var(--bg);opacity:1}
-.nav button[disabled]{opacity:calc(var(--sec) * .28);cursor:default}
+@media (hover:hover) and (pointer:fine){
+  .nav button:hover:not([disabled]){background:var(--accent);color:var(--bg);opacity:1}
+}
+.nav button[disabled]{opacity:calc(var(--sec) * .25);cursor:default}
+
+.article{
+  transition:opacity var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
+}
+.article[data-leaving="next"]{opacity:0;transform:translateY(-8px)}
+.article[data-leaving="prev"]{opacity:0;transform:translateY(8px)}
 
 .title{
-  font-size:var(--t-size);font-weight:var(--t-weight);
-  line-height:var(--t-lh);letter-spacing:var(--t-ls);word-spacing:var(--t-ws);
-  margin-bottom:38px;text-wrap:balance;
+  font-size:var(--t-size);font-weight:var(--t-weight);line-height:var(--t-lh);
+  letter-spacing:var(--t-ls);word-spacing:var(--t-ws);margin-bottom:38px;text-wrap:balance;
 }
 .body p{
-  font-size:var(--b-size);font-weight:var(--b-weight);
-  line-height:var(--b-lh);letter-spacing:var(--b-ls);word-spacing:var(--b-ws);
+  font-size:var(--b-size);font-weight:var(--b-weight);line-height:var(--b-lh);
+  letter-spacing:var(--b-ls);word-spacing:var(--b-ws);
 }
 .body p + p{margin-top:var(--b-gap)}
 
-/* --- columna derecha --- */
-.side{position:sticky;top:36px;display:grid;gap:40px}
+/* ===========================================================
+   COLUMNA DERECHA
+   =========================================================== */
+.side{position:sticky;top:calc(var(--topbar-h) + 20px);display:grid;gap:36px}
 .field .label{
-  display:block;
-  font-size:var(--l-size);font-weight:var(--l-weight);letter-spacing:var(--l-ls);
-  opacity:var(--sec);margin-bottom:12px;
+  display:block;font-size:var(--l-size);font-weight:var(--l-weight);
+  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:12px;
 }
 .field .value{
-  font-size:var(--v-size);font-weight:var(--v-weight);
-  line-height:var(--v-lh);letter-spacing:var(--v-ls);
+  font-size:var(--v-size);font-weight:var(--v-weight);line-height:var(--v-lh);letter-spacing:var(--v-ls);
 }
-
-/* --- responsive --- */
-@media (max-width:1000px){
-  .layout{grid-template-columns:1fr;gap:44px}
-  .rail{position:static;display:flex;flex-wrap:wrap;gap:0;order:3}
-  .rail .tickrow{width:auto;height:auto;padding:0 6px}
-  .rail .tickrow .mark{width:2px;height:14px}
-  .rail .tickrow.major .mark,.rail .tickrow.post .mark{height:22px;width:2px}
-  .rail .tickrow:hover .mark{width:2px;height:26px}
-  .rail .pill{position:static;transform:none;margin-left:8px}
-  .side{position:static;order:2;grid-template-columns:1fr 1fr;gap:26px}
-  .wrap{padding:24px 20px 80px}
-  .masthead{margin-bottom:48px}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ===========================================================
-   PANEL DE PROTOTIPO
-   No forma parte del diseño: usa su propio color (gris neutro)
-   para no contaminar la paleta de 3 colores.
+   RESPONSIVE
+   =========================================================== */
+@media (max-width:1000px){
+  .layout{grid-template-columns:1fr;gap:40px}
+  .rail{display:none}
+  .side{position:static;order:2;grid-template-columns:1fr 1fr;gap:24px}
+  .wrap{padding:calc(var(--topbar-h) + 30px) 20px 90px}
+  .topbar .inner{padding:16px 20px}
+  .index{right:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:1ms!important;animation-duration:1ms!important}
+}
+
+/* ===========================================================
+   PANEL DE PROTOTIPO (gris neutro, fuera de la paleta)
    =========================================================== */
 #protoBtn{
-  position:fixed;right:18px;bottom:18px;z-index:60;
-  background:#1b1c22;color:#fff;font-size:13px;font-weight:500;
-  padding:11px 16px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.22);
+  position:fixed;right:18px;bottom:18px;z-index:60;background:#1b1c22;color:#fff;
+  font-size:13px;font-weight:500;padding:11px 16px;border-radius:999px;
+  box-shadow:0 6px 24px rgba(0,0,0,.22);
 }
 #proto{
   position:fixed;right:18px;bottom:18px;z-index:61;width:334px;
-  max-height:calc(100vh - 36px);overflow:auto;
-  background:#1b1c22;color:#fff;border-radius:16px;padding:16px;
-  box-shadow:0 10px 40px rgba(0,0,0,.35);font-size:12px;display:none;
+  max-height:calc(100vh - 36px);overflow:auto;background:#1b1c22;color:#fff;
+  border-radius:16px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35);
+  font-size:12px;display:none;
 }
 #proto.open{display:block}
 #proto h2{font-size:13px;font-weight:600;margin-bottom:2px}
@@ -201,33 +242,43 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .ctrl{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin:9px 0 0}
 .ctrl label{opacity:.72}
 .ctrl output{font-variant-numeric:tabular-nums;opacity:.95}
-.ctrl input[type=range]{grid-column:1/-1;width:100%;accent-color:#FF1D58;height:18px}
+.ctrl input[type=range]{grid-column:1/-1;width:100%;accent-color:#5037f9;height:18px}
 .ctrl input[type=color]{width:34px;height:26px;padding:0;border:1px solid #43454f;border-radius:6px;background:none;cursor:pointer}
 .ctrl input[type=text]{grid-column:1/-1;width:100%;background:#26272f;border:1px solid #3a3c46;color:#fff;border-radius:6px;padding:6px 8px;font:inherit}
+.ctrl input[type=checkbox]{width:16px;height:16px;accent-color:#5037f9}
 .rowbtns{display:flex;gap:8px;margin-top:14px}
-.rowbtns button{flex:1;background:#FF1D58;color:#fff;border-radius:9px;padding:9px;font-weight:600}
+.rowbtns button{flex:1;background:#5037f9;color:#fff;border-radius:9px;padding:9px;font-weight:600}
 .rowbtns button.ghost{background:#2c2e37}
 #out{width:100%;height:190px;margin-top:10px;background:#101116;color:#dfe1e8;
-  border:1px solid #3a3c46;border-radius:9px;padding:9px;font-family:ui-monospace,Menlo,monospace;
-  font-size:11px;line-height:1.45;display:none;white-space:pre;overflow:auto}
+  border:1px solid #3a3c46;border-radius:9px;padding:9px;
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.45;
+  display:none;white-space:pre;overflow:auto}
 #out.show{display:block}
 @media print{#proto,#protoBtn{display:none!important}}
 </style>
 </head>
 
 <body>
-<div class="wrap">
-  <header class="masthead">
+
+<header class="topbar">
+  <div class="inner">
     <h1>Francisco Guadarrama</h1>
-    <button class="menu" aria-label="Menú">
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="index" aria-label="Índice de entradas">
       <svg width="17" height="11" viewBox="0 0 17 11" fill="none" aria-hidden="true">
         <path d="M1 1h15M3 5.5h11M6 10h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
     </button>
-  </header>
+  </div>
+  <div class="index" id="index" role="menu" aria-label="Entradas"></div>
+</header>
 
+<div class="wrap">
   <div class="layout">
-    <nav class="rail" id="rail" aria-label="Línea del tiempo"></nav>
+
+    <div class="rail" id="rail">
+      <svg id="railSvg" data-phase="fold" aria-hidden="true"></svg>
+      <span class="pill" id="pill"></span>
+    </div>
 
     <main>
       <div class="postmeta">
@@ -237,14 +288,17 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
           <button id="next" aria-label="Entrada siguiente">›</button>
         </div>
       </div>
-      <h2 class="title" id="title"></h2>
-      <div class="body" id="body"></div>
+      <article class="article" id="article">
+        <h2 class="title" id="title"></h2>
+        <div class="body" id="body"></div>
+      </article>
     </main>
 
     <aside class="side">
       <div class="field"><span class="label">Fecha</span><p class="value" id="fDate"></p></div>
       <div class="field"><span class="label">Lugar</span><p class="value" id="fLoc"></p></div>
     </aside>
+
   </div>
 </div>
 
@@ -267,161 +321,337 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 <script src="posts.js"></script>
 <script>
 /* ===========================================================
-   1. AJUSTE ÚNICO PARA LA VERSIÓN FINAL
-   Cambia a false y el panel de prototipo desaparece por completo.
+   1. INTERRUPTOR PARA LA VERSIÓN FINAL
    =========================================================== */
 const PROTOTYPE = true;
 
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+
 /* ===========================================================
-   2. COLOR EN DISPLAY-P3
-   Se reutilizan las coordenadas sRGB dentro del espacio P3:
-   en pantallas P3 el color se muestra en su versión más saturada;
-   en pantallas sRGB cae al hex original sin cambio visible.
+   2. COLOR DISPLAY-P3
    =========================================================== */
 const P3_OK = window.CSS && CSS.supports('color','color(display-p3 1 1 1)');
 function toP3(hex){
   const h = hex.replace('#','');
   const n = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
-  const r = parseInt(n.slice(0,2),16)/255,
-        g = parseInt(n.slice(2,4),16)/255,
-        b = parseInt(n.slice(4,6),16)/255;
+  const r = parseInt(n.slice(0,2),16)/255, g = parseInt(n.slice(2,4),16)/255, b = parseInt(n.slice(4,6),16)/255;
   return P3_OK ? `color(display-p3 ${+r.toFixed(4)} ${+g.toFixed(4)} ${+b.toFixed(4)})` : hex;
 }
 
 /* ===========================================================
-   3. TOKENS Y CONTROLES
+   3. TOKENS
    =========================================================== */
 const SPEC = [
   ['Color', [
     ['bg','--bg','Fondo','color','#f8f8f8'],
-    ['text','--text','Texto','color','#272a3f'],
-    ['accent','--accent','Acento','color','#FF1D58'],
-    ['sec','--sec','Opacidad secundaria','range','1',0.3,1,0.01,'']
+    ['text','--text','Texto','color','#2c292f'],
+    ['accent','--accent','Acento','color','#5037f9'],
+    ['sec','--sec','Opacidad secundaria','range','0.95',0.3,1,0.01,'']
   ]],
   ['Título', [
     ['tSize','--t-size','Tamaño','range','64px',24,120,1,'px'],
     ['tWeight','--t-weight','Peso','range','580',100,900,10,''],
-    ['tLh','--t-lh','Interlínea','range','65px',24,140,1,'px'],
-    ['tLs','--t-ls','Interletraje','range','-0.02em',-0.08,0.08,0.005,'em'],
-    ['tWs','--t-ws','Espacio entre palabras','range','0em',-0.1,0.4,0.01,'em']
+    ['tLh','--t-lh','Interlínea','range','58px',24,140,1,'px'],
+    ['tLs','--t-ls','Interletraje','range','-0.08em',-0.12,0.08,0.005,'em'],
+    ['tWs','--t-ws','Espacio entre palabras','range','0.05em',-0.1,0.4,0.01,'em']
   ]],
   ['Cuerpo', [
-    ['bSize','--b-size','Tamaño','range','18px',12,32,1,'px'],
-    ['bWeight','--b-weight','Peso','range','400',100,900,10,''],
-    ['bLh','--b-lh','Interlínea','range','28px',14,56,1,'px'],
-    ['bLs','--b-ls','Interletraje','range','0em',-0.05,0.1,0.005,'em'],
-    ['bWs','--b-ws','Espacio entre palabras','range','0em',-0.1,0.4,0.01,'em'],
-    ['bGap','--b-gap','Espacio entre párrafos','range','28px',0,64,1,'px']
+    ['bSize','--b-size','Tamaño','range','17px',12,32,1,'px'],
+    ['bWeight','--b-weight','Peso','range','350',100,900,10,''],
+    ['bLh','--b-lh','Interlínea','range','22px',14,56,1,'px'],
+    ['bLs','--b-ls','Interletraje','range','-0.05em',-0.1,0.1,0.005,'em'],
+    ['bWs','--b-ws','Espacio entre palabras','range','-0.04em',-0.1,0.4,0.01,'em'],
+    ['bGap','--b-gap','Espacio entre párrafos','range','15px',0,64,1,'px']
   ]],
   ['Nombre y meta', [
-    ['nSize','--n-size','Nombre · tamaño','range','30px',16,64,1,'px'],
-    ['nWeight','--n-weight','Nombre · peso','range','400',100,900,10,''],
-    ['nLs','--n-ls','Nombre · interletraje','range','-0.01em',-0.06,0.1,0.005,'em'],
-    ['mSize','--m-size','Meta · tamaño','range','15px',10,24,1,'px'],
-    ['mWeight','--m-weight','Meta · peso','range','400',100,900,10,''],
-    ['mLs','--m-ls','Meta · interletraje','range','0em',-0.04,0.2,0.005,'em']
+    ['nSize','--n-size','Nombre · tamaño','range','26px',16,64,1,'px'],
+    ['nWeight','--n-weight','Nombre · peso','range','470',100,900,10,''],
+    ['nLs','--n-ls','Nombre · interletraje','range','-0.06em',-0.12,0.1,0.005,'em'],
+    ['mSize','--m-size','Meta · tamaño','range','16px',10,24,1,'px'],
+    ['mWeight','--m-weight','Meta · peso','range','300',100,900,10,''],
+    ['mLs','--m-ls','Meta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
   ]],
   ['Columna derecha', [
-    ['lSize','--l-size','Etiqueta · tamaño','range','15px',10,24,1,'px'],
-    ['lWeight','--l-weight','Etiqueta · peso','range','400',100,900,10,''],
-    ['lLs','--l-ls','Etiqueta · interletraje','range','0em',-0.04,0.2,0.005,'em'],
-    ['vSize','--v-size','Valor · tamaño','range','18px',12,32,1,'px'],
-    ['vWeight','--v-weight','Valor · peso','range','400',100,900,10,''],
-    ['vLh','--v-lh','Valor · interlínea','range','26px',14,48,1,'px'],
-    ['vLs','--v-ls','Valor · interletraje','range','0em',-0.05,0.1,0.005,'em']
+    ['lSize','--l-size','Etiqueta · tamaño','range','16px',10,24,1,'px'],
+    ['lWeight','--l-weight','Etiqueta · peso','range','300',100,900,10,''],
+    ['lLs','--l-ls','Etiqueta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em'],
+    ['vSize','--v-size','Valor · tamaño','range','16px',12,32,1,'px'],
+    ['vWeight','--v-weight','Valor · peso','range','530',100,900,10,''],
+    ['vLh','--v-lh','Valor · interlínea','range','14px',10,48,1,'px'],
+    ['vLs','--v-ls','Valor · interletraje','range','-0.05em',-0.1,0.1,0.005,'em']
   ]],
-  ['Línea del tiempo y rejilla', [
+  ['Línea del tiempo', [
     ['pSize','--p-size','Píldora · tamaño','range','12px',9,20,1,'px'],
-    ['pWeight','--p-weight','Píldora · peso','range','500',100,900,10,''],
-    ['pLs','--p-ls','Píldora · interletraje','range','0em',-0.04,0.2,0.005,'em'],
-    ['tickGap','--tick-gap','Separación de marcas','range','22px',12,40,1,'px'],
-    ['colRail','--col-rail','Ancho línea del tiempo','range','155px',110,260,1,'px'],
-    ['colText','--col-text','Ancho columna de texto','range','495px',360,760,5,'px'],
-    ['colSide','--col-side','Ancho columna derecha','range','270px',180,420,5,'px'],
-    ['gap','--gap','Separación entre columnas','range','56px',24,120,2,'px']
+    ['pWeight','--p-weight','Píldora · peso','range','620',100,900,10,''],
+    ['pLs','--p-ls','Píldora · interletraje','range','-0.04em',-0.1,0.2,0.005,'em'],
+    ['tickGap','--tick-gap','Separación entre marcas','range','17px',10,40,1,'px'],
+    ['tickStroke','--tick-stroke','Grosor de marca','range','1.5px',0.5,4,0.25,'px'],
+    ['tickBase','--tick-base','Largo base','range','14px',6,48,1,'px'],
+    ['tickExt','--tick-ext','Extensión máxima','range','16px',0,60,1,'px'],
+    ['tickFalloff','--tick-falloff','Caída de la onda','range','0.62',0.2,0.95,0.01,''],
+    ['followScroll',null,'La onda sigue el scroll','toggle','0']
+  ]],
+  ['Rejilla', [
+    ['colRail','--col-rail','Ancho línea del tiempo','range','110px',80,260,1,'px'],
+    ['colText','--col-text','Ancho columna de texto','range','590px',360,760,5,'px'],
+    ['colSide','--col-side','Ancho columna derecha','range','260px',180,420,5,'px'],
+    ['gap','--gap','Separación entre columnas','range','60px',24,120,2,'px']
   ]]
 ];
 
-const DEFAULTS = {};
-const VARS = {};
+const DEFAULTS = {}, VARS = {};
 SPEC.forEach(([,items]) => items.forEach(([k,v,,,def]) => { DEFAULTS[k]=def; VARS[k]=v; }));
 let tokens = {...DEFAULTS};
 
 function apply(){
   const r = document.documentElement.style;
   for (const k in tokens){
-    const v = tokens[k];
-    r.setProperty(VARS[k], (k==='bg'||k==='text'||k==='accent') ? toP3(v) : v);
+    if (!VARS[k]) continue;
+    r.setProperty(VARS[k], (k==='bg'||k==='text'||k==='accent') ? toP3(tokens[k]) : tokens[k]);
   }
-  document.documentElement.style.setProperty('--bg-hex', tokens.bg);
+  if (window.rail) rail.remeasure();
 }
 
 /* ===========================================================
-   4. LÍNEA DEL TIEMPO + POSTS
+   4. ENTRADAS
    =========================================================== */
 const posts = (window.POSTS || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
-const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MESL = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const d = s => new Date(s + 'T12:00:00');
-const fmtShort = x => `${x.getDate()} ${MESES[x.getMonth()]} ${x.getFullYear()}`;
-const fmtLong  = x => `${x.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][x.getMonth()]} de ${x.getFullYear()}`;
+const fmtShort = x => `${x.getDate()} ${MES[x.getMonth()]} ${x.getFullYear()}`;
+const fmtLong  = x => `${x.getDate()} de ${MESL[x.getMonth()]} de ${x.getFullYear()}`;
 
 let current = 0;
 
-/* Marcas: una por semana si el archivo abarca menos de 3 años, una por mes si abarca más.
-   Se extiende el rango hasta tener al menos 30 marcas para que la columna no se vea vacía. */
+/* marcas: semanales si el archivo abarca menos de 3 años, mensuales si abarca más */
 function buildTicks(){
   if (!posts.length) return [];
   const first = d(posts[0].date), last = d(posts[posts.length-1].date);
-  const spanDays = (last - first) / 86400000;
-  const byMonth = spanDays > 1095;
+  const byMonth = (last - first) / 86400000 > 1095;
   const step = t => byMonth ? new Date(t.getFullYear(), t.getMonth()+1, 1, 12)
                             : new Date(t.getFullYear(), t.getMonth(), t.getDate()+7, 12);
-
-  let start = byMonth ? new Date(first.getFullYear(), first.getMonth(), 1, 12)
-                      : new Date(first.getFullYear(), first.getMonth(), first.getDate()-7, 12);
-  const ticks = [];
-  let t = new Date(start), end = new Date(last.getTime() + (byMonth ? 86400000*60 : 86400000*21));
-  while (t <= end || ticks.length < 30){
-    ticks.push(new Date(t));
-    t = step(t);
-    if (ticks.length > 400) break;
+  let t = byMonth ? new Date(first.getFullYear(), first.getMonth(), 1, 12)
+                  : new Date(first.getFullYear(), first.getMonth(), first.getDate()-7, 12);
+  const end = new Date(last.getTime() + (byMonth ? 86400000*60 : 86400000*21));
+  const dates = [];
+  while (t <= end || dates.length < 30){
+    dates.push(new Date(t)); t = step(t);
+    if (dates.length > 400) break;
   }
-  return ticks.map(date => {
-    const idx = posts.findIndex(p => {
-      const pd = d(p.date), nx = step(date);
-      return pd >= date && pd < nx;
-    });
-    const major = byMonth ? date.getMonth() === 0 : date.getDate() <= 7;
-    return { date, post: idx, major };
-  });
+  return dates.map(date => ({
+    date,
+    post: posts.findIndex(p => { const pd = d(p.date); return pd >= date && pd < step(date); })
+  }));
 }
 const TICKS = buildTicks();
+const tickOfPost = posts.map((_,i)=> Math.max(0, TICKS.findIndex(t => t.post === i)));
 
-function renderRail(){
-  const rail = document.getElementById('rail');
-  rail.innerHTML = '';
-  TICKS.forEach(tk => {
-    const el = document.createElement(tk.post > -1 ? 'button' : 'div');
-    el.className = 'tickrow' + (tk.major ? ' major' : '') + (tk.post > -1 ? ' post' : '') +
-                   (tk.post === current ? ' active' : '');
-    el.innerHTML = '<span class="mark"></span>';
-    if (tk.post > -1){
-      el.setAttribute('aria-label', posts[tk.post].title);
-      el.addEventListener('click', () => go(tk.post));
-      if (tk.post === current){
-        const pill = document.createElement('span');
-        pill.className = 'pill';
-        pill.textContent = fmtShort(d(posts[tk.post].date));
-        el.appendChild(pill);
-      }
-    }
-    rail.appendChild(el);
-  });
+/* ===========================================================
+   5. LÍNEA DEL TIEMPO ANIMADA
+   Adaptación de LucasHJin/scrollbar-but-cooler:
+   secuencia de poses + extensión con caída exponencial.
+   Sin flecha: la secuencia empieza en la línea comprimida.
+   =========================================================== */
+const ORDER = ['compressed','extended','split','tracking'];
+const EASE_OUT = cubicBezier(0.23, 1, 0.32, 1);
+const TRANS = [
+  { duration: 0.30, ease: EASE_OUT },  // comprimida -> extendida
+  { duration: 0.34, ease: EASE_OUT },  // extendida  -> partida en marcas
+  { duration: 0.26, ease: EASE_OUT }   // marcas     -> onda activa
+];
+
+function cubicBezier(x1,y1,x2,y2){
+  const at = (a,b,t) => 3*a*t*(1-t)**2 + 3*b*t*t*(1-t) + t**3;
+  return x => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    let lo = 0, hi = 1, t = x;
+    for (let i = 0; i < 24; i++){ if (at(x1,x2,t) < x) lo = t; else hi = t; t = (lo+hi)/2; }
+    return at(y1,y2,t);
+  };
 }
+const lerp = (a,b,t) => a + (b-a)*t;
 
-function renderPost(){
+const rail = (function(){
+  const host = document.getElementById('rail');
+  const svg  = document.getElementById('railSvg');
+  const pill = document.getElementById('pill');
+  const n = TICKS.length;
+  let lines = [], poses = null, G = null;
+  const extend = new Float64Array(n);
+  let progress = 0, target = 3, rafId = null, lastTime = 0;
+  let hoverIndex = null, entered = false;
+  const SMOOTH_TAU = 0.085;
+
+  /* geometría */
+  function readGeometry(){
+    const cs = getComputedStyle(document.documentElement);
+    const num = v => parseFloat(cs.getPropertyValue(v));
+    return {
+      gap: num('--tick-gap'), stroke: num('--tick-stroke'),
+      base: num('--tick-base'), ext: num('--tick-ext'),
+      falloff: parseFloat(cs.getPropertyValue('--tick-falloff'))
+    };
+  }
+  function buildPoses(){
+    const H = n * G.gap, x0 = G.stroke / 2, cx = H / 2;
+    const foldLen = Math.min(48, H * 0.14), segLen = foldLen / n, top = cx - foldLen/2;
+    const compressed = [], extended = [], split = [];
+    for (let i = 0; i < n; i++){
+      compressed.push([x0, top + i*segLen, x0, top + (i+1)*segLen]);
+      extended.push([x0, i*G.gap, x0, (i+1)*G.gap]);
+      const c = (i + 0.5) * G.gap;
+      split.push([x0, c, x0 + G.base, c]);
+    }
+    return { compressed, extended, split, tracking: split, H };
+  }
+  function build(){
+    G = readGeometry();
+    poses = buildPoses();
+    svg.setAttribute('viewBox', `0 0 ${G.base + G.ext + 6} ${poses.H}`);
+    svg.setAttribute('width', G.base + G.ext + 6);
+    svg.setAttribute('height', poses.H);
+    if (lines.length !== n){
+      svg.innerHTML = '';
+      lines = TICKS.map(() => svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg','line')));
+    }
+    paintColors();
+  }
+  function paintColors(){
+    TICKS.forEach((t,i) => lines[i].classList.toggle('entry', t.post > -1));
+  }
+
+  /* foco de la onda */
+  function scrollFraction(){
+    const max = document.documentElement.scrollHeight - innerHeight;
+    return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  }
+  function focusIndex(){
+    if (hoverIndex !== null) return hoverIndex;
+    if (tokens.followScroll === '1') return Math.round(scrollFraction() * (n - 1));
+    return tickOfPost[current] ?? 0;
+  }
+  const extensionFor = (i, f) => G.ext * G.falloff ** Math.abs(i - f);
+
+  function advanceExtensions(dt){
+    const f = focusIndex();
+    const alpha = reduceMotion.matches ? 1 : 1 - Math.exp(-dt / SMOOTH_TAU);
+    let settled = true;
+    for (let i = 0; i < n; i++){
+      const goal = extensionFor(i, f);
+      const next = extend[i] + (goal - extend[i]) * alpha;
+      if (Math.abs(goal - next) < 0.05) extend[i] = goal;
+      else { extend[i] = next; settled = false; }
+    }
+    return settled;
+  }
+
+  function applyGeometry(t){
+    const seg = Math.min(Math.max(Math.floor(t), 0), TRANS.length - 1);
+    const from = poses[ORDER[seg]], to = poses[ORDER[seg + 1]];
+    const local = TRANS[seg].ease(t - seg);
+    const extScale = seg === TRANS.length - 1 ? local : 0;
+    for (let i = 0; i < n; i++){
+      const f = from[i], g = to[i], el = lines[i];
+      el.setAttribute('x1', lerp(f[0], g[0], local));
+      el.setAttribute('y1', lerp(f[1], g[1], local));
+      el.setAttribute('x2', lerp(f[2], g[2], local) + extScale * extend[i]);
+      el.setAttribute('y2', lerp(f[3], g[3], local));
+    }
+    svg.dataset.phase = t < 1.4 ? 'fold' : 'ticks';
+    pill.classList.toggle('on', t > 1.9);
+  }
+
+  function advance(dt){
+    if (reduceMotion.matches){ progress = target; return; }
+    let left = dt;
+    while (left > 0 && progress !== target){
+      const dir = target > progress ? 1 : -1;
+      const seg = dir > 0 ? Math.min(Math.floor(progress), TRANS.length - 1)
+                          : Math.max(Math.ceil(progress) - 1, 0);
+      const bound = dir > 0 ? seg + 1 : seg;
+      const stop = dir > 0 ? Math.min(target, bound) : Math.max(target, bound);
+      const dur = TRANS[seg].duration;
+      const time = Math.abs(stop - progress) * dur;
+      if (time <= left){ progress = stop; left -= time; }
+      else { progress += (left / dur) * dir; left = 0; }
+    }
+  }
+
+  function step(now){
+    const dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+    advance(dt);
+    const settled = advanceExtensions(dt);
+    applyGeometry(progress);
+    if (progress === target && settled){ rafId = null; return; }
+    rafId = requestAnimationFrame(step);
+  }
+  function kick(){
+    if (rafId === null){ lastTime = performance.now(); rafId = requestAnimationFrame(step); }
+  }
+
+  function movePill(){
+    const i = tickOfPost[current] ?? 0;
+    const y = (i + 0.5) * G.gap;
+    pill.textContent = fmtShort(d(posts[current].date));
+    pill.style.transform = `translateY(${y - pill.offsetHeight / 2}px)`;
+  }
+
+  /* puntero */
+  function indexFromEvent(e){
+    const r = svg.getBoundingClientRect();
+    return Math.min(n - 1, Math.max(0, Math.floor((e.clientY - r.top) / G.gap)));
+  }
+  host.addEventListener('pointermove', e => {
+    if (!canHover.matches) return;
+    const i = indexFromEvent(e);
+    if (i !== hoverIndex){ hoverIndex = i; kick(); }
+    const near = nearestPost(i);
+    host.style.cursor = near !== null ? 'pointer' : '';
+  });
+  host.addEventListener('pointerleave', () => { hoverIndex = null; host.style.cursor = ''; kick(); });
+  host.addEventListener('click', e => {
+    const near = nearestPost(indexFromEvent(e));
+    if (near !== null) go(near);
+  });
+  function nearestPost(i){
+    for (let r = 0; r <= 1; r++){
+      if (TICKS[i - r] && TICKS[i - r].post > -1) return TICKS[i - r].post;
+      if (TICKS[i + r] && TICKS[i + r].post > -1) return TICKS[i + r].post;
+    }
+    return null;
+  }
+
+  addEventListener('scroll', () => { if (tokens.followScroll === '1') kick(); }, {passive:true});
+  addEventListener('resize', () => { build(); movePill(); kick(); });
+
+  return {
+    start(){
+      build();
+      const f = focusIndex();
+      for (let i = 0; i < n; i++) extend[i] = extensionFor(i, f);
+      progress = reduceMotion.matches || entered ? target : 0;
+      entered = true;
+      applyGeometry(progress);
+      movePill();
+      kick();
+    },
+    remeasure(){ build(); movePill(); kick(); },
+    sync(){ movePill(); kick(); }
+  };
+})();
+window.rail = rail;
+
+/* ===========================================================
+   6. NAVEGACIÓN ENTRE ENTRADAS
+   =========================================================== */
+const article = document.getElementById('article');
+
+function paint(){
   const p = posts[current];
-  if (!p){ document.getElementById('title').textContent = 'Aún no hay entradas.'; return; }
   document.getElementById('chapter').textContent = p.chapter || '';
   document.getElementById('range').textContent = p.range || '';
   document.getElementById('title').textContent = p.title;
@@ -431,30 +661,69 @@ function renderPost(){
   document.getElementById('prev').disabled = current === 0;
   document.getElementById('next').disabled = current === posts.length - 1;
   document.title = p.title + ' — Francisco Guadarrama';
-  if (p.id) history.replaceState(null, '', '#' + p.id);
+  if (p.id) { try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
+  buildIndex();
 }
 
 function go(i){
-  if (i < 0 || i >= posts.length) return;
-  current = i;
-  renderPost(); renderRail();
-  window.scrollTo({top:0, behavior:'smooth'});
+  if (i < 0 || i >= posts.length || i === current) return;
+  const dir = i > current ? 'next' : 'prev';
+  const finish = () => {
+    current = i;
+    paint();
+    rail.sync();
+    article.dataset.leaving = dir === 'next' ? 'prev' : 'next';
+    requestAnimationFrame(() => requestAnimationFrame(() => article.removeAttribute('data-leaving')));
+    scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+  };
+  if (reduceMotion.matches){ finish(); return; }
+  article.dataset.leaving = dir;
+  setTimeout(finish, 200);
 }
 
 document.getElementById('prev').addEventListener('click', ()=>go(current-1));
 document.getElementById('next').addEventListener('click', ()=>go(current+1));
-document.addEventListener('keydown', e => {
+addEventListener('keydown', e => {
   if (e.target.matches('input,textarea')) return;
   if (e.key === 'ArrowLeft') go(current-1);
   if (e.key === 'ArrowRight') go(current+1);
+  if (e.key === 'Escape') closeIndex();
 });
 
-/* enlace directo: /blog/#id-del-post */
-const hash = location.hash.slice(1);
-if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
+/* ===========================================================
+   7. ÍNDICE (botón de la barra superior)
+   =========================================================== */
+const menuBtn = document.getElementById('menuBtn'), indexEl = document.getElementById('index');
+function buildIndex(){
+  indexEl.innerHTML = '';
+  posts.slice().reverse().forEach(p => {
+    const i = posts.indexOf(p);
+    const b = document.createElement('button');
+    b.setAttribute('role','menuitem');
+    if (i === current) b.setAttribute('aria-current','true');
+    b.innerHTML = `<span class="d">${fmtShort(d(p.date))}</span><span class="t">${p.title}</span>`;
+    b.addEventListener('click', () => { closeIndex(); go(i); });
+    indexEl.appendChild(b);
+  });
+}
+function closeIndex(){ indexEl.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', () => {
+  const open = indexEl.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', String(open));
+});
+document.addEventListener('click', e => {
+  if (!indexEl.contains(e.target) && !menuBtn.contains(e.target)) closeIndex();
+});
+
+/* alto real de la barra superior */
+const topbar = document.querySelector('.topbar');
+function measureTopbar(){
+  document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px');
+}
+addEventListener('resize', measureTopbar);
 
 /* ===========================================================
-   5. PANEL DE PROTOTIPO
+   8. PANEL DE PROTOTIPO
    =========================================================== */
 function buildPanel(){
   const box = document.getElementById('groups');
@@ -462,30 +731,32 @@ function buildPanel(){
     const det = document.createElement('details');
     if (gi === 0) det.open = true;
     det.innerHTML = `<summary>${name}</summary>`;
-    items.forEach(([k,,label,type,def,min,max,step,unit]) => {
+    items.forEach(([k,,label,type,def,min,max,stepv,unit]) => {
       const row = document.createElement('div');
       row.className = 'ctrl';
       if (type === 'color'){
-        row.innerHTML =
-          `<label for="c_${k}">${label}</label>
-           <input type="color" id="c_${k}" value="${def}">
-           <input type="text" id="h_${k}" value="${def}" spellcheck="false">`;
+        row.innerHTML = `<label for="c_${k}">${label}</label>
+          <input type="color" id="c_${k}" value="${def}">
+          <input type="text" id="h_${k}" value="${def}" spellcheck="false">`;
         det.appendChild(row);
-        const picker = row.querySelector(`#c_${k}`), hexIn = row.querySelector(`#h_${k}`);
-        picker.addEventListener('input', () => { hexIn.value = picker.value; tokens[k] = picker.value; apply(); save(); });
-        hexIn.addEventListener('change', () => {
-          const v = hexIn.value.trim();
-          if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)){ picker.value = v; tokens[k] = v; apply(); save(); }
-          else hexIn.value = tokens[k];
+        const pick = row.querySelector(`#c_${k}`), hex = row.querySelector(`#h_${k}`);
+        pick.addEventListener('input', ()=>{ hex.value = pick.value; tokens[k] = pick.value; apply(); save(); });
+        hex.addEventListener('change', ()=>{
+          const v = hex.value.trim();
+          if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)){ pick.value = v; tokens[k] = v; apply(); save(); }
+          else hex.value = tokens[k];
         });
+      } else if (type === 'toggle'){
+        row.innerHTML = `<label for="t_${k}">${label}</label><input type="checkbox" id="t_${k}">`;
+        det.appendChild(row);
+        const cb = row.querySelector(`#t_${k}`);
+        cb.addEventListener('change', ()=>{ tokens[k] = cb.checked ? '1' : '0'; rail.sync(); save(); });
       } else {
-        const num = parseFloat(def);
-        row.innerHTML =
-          `<label for="r_${k}">${label}</label><output id="o_${k}">${def}</output>
-           <input type="range" id="r_${k}" min="${min}" max="${max}" step="${step}" value="${num}">`;
+        row.innerHTML = `<label for="r_${k}">${label}</label><output id="o_${k}">${def}</output>
+          <input type="range" id="r_${k}" min="${min}" max="${max}" step="${stepv}" value="${parseFloat(def)}">`;
         det.appendChild(row);
         const sl = row.querySelector(`#r_${k}`), out = row.querySelector(`#o_${k}`);
-        sl.addEventListener('input', () => {
+        sl.addEventListener('input', ()=>{
           const val = sl.value + (unit || '');
           tokens[k] = val; out.textContent = val; apply(); save();
         });
@@ -494,31 +765,30 @@ function buildPanel(){
     box.appendChild(det);
   });
 }
-
 function syncPanel(){
   for (const k in tokens){
     const sl = document.getElementById('r_'+k), out = document.getElementById('o_'+k),
-          pk = document.getElementById('c_'+k), hx = document.getElementById('h_'+k);
+          pk = document.getElementById('c_'+k), hx = document.getElementById('h_'+k),
+          cb = document.getElementById('t_'+k);
     if (sl){ sl.value = parseFloat(tokens[k]); out.textContent = tokens[k]; }
     if (pk){ pk.value = tokens[k]; hx.value = tokens[k]; }
+    if (cb){ cb.checked = tokens[k] === '1'; }
   }
 }
-
 function cssOut(){
-  const hex = k => tokens[k];
   const p3 = k => {
-    const h = hex(k).replace('#',''), n = h.length===3 ? h.split('').map(c=>c+c).join('') : h;
-    return [0,2,4].map(i => +(parseInt(n.slice(i,i+2),16)/255).toFixed(4)).join(' ');
+    const h = tokens[k].replace('#',''), s = h.length===3 ? h.split('').map(c=>c+c).join('') : h;
+    return [0,2,4].map(i => +(parseInt(s.slice(i,i+2),16)/255).toFixed(4)).join(' ');
   };
   const lines = [];
   SPEC.forEach(([,items]) => items.forEach(([k,v]) => {
-    if (['bg','text','accent'].includes(k)) return;
+    if (!v || ['bg','text','accent'].includes(k)) return;
     lines.push(`  ${v}: ${tokens[k]};`);
   }));
   return `:root{
-  --bg: ${hex('bg')};
-  --text: ${hex('text')};
-  --accent: ${hex('accent')};
+  --bg: ${tokens.bg};
+  --text: ${tokens.text};
+  --accent: ${tokens.accent};
 ${lines.join('\n')}
 }
 
@@ -530,27 +800,21 @@ ${lines.join('\n')}
   }
 }`;
 }
-
-function save(){ try{ localStorage.setItem('fg-blog-tokens', JSON.stringify(tokens)); }catch(e){} }
+const STORE = 'fg-blog-tokens-v2';
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(tokens)); }catch(e){} }
 function load(){
-  try{
-    const s = JSON.parse(localStorage.getItem('fg-blog-tokens') || 'null');
-    if (s) tokens = {...DEFAULTS, ...s};
-  }catch(e){}
+  try{ const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) tokens = {...DEFAULTS, ...s}; }catch(e){}
 }
 
 if (PROTOTYPE){
-  load();
-  buildPanel();
-  syncPanel();
+  load(); buildPanel(); syncPanel();
   const btn = document.getElementById('protoBtn'), panel = document.getElementById('proto'), out = document.getElementById('out');
   btn.hidden = false;
   btn.addEventListener('click', ()=>{ panel.classList.add('open'); btn.hidden = true; });
-  panel.addEventListener('click', e => { if (e.target === panel) {} });
-  document.addEventListener('keydown', e => {
+  addEventListener('keydown', e => {
     if (e.key === 'Escape' && panel.classList.contains('open')){ panel.classList.remove('open'); btn.hidden = false; }
   });
-  document.getElementById('export').addEventListener('click', () => {
+  document.getElementById('export').addEventListener('click', ()=>{
     out.value = cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
     out.classList.add('show');
   });
@@ -559,22 +823,28 @@ if (PROTOTYPE){
     catch(err){ out.value = cssOut(); out.classList.add('show'); out.select(); e.target.textContent = 'Selecciona y copia'; }
     setTimeout(()=> e.target.textContent = 'Copiar CSS', 1600);
   });
-  document.getElementById('download').addEventListener('click', () => {
+  document.getElementById('download').addEventListener('click', ()=>{
     const blob = new Blob([cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2)], {type:'text/plain'});
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'tokens-blog.txt';
-    a.click(); URL.revokeObjectURL(a.href);
+    a.href = URL.createObjectURL(blob); a.download = 'tokens-blog.txt'; a.click();
+    URL.revokeObjectURL(a.href);
   });
-  document.getElementById('reset').addEventListener('click', () => {
-    tokens = {...DEFAULTS}; apply(); syncPanel(); save();
-    out.classList.remove('show');
+  document.getElementById('reset').addEventListener('click', ()=>{
+    tokens = {...DEFAULTS}; apply(); syncPanel(); rail.sync(); out.classList.remove('show');
   });
 }
 
+/* ===========================================================
+   9. ARRANQUE
+   =========================================================== */
+const hash = location.hash.slice(1);
+if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
+
 apply();
-renderPost();
-renderRail();
+measureTopbar();
+paint();
+document.fonts.ready.then(() => { measureTopbar(); rail.remeasure(); });
+rail.start();
 </script>
 </body>
 </html>
