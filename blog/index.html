@@ -18,26 +18,41 @@
   --accent:#5037f9;
   --sec:0.95;
 
-  --t-size:64px; --t-weight:580; --t-lh:58px; --t-ls:-0.08em; --t-ws:0.05em;
+  --t-size:50px; --t-weight:580; --t-lh:46px; --t-ls:-0.08em; --t-ws:0.05em;
   --b-size:17px; --b-weight:350; --b-lh:22px; --b-ls:-0.05em; --b-ws:-0.04em; --b-gap:15px;
-  --n-size:26px; --n-weight:470; --n-ls:-0.06em;
+  --n-size:24px; --n-weight:470; --n-ls:-0.1em;
   --m-size:16px; --m-weight:300; --m-ls:-0.04em;
   --l-size:16px; --l-weight:300; --l-ls:-0.04em;
   --v-size:16px; --v-weight:530; --v-lh:14px; --v-ls:-0.05em;
   --p-size:12px; --p-weight:620; --p-ls:-0.04em;
 
+  --col-rail:110px; --col-text:680px; --col-side:205px; --gap:60px;
+
+  /* flechas */
+  --arrow-size:19px; --arrow-w:11px; --arrow-stroke:1.5px;
+  --arrow-pulse:3px; --arrow-period:1300ms; --arrow-gap:10px;
+
+  /* flujo y transición entre entradas */
+  --post-gap:150px;
+  --swap-dur:220ms; --swap-shift:7px; --swap-stagger:45ms;
+  --reveal-shift:14px; --reveal-dur:600ms;
+
+  /* línea del tiempo */
   --tick-gap:17px;
   --tick-stroke:1.5px;
+  --tick-stroke-entry:1.5px;
   --tick-base:14px;
   --tick-ext:16px;
   --tick-falloff:0.62;
+  --tick-op:0.95;
+  --tick-op-entry:1;
+  --rail-fold:300ms;
+  --rail-split:340ms;
+  --rail-wave:260ms;
+  --rail-tau:85ms;
 
-  --col-rail:110px; --col-text:590px; --col-side:260px; --gap:60px;
+  --topbar-h:70px;
 
-  /* alto real de la barra superior; lo mide el script */
-  --topbar-h:74px;
-
-  /* curvas y tiempos */
   --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
   --dur-fast:160ms;
@@ -61,24 +76,18 @@ html{-webkit-text-size-adjust:100%}
 body{
   background:var(--bg);color:var(--text);
   font-family:"Albert Sans",system-ui,sans-serif;
-  font-synthesis-weight:none;-webkit-font-smoothing:antialiased;
-  min-height:100vh;
+  font-synthesis-weight:none;-webkit-font-smoothing:antialiased;min-height:100vh;
 }
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ===========================================================
-   BARRA SUPERIOR — zona protegida, siempre visible
-   Fondo sólido del mismo color: el texto pasa por debajo y
-   desaparece sin degradados ni desenfoque.
+   BARRA SUPERIOR
    =========================================================== */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:40;
-  background:var(--bg);
-}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--bg)}
 .topbar .inner{
-  max-width:1160px;margin:0 auto;padding:22px 30px;
+  max-width:1160px;margin:0 auto;padding:20px 30px;
   display:flex;align-items:center;justify-content:space-between;gap:20px;
 }
 .topbar h1{
@@ -90,33 +99,24 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   display:grid;place-items:center;flex:none;
   transition:background var(--dur-fast) ease,color var(--dur-fast) ease;
 }
-@media (hover:hover) and (pointer:fine){
-  .menu:hover{background:var(--text);color:var(--bg)}
-}
+@media (hover:hover) and (pointer:fine){ .menu:hover{background:var(--text);color:var(--bg)} }
 .menu[aria-expanded="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 
-/* índice de entradas */
 .index{
   position:absolute;right:30px;top:calc(100% - 6px);z-index:41;
   min-width:270px;max-width:min(360px, calc(100vw - 60px));
-  background:var(--bg);border:1px solid var(--text);border-radius:14px;
-  padding:8px;transform-origin:top right;
-  opacity:0;transform:scale(0.97) translateY(-4px);pointer-events:none;
+  max-height:min(60vh, 520px);overflow:auto;
+  background:var(--bg);border:1px solid var(--text);border-radius:14px;padding:8px;
+  transform-origin:top right;opacity:0;transform:scale(0.97) translateY(-4px);pointer-events:none;
   transition:opacity var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
 }
 .index.open{opacity:1;transform:none;pointer-events:auto}
-.index button{
-  display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;
-  transition:background var(--dur-fast) ease,color var(--dur-fast) ease;
-}
-.index button .d{
-  display:block;font-size:calc(var(--l-size) - 3px);font-weight:var(--l-weight);
-  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:2px;
-}
-.index button .t{
-  display:block;font-size:var(--v-size);font-weight:var(--v-weight);
-  letter-spacing:var(--v-ls);line-height:1.25;
-}
+.index button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;
+  transition:background var(--dur-fast) ease,color var(--dur-fast) ease}
+.index button .d{display:block;font-size:calc(var(--l-size) - 3px);font-weight:var(--l-weight);
+  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:2px}
+.index button .t{display:block;font-size:var(--v-size);font-weight:var(--v-weight);
+  letter-spacing:var(--v-ls);line-height:1.25}
 @media (hover:hover) and (pointer:fine){
   .index button:hover{background:var(--accent);color:var(--bg)}
   .index button:hover .d{opacity:1}
@@ -127,12 +127,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 /* ===========================================================
    REJILLA
    =========================================================== */
-.wrap{max-width:1160px;margin:0 auto;padding:calc(var(--topbar-h) + 46px) 30px 140px}
-.layout{
-  display:grid;
-  grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
-  gap:var(--gap);align-items:start;
-}
+.wrap{max-width:1160px;margin:0 auto;padding:calc(var(--topbar-h) + 46px) 30px 40vh}
+.layout{display:grid;grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
+  gap:var(--gap);align-items:start}
 
 /* ===========================================================
    LÍNEA DEL TIEMPO
@@ -140,67 +137,93 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .rail{position:sticky;top:calc(var(--topbar-h) + 20px);overflow:visible}
 .rail svg{display:block;overflow:visible;touch-action:pan-y}
 .rail line{
-  stroke:var(--text);stroke-width:var(--tick-stroke);stroke-linecap:round;
-  opacity:var(--sec);
-  transition:stroke var(--dur-ui) ease,opacity var(--dur-ui) ease;
+  stroke:var(--text);stroke-width:var(--tick-stroke);stroke-linecap:round;opacity:var(--tick-op);
+  transition:stroke var(--dur-ui) ease,opacity var(--dur-ui) ease,stroke-width var(--dur-ui) ease;
 }
-.rail line.entry{stroke:var(--accent);opacity:1}
-.rail svg[data-phase="fold"] line{stroke:var(--text);opacity:var(--sec)}
+.rail line.entry{stroke:var(--accent);stroke-width:var(--tick-stroke-entry);opacity:var(--tick-op-entry)}
+.rail svg[data-phase="fold"] line{stroke:var(--text);stroke-width:var(--tick-stroke);opacity:var(--tick-op)}
 .pill{
   position:absolute;left:calc(var(--tick-base) + var(--tick-ext) + 14px);top:0;
   background:var(--accent);color:var(--bg);
   font-size:var(--p-size);font-weight:var(--p-weight);letter-spacing:var(--p-ls);
-  padding:6px 11px;border-radius:999px;white-space:nowrap;line-height:1;
-  opacity:0;
+  padding:6px 11px;border-radius:999px;white-space:nowrap;line-height:1;opacity:0;
   transition:transform var(--dur-move) var(--ease-in-out),opacity var(--dur-ui) var(--ease-out);
 }
 .pill.on{opacity:1}
 
 /* ===========================================================
-   ENTRADA
+   FLUJO CONTINUO DE ENTRADAS
    =========================================================== */
+.stream{display:block}
+.post{scroll-margin-top:calc(var(--topbar-h) + 24px)}
+.post + .post{margin-top:var(--post-gap)}
+
 .postmeta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:44px}
-.postmeta .who{
-  font-size:var(--m-size);font-weight:var(--m-weight);letter-spacing:var(--m-ls);opacity:var(--sec);
-}
-.nav{display:flex;gap:8px;flex:none}
-.nav button{
-  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
-  font-size:19px;line-height:1;opacity:var(--sec);
-  transition:background var(--dur-fast) ease,color var(--dur-fast) ease,opacity var(--dur-fast) ease;
-}
-@media (hover:hover) and (pointer:fine){
-  .nav button:hover:not([disabled]){background:var(--accent);color:var(--bg);opacity:1}
-}
-.nav button[disabled]{opacity:calc(var(--sec) * .25);cursor:default}
+.postmeta .who{font-size:var(--m-size);font-weight:var(--m-weight);
+  letter-spacing:var(--m-ls);opacity:var(--sec)}
 
-.article{
-  transition:opacity var(--dur-ui) var(--ease-out),transform var(--dur-ui) var(--ease-out);
-}
-.article[data-leaving="next"]{opacity:0;transform:translateY(-8px)}
-.article[data-leaving="prev"]{opacity:0;transform:translateY(8px)}
-
-.title{
-  font-size:var(--t-size);font-weight:var(--t-weight);line-height:var(--t-lh);
-  letter-spacing:var(--t-ls);word-spacing:var(--t-ws);margin-bottom:38px;text-wrap:balance;
-}
-.body p{
-  font-size:var(--b-size);font-weight:var(--b-weight);line-height:var(--b-lh);
-  letter-spacing:var(--b-ls);word-spacing:var(--b-ws);
-}
+.title{font-size:var(--t-size);font-weight:var(--t-weight);line-height:var(--t-lh);
+  letter-spacing:var(--t-ls);word-spacing:var(--t-ws);margin-bottom:38px;text-wrap:balance}
+.body p{font-size:var(--b-size);font-weight:var(--b-weight);line-height:var(--b-lh);
+  letter-spacing:var(--b-ls);word-spacing:var(--b-ws)}
 .body p + p{margin-top:var(--b-gap)}
 
+/* aparición de cada entrada al entrar en pantalla */
+.post .reveal{
+  opacity:0;transform:translateY(var(--reveal-shift));
+  transition:opacity var(--reveal-dur) var(--ease-out),transform var(--reveal-dur) var(--ease-out);
+}
+.post.seen .reveal{opacity:1;transform:none}
+.post.seen .reveal:nth-child(2){transition-delay:60ms}
+.post.seen .reveal:nth-child(3){transition-delay:110ms}
+html.no-reveal .post .reveal{opacity:1;transform:none;transition:none}
+
+/* --- flechas --- */
+.nav{display:flex;gap:var(--arrow-gap);flex:none;align-items:center}
+.nav button{color:var(--accent);display:grid;place-items:center;padding:6px;
+  transition:opacity var(--dur-fast) ease}
+.nav button[disabled]{opacity:.22;cursor:default}
+.nav .ico{display:block;will-change:transform}
+.nav svg{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
+.nav svg path{fill:none;stroke:currentColor;stroke-width:var(--arrow-stroke);
+  stroke-linecap:round;stroke-linejoin:round}
+.nav .flip{transform:rotate(180deg)}
+
+/* --- enlace de continuidad al final de cada entrada --- */
+.continue{
+  display:inline-flex;align-items:center;gap:9px;margin-top:calc(var(--b-gap) * 2);
+  color:var(--accent);font-size:var(--m-size);font-weight:var(--v-weight);
+  letter-spacing:var(--m-ls);
+}
+.continue svg{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
+.continue svg path{fill:none;stroke:currentColor;stroke-width:var(--arrow-stroke);
+  stroke-linecap:round;stroke-linejoin:round}
+.continue .ico{display:block;will-change:transform}
+
+@keyframes arrow-next{0%,100%{transform:translateX(0)}50%{transform:translateX(var(--arrow-pulse))}}
+@keyframes arrow-prev{0%,100%{transform:translateX(0)}50%{transform:translateX(calc(var(--arrow-pulse) * -1))}}
+@media (hover:hover) and (pointer:fine){
+  [data-go="next"]:not([disabled]):hover .ico,
+  .continue:hover .ico{animation:arrow-next var(--arrow-period) var(--ease-in-out) infinite}
+  [data-go="prev"]:not([disabled]):hover .ico{animation:arrow-prev var(--arrow-period) var(--ease-in-out) infinite}
+}
+
 /* ===========================================================
-   COLUMNA DERECHA
+   COLUMNA DERECHA — cambia con la entrada activa
    =========================================================== */
 .side{position:sticky;top:calc(var(--topbar-h) + 20px);display:grid;gap:36px}
-.field .label{
-  display:block;font-size:var(--l-size);font-weight:var(--l-weight);
-  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:12px;
-}
+.field .label{display:block;font-size:var(--l-size);font-weight:var(--l-weight);
+  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:12px}
 .field .value{
-  font-size:var(--v-size);font-weight:var(--v-weight);line-height:var(--v-lh);letter-spacing:var(--v-ls);
+  font-size:var(--v-size);font-weight:var(--v-weight);
+  line-height:var(--v-lh);letter-spacing:var(--v-ls);
+  transition:opacity var(--swap-dur) var(--ease-out),transform var(--swap-dur) var(--ease-out);
 }
+.field:nth-child(2) .value{transition-delay:var(--swap-stagger)}
+.value[data-phase="out-up"]  {opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.value[data-phase="out-down"]{opacity:0;transform:translateY(var(--swap-shift))}
+.value[data-phase="in-down"] {opacity:0;transform:translateY(var(--swap-shift))}
+.value[data-phase="in-up"]   {opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
 
 /* ===========================================================
    RESPONSIVE
@@ -208,37 +231,35 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 @media (max-width:1000px){
   .layout{grid-template-columns:1fr;gap:40px}
   .rail{display:none}
-  .side{position:static;order:2;grid-template-columns:1fr 1fr;gap:24px}
-  .wrap{padding:calc(var(--topbar-h) + 30px) 20px 90px}
+  .side{display:none}
+  .wrap{padding:calc(var(--topbar-h) + 30px) 20px 25vh}
   .topbar .inner{padding:16px 20px}
   .index{right:20px}
+  .post + .post{margin-top:calc(var(--post-gap) * .7)}
 }
 @media (prefers-reduced-motion:reduce){
-  *{transition-duration:1ms!important;animation-duration:1ms!important}
+  *{transition-duration:1ms!important}
+  .ico{animation:none!important}
+  .post .reveal{opacity:1;transform:none}
 }
 
 /* ===========================================================
-   PANEL DE PROTOTIPO (gris neutro, fuera de la paleta)
+   PANELES DE PROTOTIPO (gris neutro, fuera de la paleta)
    =========================================================== */
-#protoBtn{
-  position:fixed;right:18px;bottom:18px;z-index:60;background:#1b1c22;color:#fff;
-  font-size:13px;font-weight:500;padding:11px 16px;border-radius:999px;
-  box-shadow:0 6px 24px rgba(0,0,0,.22);
-}
-#proto{
-  position:fixed;right:18px;bottom:18px;z-index:61;width:334px;
+.protodock{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;gap:8px}
+.protodock button{background:#1b1c22;color:#fff;font-size:13px;font-weight:500;
+  padding:11px 16px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.22)}
+.panel{position:fixed;right:18px;bottom:18px;z-index:61;width:334px;
   max-height:calc(100vh - 36px);overflow:auto;background:#1b1c22;color:#fff;
-  border-radius:16px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35);
-  font-size:12px;display:none;
-}
-#proto.open{display:block}
-#proto h2{font-size:13px;font-weight:600;margin-bottom:2px}
-#proto .sub{opacity:.55;margin-bottom:14px;line-height:1.4}
-#proto details{border-top:1px solid #34363f;padding:9px 0}
-#proto summary{cursor:pointer;font-weight:600;list-style:none;padding:3px 0}
-#proto summary::-webkit-details-marker{display:none}
-#proto summary::before{content:"+ ";opacity:.5}
-#proto details[open] summary::before{content:"– "}
+  border-radius:16px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35);font-size:12px;display:none}
+.panel.open{display:block}
+.panel h2{font-size:13px;font-weight:600;margin-bottom:2px}
+.panel .sub{opacity:.55;margin-bottom:14px;line-height:1.4}
+.panel details{border-top:1px solid #34363f;padding:9px 0}
+.panel summary{cursor:pointer;font-weight:600;list-style:none;padding:3px 0}
+.panel summary::-webkit-details-marker{display:none}
+.panel summary::before{content:"+ ";opacity:.5}
+.panel details[open] summary::before{content:"– "}
 .ctrl{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin:9px 0 0}
 .ctrl label{opacity:.72}
 .ctrl output{font-variant-numeric:tabular-nums;opacity:.95}
@@ -249,12 +270,12 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .rowbtns{display:flex;gap:8px;margin-top:14px}
 .rowbtns button{flex:1;background:#5037f9;color:#fff;border-radius:9px;padding:9px;font-weight:600}
 .rowbtns button.ghost{background:#2c2e37}
-#out{width:100%;height:190px;margin-top:10px;background:#101116;color:#dfe1e8;
+.out{width:100%;height:190px;margin-top:10px;background:#101116;color:#dfe1e8;
   border:1px solid #3a3c46;border-radius:9px;padding:9px;
   font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.45;
   display:none;white-space:pre;overflow:auto}
-#out.show{display:block}
-@media print{#proto,#protoBtn{display:none!important}}
+.out.show{display:block}
+@media print{.panel,.protodock{display:none!important}}
 </style>
 </head>
 
@@ -280,19 +301,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
       <span class="pill" id="pill"></span>
     </div>
 
-    <main>
-      <div class="postmeta">
-        <span class="who"><span id="chapter"></span> · <span id="range"></span></span>
-        <div class="nav">
-          <button id="prev" aria-label="Entrada anterior">‹</button>
-          <button id="next" aria-label="Entrada siguiente">›</button>
-        </div>
-      </div>
-      <article class="article" id="article">
-        <h2 class="title" id="title"></h2>
-        <div class="body" id="body"></div>
-      </article>
-    </main>
+    <main class="stream" id="stream"></main>
 
     <aside class="side">
       <div class="field"><span class="label">Fecha</span><p class="value" id="fDate"></p></div>
@@ -302,20 +311,39 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   </div>
 </div>
 
-<button id="protoBtn" hidden>Prototipo</button>
-<section id="proto" aria-label="Controles de prototipo">
-  <h2>Controles de prototipo</h2>
+<div class="protodock" id="dock" hidden>
+  <button data-open="panelRail">Línea del tiempo</button>
+  <button data-open="panelType">Prototipo</button>
+</div>
+
+<section class="panel" id="panelType" aria-label="Controles de tipografía y color">
+  <h2>Tipografía, color y rejilla</h2>
   <p class="sub">Ajusta y exporta. Nada de esto viaja a la versión final.</p>
-  <div id="groups"></div>
+  <div id="groupsType"></div>
   <div class="rowbtns">
-    <button id="export">Exportar</button>
-    <button id="reset" class="ghost">Restablecer</button>
+    <button data-export="1">Exportar</button>
+    <button class="ghost" data-reset="1">Restablecer</button>
   </div>
   <div class="rowbtns">
-    <button id="copy" class="ghost">Copiar CSS</button>
-    <button id="download" class="ghost">Descargar</button>
+    <button class="ghost" data-copy="1">Copiar CSS</button>
+    <button class="ghost" data-download="1">Descargar</button>
   </div>
-  <textarea id="out" readonly spellcheck="false"></textarea>
+  <textarea class="out" readonly spellcheck="false"></textarea>
+</section>
+
+<section class="panel" id="panelRail" aria-label="Controles de la línea del tiempo">
+  <h2>Línea del tiempo</h2>
+  <p class="sub">Forma, onda y ritmo de la barra lateral.</p>
+  <div id="groupsRail"></div>
+  <div class="rowbtns">
+    <button data-export="1">Exportar</button>
+    <button class="ghost" data-reset="1">Restablecer</button>
+  </div>
+  <div class="rowbtns">
+    <button class="ghost" data-copy="1">Copiar CSS</button>
+    <button class="ghost" data-download="1">Descargar</button>
+  </div>
+  <textarea class="out" readonly spellcheck="false"></textarea>
 </section>
 
 <script src="posts.js"></script>
@@ -325,11 +353,27 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
    =========================================================== */
 const PROTOTYPE = true;
 
+/* ===========================================================
+   2. ÍCONO DE LAS FLECHAS
+   El chevron de fguadarrama.com (.name-cue-arrow), tal cual:
+   viewBox 4x7 y el trazo M0.5 0.5 L3.5 3.5 L0.5 6.5.
+   Va con preserveAspectRatio="none" como en tu sitio, así que
+   --arrow-w y --arrow-size estiran el dibujo de forma
+   independiente; el grosor no se deforma gracias a
+   vector-effect="non-scaling-stroke".
+   =========================================================== */
+const ARROW_VIEWBOX = '0 0 4 7';
+const ARROW_PATH = `
+  <path d="M0.5 0.5 L3.5 3.5 L0.5 6.5" vector-effect="non-scaling-stroke"/>
+`;
+const arrowSVG = flip =>
+  `<svg class="${flip ? 'flip' : ''}" viewBox="${ARROW_VIEWBOX}" preserveAspectRatio="none" aria-hidden="true">${ARROW_PATH}</svg>`;
+
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const canHover = matchMedia('(hover: hover) and (pointer: fine)');
 
 /* ===========================================================
-   2. COLOR DISPLAY-P3
+   3. COLOR DISPLAY-P3
    =========================================================== */
 const P3_OK = window.CSS && CSS.supports('color','color(display-p3 1 1 1)');
 function toP3(hex){
@@ -340,9 +384,9 @@ function toP3(hex){
 }
 
 /* ===========================================================
-   3. TOKENS
+   4. TOKENS
    =========================================================== */
-const SPEC = [
+const SPEC_TYPE = [
   ['Color', [
     ['bg','--bg','Fondo','color','#f8f8f8'],
     ['text','--text','Texto','color','#2c292f'],
@@ -350,9 +394,9 @@ const SPEC = [
     ['sec','--sec','Opacidad secundaria','range','0.95',0.3,1,0.01,'']
   ]],
   ['Título', [
-    ['tSize','--t-size','Tamaño','range','64px',24,120,1,'px'],
+    ['tSize','--t-size','Tamaño','range','50px',24,120,1,'px'],
     ['tWeight','--t-weight','Peso','range','580',100,900,10,''],
-    ['tLh','--t-lh','Interlínea','range','58px',24,140,1,'px'],
+    ['tLh','--t-lh','Interlínea','range','46px',24,140,1,'px'],
     ['tLs','--t-ls','Interletraje','range','-0.08em',-0.12,0.08,0.005,'em'],
     ['tWs','--t-ws','Espacio entre palabras','range','0.05em',-0.1,0.4,0.01,'em']
   ]],
@@ -365,9 +409,9 @@ const SPEC = [
     ['bGap','--b-gap','Espacio entre párrafos','range','15px',0,64,1,'px']
   ]],
   ['Nombre y meta', [
-    ['nSize','--n-size','Nombre · tamaño','range','26px',16,64,1,'px'],
+    ['nSize','--n-size','Nombre · tamaño','range','24px',16,64,1,'px'],
     ['nWeight','--n-weight','Nombre · peso','range','470',100,900,10,''],
-    ['nLs','--n-ls','Nombre · interletraje','range','-0.06em',-0.12,0.1,0.005,'em'],
+    ['nLs','--n-ls','Nombre · interletraje','range','-0.1em',-0.14,0.1,0.005,'em'],
     ['mSize','--m-size','Meta · tamaño','range','16px',10,24,1,'px'],
     ['mWeight','--m-weight','Meta · peso','range','300',100,900,10,''],
     ['mLs','--m-ls','Meta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
@@ -381,27 +425,66 @@ const SPEC = [
     ['vLh','--v-lh','Valor · interlínea','range','14px',10,48,1,'px'],
     ['vLs','--v-ls','Valor · interletraje','range','-0.05em',-0.1,0.1,0.005,'em']
   ]],
-  ['Línea del tiempo', [
-    ['pSize','--p-size','Píldora · tamaño','range','12px',9,20,1,'px'],
-    ['pWeight','--p-weight','Píldora · peso','range','620',100,900,10,''],
-    ['pLs','--p-ls','Píldora · interletraje','range','-0.04em',-0.1,0.2,0.005,'em'],
-    ['tickGap','--tick-gap','Separación entre marcas','range','17px',10,40,1,'px'],
-    ['tickStroke','--tick-stroke','Grosor de marca','range','1.5px',0.5,4,0.25,'px'],
-    ['tickBase','--tick-base','Largo base','range','14px',6,48,1,'px'],
-    ['tickExt','--tick-ext','Extensión máxima','range','16px',0,60,1,'px'],
-    ['tickFalloff','--tick-falloff','Caída de la onda','range','0.62',0.2,0.95,0.01,''],
-    ['followScroll',null,'La onda sigue el scroll','toggle','0']
+  ['Flujo y transición', [
+    ['postGap','--post-gap','Espacio entre entradas','range','150px',40,400,10,'px'],
+    ['swapDur','--swap-dur','Cambio · duración','range','220ms',60,600,10,'ms'],
+    ['swapShift','--swap-shift','Cambio · desplazamiento','range','7px',0,30,1,'px'],
+    ['swapStagger','--swap-stagger','Cambio · retardo del 2º dato','range','45ms',0,300,5,'ms'],
+    ['revealShift','--reveal-shift','Aparición · desplazamiento','range','14px',0,60,1,'px'],
+    ['revealDur','--reveal-dur','Aparición · duración','range','600ms',100,1400,20,'ms'],
+    ['reveal',null,'Aparición al entrar en pantalla','toggle','1']
+  ]],
+  ['Flechas', [
+    ['arrowSize','--arrow-size','Alto','range','19px',8,48,1,'px'],
+    ['arrowW','--arrow-w','Ancho','range','11px',4,40,1,'px'],
+    ['arrowStroke','--arrow-stroke','Grosor del trazo','range','1.5px',0.5,4,0.25,'px'],
+    ['arrowPulse','--arrow-pulse','Amplitud del pulso','range','3px',0,10,0.5,'px'],
+    ['arrowPeriod','--arrow-period','Duración del pulso','range','1300ms',500,3000,50,'ms'],
+    ['arrowGap','--arrow-gap','Separación entre flechas','range','10px',0,40,1,'px']
   ]],
   ['Rejilla', [
     ['colRail','--col-rail','Ancho línea del tiempo','range','110px',80,260,1,'px'],
-    ['colText','--col-text','Ancho columna de texto','range','590px',360,760,5,'px'],
-    ['colSide','--col-side','Ancho columna derecha','range','260px',180,420,5,'px'],
+    ['colText','--col-text','Ancho columna de texto','range','680px',360,860,5,'px'],
+    ['colSide','--col-side','Ancho columna derecha','range','205px',150,420,5,'px'],
     ['gap','--gap','Separación entre columnas','range','60px',24,120,2,'px']
   ]]
 ];
 
+const SPEC_RAIL = [
+  ['Forma de las marcas', [
+    ['tickGap','--tick-gap','Separación vertical','range','17px',8,44,1,'px'],
+    ['tickBase','--tick-base','Largo base','range','14px',4,60,1,'px'],
+    ['tickStroke','--tick-stroke','Grosor · sin entrada','range','1.5px',0.5,5,0.25,'px'],
+    ['tickStrokeEntry','--tick-stroke-entry','Grosor · con entrada','range','1.5px',0.5,5,0.25,'px'],
+    ['tickOp','--tick-op','Opacidad · sin entrada','range','0.95',0.05,1,0.01,''],
+    ['tickOpEntry','--tick-op-entry','Opacidad · con entrada','range','1',0.05,1,0.01,'']
+  ]],
+  ['Onda', [
+    ['tickExt','--tick-ext','Extensión máxima','range','16px',0,80,1,'px'],
+    ['tickFalloff','--tick-falloff','Caída por marca','range','0.62',0.05,0.98,0.01,''],
+    ['railTau','--rail-tau','Suavizado','range','85ms',10,400,5,'ms'],
+    ['hoverWave',null,'Responde al puntero','toggle','1'],
+    ['followScroll',null,'La onda sigue el scroll','toggle','0']
+  ]],
+  ['Animación de entrada', [
+    ['railFold','--rail-fold','Comprimida → extendida','range','300ms',0,1200,20,'ms'],
+    ['railSplit','--rail-split','Extendida → marcas','range','340ms',0,1200,20,'ms'],
+    ['railWave','--rail-wave','Marcas → onda','range','260ms',0,1200,20,'ms'],
+    ['replay',null,'Repetir animación','action','']
+  ]],
+  ['Píldora de fecha', [
+    ['pSize','--p-size','Tamaño','range','12px',9,20,1,'px'],
+    ['pWeight','--p-weight','Peso','range','620',100,900,10,''],
+    ['pLs','--p-ls','Interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
+  ]]
+];
+
+const ALL_SPEC = SPEC_TYPE.concat(SPEC_RAIL);
 const DEFAULTS = {}, VARS = {};
-SPEC.forEach(([,items]) => items.forEach(([k,v,,,def]) => { DEFAULTS[k]=def; VARS[k]=v; }));
+ALL_SPEC.forEach(([,items]) => items.forEach(([k,v,,type,def]) => {
+  if (type === 'action') return;
+  DEFAULTS[k] = def; VARS[k] = v;
+}));
 let tokens = {...DEFAULTS};
 
 function apply(){
@@ -410,11 +493,12 @@ function apply(){
     if (!VARS[k]) continue;
     r.setProperty(VARS[k], (k==='bg'||k==='text'||k==='accent') ? toP3(tokens[k]) : tokens[k]);
   }
+  document.documentElement.classList.toggle('no-reveal', tokens.reveal !== '1');
   if (window.rail) rail.remeasure();
 }
 
 /* ===========================================================
-   4. ENTRADAS
+   5. ENTRADAS
    =========================================================== */
 const posts = (window.POSTS || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
 const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -424,8 +508,8 @@ const fmtShort = x => `${x.getDate()} ${MES[x.getMonth()]} ${x.getFullYear()}`;
 const fmtLong  = x => `${x.getDate()} de ${MESL[x.getMonth()]} de ${x.getFullYear()}`;
 
 let current = 0;
+let nodes = [];
 
-/* marcas: semanales si el archivo abarca menos de 3 años, mensuales si abarca más */
 function buildTicks(){
   if (!posts.length) return [];
   const first = d(posts[0].date), last = d(posts[posts.length-1].date);
@@ -448,20 +532,113 @@ function buildTicks(){
 const TICKS = buildTicks();
 const tickOfPost = posts.map((_,i)=> Math.max(0, TICKS.findIndex(t => t.post === i)));
 
+/* --- todas las entradas se renderizan de una vez, en columna --- */
+function renderStream(){
+  const stream = document.getElementById('stream');
+  stream.innerHTML = '';
+  nodes = posts.map((p, i) => {
+    const el = document.createElement('article');
+    el.className = 'post';
+    el.id = p.id || 'post-' + i;
+    el.dataset.i = i;
+    const siguiente = posts[i + 1];
+    el.innerHTML = `
+      <div class="postmeta reveal">
+        <span class="who">${p.chapter || ''} · ${p.range || ''}</span>
+        <div class="nav">
+          <button data-go="prev" aria-label="Entrada anterior" ${i === 0 ? 'disabled' : ''}>
+            <span class="ico">${arrowSVG(true)}</span>
+          </button>
+          <button data-go="next" aria-label="Entrada siguiente" ${i === posts.length-1 ? 'disabled' : ''}>
+            <span class="ico">${arrowSVG(false)}</span>
+          </button>
+        </div>
+      </div>
+      <h2 class="title reveal">${p.title}</h2>
+      <div class="body reveal">${p.body.map(t => `<p>${t}</p>`).join('')}</div>
+      ${siguiente ? `<button class="continue" data-go="next">
+          Continuar a ${siguiente.chapter || 'la siguiente entrada'}
+          <span class="ico">${arrowSVG(false)}</span>
+        </button>` : ''}`;
+    el.addEventListener('click', e => {
+      const b = e.target.closest('[data-go]');
+      if (!b || b.disabled) return;
+      scrollToPost(i + (b.dataset.go === 'next' ? 1 : -1));
+    });
+    stream.appendChild(el);
+    return el;
+  });
+}
+
+function scrollToPost(i){
+  if (i < 0 || i >= nodes.length) return;
+  nodes[i].scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+}
+
+/* --- cambio de valores en la columna derecha --- */
+const fDate = document.getElementById('fDate'), fLoc = document.getElementById('fLoc');
+function swapValue(el, text, dir){
+  if (el.textContent === text) return;
+  if (reduceMotion.matches){ el.textContent = text; return; }
+  clearTimeout(el._swap);
+  el.dataset.phase = dir > 0 ? 'out-up' : 'out-down';
+  const ms = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--swap-dur')) || 220;
+  el._swap = setTimeout(() => {
+    el.textContent = text;
+    el.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
+    requestAnimationFrame(()=> requestAnimationFrame(()=> el.removeAttribute('data-phase')));
+  }, ms);
+}
+
+function setActive(i, dir){
+  if (i === current || i < 0 || i >= posts.length) return;
+  const p = posts[i];
+  current = i;
+  swapValue(fDate, fmtLong(d(p.date)), dir);
+  swapValue(fLoc, p.location || '—', dir);
+  document.title = p.title + ' — Francisco Guadarrama';
+  if (p.id){ try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
+  markIndex();
+  rail.sync();
+}
+
+/* --- entrada activa según la posición de lectura --- */
+let ticking = false;
+function onScroll(){
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    ticking = false;
+    const line = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 70)
+                 + innerHeight * 0.30;
+    let found = 0;
+    for (let i = 0; i < nodes.length; i++){
+      if (nodes[i].getBoundingClientRect().top <= line) found = i;
+    }
+    if (found !== current) setActive(found, found > current ? 1 : -1);
+  });
+}
+addEventListener('scroll', onScroll, {passive:true});
+
+/* --- aparición de cada entrada --- */
+function watchReveal(){
+  if (!('IntersectionObserver' in window)){
+    nodes.forEach(n => n.classList.add('seen'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.02 });
+  nodes.forEach(n => io.observe(n));
+}
+
 /* ===========================================================
-   5. LÍNEA DEL TIEMPO ANIMADA
-   Adaptación de LucasHJin/scrollbar-but-cooler:
-   secuencia de poses + extensión con caída exponencial.
-   Sin flecha: la secuencia empieza en la línea comprimida.
+   6. LÍNEA DEL TIEMPO ANIMADA
+   Adaptación de LucasHJin/scrollbar-but-cooler.
    =========================================================== */
 const ORDER = ['compressed','extended','split','tracking'];
-const EASE_OUT = cubicBezier(0.23, 1, 0.32, 1);
-const TRANS = [
-  { duration: 0.30, ease: EASE_OUT },  // comprimida -> extendida
-  { duration: 0.34, ease: EASE_OUT },  // extendida  -> partida en marcas
-  { duration: 0.26, ease: EASE_OUT }   // marcas     -> onda activa
-];
-
 function cubicBezier(x1,y1,x2,y2){
   const at = (a,b,t) => 3*a*t*(1-t)**2 + 3*b*t*t*(1-t) + t**3;
   return x => {
@@ -472,6 +649,7 @@ function cubicBezier(x1,y1,x2,y2){
     return at(y1,y2,t);
   };
 }
+const EASE_OUT = cubicBezier(0.23, 1, 0.32, 1);
 const lerp = (a,b,t) => a + (b-a)*t;
 
 const rail = (function(){
@@ -479,20 +657,26 @@ const rail = (function(){
   const svg  = document.getElementById('railSvg');
   const pill = document.getElementById('pill');
   const n = TICKS.length;
+  const TRANS = [
+    { duration: 0.30, ease: EASE_OUT },
+    { duration: 0.34, ease: EASE_OUT },
+    { duration: 0.26, ease: EASE_OUT }
+  ];
   let lines = [], poses = null, G = null;
   const extend = new Float64Array(n);
   let progress = 0, target = 3, rafId = null, lastTime = 0;
   let hoverIndex = null, entered = false;
-  const SMOOTH_TAU = 0.085;
 
-  /* geometría */
   function readGeometry(){
     const cs = getComputedStyle(document.documentElement);
     const num = v => parseFloat(cs.getPropertyValue(v));
+    TRANS[0].duration = Math.max(0.001, num('--rail-fold') / 1000);
+    TRANS[1].duration = Math.max(0.001, num('--rail-split') / 1000);
+    TRANS[2].duration = Math.max(0.001, num('--rail-wave') / 1000);
     return {
       gap: num('--tick-gap'), stroke: num('--tick-stroke'),
       base: num('--tick-base'), ext: num('--tick-ext'),
-      falloff: parseFloat(cs.getPropertyValue('--tick-falloff'))
+      falloff: num('--tick-falloff'), tau: Math.max(0.005, num('--rail-tau') / 1000)
     };
   }
   function buildPoses(){
@@ -510,34 +694,29 @@ const rail = (function(){
   function build(){
     G = readGeometry();
     poses = buildPoses();
-    svg.setAttribute('viewBox', `0 0 ${G.base + G.ext + 6} ${poses.H}`);
-    svg.setAttribute('width', G.base + G.ext + 6);
+    const W = G.base + G.ext + 6;
+    svg.setAttribute('viewBox', `0 0 ${W} ${poses.H}`);
+    svg.setAttribute('width', W);
     svg.setAttribute('height', poses.H);
     if (lines.length !== n){
       svg.innerHTML = '';
       lines = TICKS.map(() => svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg','line')));
+      TICKS.forEach((t,i) => lines[i].classList.toggle('entry', t.post > -1));
     }
-    paintColors();
   }
-  function paintColors(){
-    TICKS.forEach((t,i) => lines[i].classList.toggle('entry', t.post > -1));
-  }
-
-  /* foco de la onda */
   function scrollFraction(){
     const max = document.documentElement.scrollHeight - innerHeight;
     return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
   }
   function focusIndex(){
-    if (hoverIndex !== null) return hoverIndex;
+    if (hoverIndex !== null && tokens.hoverWave === '1') return hoverIndex;
     if (tokens.followScroll === '1') return Math.round(scrollFraction() * (n - 1));
     return tickOfPost[current] ?? 0;
   }
   const extensionFor = (i, f) => G.ext * G.falloff ** Math.abs(i - f);
-
   function advanceExtensions(dt){
     const f = focusIndex();
-    const alpha = reduceMotion.matches ? 1 : 1 - Math.exp(-dt / SMOOTH_TAU);
+    const alpha = reduceMotion.matches ? 1 : 1 - Math.exp(-dt / G.tau);
     let settled = true;
     for (let i = 0; i < n; i++){
       const goal = extensionFor(i, f);
@@ -547,7 +726,6 @@ const rail = (function(){
     }
     return settled;
   }
-
   function applyGeometry(t){
     const seg = Math.min(Math.max(Math.floor(t), 0), TRANS.length - 1);
     const from = poses[ORDER[seg]], to = poses[ORDER[seg + 1]];
@@ -563,7 +741,6 @@ const rail = (function(){
     svg.dataset.phase = t < 1.4 ? 'fold' : 'ticks';
     pill.classList.toggle('on', t > 1.9);
   }
-
   function advance(dt){
     if (reduceMotion.matches){ progress = target; return; }
     let left = dt;
@@ -579,7 +756,6 @@ const rail = (function(){
       else { progress += (left / dur) * dir; left = 0; }
     }
   }
-
   function step(now){
     const dt = Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
@@ -592,31 +768,16 @@ const rail = (function(){
   function kick(){
     if (rafId === null){ lastTime = performance.now(); rafId = requestAnimationFrame(step); }
   }
-
   function movePill(){
+    if (!posts.length) return;
     const i = tickOfPost[current] ?? 0;
-    const y = (i + 0.5) * G.gap;
     pill.textContent = fmtShort(d(posts[current].date));
-    pill.style.transform = `translateY(${y - pill.offsetHeight / 2}px)`;
+    pill.style.transform = `translateY(${(i + 0.5) * G.gap - pill.offsetHeight / 2}px)`;
   }
-
-  /* puntero */
   function indexFromEvent(e){
     const r = svg.getBoundingClientRect();
     return Math.min(n - 1, Math.max(0, Math.floor((e.clientY - r.top) / G.gap)));
   }
-  host.addEventListener('pointermove', e => {
-    if (!canHover.matches) return;
-    const i = indexFromEvent(e);
-    if (i !== hoverIndex){ hoverIndex = i; kick(); }
-    const near = nearestPost(i);
-    host.style.cursor = near !== null ? 'pointer' : '';
-  });
-  host.addEventListener('pointerleave', () => { hoverIndex = null; host.style.cursor = ''; kick(); });
-  host.addEventListener('click', e => {
-    const near = nearestPost(indexFromEvent(e));
-    if (near !== null) go(near);
-  });
   function nearestPost(i){
     for (let r = 0; r <= 1; r++){
       if (TICKS[i - r] && TICKS[i - r].post > -1) return TICKS[i - r].post;
@@ -624,21 +785,32 @@ const rail = (function(){
     }
     return null;
   }
-
-  addEventListener('scroll', () => { if (tokens.followScroll === '1') kick(); }, {passive:true});
-  addEventListener('resize', () => { build(); movePill(); kick(); });
+  host.addEventListener('pointermove', e => {
+    if (!canHover.matches) return;
+    const i = indexFromEvent(e);
+    if (i !== hoverIndex){ hoverIndex = i; kick(); }
+    host.style.cursor = nearestPost(i) !== null ? 'pointer' : '';
+  });
+  host.addEventListener('pointerleave', ()=>{ hoverIndex = null; host.style.cursor = ''; kick(); });
+  host.addEventListener('click', e => {
+    const near = nearestPost(indexFromEvent(e));
+    if (near !== null) scrollToPost(near);
+  });
+  addEventListener('scroll', ()=>{ if (tokens.followScroll === '1') kick(); }, {passive:true});
+  addEventListener('resize', ()=>{ build(); movePill(); kick(); });
 
   return {
     start(){
       build();
       const f = focusIndex();
       for (let i = 0; i < n; i++) extend[i] = extensionFor(i, f);
-      progress = reduceMotion.matches || entered ? target : 0;
+      progress = (reduceMotion.matches || entered) ? target : 0;
       entered = true;
       applyGeometry(progress);
       movePill();
       kick();
     },
+    replay(){ build(); progress = reduceMotion.matches ? target : 0; applyGeometry(progress); kick(); },
     remeasure(){ build(); movePill(); kick(); },
     sync(){ movePill(); kick(); }
   };
@@ -646,52 +818,7 @@ const rail = (function(){
 window.rail = rail;
 
 /* ===========================================================
-   6. NAVEGACIÓN ENTRE ENTRADAS
-   =========================================================== */
-const article = document.getElementById('article');
-
-function paint(){
-  const p = posts[current];
-  document.getElementById('chapter').textContent = p.chapter || '';
-  document.getElementById('range').textContent = p.range || '';
-  document.getElementById('title').textContent = p.title;
-  document.getElementById('body').innerHTML = p.body.map(t => `<p>${t}</p>`).join('');
-  document.getElementById('fDate').textContent = fmtLong(d(p.date));
-  document.getElementById('fLoc').textContent = p.location || '—';
-  document.getElementById('prev').disabled = current === 0;
-  document.getElementById('next').disabled = current === posts.length - 1;
-  document.title = p.title + ' — Francisco Guadarrama';
-  if (p.id) { try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
-  buildIndex();
-}
-
-function go(i){
-  if (i < 0 || i >= posts.length || i === current) return;
-  const dir = i > current ? 'next' : 'prev';
-  const finish = () => {
-    current = i;
-    paint();
-    rail.sync();
-    article.dataset.leaving = dir === 'next' ? 'prev' : 'next';
-    requestAnimationFrame(() => requestAnimationFrame(() => article.removeAttribute('data-leaving')));
-    scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
-  };
-  if (reduceMotion.matches){ finish(); return; }
-  article.dataset.leaving = dir;
-  setTimeout(finish, 200);
-}
-
-document.getElementById('prev').addEventListener('click', ()=>go(current-1));
-document.getElementById('next').addEventListener('click', ()=>go(current+1));
-addEventListener('keydown', e => {
-  if (e.target.matches('input,textarea')) return;
-  if (e.key === 'ArrowLeft') go(current-1);
-  if (e.key === 'ArrowRight') go(current+1);
-  if (e.key === 'Escape') closeIndex();
-});
-
-/* ===========================================================
-   7. ÍNDICE (botón de la barra superior)
+   7. ÍNDICE
    =========================================================== */
 const menuBtn = document.getElementById('menuBtn'), indexEl = document.getElementById('index');
 function buildIndex(){
@@ -700,22 +827,33 @@ function buildIndex(){
     const i = posts.indexOf(p);
     const b = document.createElement('button');
     b.setAttribute('role','menuitem');
-    if (i === current) b.setAttribute('aria-current','true');
+    b.dataset.i = i;
     b.innerHTML = `<span class="d">${fmtShort(d(p.date))}</span><span class="t">${p.title}</span>`;
-    b.addEventListener('click', () => { closeIndex(); go(i); });
+    b.addEventListener('click', ()=>{ closeIndex(); scrollToPost(i); });
     indexEl.appendChild(b);
+  });
+  markIndex();
+}
+function markIndex(){
+  indexEl.querySelectorAll('button').forEach(b => {
+    if (+b.dataset.i === current) b.setAttribute('aria-current','true');
+    else b.removeAttribute('aria-current');
   });
 }
 function closeIndex(){ indexEl.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
-menuBtn.addEventListener('click', () => {
-  const open = indexEl.classList.toggle('open');
-  menuBtn.setAttribute('aria-expanded', String(open));
+menuBtn.addEventListener('click', ()=>{
+  menuBtn.setAttribute('aria-expanded', String(indexEl.classList.toggle('open')));
 });
 document.addEventListener('click', e => {
   if (!indexEl.contains(e.target) && !menuBtn.contains(e.target)) closeIndex();
 });
+addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea')) return;
+  if (e.key === 'ArrowLeft')  scrollToPost(current - 1);
+  if (e.key === 'ArrowRight') scrollToPost(current + 1);
+  if (e.key === 'Escape'){ closeIndex(); closePanels(); }
+});
 
-/* alto real de la barra superior */
 const topbar = document.querySelector('.topbar');
 function measureTopbar(){
   document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px');
@@ -723,11 +861,11 @@ function measureTopbar(){
 addEventListener('resize', measureTopbar);
 
 /* ===========================================================
-   8. PANEL DE PROTOTIPO
+   8. PANELES
    =========================================================== */
-function buildPanel(){
-  const box = document.getElementById('groups');
-  SPEC.forEach(([name, items], gi) => {
+function buildPanel(spec, container){
+  const box = document.getElementById(container);
+  spec.forEach(([name, items], gi) => {
     const det = document.createElement('details');
     if (gi === 0) det.open = true;
     det.innerHTML = `<summary>${name}</summary>`;
@@ -750,7 +888,12 @@ function buildPanel(){
         row.innerHTML = `<label for="t_${k}">${label}</label><input type="checkbox" id="t_${k}">`;
         det.appendChild(row);
         const cb = row.querySelector(`#t_${k}`);
-        cb.addEventListener('change', ()=>{ tokens[k] = cb.checked ? '1' : '0'; rail.sync(); save(); });
+        cb.addEventListener('change', ()=>{ tokens[k] = cb.checked ? '1' : '0'; apply(); rail.sync(); save(); });
+      } else if (type === 'action'){
+        row.innerHTML = `<label>${label}</label><button type="button" id="a_${k}"
+          style="background:#2c2e37;border-radius:7px;padding:5px 11px;font-weight:600">Reproducir</button>`;
+        det.appendChild(row);
+        row.querySelector(`#a_${k}`).addEventListener('click', ()=> rail.replay());
       } else {
         row.innerHTML = `<label for="r_${k}">${label}</label><output id="o_${k}">${def}</output>
           <input type="range" id="r_${k}" min="${min}" max="${max}" step="${stepv}" value="${parseFloat(def)}">`;
@@ -765,7 +908,7 @@ function buildPanel(){
     box.appendChild(det);
   });
 }
-function syncPanel(){
+function syncPanels(){
   for (const k in tokens){
     const sl = document.getElementById('r_'+k), out = document.getElementById('o_'+k),
           pk = document.getElementById('c_'+k), hx = document.getElementById('h_'+k),
@@ -781,7 +924,7 @@ function cssOut(){
     return [0,2,4].map(i => +(parseInt(s.slice(i,i+2),16)/255).toFixed(4)).join(' ');
   };
   const lines = [];
-  SPEC.forEach(([,items]) => items.forEach(([k,v]) => {
+  ALL_SPEC.forEach(([,items]) => items.forEach(([k,v]) => {
     if (!v || ['bg','text','accent'].includes(k)) return;
     lines.push(`  ${v}: ${tokens[k]};`);
   }));
@@ -800,51 +943,85 @@ ${lines.join('\n')}
   }
 }`;
 }
-const STORE = 'fg-blog-tokens-v2';
+const FULL = () => cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
+const STORE = 'fg-blog-tokens-v4';
 function save(){ try{ localStorage.setItem(STORE, JSON.stringify(tokens)); }catch(e){} }
 function load(){
   try{ const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) tokens = {...DEFAULTS, ...s}; }catch(e){}
 }
-
+const dock = document.getElementById('dock');
+function closePanels(){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  if (PROTOTYPE) dock.hidden = false;
+}
 if (PROTOTYPE){
-  load(); buildPanel(); syncPanel();
-  const btn = document.getElementById('protoBtn'), panel = document.getElementById('proto'), out = document.getElementById('out');
-  btn.hidden = false;
-  btn.addEventListener('click', ()=>{ panel.classList.add('open'); btn.hidden = true; });
-  addEventListener('keydown', e => {
-    if (e.key === 'Escape' && panel.classList.contains('open')){ panel.classList.remove('open'); btn.hidden = false; }
+  load();
+  buildPanel(SPEC_TYPE, 'groupsType');
+  buildPanel(SPEC_RAIL, 'groupsRail');
+  syncPanels();
+  dock.hidden = false;
+  dock.addEventListener('click', e => {
+    const id = e.target.dataset.open;
+    if (!id) return;
+    closePanels();
+    document.getElementById(id).classList.add('open');
+    dock.hidden = true;
   });
-  document.getElementById('export').addEventListener('click', ()=>{
-    out.value = cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
-    out.classList.add('show');
-  });
-  document.getElementById('copy').addEventListener('click', async e => {
-    try{ await navigator.clipboard.writeText(cssOut()); e.target.textContent = 'Copiado'; }
-    catch(err){ out.value = cssOut(); out.classList.add('show'); out.select(); e.target.textContent = 'Selecciona y copia'; }
-    setTimeout(()=> e.target.textContent = 'Copiar CSS', 1600);
-  });
-  document.getElementById('download').addEventListener('click', ()=>{
-    const blob = new Blob([cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2)], {type:'text/plain'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = 'tokens-blog.txt'; a.click();
-    URL.revokeObjectURL(a.href);
-  });
-  document.getElementById('reset').addEventListener('click', ()=>{
-    tokens = {...DEFAULTS}; apply(); syncPanel(); rail.sync(); out.classList.remove('show');
+  document.querySelectorAll('.panel').forEach(panel => {
+    const out = panel.querySelector('.out');
+    panel.addEventListener('click', async e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.dataset.export){ out.value = FULL(); out.classList.add('show'); }
+      if (b.dataset.copy){
+        try{ await navigator.clipboard.writeText(cssOut()); b.textContent = 'Copiado'; }
+        catch(err){ out.value = cssOut(); out.classList.add('show'); out.select(); b.textContent = 'Selecciona y copia'; }
+        setTimeout(()=> b.textContent = 'Copiar CSS', 1600);
+      }
+      if (b.dataset.download){
+        const blob = new Blob([FULL()], {type:'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'tokens-blog.txt'; a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      if (b.dataset.reset){
+        tokens = {...DEFAULTS}; apply(); syncPanels(); rail.sync(); out.classList.remove('show');
+      }
+    });
   });
 }
 
 /* ===========================================================
    9. ARRANQUE
    =========================================================== */
-const hash = location.hash.slice(1);
-if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
-
 apply();
 measureTopbar();
-paint();
-document.fonts.ready.then(() => { measureTopbar(); rail.remeasure(); });
+renderStream();
+buildIndex();
+watchReveal();
+
+if (posts.length){
+  const p = posts[0];
+  fDate.textContent = fmtLong(d(p.date));
+  fLoc.textContent = p.location || '—';
+  document.title = p.title + ' — Francisco Guadarrama';
+}
+
+const hash = location.hash.slice(1);
+if (hash){
+  const i = posts.findIndex(p => p.id === hash);
+  if (i > -1){
+    current = i;
+    fDate.textContent = fmtLong(d(posts[i].date));
+    fLoc.textContent = posts[i].location || '—';
+    markIndex();
+    requestAnimationFrame(()=> nodes[i].scrollIntoView({behavior:'auto', block:'start'}));
+  }
+}
+
+document.fonts.ready.then(()=>{ measureTopbar(); rail.remeasure(); onScroll(); });
 rail.start();
+onScroll();
 </script>
 </body>
 </html>
