@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Francisco Guadarrama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================================
+   TOKENS  —  todo lo ajustable vive aquí
+   =========================================================== */
+:root{
+  /* color (los valores P3 los inyecta el script) */
+  --bg:#f8f8f8;
+  --text:#272a3f;
+  --accent:#FF1D58;
+
+  /* nombre / cabecera */
+  --n-size:30px; --n-weight:400; --n-ls:-0.01em;
+
+  /* meta del post (capítulo · rango) */
+  --m-size:15px; --m-weight:400; --m-ls:0em;
+
+  /* título */
+  --t-size:64px; --t-weight:580; --t-lh:65px; --t-ls:-0.02em; --t-ws:0em;
+
+  /* cuerpo */
+  --b-size:18px; --b-weight:400; --b-lh:28px; --b-ls:0em; --b-ws:0em; --b-gap:28px;
+
+  /* etiquetas de la columna derecha */
+  --l-size:15px; --l-weight:400; --l-ls:0em;
+
+  /* valores de la columna derecha */
+  --v-size:18px; --v-weight:400; --v-lh:26px; --v-ls:0em;
+
+  /* píldora de fecha en la línea del tiempo */
+  --p-size:12px; --p-weight:500; --p-ls:0em;
+
+  /* rejilla */
+  --col-rail:155px; --col-text:495px; --col-side:270px; --gap:56px;
+  --tick-gap:22px;
+
+  /* opacidad de elementos secundarios.
+     1 = solo los 3 colores puros. Bájala si quieres jerarquía tonal. */
+  --sec:1;
+}
+
+/* ===========================================================
+   BASE
+   =========================================================== */
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Albert Sans",system-ui,sans-serif;
+  font-synthesis-weight:none;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding:36px 30px 120px}
+
+/* --- cabecera --- */
+.masthead{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:74px;
+}
+.masthead h1{
+  font-size:var(--n-size);font-weight:var(--n-weight);
+  letter-spacing:var(--n-ls);line-height:1.1;opacity:var(--sec);
+}
+.menu{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--text);
+  display:grid;place-items:center;flex:none;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.menu:hover{background:var(--text);color:var(--bg)}
+.menu svg{display:block}
+
+/* --- rejilla principal --- */
+.layout{
+  display:grid;
+  grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
+  gap:var(--gap);
+  align-items:start;
+}
+
+/* --- línea del tiempo --- */
+.rail{position:sticky;top:36px;padding-top:4px}
+.tickrow{
+  position:relative;height:var(--tick-gap);
+  display:flex;align-items:center;
+  width:100%;justify-content:flex-start;
+}
+.tickrow .mark{
+  display:block;height:1.5px;width:14px;background:var(--text);
+  opacity:var(--sec);
+  transition:width .18s ease,background .18s ease,opacity .18s ease;
+}
+.tickrow.major .mark{width:24px}
+.tickrow.post .mark{width:24px;opacity:1}
+.tickrow.post{cursor:pointer}
+.tickrow.post:hover .mark{width:34px;background:var(--accent)}
+.tickrow.active .mark{background:var(--accent);width:24px;opacity:1}
+.pill{
+  position:absolute;left:32px;top:50%;transform:translateY(-50%);
+  background:var(--accent);color:var(--bg);
+  font-size:var(--p-size);font-weight:var(--p-weight);letter-spacing:var(--p-ls);
+  padding:7px 13px;border-radius:999px;white-space:nowrap;line-height:1;
+}
+
+/* --- post --- */
+.postmeta{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;margin-bottom:44px;
+}
+.postmeta .who{
+  font-size:var(--m-size);font-weight:var(--m-weight);letter-spacing:var(--m-ls);
+  opacity:var(--sec);
+}
+.nav{display:flex;gap:10px;flex:none}
+.nav button{
+  width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;font-size:19px;line-height:1;
+  opacity:var(--sec);
+  transition:background .18s ease,color .18s ease,opacity .18s ease;
+}
+.nav button:hover:not([disabled]){background:var(--accent);color:var(--bg);opacity:1}
+.nav button[disabled]{opacity:calc(var(--sec) * .28);cursor:default}
+
+.title{
+  font-size:var(--t-size);font-weight:var(--t-weight);
+  line-height:var(--t-lh);letter-spacing:var(--t-ls);word-spacing:var(--t-ws);
+  margin-bottom:38px;text-wrap:balance;
+}
+.body p{
+  font-size:var(--b-size);font-weight:var(--b-weight);
+  line-height:var(--b-lh);letter-spacing:var(--b-ls);word-spacing:var(--b-ws);
+}
+.body p + p{margin-top:var(--b-gap)}
+
+/* --- columna derecha --- */
+.side{position:sticky;top:36px;display:grid;gap:40px}
+.field .label{
+  display:block;
+  font-size:var(--l-size);font-weight:var(--l-weight);letter-spacing:var(--l-ls);
+  opacity:var(--sec);margin-bottom:12px;
+}
+.field .value{
+  font-size:var(--v-size);font-weight:var(--v-weight);
+  line-height:var(--v-lh);letter-spacing:var(--v-ls);
+}
+
+/* --- responsive --- */
+@media (max-width:1000px){
+  .layout{grid-template-columns:1fr;gap:44px}
+  .rail{position:static;display:flex;flex-wrap:wrap;gap:0;order:3}
+  .rail .tickrow{width:auto;height:auto;padding:0 6px}
+  .rail .tickrow .mark{width:2px;height:14px}
+  .rail .tickrow.major .mark,.rail .tickrow.post .mark{height:22px;width:2px}
+  .rail .tickrow:hover .mark{width:2px;height:26px}
+  .rail .pill{position:static;transform:none;margin-left:8px}
+  .side{position:static;order:2;grid-template-columns:1fr 1fr;gap:26px}
+  .wrap{padding:24px 20px 80px}
+  .masthead{margin-bottom:48px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ===========================================================
+   PANEL DE PROTOTIPO
+   No forma parte del diseño: usa su propio color (gris neutro)
+   para no contaminar la paleta de 3 colores.
+   =========================================================== */
+#protoBtn{
+  position:fixed;right:18px;bottom:18px;z-index:60;
+  background:#1b1c22;color:#fff;font-size:13px;font-weight:500;
+  padding:11px 16px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.22);
+}
+#proto{
+  position:fixed;right:18px;bottom:18px;z-index:61;width:334px;
+  max-height:calc(100vh - 36px);overflow:auto;
+  background:#1b1c22;color:#fff;border-radius:16px;padding:16px;
+  box-shadow:0 10px 40px rgba(0,0,0,.35);font-size:12px;display:none;
+}
+#proto.open{display:block}
+#proto h2{font-size:13px;font-weight:600;margin-bottom:2px}
+#proto .sub{opacity:.55;margin-bottom:14px;line-height:1.4}
+#proto details{border-top:1px solid #34363f;padding:9px 0}
+#proto summary{cursor:pointer;font-weight:600;list-style:none;padding:3px 0}
+#proto summary::-webkit-details-marker{display:none}
+#proto summary::before{content:"+ ";opacity:.5}
+#proto details[open] summary::before{content:"– "}
+.ctrl{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin:9px 0 0}
+.ctrl label{opacity:.72}
+.ctrl output{font-variant-numeric:tabular-nums;opacity:.95}
+.ctrl input[type=range]{grid-column:1/-1;width:100%;accent-color:#FF1D58;height:18px}
+.ctrl input[type=color]{width:34px;height:26px;padding:0;border:1px solid #43454f;border-radius:6px;background:none;cursor:pointer}
+.ctrl input[type=text]{grid-column:1/-1;width:100%;background:#26272f;border:1px solid #3a3c46;color:#fff;border-radius:6px;padding:6px 8px;font:inherit}
+.rowbtns{display:flex;gap:8px;margin-top:14px}
+.rowbtns button{flex:1;background:#FF1D58;color:#fff;border-radius:9px;padding:9px;font-weight:600}
+.rowbtns button.ghost{background:#2c2e37}
+#out{width:100%;height:190px;margin-top:10px;background:#101116;color:#dfe1e8;
+  border:1px solid #3a3c46;border-radius:9px;padding:9px;font-family:ui-monospace,Menlo,monospace;
+  font-size:11px;line-height:1.45;display:none;white-space:pre;overflow:auto}
+#out.show{display:block}
+@media print{#proto,#protoBtn{display:none!important}}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <h1>Francisco Guadarrama</h1>
+    <button class="menu" aria-label="Menú">
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="none" aria-hidden="true">
+        <path d="M1 1h15M3 5.5h11M6 10h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </header>
+
+  <div class="layout">
+    <nav class="rail" id="rail" aria-label="Línea del tiempo"></nav>
+
+    <main>
+      <div class="postmeta">
+        <span class="who"><span id="chapter"></span> · <span id="range"></span></span>
+        <div class="nav">
+          <button id="prev" aria-label="Entrada anterior">‹</button>
+          <button id="next" aria-label="Entrada siguiente">›</button>
+        </div>
+      </div>
+      <h2 class="title" id="title"></h2>
+      <div class="body" id="body"></div>
+    </main>
+
+    <aside class="side">
+      <div class="field"><span class="label">Fecha</span><p class="value" id="fDate"></p></div>
+      <div class="field"><span class="label">Lugar</span><p class="value" id="fLoc"></p></div>
+    </aside>
+  </div>
+</div>
+
+<button id="protoBtn" hidden>Prototipo</button>
+<section id="proto" aria-label="Controles de prototipo">
+  <h2>Controles de prototipo</h2>
+  <p class="sub">Ajusta y exporta. Nada de esto viaja a la versión final.</p>
+  <div id="groups"></div>
+  <div class="rowbtns">
+    <button id="export">Exportar</button>
+    <button id="reset" class="ghost">Restablecer</button>
+  </div>
+  <div class="rowbtns">
+    <button id="copy" class="ghost">Copiar CSS</button>
+    <button id="download" class="ghost">Descargar</button>
+  </div>
+  <textarea id="out" readonly spellcheck="false"></textarea>
+</section>
+
+<script src="posts.js"></script>
+<script>
+/* ===========================================================
+   1. AJUSTE ÚNICO PARA LA VERSIÓN FINAL
+   Cambia a false y el panel de prototipo desaparece por completo.
+   =========================================================== */
+const PROTOTYPE = true;
+
+/* ===========================================================
+   2. COLOR EN DISPLAY-P3
+   Se reutilizan las coordenadas sRGB dentro del espacio P3:
+   en pantallas P3 el color se muestra en su versión más saturada;
+   en pantallas sRGB cae al hex original sin cambio visible.
+   =========================================================== */
+const P3_OK = window.CSS && CSS.supports('color','color(display-p3 1 1 1)');
+function toP3(hex){
+  const h = hex.replace('#','');
+  const n = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+  const r = parseInt(n.slice(0,2),16)/255,
+        g = parseInt(n.slice(2,4),16)/255,
+        b = parseInt(n.slice(4,6),16)/255;
+  return P3_OK ? `color(display-p3 ${+r.toFixed(4)} ${+g.toFixed(4)} ${+b.toFixed(4)})` : hex;
+}
+
+/* ===========================================================
+   3. TOKENS Y CONTROLES
+   =========================================================== */
+const SPEC = [
+  ['Color', [
+    ['bg','--bg','Fondo','color','#f8f8f8'],
+    ['text','--text','Texto','color','#272a3f'],
+    ['accent','--accent','Acento','color','#FF1D58'],
+    ['sec','--sec','Opacidad secundaria','range','1',0.3,1,0.01,'']
+  ]],
+  ['Título', [
+    ['tSize','--t-size','Tamaño','range','64px',24,120,1,'px'],
+    ['tWeight','--t-weight','Peso','range','580',100,900,10,''],
+    ['tLh','--t-lh','Interlínea','range','65px',24,140,1,'px'],
+    ['tLs','--t-ls','Interletraje','range','-0.02em',-0.08,0.08,0.005,'em'],
+    ['tWs','--t-ws','Espacio entre palabras','range','0em',-0.1,0.4,0.01,'em']
+  ]],
+  ['Cuerpo', [
+    ['bSize','--b-size','Tamaño','range','18px',12,32,1,'px'],
+    ['bWeight','--b-weight','Peso','range','400',100,900,10,''],
+    ['bLh','--b-lh','Interlínea','range','28px',14,56,1,'px'],
+    ['bLs','--b-ls','Interletraje','range','0em',-0.05,0.1,0.005,'em'],
+    ['bWs','--b-ws','Espacio entre palabras','range','0em',-0.1,0.4,0.01,'em'],
+    ['bGap','--b-gap','Espacio entre párrafos','range','28px',0,64,1,'px']
+  ]],
+  ['Nombre y meta', [
+    ['nSize','--n-size','Nombre · tamaño','range','30px',16,64,1,'px'],
+    ['nWeight','--n-weight','Nombre · peso','range','400',100,900,10,''],
+    ['nLs','--n-ls','Nombre · interletraje','range','-0.01em',-0.06,0.1,0.005,'em'],
+    ['mSize','--m-size','Meta · tamaño','range','15px',10,24,1,'px'],
+    ['mWeight','--m-weight','Meta · peso','range','400',100,900,10,''],
+    ['mLs','--m-ls','Meta · interletraje','range','0em',-0.04,0.2,0.005,'em']
+  ]],
+  ['Columna derecha', [
+    ['lSize','--l-size','Etiqueta · tamaño','range','15px',10,24,1,'px'],
+    ['lWeight','--l-weight','Etiqueta · peso','range','400',100,900,10,''],
+    ['lLs','--l-ls','Etiqueta · interletraje','range','0em',-0.04,0.2,0.005,'em'],
+    ['vSize','--v-size','Valor · tamaño','range','18px',12,32,1,'px'],
+    ['vWeight','--v-weight','Valor · peso','range','400',100,900,10,''],
+    ['vLh','--v-lh','Valor · interlínea','range','26px',14,48,1,'px'],
+    ['vLs','--v-ls','Valor · interletraje','range','0em',-0.05,0.1,0.005,'em']
+  ]],
+  ['Línea del tiempo y rejilla', [
+    ['pSize','--p-size','Píldora · tamaño','range','12px',9,20,1,'px'],
+    ['pWeight','--p-weight','Píldora · peso','range','500',100,900,10,''],
+    ['pLs','--p-ls','Píldora · interletraje','range','0em',-0.04,0.2,0.005,'em'],
+    ['tickGap','--tick-gap','Separación de marcas','range','22px',12,40,1,'px'],
+    ['colRail','--col-rail','Ancho línea del tiempo','range','155px',110,260,1,'px'],
+    ['colText','--col-text','Ancho columna de texto','range','495px',360,760,5,'px'],
+    ['colSide','--col-side','Ancho columna derecha','range','270px',180,420,5,'px'],
+    ['gap','--gap','Separación entre columnas','range','56px',24,120,2,'px']
+  ]]
+];
+
+const DEFAULTS = {};
+const VARS = {};
+SPEC.forEach(([,items]) => items.forEach(([k,v,,,def]) => { DEFAULTS[k]=def; VARS[k]=v; }));
+let tokens = {...DEFAULTS};
+
+function apply(){
+  const r = document.documentElement.style;
+  for (const k in tokens){
+    const v = tokens[k];
+    r.setProperty(VARS[k], (k==='bg'||k==='text'||k==='accent') ? toP3(v) : v);
+  }
+  document.documentElement.style.setProperty('--bg-hex', tokens.bg);
+}
+
+/* ===========================================================
+   4. LÍNEA DEL TIEMPO + POSTS
+   =========================================================== */
+const posts = (window.POSTS || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const d = s => new Date(s + 'T12:00:00');
+const fmtShort = x => `${x.getDate()} ${MESES[x.getMonth()]} ${x.getFullYear()}`;
+const fmtLong  = x => `${x.getDate()} de ${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][x.getMonth()]} de ${x.getFullYear()}`;
+
+let current = 0;
+
+/* Marcas: una por semana si el archivo abarca menos de 3 años, una por mes si abarca más.
+   Se extiende el rango hasta tener al menos 30 marcas para que la columna no se vea vacía. */
+function buildTicks(){
+  if (!posts.length) return [];
+  const first = d(posts[0].date), last = d(posts[posts.length-1].date);
+  const spanDays = (last - first) / 86400000;
+  const byMonth = spanDays > 1095;
+  const step = t => byMonth ? new Date(t.getFullYear(), t.getMonth()+1, 1, 12)
+                            : new Date(t.getFullYear(), t.getMonth(), t.getDate()+7, 12);
+
+  let start = byMonth ? new Date(first.getFullYear(), first.getMonth(), 1, 12)
+                      : new Date(first.getFullYear(), first.getMonth(), first.getDate()-7, 12);
+  const ticks = [];
+  let t = new Date(start), end = new Date(last.getTime() + (byMonth ? 86400000*60 : 86400000*21));
+  while (t <= end || ticks.length < 30){
+    ticks.push(new Date(t));
+    t = step(t);
+    if (ticks.length > 400) break;
+  }
+  return ticks.map(date => {
+    const idx = posts.findIndex(p => {
+      const pd = d(p.date), nx = step(date);
+      return pd >= date && pd < nx;
+    });
+    const major = byMonth ? date.getMonth() === 0 : date.getDate() <= 7;
+    return { date, post: idx, major };
+  });
+}
+const TICKS = buildTicks();
+
+function renderRail(){
+  const rail = document.getElementById('rail');
+  rail.innerHTML = '';
+  TICKS.forEach(tk => {
+    const el = document.createElement(tk.post > -1 ? 'button' : 'div');
+    el.className = 'tickrow' + (tk.major ? ' major' : '') + (tk.post > -1 ? ' post' : '') +
+                   (tk.post === current ? ' active' : '');
+    el.innerHTML = '<span class="mark"></span>';
+    if (tk.post > -1){
+      el.setAttribute('aria-label', posts[tk.post].title);
+      el.addEventListener('click', () => go(tk.post));
+      if (tk.post === current){
+        const pill = document.createElement('span');
+        pill.className = 'pill';
+        pill.textContent = fmtShort(d(posts[tk.post].date));
+        el.appendChild(pill);
+      }
+    }
+    rail.appendChild(el);
+  });
+}
+
+function renderPost(){
+  const p = posts[current];
+  if (!p){ document.getElementById('title').textContent = 'Aún no hay entradas.'; return; }
+  document.getElementById('chapter').textContent = p.chapter || '';
+  document.getElementById('range').textContent = p.range || '';
+  document.getElementById('title').textContent = p.title;
+  document.getElementById('body').innerHTML = p.body.map(t => `<p>${t}</p>`).join('');
+  document.getElementById('fDate').textContent = fmtLong(d(p.date));
+  document.getElementById('fLoc').textContent = p.location || '—';
+  document.getElementById('prev').disabled = current === 0;
+  document.getElementById('next').disabled = current === posts.length - 1;
+  document.title = p.title + ' — Francisco Guadarrama';
+  if (p.id) history.replaceState(null, '', '#' + p.id);
+}
+
+function go(i){
+  if (i < 0 || i >= posts.length) return;
+  current = i;
+  renderPost(); renderRail();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('prev').addEventListener('click', ()=>go(current-1));
+document.getElementById('next').addEventListener('click', ()=>go(current+1));
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea')) return;
+  if (e.key === 'ArrowLeft') go(current-1);
+  if (e.key === 'ArrowRight') go(current+1);
+});
+
+/* enlace directo: /blog/#id-del-post */
+const hash = location.hash.slice(1);
+if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
+
+/* ===========================================================
+   5. PANEL DE PROTOTIPO
+   =========================================================== */
+function buildPanel(){
+  const box = document.getElementById('groups');
+  SPEC.forEach(([name, items], gi) => {
+    const det = document.createElement('details');
+    if (gi === 0) det.open = true;
+    det.innerHTML = `<summary>${name}</summary>`;
+    items.forEach(([k,,label,type,def,min,max,step,unit]) => {
+      const row = document.createElement('div');
+      row.className = 'ctrl';
+      if (type === 'color'){
+        row.innerHTML =
+          `<label for="c_${k}">${label}</label>
+           <input type="color" id="c_${k}" value="${def}">
+           <input type="text" id="h_${k}" value="${def}" spellcheck="false">`;
+        det.appendChild(row);
+        const picker = row.querySelector(`#c_${k}`), hexIn = row.querySelector(`#h_${k}`);
+        picker.addEventListener('input', () => { hexIn.value = picker.value; tokens[k] = picker.value; apply(); save(); });
+        hexIn.addEventListener('change', () => {
+          const v = hexIn.value.trim();
+          if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)){ picker.value = v; tokens[k] = v; apply(); save(); }
+          else hexIn.value = tokens[k];
+        });
+      } else {
+        const num = parseFloat(def);
+        row.innerHTML =
+          `<label for="r_${k}">${label}</label><output id="o_${k}">${def}</output>
+           <input type="range" id="r_${k}" min="${min}" max="${max}" step="${step}" value="${num}">`;
+        det.appendChild(row);
+        const sl = row.querySelector(`#r_${k}`), out = row.querySelector(`#o_${k}`);
+        sl.addEventListener('input', () => {
+          const val = sl.value + (unit || '');
+          tokens[k] = val; out.textContent = val; apply(); save();
+        });
+      }
+    });
+    box.appendChild(det);
+  });
+}
+
+function syncPanel(){
+  for (const k in tokens){
+    const sl = document.getElementById('r_'+k), out = document.getElementById('o_'+k),
+          pk = document.getElementById('c_'+k), hx = document.getElementById('h_'+k);
+    if (sl){ sl.value = parseFloat(tokens[k]); out.textContent = tokens[k]; }
+    if (pk){ pk.value = tokens[k]; hx.value = tokens[k]; }
+  }
+}
+
+function cssOut(){
+  const hex = k => tokens[k];
+  const p3 = k => {
+    const h = hex(k).replace('#',''), n = h.length===3 ? h.split('').map(c=>c+c).join('') : h;
+    return [0,2,4].map(i => +(parseInt(n.slice(i,i+2),16)/255).toFixed(4)).join(' ');
+  };
+  const lines = [];
+  SPEC.forEach(([,items]) => items.forEach(([k,v]) => {
+    if (['bg','text','accent'].includes(k)) return;
+    lines.push(`  ${v}: ${tokens[k]};`);
+  }));
+  return `:root{
+  --bg: ${hex('bg')};
+  --text: ${hex('text')};
+  --accent: ${hex('accent')};
+${lines.join('\n')}
+}
+
+@supports (color: color(display-p3 1 1 1)){
+  :root{
+    --bg: color(display-p3 ${p3('bg')});
+    --text: color(display-p3 ${p3('text')});
+    --accent: color(display-p3 ${p3('accent')});
+  }
+}`;
+}
+
+function save(){ try{ localStorage.setItem('fg-blog-tokens', JSON.stringify(tokens)); }catch(e){} }
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem('fg-blog-tokens') || 'null');
+    if (s) tokens = {...DEFAULTS, ...s};
+  }catch(e){}
+}
+
+if (PROTOTYPE){
+  load();
+  buildPanel();
+  syncPanel();
+  const btn = document.getElementById('protoBtn'), panel = document.getElementById('proto'), out = document.getElementById('out');
+  btn.hidden = false;
+  btn.addEventListener('click', ()=>{ panel.classList.add('open'); btn.hidden = true; });
+  panel.addEventListener('click', e => { if (e.target === panel) {} });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && panel.classList.contains('open')){ panel.classList.remove('open'); btn.hidden = false; }
+  });
+  document.getElementById('export').addEventListener('click', () => {
+    out.value = cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
+    out.classList.add('show');
+  });
+  document.getElementById('copy').addEventListener('click', async e => {
+    try{ await navigator.clipboard.writeText(cssOut()); e.target.textContent = 'Copiado'; }
+    catch(err){ out.value = cssOut(); out.classList.add('show'); out.select(); e.target.textContent = 'Selecciona y copia'; }
+    setTimeout(()=> e.target.textContent = 'Copiar CSS', 1600);
+  });
+  document.getElementById('download').addEventListener('click', () => {
+    const blob = new Blob([cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2)], {type:'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tokens-blog.txt';
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    tokens = {...DEFAULTS}; apply(); syncPanel(); save();
+    out.classList.remove('show');
+  });
+}
+
+apply();
+renderPost();
+renderRail();
+</script>
+</body>
+</html>
