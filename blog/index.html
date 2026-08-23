@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Francisco Guadarrama</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,43 +17,45 @@
   --n-size:24px; --n-weight:470; --n-ls:-0.1em;
   --m-size:16px; --m-weight:300; --m-ls:-0.04em;
   --l-size:16px; --l-weight:300; --l-ls:-0.04em;
-  --v-size:16px; --v-weight:530; --v-lh:14px; --v-ls:-0.05em;
+  --v-size:16px; --v-weight:530; --v-lh:20px; --v-ls:-0.05em;
   --p-size:12px; --p-weight:620; --p-ls:-0.04em;
 
   --col-rail:110px; --col-text:680px; --col-side:205px; --gap:60px;
 
-  --arrow-size:7px; --arrow-w:4px; --arrow-stroke:1;   /* viewBox 0 0 4 7, trazo de 1 unidad */
+  /* chevron de fguadarrama.com al doble de su tamaño natural (4x7) */
+  --arrow-size:14px; --arrow-w:8px; --arrow-stroke:1;
   --arrow-pulse:3px; --arrow-period:1300ms; --arrow-gap:10px;
 
-  /* panel de lectura — medidas del módulo original */
-  --extra:100px;        /* chapterMotion: min-height calc(100% + 100px) */
-  --cue-gap:40px;       /* nextChapterCue: bottom:-40px */
-  --cue-size:13px;      /* 13px / line-height 20px */
-  --cue-fade:80ms;      /* transition: opacity 80ms linear */
-  --edge-fade:56px;     /* máscara de borde del contenedor */
-  --chap-threshold:110px;
+  --extra:100px; --cue-gap:40px; --cue-size:13px; --cue-fade:80ms;
+  --edge-fade:56px; --chap-threshold:110px;
 
   --swap-dur:220ms; --swap-shift:7px; --swap-stagger:45ms;
-  --reveal-shift:12px; --reveal-dur:500ms;   /* fadeInUp: .5s ease-out */
+  --reveal-shift:12px; --reveal-dur:500ms;
 
   --tick-gap:17px;
   --tick-base:10px;
   --tick-base-entry:16px;
-  --tick-active:34px;   /* activeTick: width 34px */
+  --tick-active:34px;
   --tick-stroke:1.25px;
   --tick-stroke-entry:1.5px;
   --tick-op:0.7;
   --tick-op-entry:1;
   --tick-ext:18px;
   --tick-falloff:0.45;
+  --tick-compact-gap:10px;
+  --rail-mobile-h:84px;
   --rail-tau:180ms;
   --rail-fold:300ms; --rail-split:340ms; --rail-wave:260ms;
+
+  --scrub-px:900px;      /* recorrido de puntero que equivale a todo el archivo */
+  --chip-size:12px;
 
   --topbar-h:70px;
 
   --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-page:ease-out;              /* .page-transition: .5s ease-out */
+  --ease-page:ease-out;
   --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-follow:cubic-bezier(.22, 1, .36, 1);
   --dur-fast:160ms; --dur-ui:200ms;
 }
 @supports (color: color(display-p3 1 1 1)){
@@ -71,62 +73,65 @@ body{background:var(--bg);color:var(--text);
   -webkit-font-smoothing:antialiased;height:100%;overflow:hidden}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+body.scrubbing{cursor:ns-resize;user-select:none;-webkit-user-select:none}
+body.scrubbing-x{cursor:ew-resize;user-select:none;-webkit-user-select:none}
 
 /* --- barra superior --- */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--bg)}
 .topbar .inner{max-width:1160px;margin:0 auto;padding:20px 30px}
 .topbar h1{font-size:var(--n-size);font-weight:var(--n-weight);
   letter-spacing:var(--n-ls);line-height:1.1;opacity:var(--sec)}
+
 /* ===========================================================
    PANEL DE LECTURA
-   .experience: alto fijo, sin scroll de página. El capítulo
-   corre dentro de su propio contenedor, como en el original.
    =========================================================== */
 .experience{
-  position:relative;
-  margin-top:var(--topbar-h);          /* la barra superior es fixed: hay que cederle el alto */
-  height:calc(100svh - var(--topbar-h));
-  min-height:480px;
-  max-width:1160px;margin-inline:auto;padding:26px 30px 40px;
-  overflow:hidden;
+  position:relative;margin-top:var(--topbar-h);
+  height:calc(100svh - var(--topbar-h));min-height:440px;
+  max-width:1160px;margin-inline:auto;padding:26px 30px 40px;overflow:hidden;
 }
 .layout{display:grid;height:100%;
   grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
   gap:var(--gap);align-items:stretch}
 
-/* --- línea del tiempo --- */
-.rail{position:relative;align-self:center}
-.rail svg{display:block;overflow:visible}
+/* ===========================================================
+   RIEL — control deslizable
+   =========================================================== */
+.rail{position:relative;align-self:center;touch-action:none;outline:none;
+  cursor:ns-resize;-webkit-user-select:none;user-select:none}
+.rail svg{display:block;overflow:visible;pointer-events:none}
 .rail line{stroke:var(--text);stroke-width:var(--tick-stroke);stroke-linecap:round;
   opacity:var(--tick-op);
   transition:stroke var(--dur-ui) ease,opacity var(--dur-ui) ease,stroke-width var(--dur-ui) ease}
 .rail line.entry{stroke:var(--accent);stroke-width:var(--tick-stroke-entry);opacity:var(--tick-op-entry)}
 .rail svg[data-phase="fold"] line{stroke:var(--text);stroke-width:var(--tick-stroke);opacity:var(--tick-op)}
+.rail:focus-visible:after{content:"";position:absolute;inset:-12px 3px;
+  border:2px solid var(--accent);border-radius:8px;pointer-events:none}
+
 .activeTick{position:absolute;left:0;top:0;z-index:2;
   width:var(--tick-active);height:var(--tick-stroke-entry);
   background:var(--accent);border-radius:999px;pointer-events:none;opacity:0}
-.pill{position:absolute;left:var(--tick-active);top:0;z-index:3;
+.pill{position:absolute;left:19px;top:0;z-index:3;
   background:var(--accent);color:var(--bg);
   font-size:var(--p-size);font-weight:var(--p-weight);letter-spacing:var(--p-ls);
-  min-width:94px;text-align:center;
-  padding:6px 9px;border-radius:999px;white-space:nowrap;line-height:1;opacity:0;
-  transition:opacity var(--dur-ui) var(--ease-page)}
+  min-width:94px;text-align:center;padding:6px 9px;border-radius:999px;
+  white-space:nowrap;line-height:1;opacity:0;pointer-events:none;
+  transition:opacity var(--dur-ui) var(--ease-page),left var(--dur-fast) var(--ease-page)}
+.rail[data-scrubbing="true"] .pill{left:var(--tick-active)}
 .activeTick.on,.pill.on{opacity:1}
 
-/* --- contenedor con scroll propio --- */
-.scroller{
-  height:100%;overflow:hidden auto;overscroll-behavior:contain;
-  scrollbar-width:none;padding-bottom:var(--extra);
-}
+/* ===========================================================
+   CONTENEDOR DEL CAPÍTULO
+   =========================================================== */
+.scroller{height:100%;overflow:hidden auto;overscroll-behavior:contain;
+  scrollbar-width:none;padding-bottom:var(--extra)}
 .scroller::-webkit-scrollbar{display:none}
 html[data-edgefade="1"] .scroller{
   -webkit-mask-image:linear-gradient(#000 0 calc(100% - var(--edge-fade)),#0000 100%);
-  mask-image:linear-gradient(#000 0 calc(100% - var(--edge-fade)),#0000 100%);
-}
+  mask-image:linear-gradient(#000 0 calc(100% - var(--edge-fade)),#0000 100%)}
 html[data-edgefade="1"] .scroller[data-scrolled="true"]{
   -webkit-mask-image:linear-gradient(#0000 0,#000 var(--edge-fade) calc(100% - var(--edge-fade)),#0000 100%);
-  mask-image:linear-gradient(#0000 0,#000 var(--edge-fade) calc(100% - var(--edge-fade)),#0000 100%);
-}
+  mask-image:linear-gradient(#0000 0,#000 var(--edge-fade) calc(100% - var(--edge-fade)),#0000 100%)}
 
 .chapterMotion{position:relative;min-height:calc(100% + var(--extra));
   transition:opacity var(--reveal-dur) var(--ease-page),transform var(--reveal-dur) var(--ease-page)}
@@ -137,16 +142,13 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 .chapterMotion[data-phase="in-down"]{opacity:0;transform:translateY(var(--reveal-shift));transition:none}
 .chapterMotion[data-phase="in-up"]{opacity:0;transform:translateY(calc(var(--reveal-shift) * -1));transition:none}
 
-/* --- señales de frontera --- */
-.cue{position:absolute;left:50%;opacity:0;pointer-events:none;
-  white-space:nowrap;text-align:center;
+.cue{position:absolute;left:50%;opacity:0;pointer-events:none;white-space:nowrap;
   font-size:var(--cue-size);line-height:20px;color:var(--accent);
   display:inline-flex;align-items:center;gap:8px;
   transition:opacity var(--cue-fade) linear}
 .cue.next{bottom:calc(var(--cue-gap) * -1);transform:translate(-50%,100%)}
 .cue.prev{top:calc(var(--cue-gap) * -1);transform:translate(-50%,-100%)}
 
-/* --- capítulo --- */
 .postmeta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:44px}
 .postmeta .who{font-size:var(--m-size);font-weight:var(--m-weight);
   letter-spacing:var(--m-ls);opacity:var(--sec)}
@@ -156,11 +158,10 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
   letter-spacing:var(--b-ls);word-spacing:var(--b-ws);text-wrap:pretty}
 .body p + p{margin-top:var(--b-gap)}
 
-/* --- flechas: botones 24x24 redondos, como el eyebrow original --- */
+/* --- flechas --- */
 .nav{display:flex;gap:var(--arrow-gap);flex:none;align-items:center}
 .nav button{width:24px;height:24px;border-radius:999px;color:var(--accent);
-  display:grid;place-items:center;padding:0;
-  transition:opacity var(--dur-fast) ease}
+  display:grid;place-items:center;padding:0;transition:opacity var(--dur-fast) ease}
 .nav button:disabled{opacity:.3;cursor:default}
 .ico{display:block;will-change:transform}
 .name-cue-arrow{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
@@ -174,32 +175,94 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
   [data-go="prev"]:not(:disabled):hover .ico{animation:arrow-prev var(--arrow-period) var(--ease-in-out) infinite}
 }
 
-/* --- columna derecha --- */
+/* ===========================================================
+   METADATOS DESLIZABLES
+   =========================================================== */
 .side{align-self:start;display:grid;gap:36px;padding-top:12px}
 .field .label{display:block;font-size:var(--l-size);font-weight:var(--l-weight);
   letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:8px}
-.field .value{font-size:var(--v-size);font-weight:var(--v-weight);
+.scrubber{display:inline-block;cursor:ew-resize;touch-action:none;
+  -webkit-user-select:none;user-select:none;font-variant-numeric:tabular-nums;
+  font-size:var(--v-size);font-weight:var(--v-weight);
   line-height:var(--v-lh);letter-spacing:var(--v-ls);
   transition:opacity var(--swap-dur) var(--ease-page),transform var(--swap-dur) var(--ease-page)}
-.field:nth-child(2) .value{transition-delay:var(--swap-stagger)}
-.value[data-phase="out-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
-.value[data-phase="out-down"]{opacity:0;transform:translateY(var(--swap-shift))}
-.value[data-phase="in-down"]{opacity:0;transform:translateY(var(--swap-shift))}
-.value[data-phase="in-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.field:nth-child(2) .scrubber{transition-delay:var(--swap-stagger)}
+.scrubber[data-phase="out-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.scrubber[data-phase="out-down"]{opacity:0;transform:translateY(var(--swap-shift))}
+.scrubber[data-phase="in-down"]{opacity:0;transform:translateY(var(--swap-shift))}
+.scrubber[data-phase="in-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.scrubber:focus-visible{outline:1px solid var(--accent);outline-offset:3px;border-radius:2px}
 
+/* ===========================================================
+   SEGUIDOR DE CURSOR
+   =========================================================== */
+.follower{position:fixed;top:0;left:0;z-index:50;pointer-events:none;opacity:0;
+  transition:opacity .12s ease-out;
+  transform:translate(-240px,-240px) translate(-50%, calc(-100% - 12px))}
+.follower[data-visible="true"]{opacity:1;will-change:transform}
+.follower .chip{
+  background:var(--accent);color:var(--bg);border-radius:999px;
+  padding:7px 12px;font-size:var(--chip-size);font-weight:var(--p-weight);
+  letter-spacing:var(--p-ls);line-height:1;white-space:nowrap;
+  opacity:0;transform:translateY(14px) scale(.98);
+  transition:opacity .24s ease-out,transform .36s var(--ease-follow)}
+.follower[data-visible="true"] .chip{opacity:1;transform:none}
+
+/* ===========================================================
+   MODO COMPACTO — pantallas bajas
+   =========================================================== */
+@media (max-height:700px) and (min-width:1001px){
+  .experience{min-height:0;padding:16px 30px 24px}
+  .title{font-size:clamp(30px, 4vw, var(--t-size));line-height:1.04}
+  .postmeta{margin-bottom:24px}
+  .title{margin-bottom:22px}
+  .side{gap:22px}
+}
+
+/* ===========================================================
+   MÓVIL — riel horizontal fijo abajo
+   =========================================================== */
 @media (max-width:1000px){
   .layout{grid-template-columns:1fr;gap:0}
-  .rail,.side{display:none}
-  .experience{padding:16px 20px 24px;margin-top:var(--topbar-h);height:calc(100svh - var(--topbar-h))}
+  .side{display:none}
+  .experience{margin-top:var(--topbar-h);padding:16px 20px 0;
+    height:calc(100svh - var(--topbar-h));overflow:visible}
   .topbar .inner{padding:16px 20px}
-  .index{right:20px}
+  .scroller{padding-bottom:calc(var(--rail-mobile-h) + var(--extra))}
+
+  .rail{position:fixed;left:16px;right:16px;
+    bottom:max(16px, env(safe-area-inset-bottom, 0px));
+    height:var(--rail-mobile-h);width:auto;align-self:auto;z-index:35;cursor:ew-resize}
+  .rail:before{content:"";position:absolute;inset:-40px -16px -16px;z-index:0;
+    background:var(--bg);pointer-events:none;
+    -webkit-mask-image:linear-gradient(#0000 0,#000 96px);
+    mask-image:linear-gradient(#0000 0,#000 96px)}
+  .rail svg{position:relative;z-index:1}
+  .activeTick{width:var(--tick-stroke-entry);height:var(--tick-active);border-radius:999px}
+  .pill{left:auto;top:auto;bottom:calc(var(--rail-mobile-h) + 10px);
+    transition:opacity var(--dur-ui) var(--ease-page)}
+  .rail[data-scrubbing="true"] .pill{left:auto}
+  .mobileMeta{position:fixed;left:16px;right:16px;z-index:36;
+    bottom:calc(max(16px, env(safe-area-inset-bottom,0px)) + var(--rail-mobile-h) + 46px);
+    background:var(--bg);border:1px solid var(--text);border-radius:12px;padding:14px 16px;
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;pointer-events:none;opacity:0;
+    transition:opacity .12s ease-out}
+  .mobileMeta[data-visible="true"]{opacity:1}
+  .mobileMeta .label{display:block;font-size:12px;font-weight:var(--l-weight);
+    letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:5px;line-height:1}
+  .mobileMeta .val{font-size:15px;font-weight:var(--v-weight);letter-spacing:var(--v-ls);line-height:1.3}
+  .follower{display:none}
+  .title{font-size:clamp(30px, 9vw, var(--t-size));line-height:1.05}
+  .cue.next{bottom:calc(var(--cue-gap) * -1)}
 }
+@media (min-width:1001px){ .mobileMeta{display:none} }
+
 @media (prefers-reduced-motion:reduce){
   *{transition-duration:1ms!important}
   .ico{animation:none!important}
 }
 
-/* --- paneles --- */
+/* --- paneles de prototipo --- */
 .protodock{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;gap:8px}
 .protodock button{background:#1b1c22;color:#fff;font-size:13px;font-weight:500;
   padding:11px 16px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.22)}
@@ -236,15 +299,15 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 <body>
 
 <header class="topbar">
-  <div class="inner">
-    <h1>Francisco Guadarrama</h1>
-  </div>
+  <div class="inner"><h1>Francisco Guadarrama</h1></div>
 </header>
 
 <section class="experience">
   <div class="layout">
 
-    <div class="rail" id="rail">
+    <div class="rail" id="rail" role="slider" tabindex="0"
+         aria-label="Línea del tiempo — recorre el archivo" aria-orientation="vertical"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="">
       <svg id="railSvg" data-phase="fold" aria-hidden="true"></svg>
       <span class="activeTick" id="activeTick" aria-hidden="true"></span>
       <span class="pill" id="pill" aria-hidden="true"></span>
@@ -269,12 +332,27 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
     </div>
 
     <aside class="side">
-      <div class="field"><span class="label">Fecha</span><p class="value" id="fDate"></p></div>
-      <div class="field"><span class="label">Lugar</span><p class="value" id="fLoc"></p></div>
+      <div class="field">
+        <span class="label" id="labDate">Fecha</span>
+        <span class="scrubber" id="fDate" role="slider" tabindex="0"
+              aria-labelledby="labDate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span>
+      </div>
+      <div class="field">
+        <span class="label" id="labLoc">Lugar</span>
+        <span class="scrubber" id="fLoc" role="slider" tabindex="0"
+              aria-labelledby="labLoc" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span>
+      </div>
     </aside>
 
   </div>
 </section>
+
+<div class="mobileMeta" id="mobileMeta" aria-hidden="true">
+  <div><span class="label">Fecha</span><span class="val" id="mDate"></span></div>
+  <div><span class="label">Lugar</span><span class="val" id="mLoc"></span></div>
+</div>
+
+<div class="follower" id="follower" aria-hidden="true"><span class="chip" id="chip"></span></div>
 
 <div class="protodock" id="dock" hidden>
   <button data-open="panelRail">Línea del tiempo</button>
@@ -292,7 +370,7 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 
 <section class="panel" id="panelRail" aria-label="Controles de la línea del tiempo">
   <h2>Línea del tiempo</h2>
-  <p class="sub">Forma, onda y ritmo de la barra lateral.</p>
+  <p class="sub">Forma, onda, arrastre y ritmo.</p>
   <div id="groupsRail"></div>
   <div class="rowbtns"><button data-export="1">Exportar</button><button class="ghost" data-reset="1">Restablecer</button></div>
   <div class="rowbtns"><button class="ghost" data-copy="1">Copiar CSS</button><button class="ghost" data-download="1">Descargar</button></div>
@@ -303,8 +381,7 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 <script>
 const PROTOTYPE = true;
 
-/* chevron de fguadarrama.com (.name-cue-arrow) */
-/* tal cual está en fguadarrama.com, a su tamaño natural de 4x7 */
+/* chevron de fguadarrama.com, al doble de su tamaño natural */
 const arrowSVG = flip =>
   `<svg aria-hidden="true" class="name-cue-arrow${flip ? ' flip' : ''}" preserveAspectRatio="none" viewBox="0 0 4 7"><path class="name-cue-path" d="M0.5 0.5 L3.5 3.5 L0.5 6.5"></path></svg>`;
 document.getElementById('icoPrev').innerHTML = arrowSVG(true);
@@ -312,6 +389,8 @@ document.getElementById('icoNext').innerHTML = arrowSVG(false);
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+const isMobile = matchMedia('(max-width: 1000px)');
+const isCompact = matchMedia('(max-height: 700px) and (min-width: 1001px)');
 
 const P3_OK = window.CSS && CSS.supports('color','color(display-p3 1 1 1)');
 function toP3(hex){
@@ -320,6 +399,8 @@ function toP3(hex){
   const r = parseInt(n.slice(0,2),16)/255, g = parseInt(n.slice(2,4),16)/255, b = parseInt(n.slice(4,6),16)/255;
   return P3_OK ? `color(display-p3 ${+r.toFixed(4)} ${+g.toFixed(4)} ${+b.toFixed(4)})` : hex;
 }
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+const lerp = (a,b,t) => a + (b-a)*t;
 
 /* ===========================================================
    TOKENS
@@ -354,14 +435,16 @@ const SPEC_TYPE = [
     ['mWeight','--m-weight','Meta · peso','range','300',100,900,10,''],
     ['mLs','--m-ls','Meta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
   ]],
-  ['Columna derecha', [
+  ['Metadatos', [
     ['lSize','--l-size','Etiqueta · tamaño','range','16px',10,24,1,'px'],
     ['lWeight','--l-weight','Etiqueta · peso','range','300',100,900,10,''],
     ['lLs','--l-ls','Etiqueta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em'],
     ['vSize','--v-size','Valor · tamaño','range','16px',12,32,1,'px'],
     ['vWeight','--v-weight','Valor · peso','range','530',100,900,10,''],
-    ['vLh','--v-lh','Valor · interlínea','range','14px',10,48,1,'px'],
-    ['vLs','--v-ls','Valor · interletraje','range','-0.05em',-0.1,0.1,0.005,'em']
+    ['vLh','--v-lh','Valor · interlínea','range','20px',10,48,1,'px'],
+    ['vLs','--v-ls','Valor · interletraje','range','-0.05em',-0.1,0.1,0.005,'em'],
+    ['scrubPx','--scrub-px','Recorrido de arrastre','range','900px',200,3000,50,'px'],
+    ['chipSize','--chip-size','Seguidor · tamaño','range','12px',9,20,1,'px']
   ]],
   ['Panel de lectura', [
     ['extra','--extra','Aire tras el capítulo','range','100px',0,300,10,'px'],
@@ -380,8 +463,8 @@ const SPEC_TYPE = [
     ['swapStagger','--swap-stagger','Retardo del 2º dato','range','45ms',0,300,5,'ms']
   ]],
   ['Flechas', [
-    ['arrowSize','--arrow-size','Alto','range','7px',4,48,1,'px'],
-    ['arrowW','--arrow-w','Ancho','range','4px',2,40,1,'px'],
+    ['arrowSize','--arrow-size','Alto','range','14px',4,48,1,'px'],
+    ['arrowW','--arrow-w','Ancho','range','8px',2,40,1,'px'],
     ['arrowStroke','--arrow-stroke','Grosor del trazo','range','1',0.25,3,0.25,''],
     ['arrowPulse','--arrow-pulse','Amplitud del pulso','range','3px',0,10,0.5,'px'],
     ['arrowPeriod','--arrow-period','Duración del pulso','range','1300ms',500,3000,50,'ms'],
@@ -419,6 +502,10 @@ const SPEC_RAIL = [
     ['railWave','--rail-wave','Marcas → onda','range','260ms',0,1200,20,'ms'],
     ['replay',null,'Repetir animación','action','']
   ]],
+  ['Modo compacto y móvil', [
+    ['tickCompactGap','--tick-compact-gap','Paso en modo compacto','range','10px',5,30,1,'px'],
+    ['railMobileH','--rail-mobile-h','Alto del riel en móvil','range','84px',50,160,2,'px']
+  ]],
   ['Píldora de fecha', [
     ['pSize','--p-size','Tamaño','range','12px',9,20,1,'px'],
     ['pWeight','--p-weight','Peso','range','620',100,900,10,''],
@@ -445,7 +532,7 @@ function apply(){
 }
 
 /* ===========================================================
-   ENTRADAS Y ESCALA TEMPORAL
+   ESCALA TEMPORAL
    =========================================================== */
 const posts = (window.POSTS || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
 const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
@@ -454,17 +541,15 @@ const d = s => new Date(s + 'T12:00:00');
 const fmtShort = x => `${x.getDate()} ${MES[x.getMonth()]} ${x.getFullYear()}`;
 const fmtLong  = x => `${x.getDate()} de ${MESL[x.getMonth()]} de ${x.getFullYear()}`;
 
-let current = 0;
-
 const SCALE = (function(){
-  if (!posts.length) return { ticks:[], rows:24, pct:()=>0 };
+  if (!posts.length) return { ticks:[], rows:24, pct:()=>0, t0:0, t1:1 };
   const first = d(posts[0].date).getTime(), last = d(posts[posts.length-1].date).getTime();
   const raw = Math.max(last - first, 86400000 * 60);
   const t0 = first - raw * 0.07, t1 = last + raw * 0.07;
   const days = (t1 - t0) / 86400000;
   const UNITS = [['week',7],['month',30.44],['quarter',91.31],['year',365.25]];
   let unit = UNITS[0], best = Infinity;
-  UNITS.forEach(u => { const s = Math.abs(days/u[1] - 30); if (s < best){ best = s; unit = u; } });
+  UNITS.forEach(u => { const sc = Math.abs(days/u[1] - 30); if (sc < best){ best = sc; unit = u; } });
   const step = t => {
     const x = new Date(t);
     if (unit[0] === 'week')    return new Date(x.getFullYear(), x.getMonth(), x.getDate()+7, 12).getTime();
@@ -479,13 +564,34 @@ const SCALE = (function(){
   const ticks = minor.map(msv => ({ pct: pct(msv), entry: -1 }))
     .concat(posts.map((p,i) => ({ pct: pct(d(p.date).getTime()), entry: i })))
     .sort((a,b) => a.pct - b.pct);
-  return { pct, ticks, rows: Math.max(24, minor.length) };
+  return { pct, ticks, rows: Math.max(24, minor.length), t0, t1 };
 })();
 const TICKS = SCALE.ticks;
 const pctOfPost = posts.map(p => SCALE.pct(d(p.date).getTime()));
+const dateAt = p => new Date(SCALE.t0 + p * (SCALE.t1 - SCALE.t0));
+
+/* capítulo que corresponde a una posición del archivo */
+function chapterAt(p){
+  let i = 0;
+  for (let k = 0; k < pctOfPost.length; k++) if (p >= pctOfPost[k] - 1e-9) i = k;
+  return i;
+}
+/* avance dentro del capítulo implicado por una posición */
+function fracWithin(p, i){
+  const a = pctOfPost[i];
+  const b = i + 1 < pctOfPost.length ? pctOfPost[i+1] : 1;
+  return b > a ? clamp((p - a) / (b - a), 0, 1) : 0;
+}
 
 /* ===========================================================
-   LÍNEA DEL TIEMPO
+   ESTADO
+   =========================================================== */
+let current = 0;
+let P = pctOfPost[0] ?? 0;   /* posición en el archivo, 0..1 */
+let scrubbing = false;
+
+/* ===========================================================
+   RIEL
    =========================================================== */
 const ORDER = ['compressed','extended','split','tracking'];
 function cubicBezier(x1,y1,x2,y2){
@@ -499,23 +605,23 @@ function cubicBezier(x1,y1,x2,y2){
   };
 }
 const EASE_OUT = cubicBezier(0.23, 1, 0.32, 1);
-const lerp = (a,b,t) => a + (b-a)*t;
 
 const rail = (function(){
   const host = document.getElementById('rail');
   const svg  = document.getElementById('railSvg');
   const pill = document.getElementById('pill');
   const marker = document.getElementById('activeTick');
-  const n = TICKS.length;
   const TRANS = [
-    { duration: 0.30, ease: EASE_OUT },
-    { duration: 0.34, ease: EASE_OUT },
-    { duration: 0.26, ease: EASE_OUT }
+    { duration:0.30, ease:EASE_OUT }, { duration:0.34, ease:EASE_OUT }, { duration:0.26, ease:EASE_OUT }
   ];
-  let lines = [], poses = null, G = null;
-  const extend = new Float64Array(n);
+  let list = [], lines = [], poses = null, G = null, axis = 'v', L = 0, base = 0;
+  let extend = new Float64Array(0);
   let progress = 0, target = 3, rafId = null, lastTime = 0;
-  let hoverY = null, entered = false, markY = 0;
+  let hoverAlong = null, entered = false, markAlong = 0;
+
+  /* en vertical: along = y, across = x desde el borde izquierdo
+     en horizontal: along = x, across = altura hacia arriba desde la base */
+  const map = (along, across) => axis === 'v' ? [across, along] : [along, base - across];
 
   function readGeometry(){
     const cs = getComputedStyle(document.documentElement);
@@ -524,85 +630,142 @@ const rail = (function(){
     TRANS[1].duration = Math.max(0.001, num('--rail-split')/1000);
     TRANS[2].duration = Math.max(0.001, num('--rail-wave')/1000);
     return {
-      gap:num('--tick-gap'), stroke:num('--tick-stroke'),
-      base:num('--tick-base'), baseEntry:num('--tick-base-entry'),
-      active:num('--tick-active'),
-      ext:num('--tick-ext'), falloff:num('--tick-falloff'),
+      gap:num('--tick-gap'), compactGap:num('--tick-compact-gap'), mobileH:num('--rail-mobile-h'),
+      stroke:num('--tick-stroke'), base:num('--tick-base'), baseEntry:num('--tick-base-entry'),
+      active:num('--tick-active'), ext:num('--tick-ext'), falloff:num('--tick-falloff'),
       tau:Math.max(0.005, num('--rail-tau')/1000)
     };
   }
+
+  /* qué marcas se dibujan y dónde, según el modo */
+  function layout(){
+    if (isMobile.matches){
+      axis = 'h';
+      L = host.clientWidth || 320;
+      base = G.mobileH;
+      list = TICKS.map(t => ({ ...t, along: t.pct * L }));
+    } else if (isCompact.matches){
+      /* compacto: sólo capítulos, reapilados a paso fijo */
+      axis = 'v';
+      const entries = TICKS.filter(t => t.entry > -1);
+      L = Math.max(1, (entries.length - 1)) * G.compactGap;
+      base = 0;
+      list = entries.map((t,k) => ({ ...t, along: k * G.compactGap }));
+    } else {
+      axis = 'v';
+      L = SCALE.rows * G.gap;
+      base = 0;
+      list = TICKS.map(t => ({ ...t, along: t.pct * L }));
+    }
+  }
+  function alongOf(p){
+    if (isCompact.matches && list.length){
+      /* en compacto la escala ya no es lineal: interpolar entre capítulos */
+      for (let k = 0; k < list.length - 1; k++){
+        if (p <= list[k+1].pct){
+          const a = list[k], b = list[k+1];
+          const f = b.pct > a.pct ? clamp((p - a.pct)/(b.pct - a.pct), 0, 1) : 0;
+          return lerp(a.along, b.along, f);
+        }
+      }
+      return list[list.length-1].along;
+    }
+    return p * L;
+  }
+  function pFromAlong(a){
+    if (isCompact.matches && list.length){
+      for (let k = 0; k < list.length - 1; k++){
+        if (a <= list[k+1].along){
+          const x = list[k], y = list[k+1];
+          const f = y.along > x.along ? clamp((a - x.along)/(y.along - x.along), 0, 1) : 0;
+          return lerp(x.pct, y.pct, f);
+        }
+      }
+      return list[list.length-1].pct;
+    }
+    return clamp(a / (L || 1), 0, 1);
+  }
+
   function buildPoses(){
-    const H = SCALE.rows * G.gap, x0 = G.stroke/2, cx = H/2;
-    const foldLen = Math.min(48, H*0.14), segLen = foldLen/n, top = cx - foldLen/2;
+    const n = list.length, x0 = G.stroke/2, mid = L/2;
+    const foldLen = Math.min(48, L*0.14), segLen = foldLen/Math.max(1,n), top = mid - foldLen/2;
     const compressed = [], extended = [], split = [];
     for (let i = 0; i < n; i++){
-      compressed.push([x0, top + i*segLen, x0, top + (i+1)*segLen]);
-      extended.push([x0, (i/n)*H, x0, ((i+1)/n)*H]);
-      const y = TICKS[i].pct * H;
-      const len = TICKS[i].entry > -1 ? G.baseEntry : G.base;
-      split.push([x0, y, x0 + len, y]);
+      const a1 = map(top + i*segLen, x0), a2 = map(top + (i+1)*segLen, x0);
+      compressed.push([a1[0],a1[1],a2[0],a2[1]]);
+      const b1 = map((i/n)*L, x0), b2 = map(((i+1)/n)*L, x0);
+      extended.push([b1[0],b1[1],b2[0],b2[1]]);
+      const len = list[i].entry > -1 ? G.baseEntry : G.base;
+      const c1 = map(list[i].along, x0), c2 = map(list[i].along, x0 + len);
+      split.push([c1[0],c1[1],c2[0],c2[1]]);
     }
-    return { compressed, extended, split, tracking: split, H };
+    return { compressed, extended, split, tracking: split };
   }
   function build(){
     G = readGeometry();
+    layout();
     poses = buildPoses();
-    const W = Math.max(G.baseEntry + G.ext, G.active) + 6;
-    svg.setAttribute('viewBox', `0 0 ${W} ${poses.H}`);
-    svg.setAttribute('width', W);
-    svg.setAttribute('height', poses.H);
+    const n = list.length;
+    if (extend.length !== n) extend = new Float64Array(n);
+    const thick = Math.max(G.baseEntry + G.ext, G.active) + 6;
+    const W = axis === 'v' ? thick : L;
+    const H = axis === 'v' ? L : G.mobileH;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
     if (lines.length !== n){
       svg.innerHTML = '';
-      lines = TICKS.map(() => svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg','line')));
-      TICKS.forEach((t,i) => lines[i].classList.toggle('entry', t.entry > -1));
+      lines = list.map(() => svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg','line')));
     }
+    list.forEach((t,i) => lines[i].classList.toggle('entry', t.entry > -1));
+    host.setAttribute('aria-orientation', axis === 'v' ? 'vertical' : 'horizontal');
   }
-  function readingPct(){
-    if (!posts.length) return 0;
-    const here = pctOfPost[current];
-    if (tokens.followScroll !== '1' || posts.length < 2) return here;
-    const s = document.getElementById('scroller');
-    const max = s.scrollHeight - s.clientHeight;
-    const frac = max > 20 ? Math.min(1, Math.max(0, s.scrollTop / max)) : 0;
-    const next = pctOfPost[Math.min(current + 1, posts.length - 1)];
-    return lerp(here, next, frac);
-  }
-  function focusY(){
-    if (hoverY !== null && tokens.hoverWave === '1') return hoverY;
-    return readingPct() * poses.H;
-  }
-  const extensionFor = (i, fy) =>
-    G.ext * G.falloff ** (Math.abs(TICKS[i].pct * poses.H - fy) / G.gap);
 
-  function advanceExtensions(dt){
-    const fy = focusY();
+  function focusAlong(){
+    if (hoverAlong !== null && tokens.hoverWave === '1' && !scrubbing) return hoverAlong;
+    return alongOf(P);
+  }
+  const extensionFor = (i, fa) =>
+    G.ext * G.falloff ** (Math.abs(list[i].along - fa) / (axis === 'v' && !isCompact.matches ? G.gap : G.compactGap));
+
+  function tick(dt){
+    const fa = focusAlong();
     const alpha = reduceMotion.matches ? 1 : 1 - Math.exp(-dt / G.tau);
     let settled = true;
-    for (let i = 0; i < n; i++){
-      const goal = extensionFor(i, fy);
+    for (let i = 0; i < list.length; i++){
+      const goal = extensionFor(i, fa);
       const nx = extend[i] + (goal - extend[i]) * alpha;
       if (Math.abs(goal - nx) < 0.05) extend[i] = goal;
       else { extend[i] = nx; settled = false; }
     }
-    const goalY = readingPct() * poses.H;
-    const ny = markY + (goalY - markY) * alpha;
-    if (Math.abs(goalY - ny) < 0.2) markY = goalY;
-    else { markY = ny; settled = false; }
-    marker.style.transform = `translateY(${markY - marker.offsetHeight/2}px)`;
-    pill.style.transform = `translateY(${markY - pill.offsetHeight/2}px)`;
+    const goalA = alongOf(P);
+    const na = markAlong + (goalA - markAlong) * alpha;
+    if (Math.abs(goalA - na) < 0.2) markAlong = goalA;
+    else { markAlong = na; settled = false; }
+    placeMarkers();
     return settled;
+  }
+  function placeMarkers(){
+    if (axis === 'v'){
+      marker.style.transform = `translateY(${markAlong - marker.offsetHeight/2}px)`;
+      pill.style.transform = `translateY(${markAlong - pill.offsetHeight/2}px)`;
+    } else {
+      marker.style.transform = `translate(${markAlong - marker.offsetWidth/2}px, ${base - marker.offsetHeight}px)`;
+      const px = clamp(markAlong - pill.offsetWidth/2, 0, Math.max(0, L - pill.offsetWidth));
+      pill.style.transform = `translateX(${px}px)`;
+    }
   }
   function applyGeometry(t){
     const seg = Math.min(Math.max(Math.floor(t),0), TRANS.length-1);
     const from = poses[ORDER[seg]], to = poses[ORDER[seg+1]];
     const local = TRANS[seg].ease(t - seg);
     const extScale = seg === TRANS.length-1 ? local : 0;
-    for (let i = 0; i < n; i++){
+    for (let i = 0; i < list.length; i++){
       const f = from[i], g = to[i], el = lines[i];
+      const ex = extScale * extend[i];
       el.setAttribute('x1', lerp(f[0], g[0], local));
       el.setAttribute('y1', lerp(f[1], g[1], local));
-      el.setAttribute('x2', lerp(f[2], g[2], local) + extScale * extend[i]);
-      el.setAttribute('y2', lerp(f[3], g[3], local));
+      el.setAttribute('x2', lerp(f[2], g[2], local) + (axis === 'v' ? ex : 0));
+      el.setAttribute('y2', lerp(f[3], g[3], local) - (axis === 'v' ? 0 : ex));
     }
     svg.dataset.phase = t < 1.4 ? 'fold' : 'ticks';
     const on = t > 1.9;
@@ -628,45 +791,63 @@ const rail = (function(){
     const dt = Math.min((now - lastTime)/1000, 0.1);
     lastTime = now;
     advance(dt);
-    const settled = advanceExtensions(dt);
+    const settled = tick(dt);
     applyGeometry(progress);
     if (progress === target && settled){ rafId = null; return; }
     rafId = requestAnimationFrame(step);
   }
-  function kick(){
-    if (rafId === null){ lastTime = performance.now(); rafId = requestAnimationFrame(step); }
-  }
-  function yFromEvent(e){
+  function kick(){ if (rafId === null){ lastTime = performance.now(); rafId = requestAnimationFrame(step); } }
+
+  function alongFromEvent(e){
     const r = svg.getBoundingClientRect();
-    return Math.min(poses.H, Math.max(0, e.clientY - r.top));
+    return axis === 'v' ? clamp(e.clientY - r.top, 0, L) : clamp(e.clientX - r.left, 0, L);
   }
-  function nearestEntry(y){
-    let best = null, bd = G.gap * 1.6;
-    TICKS.forEach(t => {
-      if (t.entry < 0) return;
-      const dist = Math.abs(t.pct * poses.H - y);
-      if (dist < bd){ bd = dist; best = t.entry; }
-    });
-    return best;
-  }
+
+  /* --- arrastre --- */
+  host.addEventListener('pointerdown', e => {
+    host.setPointerCapture(e.pointerId);
+    host.dataset.scrubbing = 'true';
+    beginScrub(axis === 'v' ? 'y' : 'x');
+    setP(pFromAlong(alongFromEvent(e)), true);
+    moveFollower(e);
+    e.preventDefault();
+  });
   host.addEventListener('pointermove', e => {
+    if (host.dataset.scrubbing === 'true'){
+      setP(pFromAlong(alongFromEvent(e)), true);
+      moveFollower(e);
+      return;
+    }
     if (!canHover.matches) return;
-    hoverY = yFromEvent(e); kick();
-    host.style.cursor = nearestEntry(hoverY) !== null ? 'pointer' : '';
+    hoverAlong = alongFromEvent(e); kick();
   });
-  host.addEventListener('pointerleave', ()=>{ hoverY = null; host.style.cursor=''; kick(); });
-  host.addEventListener('click', e => {
-    const i = nearestEntry(yFromEvent(e));
-    if (i !== null) goTo(i);
+  const endScrub = e => {
+    if (host.dataset.scrubbing !== 'true') return;
+    host.dataset.scrubbing = 'false';
+    finishScrub();
+  };
+  host.addEventListener('pointerup', endScrub);
+  host.addEventListener('pointercancel', endScrub);
+  host.addEventListener('pointerleave', ()=>{ hoverAlong = null; kick(); });
+  host.addEventListener('keydown', e => {
+    const stepP = 1 / Math.max(1, list.length - 1);
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft'){ setP(clamp(P - stepP, 0, 1), true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight'){ setP(clamp(P + stepP, 0, 1), true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'Home'){ setP(0, true); finishScrub(); }
+    if (e.key === 'End'){ setP(1, true); finishScrub(); }
   });
-  addEventListener('resize', ()=>{ build(); kick(); });
+
+  const remedia = () => { build(); markAlong = alongOf(P); kick(); };
+  addEventListener('resize', remedia);
+  isMobile.addEventListener('change', remedia);
+  isCompact.addEventListener('change', remedia);
 
   return {
     start(){
       build();
-      const fy = focusY();
-      for (let i = 0; i < n; i++) extend[i] = extensionFor(i, fy);
-      markY = readingPct() * poses.H;
+      const fa = focusAlong();
+      for (let i = 0; i < list.length; i++) extend[i] = extensionFor(i, fa);
+      markAlong = alongOf(P);
       progress = (reduceMotion.matches || entered) ? target : 0;
       entered = true;
       applyGeometry(progress); kick();
@@ -674,18 +855,21 @@ const rail = (function(){
     replay(){ build(); progress = reduceMotion.matches ? target : 0; applyGeometry(progress); kick(); },
     remeasure(){ build(); kick(); },
     sync(){ kick(); },
-    setPill(text){ pill.textContent = text; }
+    setPill(text){ pill.textContent = text; placeMarkers(); }
   };
 })();
 window.rail = rail;
 
 /* ===========================================================
-   CAPÍTULOS
+   CAPÍTULO
    =========================================================== */
 const scroller = document.getElementById('scroller');
 const motion = document.getElementById('motion');
 const fDate = document.getElementById('fDate'), fLoc = document.getElementById('fLoc');
+const mDate = document.getElementById('mDate'), mLoc = document.getElementById('mLoc');
+const mobileMeta = document.getElementById('mobileMeta');
 const cueNext = document.getElementById('cueNext'), cuePrev = document.getElementById('cuePrev');
+const railEl = document.getElementById('rail');
 const ms = v => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v)) || 0;
 
 function fill(i){
@@ -701,8 +885,29 @@ function fill(i){
   cuePrev.innerHTML = pv ? `${arrowSVG(true)} Volver a ${pv.chapter || 'la entrada anterior'}` : '';
   document.title = p.title + ' — Francisco Guadarrama';
   if (p.id){ try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
-  rail.setPill(fmtShort(d(p.date)));
 }
+
+/* los valores: fecha exacta mientras se arrastra, fecha del capítulo en reposo */
+function paintMeta(){
+  const dateText = scrubbing ? fmtLong(dateAt(P)) : fmtLong(d(posts[current].date));
+  const locText = posts[current].location || '—';
+  if (scrubbing){
+    fDate.textContent = dateText; fLoc.textContent = locText;
+  } else {
+    swapValue(fDate, dateText, lastDir);
+    swapValue(fLoc, locText, lastDir);
+  }
+  mDate.textContent = dateText; mLoc.textContent = locText;
+  rail.setPill(fmtShort(scrubbing ? dateAt(P) : d(posts[current].date)));
+  const vt = `${dateText}. ${locText}.`;
+  railEl.setAttribute('aria-valuenow', Math.round(P*100));
+  railEl.setAttribute('aria-valuetext', vt);
+  [fDate,fLoc].forEach(el => el.setAttribute('aria-valuenow', Math.round(P*100)));
+  fDate.setAttribute('aria-valuetext', dateText);
+  fLoc.setAttribute('aria-valuetext', locText);
+}
+
+let lastDir = 1;
 function swapValue(el, text, dir){
   if (el.textContent === text) return;
   if (reduceMotion.matches){ el.textContent = text; return; }
@@ -713,25 +918,87 @@ function swapValue(el, text, dir){
     el.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
     requestAnimationFrame(()=> requestAnimationFrame(()=> el.removeAttribute('data-phase')));
   }, ms('--swap-dur'));
-  /* red de seguridad: pase lo que pase, el dato vuelve a ser visible */
   el._safety = setTimeout(()=>{ el.textContent = text; el.removeAttribute('data-phase'); }, ms('--swap-dur') + 900);
 }
 
+/* --- posición del archivo: única fuente de verdad --- */
+function setP(p, fromScrub){
+  P = clamp(p, 0, 1);
+  const i = chapterAt(P);
+  if (i !== current){
+    lastDir = i > current ? 1 : -1;
+    current = i;
+    fill(i);                       /* durante el arrastre el cambio es inmediato */
+    scroller.scrollTop = fracWithin(P, i) * Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+  }
+  paintMeta();
+  rail.sync();
+  if (fromScrub) onScroll();
+}
+
+function beginScrub(kind){
+  scrubbing = true;
+  document.body.classList.add(kind === 'x' ? 'scrubbing-x' : 'scrubbing');
+  if (isMobile.matches) mobileMeta.dataset.visible = 'true';
+  else follower.dataset.visible = 'true';
+}
+function finishScrub(){
+  scrubbing = false;
+  document.body.classList.remove('scrubbing','scrubbing-x');
+  follower.dataset.visible = 'false';
+  mobileMeta.dataset.visible = 'false';
+  /* al soltar, la posición se asienta en el punto de lectura del capítulo */
+  P = lerp(pctOfPost[current], current+1 < pctOfPost.length ? pctOfPost[current+1] : 1,
+           fracWithin(P, current));
+  paintMeta();
+  rail.sync();
+}
+
+/* --- seguidor de cursor --- */
+const follower = document.getElementById('follower'), chip = document.getElementById('chip');
+function moveFollower(e){
+  chip.textContent = fmtShort(dateAt(P));
+  follower.style.transform =
+    `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, calc(-100% - 12px))`;
+}
+
+/* --- metadatos deslizables --- */
+[fDate, fLoc].forEach(el => {
+  let startX = 0, startP = 0, active = false;
+  el.addEventListener('pointerdown', e => {
+    el.setPointerCapture(e.pointerId);
+    active = true; startX = e.clientX; startP = P;
+    beginScrub('x'); moveFollower(e); e.preventDefault();
+  });
+  el.addEventListener('pointermove', e => {
+    if (!active) return;
+    const span = ms('--scrub-px') || 900;
+    setP(startP + (e.clientX - startX)/span, true);
+    moveFollower(e);
+  });
+  const end = ()=>{ if (!active) return; active = false; finishScrub(); };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+  el.addEventListener('keydown', e => {
+    const stepP = 1/60;
+    if (e.key === 'ArrowLeft'){ setP(P - stepP, true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'ArrowRight'){ setP(P + stepP, true); finishScrub(); e.preventDefault(); }
+  });
+});
+
+/* --- navegación explícita, con animación --- */
 let busy = false;
 function goTo(i, dirHint){
   if (i < 0 || i >= posts.length || i === current || busy) return;
   const dir = dirHint || (i > current ? 1 : -1);
-  busy = true; push = 0;
-  const p = posts[i];
-  swapValue(fDate, fmtLong(d(p.date)), dir);
-  swapValue(fLoc, p.location || '—', dir);
-
+  lastDir = dir; busy = true; push = 0;
   const land = () => {
     current = i;
+    P = pctOfPost[i];
     fill(i);
-    scroller.scrollTop = 0;   /* el titulo siempre recibe al lector, se venga de donde se venga */
-    onScroll();
-    rail.sync();
+    scroller.scrollTop = 0;
+    paintMeta();
+    onScroll(); rail.sync();
     if (reduceMotion.matches){ busy = false; return; }
     motion.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
     requestAnimationFrame(()=> requestAnimationFrame(()=>{
@@ -746,7 +1013,7 @@ function goTo(i, dirHint){
   setTimeout(land, ms('--swap-dur'));
 }
 
-/* --- señales de frontera guiadas por el scroll interno --- */
+/* --- lectura: el scroll interno mueve la posición del archivo --- */
 let ticking = false, push = 0, pushTimer = null;
 function onScroll(){
   if (ticking) return;
@@ -761,34 +1028,35 @@ function onScroll(){
       cueNext.style.opacity = posts[current+1] ? (max > 4 ? into/extra : 1) : 0;
       cuePrev.style.opacity = posts[current-1] && scroller.scrollTop < 4 ? 1 : 0;
     }
-    if (tokens.followScroll === '1') rail.sync();
+    if (!scrubbing && tokens.followScroll === '1' && posts.length > 1){
+      const frac = max > 20 ? clamp(scroller.scrollTop / max, 0, 1) : 0;
+      P = lerp(pctOfPost[current], current+1 < pctOfPost.length ? pctOfPost[current+1] : 1, frac);
+      rail.sync();
+    }
   });
 }
 scroller.addEventListener('scroll', onScroll, {passive:true});
 
 function edgePush(delta){
-  if (busy) return;
+  if (busy || scrubbing) return;
   const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
   const atTop = scroller.scrollTop <= 0;
   const th = ms('--chap-threshold');
   clearTimeout(pushTimer);
   pushTimer = setTimeout(()=> push = 0, 220);
   if (delta > 0 && atBottom && current < posts.length - 1){
-    push += delta;
-    if (push > th) goTo(current + 1, 1);
+    push += delta; if (push > th) goTo(current + 1, 1);
   } else if (delta < 0 && atTop && current > 0){
-    push -= delta;
-    if (push > th) goTo(current - 1, -1);
+    push -= delta; if (push > th) goTo(current - 1, -1);
   } else push = 0;
 }
 addEventListener('wheel', e => edgePush(e.deltaY), {passive:true});
 let touchY = null;
 addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, {passive:true});
 addEventListener('touchmove', e => {
-  if (touchY === null) return;
+  if (touchY === null || scrubbing) return;
   const y = e.touches[0].clientY;
-  edgePush(touchY - y);
-  touchY = y;
+  edgePush(touchY - y); touchY = y;
 }, {passive:true});
 addEventListener('touchend', ()=>{ touchY = null; push = 0; }, {passive:true});
 
@@ -798,7 +1066,7 @@ document.addEventListener('click', e => {
   goTo(current + (b.dataset.go === 'next' ? 1 : -1));
 });
 addEventListener('keydown', e => {
-  if (e.target.matches('input,textarea')) return;
+  if (e.target.matches('input,textarea') || e.target.closest('[role="slider"]')) return;
   if (e.key === 'ArrowLeft')  goTo(current - 1);
   if (e.key === 'ArrowRight') goTo(current + 1);
   if (e.key === 'Escape') closePanels();
@@ -894,7 +1162,7 @@ ${lines.join('\n')}
 }`;
 }
 const FULL = () => cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
-const STORE = 'fg-blog-tokens-v6';
+const STORE = 'fg-blog-tokens-v7';
 function save(){ try{ localStorage.setItem(STORE, JSON.stringify(tokens)); }catch(e){} }
 function load(){
   try{ const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) tokens = {...DEFAULTS, ...s}; }catch(e){}
@@ -946,12 +1214,13 @@ apply();
 measureTopbar();
 
 const hash = location.hash.slice(1);
-if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
+if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1){ current = i; P = pctOfPost[i]; } }
 
 if (posts.length){
   fill(current);
   fDate.textContent = fmtLong(d(posts[current].date));
   fLoc.textContent = posts[current].location || '—';
+  paintMeta();
 } else {
   document.getElementById('title').textContent = 'Aún no hay entradas.';
 }
