@@ -22,7 +22,7 @@
 
   --col-rail:110px; --col-text:680px; --col-side:205px; --gap:60px;
 
-  --arrow-size:19px; --arrow-w:11px; --arrow-stroke:1.5px;
+  --arrow-size:7px; --arrow-w:4px; --arrow-stroke:1;   /* viewBox 0 0 4 7, trazo de 1 unidad */
   --arrow-pulse:3px; --arrow-period:1300ms; --arrow-gap:10px;
 
   /* panel de lectura — medidas del módulo original */
@@ -54,7 +54,7 @@
   --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
   --ease-page:ease-out;              /* .page-transition: .5s ease-out */
   --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
-  --dur-fast:160ms; --dur-ui:200ms; --dur-menu:300ms;
+  --dur-fast:160ms; --dur-ui:200ms;
 }
 @supports (color: color(display-p3 1 1 1)){
   :root{
@@ -74,34 +74,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* --- barra superior --- */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--bg)}
-.topbar .inner{max-width:1160px;margin:0 auto;padding:20px 30px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px}
+.topbar .inner{max-width:1160px;margin:0 auto;padding:20px 30px}
 .topbar h1{font-size:var(--n-size);font-weight:var(--n-weight);
   letter-spacing:var(--n-ls);line-height:1.1;opacity:var(--sec)}
-.menu{width:40px;height:40px;border-radius:50%;border:1px solid var(--text);
-  display:grid;place-items:center;flex:none;
-  transition:background var(--dur-fast) ease,color var(--dur-fast) ease}
-@media (hover:hover) and (pointer:fine){ .menu:hover{background:var(--text);color:var(--bg)} }
-.menu[aria-expanded="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.index{position:absolute;right:30px;top:calc(100% - 6px);z-index:41;
-  min-width:270px;max-width:min(360px, calc(100vw - 60px));max-height:min(60vh,520px);overflow:auto;
-  background:var(--bg);border:1px solid var(--text);border-radius:14px;padding:8px;
-  transform-origin:top right;opacity:0;transform:scale(0.95) translateY(-4px);pointer-events:none;
-  transition:opacity var(--dur-menu) var(--ease-page),transform var(--dur-menu) var(--ease-page)}
-.index.open{opacity:1;transform:none;pointer-events:auto}
-.index button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;
-  transition:background var(--dur-fast) ease,color var(--dur-fast) ease}
-.index button .d{display:block;font-size:calc(var(--l-size) - 3px);font-weight:var(--l-weight);
-  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:2px}
-.index button .t{display:block;font-size:var(--v-size);font-weight:var(--v-weight);
-  letter-spacing:var(--v-ls);line-height:1.25}
-@media (hover:hover) and (pointer:fine){
-  .index button:hover{background:var(--accent);color:var(--bg)}
-  .index button:hover .d{opacity:1}
-}
-.index button[aria-current="true"] .t{color:var(--accent)}
-.index button[aria-current="true"]:hover .t{color:var(--bg)}
-
 /* ===========================================================
    PANEL DE LECTURA
    .experience: alto fijo, sin scroll de página. El capítulo
@@ -109,9 +84,10 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
    =========================================================== */
 .experience{
   position:relative;
+  margin-top:var(--topbar-h);          /* la barra superior es fixed: hay que cederle el alto */
   height:calc(100svh - var(--topbar-h));
-  min-height:560px;
-  max-width:1160px;margin:0 auto;padding:26px 30px 40px;
+  min-height:480px;
+  max-width:1160px;margin-inline:auto;padding:26px 30px 40px;
   overflow:hidden;
 }
 .layout{display:grid;height:100%;
@@ -187,8 +163,8 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
   transition:opacity var(--dur-fast) ease}
 .nav button:disabled{opacity:.3;cursor:default}
 .ico{display:block;will-change:transform}
-.nav svg,.cue svg{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
-.nav svg path,.cue svg path{fill:none;stroke:currentColor;stroke-width:var(--arrow-stroke);
+.name-cue-arrow{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
+.name-cue-path{fill:none;stroke:currentColor;stroke-width:var(--arrow-stroke);
   stroke-linecap:round;stroke-linejoin:round}
 .flip{transform:rotate(180deg)}
 @keyframes arrow-next{0%,100%{transform:translateX(0)}50%{transform:translateX(var(--arrow-pulse))}}
@@ -214,7 +190,7 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 @media (max-width:1000px){
   .layout{grid-template-columns:1fr;gap:0}
   .rail,.side{display:none}
-  .experience{padding:16px 20px 24px;height:calc(100svh - var(--topbar-h))}
+  .experience{padding:16px 20px 24px;margin-top:var(--topbar-h);height:calc(100svh - var(--topbar-h))}
   .topbar .inner{padding:16px 20px}
   .index{right:20px}
 }
@@ -262,13 +238,7 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 <header class="topbar">
   <div class="inner">
     <h1>Francisco Guadarrama</h1>
-    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="index" aria-label="Índice de entradas">
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
-        <path d="M0 2.75h16M0 9.75h10" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-    </button>
   </div>
-  <div class="index" id="index" role="menu" aria-label="Entradas"></div>
 </header>
 
 <section class="experience">
@@ -334,10 +304,9 @@ html[data-edgefade="1"] .scroller[data-scrolled="true"]{
 const PROTOTYPE = true;
 
 /* chevron de fguadarrama.com (.name-cue-arrow) */
-const ARROW_VIEWBOX = '0 0 4 7';
-const ARROW_PATH = `<path d="M0.5 0.5 L3.5 3.5 L0.5 6.5" vector-effect="non-scaling-stroke"/>`;
+/* tal cual está en fguadarrama.com, a su tamaño natural de 4x7 */
 const arrowSVG = flip =>
-  `<svg class="${flip ? 'flip' : ''}" viewBox="${ARROW_VIEWBOX}" preserveAspectRatio="none" aria-hidden="true">${ARROW_PATH}</svg>`;
+  `<svg aria-hidden="true" class="name-cue-arrow${flip ? ' flip' : ''}" preserveAspectRatio="none" viewBox="0 0 4 7"><path class="name-cue-path" d="M0.5 0.5 L3.5 3.5 L0.5 6.5"></path></svg>`;
 document.getElementById('icoPrev').innerHTML = arrowSVG(true);
 document.getElementById('icoNext').innerHTML = arrowSVG(false);
 
@@ -411,9 +380,9 @@ const SPEC_TYPE = [
     ['swapStagger','--swap-stagger','Retardo del 2º dato','range','45ms',0,300,5,'ms']
   ]],
   ['Flechas', [
-    ['arrowSize','--arrow-size','Alto','range','19px',8,48,1,'px'],
-    ['arrowW','--arrow-w','Ancho','range','11px',4,40,1,'px'],
-    ['arrowStroke','--arrow-stroke','Grosor del trazo','range','1.5px',0.5,4,0.25,'px'],
+    ['arrowSize','--arrow-size','Alto','range','7px',4,48,1,'px'],
+    ['arrowW','--arrow-w','Ancho','range','4px',2,40,1,'px'],
+    ['arrowStroke','--arrow-stroke','Grosor del trazo','range','1',0.25,3,0.25,''],
     ['arrowPulse','--arrow-pulse','Amplitud del pulso','range','3px',0,10,0.5,'px'],
     ['arrowPeriod','--arrow-period','Duración del pulso','range','1300ms',500,3000,50,'ms'],
     ['arrowGap','--arrow-gap','Separación entre flechas','range','10px',0,40,1,'px']
@@ -733,18 +702,19 @@ function fill(i){
   document.title = p.title + ' — Francisco Guadarrama';
   if (p.id){ try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
   rail.setPill(fmtShort(d(p.date)));
-  markIndex();
 }
 function swapValue(el, text, dir){
   if (el.textContent === text) return;
   if (reduceMotion.matches){ el.textContent = text; return; }
-  clearTimeout(el._t);
+  clearTimeout(el._t); clearTimeout(el._safety);
   el.dataset.phase = dir > 0 ? 'out-up' : 'out-down';
   el._t = setTimeout(() => {
     el.textContent = text;
     el.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
     requestAnimationFrame(()=> requestAnimationFrame(()=> el.removeAttribute('data-phase')));
   }, ms('--swap-dur'));
+  /* red de seguridad: pase lo que pase, el dato vuelve a ser visible */
+  el._safety = setTimeout(()=>{ el.textContent = text; el.removeAttribute('data-phase'); }, ms('--swap-dur') + 900);
 }
 
 let busy = false;
@@ -759,7 +729,7 @@ function goTo(i, dirHint){
   const land = () => {
     current = i;
     fill(i);
-    scroller.scrollTop = dir > 0 ? 0 : Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    scroller.scrollTop = 0;   /* el titulo siempre recibe al lector, se venga de donde se venga */
     onScroll();
     rail.sync();
     if (reduceMotion.matches){ busy = false; return; }
@@ -768,6 +738,8 @@ function goTo(i, dirHint){
       motion.removeAttribute('data-phase');
       setTimeout(()=> busy = false, 200);
     }));
+    clearTimeout(motion._safety);
+    motion._safety = setTimeout(()=>{ motion.removeAttribute('data-phase'); busy = false; }, 1200);
   };
   if (reduceMotion.matches){ land(); return; }
   motion.dataset.phase = dir > 0 ? 'out-up' : 'out-down';
@@ -829,37 +801,7 @@ addEventListener('keydown', e => {
   if (e.target.matches('input,textarea')) return;
   if (e.key === 'ArrowLeft')  goTo(current - 1);
   if (e.key === 'ArrowRight') goTo(current + 1);
-  if (e.key === 'Escape'){ closeIndex(); closePanels(); }
-});
-
-/* ===========================================================
-   ÍNDICE
-   =========================================================== */
-const menuBtn = document.getElementById('menuBtn'), indexEl = document.getElementById('index');
-function buildIndex(){
-  indexEl.innerHTML = '';
-  posts.slice().reverse().forEach(p => {
-    const i = posts.indexOf(p);
-    const b = document.createElement('button');
-    b.setAttribute('role','menuitem'); b.dataset.i = i;
-    b.innerHTML = `<span class="d">${fmtShort(d(p.date))}</span><span class="t">${p.title}</span>`;
-    b.addEventListener('click', ()=>{ closeIndex(); goTo(i); });
-    indexEl.appendChild(b);
-  });
-  markIndex();
-}
-function markIndex(){
-  indexEl.querySelectorAll('button').forEach(b => {
-    if (+b.dataset.i === current) b.setAttribute('aria-current','true');
-    else b.removeAttribute('aria-current');
-  });
-}
-function closeIndex(){ indexEl.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); }
-menuBtn.addEventListener('click', ()=>{
-  menuBtn.setAttribute('aria-expanded', String(indexEl.classList.toggle('open')));
-});
-document.addEventListener('click', e => {
-  if (!indexEl.contains(e.target) && !menuBtn.contains(e.target)) closeIndex();
+  if (e.key === 'Escape') closePanels();
 });
 
 const topbar = document.querySelector('.topbar');
@@ -1002,7 +944,6 @@ if (PROTOTYPE){
    =========================================================== */
 apply();
 measureTopbar();
-buildIndex();
 
 const hash = location.hash.slice(1);
 if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1) current = i; }
