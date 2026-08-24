@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Francisco Guadarrama</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f8f8f8; --text:#2c292f; --accent:#5037f9; --sec:0.95;
+
+  --t-size:50px; --t-weight:580; --t-lh:46px; --t-ls:-0.08em; --t-ws:0.05em;
+  --b-size:17px; --b-weight:350; --b-lh:22px; --b-ls:-0.05em; --b-ws:-0.04em; --b-gap:15px;
+  --n-size:24px; --n-weight:470; --n-ls:-0.1em;
+  --m-size:16px; --m-weight:300; --m-ls:-0.04em;
+  --l-size:16px; --l-weight:300; --l-ls:-0.04em;
+  --v-size:16px; --v-weight:530; --v-lh:20px; --v-ls:-0.05em;
+  --p-size:12px; --p-weight:620; --p-ls:-0.04em;
+
+  --col-rail:110px; --col-text:680px; --col-side:205px; --gap:60px;
+
+  /* chevron de fguadarrama.com al doble de su tamaño natural (4x7) */
+  --arrow-size:14px; --arrow-w:8px; --arrow-stroke:1;
+  --arrow-pulse:3px; --arrow-period:1300ms; --arrow-gap:10px;
+
+  --extra:100px; --cue-gap:40px; --cue-size:13px; --cue-fade:80ms; --scrolled-at:28px;
+  --edge-fade:56px; --chap-threshold:110px;
+
+  --swap-dur:220ms; --swap-shift:7px; --swap-stagger:45ms;
+  --reveal-shift:12px; --reveal-dur:500ms;
+
+  --tick-gap:17px;
+  --tick-base:10px;
+  --tick-base-entry:16px;
+  --tick-active:34px;
+  --tick-stroke:1.25px;
+  --tick-stroke-entry:1.5px;
+  --tick-op:0.7;
+  --tick-op-entry:1;
+  --tick-ext:18px;
+  --tick-falloff:0.45;
+  --tick-compact-gap:10px;
+  --rail-mobile-h:84px;
+  --rail-tau:180ms;
+  --rail-fold:300ms; --rail-split:340ms; --rail-wave:260ms;
+
+  --scrub-px:900px;      /* recorrido de puntero que equivale a todo el archivo */
+  --chip-size:12px;
+
+  --topbar-h:70px;
+
+  --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-page:ease-out;
+  --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-follow:cubic-bezier(.22, 1, .36, 1);
+  --dur-fast:160ms; --dur-ui:200ms;
+}
+@supports (color: color(display-p3 1 1 1)){
+  :root{
+    --bg: color(display-p3 0.9725 0.9725 0.9725);
+    --text: color(display-p3 0.1725 0.1608 0.1843);
+    --accent: color(display-p3 0.3137 0.2157 0.9765);
+  }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;height:100%}
+body{background:var(--bg);color:var(--text);
+  font-family:"Albert Sans",system-ui,sans-serif;font-synthesis-weight:none;
+  -webkit-font-smoothing:antialiased;height:100%;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+body.scrubbing{cursor:ns-resize;user-select:none;-webkit-user-select:none}
+body.scrubbing-x{cursor:ew-resize;user-select:none;-webkit-user-select:none}
+
+/* --- barra superior --- */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;background:var(--bg)}
+.topbar .inner{max-width:1160px;margin:0 auto;padding:20px 30px}
+.topbar h1{font-size:var(--n-size);font-weight:var(--n-weight);
+  letter-spacing:var(--n-ls);line-height:1.1;opacity:var(--sec)}
+
+/* ===========================================================
+   PANEL DE LECTURA
+   =========================================================== */
+.experience{
+  position:relative;margin-top:var(--topbar-h);
+  height:calc(100svh - var(--topbar-h));min-height:440px;
+  max-width:1160px;margin-inline:auto;padding:26px 30px 40px;overflow:hidden;
+}
+.layout{display:grid;height:100%;
+  grid-template-columns:var(--col-rail) minmax(0,var(--col-text)) var(--col-side);
+  gap:var(--gap);align-items:stretch}
+
+/* ===========================================================
+   RIEL — control deslizable
+   =========================================================== */
+.rail{position:relative;align-self:center;touch-action:none;outline:none;
+  cursor:ns-resize;-webkit-user-select:none;user-select:none}
+.rail svg{display:block;overflow:visible;pointer-events:none}
+.rail line{stroke:var(--text);stroke-width:var(--tick-stroke);stroke-linecap:round;
+  opacity:var(--tick-op);
+  transition:stroke var(--dur-ui) ease,opacity var(--dur-ui) ease,stroke-width var(--dur-ui) ease}
+.rail line.entry{stroke:var(--accent);stroke-width:var(--tick-stroke-entry);opacity:var(--tick-op-entry)}
+.rail svg[data-phase="fold"] line{stroke:var(--text);stroke-width:var(--tick-stroke);opacity:var(--tick-op)}
+.rail:focus-visible:after{content:"";position:absolute;inset:-12px 3px;
+  border:2px solid var(--accent);border-radius:8px;pointer-events:none}
+
+.activeTick{position:absolute;left:0;top:0;z-index:2;
+  width:var(--tick-active);height:var(--tick-stroke-entry);
+  background:var(--accent);border-radius:999px;pointer-events:none;opacity:0}
+.pill{position:absolute;left:19px;top:0;z-index:3;
+  background:var(--accent);color:var(--bg);
+  font-size:var(--p-size);font-weight:var(--p-weight);letter-spacing:var(--p-ls);
+  min-width:94px;text-align:center;padding:6px 9px;border-radius:999px;
+  white-space:nowrap;line-height:1;opacity:0;pointer-events:none;
+  transition:opacity var(--dur-ui) var(--ease-page),left var(--dur-fast) var(--ease-page)}
+.rail[data-scrubbing="true"] .pill{left:var(--tick-active)}
+.activeTick.on,.pill.on{opacity:1}
+
+/* ===========================================================
+   CONTENEDOR DEL CAPÍTULO
+   =========================================================== */
+.scroller{height:100%;overflow:hidden auto;overscroll-behavior:contain;
+  scrollbar-width:none;padding-bottom:var(--extra)}
+.scroller::-webkit-scrollbar{display:none}
+html[data-edgefade="1"] .scroller{
+  -webkit-mask-image:linear-gradient(#000 0 calc(100% - var(--edge-fade)),#0000 100%);
+  mask-image:linear-gradient(#000 0 calc(100% - var(--edge-fade)),#0000 100%)}
+html[data-edgefade="1"] .scroller[data-scrolled="true"]{
+  -webkit-mask-image:linear-gradient(#0000 0,#000 var(--edge-fade) calc(100% - var(--edge-fade)),#0000 100%);
+  mask-image:linear-gradient(#0000 0,#000 var(--edge-fade) calc(100% - var(--edge-fade)),#0000 100%)}
+
+.chapterMotion{position:relative;min-height:calc(100% + var(--extra));
+  transition:opacity var(--reveal-dur) var(--ease-page),transform var(--reveal-dur) var(--ease-page)}
+.chapterMotion[data-phase="out-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1));
+  transition-duration:var(--swap-dur)}
+.chapterMotion[data-phase="out-down"]{opacity:0;transform:translateY(var(--swap-shift));
+  transition-duration:var(--swap-dur)}
+.chapterMotion[data-phase="in-down"]{opacity:0;transform:translateY(var(--reveal-shift));transition:none}
+.chapterMotion[data-phase="in-up"]{opacity:0;transform:translateY(calc(var(--reveal-shift) * -1));transition:none}
+
+.cue{position:absolute;left:50%;opacity:0;pointer-events:none;white-space:nowrap;
+  font-size:var(--cue-size);line-height:20px;color:var(--accent);
+  display:inline-flex;align-items:center;gap:8px;
+  transition:opacity var(--cue-fade) linear}
+.cue.next{bottom:calc(var(--cue-gap) * -1);transform:translate(-50%,100%)}
+.cue.prev{top:calc(var(--cue-gap) * -1);transform:translate(-50%,-100%)}
+
+.postmeta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:44px}
+.postmeta .who{font-size:var(--m-size);font-weight:var(--m-weight);
+  letter-spacing:var(--m-ls);opacity:var(--sec)}
+.title{font-size:var(--t-size);font-weight:var(--t-weight);line-height:var(--t-lh);
+  letter-spacing:var(--t-ls);word-spacing:var(--t-ws);margin-bottom:38px;text-wrap:balance}
+.body p{font-size:var(--b-size);font-weight:var(--b-weight);line-height:var(--b-lh);
+  letter-spacing:var(--b-ls);word-spacing:var(--b-ws);text-wrap:pretty}
+.body p + p{margin-top:var(--b-gap)}
+
+/* --- flechas --- */
+.nav{display:flex;gap:var(--arrow-gap);flex:none;align-items:center}
+.nav button{width:24px;height:24px;border-radius:999px;color:var(--accent);
+  display:grid;place-items:center;padding:0;transition:opacity var(--dur-fast) ease}
+.nav button:disabled{opacity:.3;cursor:default}
+.ico{display:block;will-change:transform}
+.name-cue-arrow{display:block;width:var(--arrow-w);height:var(--arrow-size);overflow:visible}
+.name-cue-path{fill:none;stroke:currentColor;stroke-width:var(--arrow-stroke);
+  stroke-linecap:round;stroke-linejoin:round}
+.flip{transform:rotate(180deg)}
+@keyframes arrow-next{0%,100%{transform:translateX(0)}50%{transform:translateX(var(--arrow-pulse))}}
+@keyframes arrow-prev{0%,100%{transform:translateX(0)}50%{transform:translateX(calc(var(--arrow-pulse) * -1))}}
+@media (hover:hover) and (pointer:fine){
+  [data-go="next"]:not(:disabled):hover .ico{animation:arrow-next var(--arrow-period) var(--ease-in-out) infinite}
+  [data-go="prev"]:not(:disabled):hover .ico{animation:arrow-prev var(--arrow-period) var(--ease-in-out) infinite}
+}
+
+/* ===========================================================
+   METADATOS DESLIZABLES
+   =========================================================== */
+.side{align-self:start;display:grid;gap:36px;padding-top:12px}
+.field .label{display:block;font-size:var(--l-size);font-weight:var(--l-weight);
+  letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:8px}
+.scrubber{display:inline-block;cursor:ew-resize;touch-action:none;
+  -webkit-user-select:none;user-select:none;font-variant-numeric:tabular-nums;
+  font-size:var(--v-size);font-weight:var(--v-weight);
+  line-height:var(--v-lh);letter-spacing:var(--v-ls);
+  transition:opacity var(--swap-dur) var(--ease-page),transform var(--swap-dur) var(--ease-page)}
+.field:nth-child(2) .scrubber{transition-delay:var(--swap-stagger)}
+.scrubber[data-phase="out-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.scrubber[data-phase="out-down"]{opacity:0;transform:translateY(var(--swap-shift))}
+.scrubber[data-phase="in-down"]{opacity:0;transform:translateY(var(--swap-shift))}
+.scrubber[data-phase="in-up"]{opacity:0;transform:translateY(calc(var(--swap-shift) * -1))}
+.scrubber:focus-visible{outline:1px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ===========================================================
+   SEGUIDOR DE CURSOR
+   =========================================================== */
+.follower{position:fixed;top:0;left:0;z-index:50;pointer-events:none;opacity:0;
+  transition:opacity .12s ease-out;
+  transform:translate(-240px,-240px) translate(-50%, calc(-100% - 12px))}
+.follower[data-visible="true"]{opacity:1;will-change:transform}
+.follower .chip{
+  background:var(--accent);color:var(--bg);border-radius:999px;
+  padding:7px 12px;font-size:var(--chip-size);font-weight:var(--p-weight);
+  letter-spacing:var(--p-ls);line-height:1;white-space:nowrap;
+  opacity:0;transform:translateY(14px) scale(.98);
+  transition:opacity .24s ease-out,transform .36s var(--ease-follow)}
+.follower[data-visible="true"] .chip{opacity:1;transform:none}
+
+/* ===========================================================
+   MODO COMPACTO — pantallas bajas
+   =========================================================== */
+@media (max-height:700px) and (min-width:1001px){
+  .experience{min-height:0;padding:16px 30px 24px}
+  .title{font-size:clamp(30px, 4vw, var(--t-size));line-height:1.04}
+  .postmeta{margin-bottom:24px}
+  .title{margin-bottom:22px}
+  .side{gap:22px}
+}
+
+/* ===========================================================
+   MÓVIL — riel horizontal fijo abajo
+   =========================================================== */
+@media (max-width:1000px){
+  .layout{grid-template-columns:1fr;gap:0}
+  .side{display:none}
+  .experience{margin-top:var(--topbar-h);padding:16px 20px 0;
+    height:calc(100svh - var(--topbar-h));overflow:visible}
+  .topbar .inner{padding:16px 20px}
+  .scroller{padding-bottom:calc(var(--rail-mobile-h) + var(--extra))}
+
+  .rail{position:fixed;left:16px;right:16px;
+    bottom:max(16px, env(safe-area-inset-bottom, 0px));
+    height:var(--rail-mobile-h);width:auto;align-self:auto;z-index:35;cursor:ew-resize}
+  .rail:before{content:"";position:absolute;inset:-40px -16px -16px;z-index:0;
+    background:var(--bg);pointer-events:none;
+    -webkit-mask-image:linear-gradient(#0000 0,#000 96px);
+    mask-image:linear-gradient(#0000 0,#000 96px)}
+  .rail svg{position:relative;z-index:1}
+  .activeTick{width:var(--tick-stroke-entry);height:var(--tick-active);border-radius:999px}
+  .pill{left:auto;top:auto;bottom:calc(var(--rail-mobile-h) + 10px);
+    transition:opacity var(--dur-ui) var(--ease-page)}
+  .rail[data-scrubbing="true"] .pill{left:auto}
+  .mobileMeta{position:fixed;left:16px;right:16px;z-index:36;
+    bottom:calc(max(16px, env(safe-area-inset-bottom,0px)) + var(--rail-mobile-h) + 46px);
+    background:var(--bg);border:1px solid var(--text);border-radius:12px;padding:14px 16px;
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;pointer-events:none;opacity:0;
+    transition:opacity .12s ease-out}
+  .mobileMeta[data-visible="true"]{opacity:1}
+  .mobileMeta .label{display:block;font-size:12px;font-weight:var(--l-weight);
+    letter-spacing:var(--l-ls);opacity:var(--sec);margin-bottom:5px;line-height:1}
+  .mobileMeta .val{font-size:15px;font-weight:var(--v-weight);letter-spacing:var(--v-ls);line-height:1.3}
+  .follower{display:none}
+  .title{font-size:clamp(30px, 9vw, var(--t-size));line-height:1.05}
+  .cue.next{bottom:calc(var(--cue-gap) * -1)}
+}
+@media (min-width:1001px){ .mobileMeta{display:none} }
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:1ms!important}
+  .ico{animation:none!important}
+}
+
+/* --- paneles de prototipo --- */
+.protodock{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;gap:8px}
+.protodock button{background:#1b1c22;color:#fff;font-size:13px;font-weight:500;
+  padding:11px 16px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.22)}
+.panel{position:fixed;right:18px;bottom:18px;z-index:61;width:334px;
+  max-height:calc(100vh - 36px);overflow:auto;background:#1b1c22;color:#fff;
+  border-radius:16px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,.35);font-size:12px;display:none}
+.panel.open{display:block}
+.panel h2{font-size:13px;font-weight:600;margin-bottom:2px}
+.panel .sub{opacity:.55;margin-bottom:14px;line-height:1.4}
+.panel details{border-top:1px solid #34363f;padding:9px 0}
+.panel summary{cursor:pointer;font-weight:600;list-style:none;padding:3px 0}
+.panel summary::-webkit-details-marker{display:none}
+.panel summary::before{content:"+ ";opacity:.5}
+.panel details[open] summary::before{content:"– "}
+.ctrl{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin:9px 0 0}
+.ctrl label{opacity:.72}
+.ctrl output{font-variant-numeric:tabular-nums;opacity:.95}
+.ctrl input[type=range]{grid-column:1/-1;width:100%;accent-color:#5037f9;height:18px}
+.ctrl input[type=color]{width:34px;height:26px;padding:0;border:1px solid #43454f;border-radius:6px;background:none;cursor:pointer}
+.ctrl input[type=text]{grid-column:1/-1;width:100%;background:#26272f;border:1px solid #3a3c46;color:#fff;border-radius:6px;padding:6px 8px;font:inherit}
+.ctrl input[type=checkbox]{width:16px;height:16px;accent-color:#5037f9}
+.rowbtns{display:flex;gap:8px;margin-top:14px}
+.rowbtns button{flex:1;background:#5037f9;color:#fff;border-radius:9px;padding:9px;font-weight:600}
+.rowbtns button.ghost{background:#2c2e37}
+.out{width:100%;height:190px;margin-top:10px;background:#101116;color:#dfe1e8;
+  border:1px solid #3a3c46;border-radius:9px;padding:9px;
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;line-height:1.45;
+  display:none;white-space:pre;overflow:auto}
+.out.show{display:block}
+@media print{.panel,.protodock{display:none!important}}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="inner"><h1>Francisco Guadarrama</h1></div>
+</header>
+
+<section class="experience">
+  <div class="layout">
+
+    <div class="rail" id="rail" role="slider" tabindex="0"
+         aria-label="Línea del tiempo — recorre el archivo" aria-orientation="vertical"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="">
+      <svg id="railSvg" data-phase="fold" aria-hidden="true"></svg>
+      <span class="activeTick" id="activeTick" aria-hidden="true"></span>
+      <span class="pill" id="pill" aria-hidden="true"></span>
+    </div>
+
+    <div class="scroller" id="scroller" aria-live="polite" aria-atomic="true">
+      <div class="chapterMotion" id="motion">
+        <article>
+          <div class="postmeta">
+            <span class="who"><span id="chapter"></span> · <span id="range"></span></span>
+            <div class="nav">
+              <button data-go="prev" aria-label="Entrada anterior"><span class="ico" id="icoPrev"></span></button>
+              <button data-go="next" aria-label="Entrada siguiente"><span class="ico" id="icoNext"></span></button>
+            </div>
+          </div>
+          <h2 class="title" id="title"></h2>
+          <div class="body" id="body"></div>
+        </article>
+        <span class="cue prev" id="cuePrev"></span>
+        <span class="cue next" id="cueNext"></span>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="field">
+        <span class="label" id="labDate">Fecha</span>
+        <span class="scrubber" id="fDate" role="slider" tabindex="0"
+              aria-labelledby="labDate" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span>
+      </div>
+      <div class="field">
+        <span class="label" id="labLoc">Lugar</span>
+        <span class="scrubber" id="fLoc" role="slider" tabindex="0"
+              aria-labelledby="labLoc" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></span>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+<div class="mobileMeta" id="mobileMeta" aria-hidden="true">
+  <div><span class="label">Fecha</span><span class="val" id="mDate"></span></div>
+  <div><span class="label">Lugar</span><span class="val" id="mLoc"></span></div>
+</div>
+
+<div class="follower" id="follower" aria-hidden="true"><span class="chip" id="chip"></span></div>
+
+<div class="protodock" id="dock" hidden>
+  <button data-open="panelRail">Línea del tiempo</button>
+  <button data-open="panelType">Prototipo</button>
+</div>
+
+<section class="panel" id="panelType" aria-label="Controles de tipografía y color">
+  <h2>Tipografía, color y lectura</h2>
+  <p class="sub">Ajusta y exporta. Nada de esto viaja a la versión final.</p>
+  <div id="groupsType"></div>
+  <div class="rowbtns"><button data-export="1">Exportar</button><button class="ghost" data-reset="1">Restablecer</button></div>
+  <div class="rowbtns"><button class="ghost" data-copy="1">Copiar CSS</button><button class="ghost" data-download="1">Descargar</button></div>
+  <textarea class="out" readonly spellcheck="false"></textarea>
+</section>
+
+<section class="panel" id="panelRail" aria-label="Controles de la línea del tiempo">
+  <h2>Línea del tiempo</h2>
+  <p class="sub">Forma, onda, arrastre y ritmo.</p>
+  <div id="groupsRail"></div>
+  <div class="rowbtns"><button data-export="1">Exportar</button><button class="ghost" data-reset="1">Restablecer</button></div>
+  <div class="rowbtns"><button class="ghost" data-copy="1">Copiar CSS</button><button class="ghost" data-download="1">Descargar</button></div>
+  <textarea class="out" readonly spellcheck="false"></textarea>
+</section>
+
+<script src="posts.js"></script>
+<script>
+const PROTOTYPE = true;
+
+/* chevron de fguadarrama.com, al doble de su tamaño natural */
+const arrowSVG = flip =>
+  `<svg aria-hidden="true" class="name-cue-arrow${flip ? ' flip' : ''}" preserveAspectRatio="none" viewBox="0 0 4 7"><path class="name-cue-path" d="M0.5 0.5 L3.5 3.5 L0.5 6.5"></path></svg>`;
+document.getElementById('icoPrev').innerHTML = arrowSVG(true);
+document.getElementById('icoNext').innerHTML = arrowSVG(false);
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+const isMobile = matchMedia('(max-width: 1000px)');
+const isCompact = matchMedia('(max-height: 700px) and (min-width: 1001px)');
+
+const P3_OK = window.CSS && CSS.supports('color','color(display-p3 1 1 1)');
+function toP3(hex){
+  const h = hex.replace('#','');
+  const n = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+  const r = parseInt(n.slice(0,2),16)/255, g = parseInt(n.slice(2,4),16)/255, b = parseInt(n.slice(4,6),16)/255;
+  return P3_OK ? `color(display-p3 ${+r.toFixed(4)} ${+g.toFixed(4)} ${+b.toFixed(4)})` : hex;
+}
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+const lerp = (a,b,t) => a + (b-a)*t;
+
+/* ===========================================================
+   TOKENS
+   =========================================================== */
+const SPEC_TYPE = [
+  ['Color', [
+    ['bg','--bg','Fondo','color','#f8f8f8'],
+    ['text','--text','Texto','color','#2c292f'],
+    ['accent','--accent','Acento','color','#5037f9'],
+    ['sec','--sec','Opacidad secundaria','range','0.95',0.3,1,0.01,'']
+  ]],
+  ['Título', [
+    ['tSize','--t-size','Tamaño','range','50px',24,120,1,'px'],
+    ['tWeight','--t-weight','Peso','range','580',100,900,10,''],
+    ['tLh','--t-lh','Interlínea','range','46px',24,140,1,'px'],
+    ['tLs','--t-ls','Interletraje','range','-0.08em',-0.12,0.08,0.005,'em'],
+    ['tWs','--t-ws','Espacio entre palabras','range','0.05em',-0.1,0.4,0.01,'em']
+  ]],
+  ['Cuerpo', [
+    ['bSize','--b-size','Tamaño','range','17px',12,32,1,'px'],
+    ['bWeight','--b-weight','Peso','range','350',100,900,10,''],
+    ['bLh','--b-lh','Interlínea','range','22px',14,56,1,'px'],
+    ['bLs','--b-ls','Interletraje','range','-0.05em',-0.1,0.1,0.005,'em'],
+    ['bWs','--b-ws','Espacio entre palabras','range','-0.04em',-0.1,0.4,0.01,'em'],
+    ['bGap','--b-gap','Espacio entre párrafos','range','15px',0,64,1,'px']
+  ]],
+  ['Nombre y meta', [
+    ['nSize','--n-size','Nombre · tamaño','range','24px',16,64,1,'px'],
+    ['nWeight','--n-weight','Nombre · peso','range','470',100,900,10,''],
+    ['nLs','--n-ls','Nombre · interletraje','range','-0.1em',-0.14,0.1,0.005,'em'],
+    ['mSize','--m-size','Meta · tamaño','range','16px',10,24,1,'px'],
+    ['mWeight','--m-weight','Meta · peso','range','300',100,900,10,''],
+    ['mLs','--m-ls','Meta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
+  ]],
+  ['Metadatos', [
+    ['lSize','--l-size','Etiqueta · tamaño','range','16px',10,24,1,'px'],
+    ['lWeight','--l-weight','Etiqueta · peso','range','300',100,900,10,''],
+    ['lLs','--l-ls','Etiqueta · interletraje','range','-0.04em',-0.1,0.2,0.005,'em'],
+    ['vSize','--v-size','Valor · tamaño','range','16px',12,32,1,'px'],
+    ['vWeight','--v-weight','Valor · peso','range','530',100,900,10,''],
+    ['vLh','--v-lh','Valor · interlínea','range','20px',10,48,1,'px'],
+    ['vLs','--v-ls','Valor · interletraje','range','-0.05em',-0.1,0.1,0.005,'em'],
+    ['scrubPx','--scrub-px','Recorrido de arrastre','range','900px',200,3000,50,'px'],
+    ['chipSize','--chip-size','Seguidor · tamaño','range','12px',9,20,1,'px']
+  ]],
+  ['Panel de lectura', [
+    ['extra','--extra','Aire tras el capítulo','range','100px',0,300,10,'px'],
+    ['cueGap','--cue-gap','Distancia de la señal','range','40px',0,160,5,'px'],
+    ['cueSize','--cue-size','Señal · tamaño','range','13px',10,22,1,'px'],
+    ['cueFade','--cue-fade','Señal · fundido','range','80ms',0,600,10,'ms'],
+    ['chapThreshold','--chap-threshold','Empuje para avanzar','range','110px',30,400,10,'px'],
+    ['edgeFade','--edge-fade','Difuminado de bordes','range','56px',0,160,4,'px'],
+    ['scrolledAt','--scrolled-at','Umbral del difuminado superior','range','28px',0,120,2,'px'],
+    ['edgeFadeOn',null,'Difuminar bordes del texto','toggle','1']
+  ]],
+  ['Cambio de capítulo', [
+    ['swapDur','--swap-dur','Salida · duración','range','220ms',60,600,10,'ms'],
+    ['swapShift','--swap-shift','Salida · desplazamiento','range','7px',0,30,1,'px'],
+    ['revealDur','--reveal-dur','Entrada · duración','range','500ms',100,1400,20,'ms'],
+    ['revealShift','--reveal-shift','Entrada · desplazamiento','range','12px',0,60,1,'px'],
+    ['swapStagger','--swap-stagger','Retardo del 2º dato','range','45ms',0,300,5,'ms']
+  ]],
+  ['Flechas', [
+    ['arrowSize','--arrow-size','Alto','range','14px',4,48,1,'px'],
+    ['arrowW','--arrow-w','Ancho','range','8px',2,40,1,'px'],
+    ['arrowStroke','--arrow-stroke','Grosor del trazo','range','1',0.25,3,0.25,''],
+    ['arrowPulse','--arrow-pulse','Amplitud del pulso','range','3px',0,10,0.5,'px'],
+    ['arrowPeriod','--arrow-period','Duración del pulso','range','1300ms',500,3000,50,'ms'],
+    ['arrowGap','--arrow-gap','Separación entre flechas','range','10px',0,40,1,'px']
+  ]],
+  ['Rejilla', [
+    ['colRail','--col-rail','Ancho línea del tiempo','range','110px',80,260,1,'px'],
+    ['colText','--col-text','Ancho columna de texto','range','680px',360,860,5,'px'],
+    ['colSide','--col-side','Ancho columna derecha','range','205px',150,420,5,'px'],
+    ['gap','--gap','Separación entre columnas','range','60px',24,120,2,'px']
+  ]]
+];
+
+const SPEC_RAIL = [
+  ['Forma de las marcas', [
+    ['tickGap','--tick-gap','Paso vertical','range','17px',8,44,1,'px'],
+    ['tickBase','--tick-base','Largo · sin entrada','range','10px',3,40,1,'px'],
+    ['tickBaseEntry','--tick-base-entry','Largo · con entrada','range','16px',4,60,1,'px'],
+    ['tickActive','--tick-active','Largo · marca activa','range','34px',10,90,1,'px'],
+    ['tickStroke','--tick-stroke','Grosor · sin entrada','range','1.25px',0.5,5,0.25,'px'],
+    ['tickStrokeEntry','--tick-stroke-entry','Grosor · con entrada','range','1.5px',0.5,5,0.25,'px'],
+    ['tickOp','--tick-op','Opacidad · sin entrada','range','0.7',0.05,1,0.01,''],
+    ['tickOpEntry','--tick-op-entry','Opacidad · con entrada','range','1',0.05,1,0.01,'']
+  ]],
+  ['Onda', [
+    ['tickExt','--tick-ext','Extensión máxima','range','18px',0,80,1,'px'],
+    ['tickFalloff','--tick-falloff','Caída por paso','range','0.45',0.05,0.98,0.01,''],
+    ['railTau','--rail-tau','Suavizado','range','180ms',10,400,5,'ms'],
+    ['hoverWave',null,'Responde al puntero','toggle','1'],
+    ['followScroll',null,'La onda sigue la lectura','toggle','1']
+  ]],
+  ['Animación de entrada', [
+    ['railFold','--rail-fold','Comprimida → extendida','range','300ms',0,1200,20,'ms'],
+    ['railSplit','--rail-split','Extendida → marcas','range','340ms',0,1200,20,'ms'],
+    ['railWave','--rail-wave','Marcas → onda','range','260ms',0,1200,20,'ms'],
+    ['replay',null,'Repetir animación','action','']
+  ]],
+  ['Modo compacto y móvil', [
+    ['tickCompactGap','--tick-compact-gap','Paso en modo compacto','range','10px',5,30,1,'px'],
+    ['railMobileH','--rail-mobile-h','Alto del riel en móvil','range','84px',50,160,2,'px']
+  ]],
+  ['Píldora de fecha', [
+    ['pSize','--p-size','Tamaño','range','12px',9,20,1,'px'],
+    ['pWeight','--p-weight','Peso','range','620',100,900,10,''],
+    ['pLs','--p-ls','Interletraje','range','-0.04em',-0.1,0.2,0.005,'em']
+  ]]
+];
+
+const ALL_SPEC = SPEC_TYPE.concat(SPEC_RAIL);
+const DEFAULTS = {}, VARS = {};
+ALL_SPEC.forEach(([,items]) => items.forEach(([k,v,,type,def]) => {
+  if (type === 'action') return;
+  DEFAULTS[k] = def; VARS[k] = v;
+}));
+let tokens = {...DEFAULTS};
+
+function apply(){
+  const r = document.documentElement.style;
+  for (const k in tokens){
+    if (!VARS[k]) continue;
+    r.setProperty(VARS[k], (k==='bg'||k==='text'||k==='accent') ? toP3(tokens[k]) : tokens[k]);
+  }
+  document.documentElement.dataset.edgefade = tokens.edgeFadeOn === '1' ? '1' : '0';
+  if (window.rail) rail.remeasure();
+}
+
+/* ===========================================================
+   ESCALA TEMPORAL
+   =========================================================== */
+const posts = (window.POSTS || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
+const MES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MESL = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const d = s => new Date(s + 'T12:00:00');
+const fmtShort = x => `${x.getDate()} ${MES[x.getMonth()]} ${x.getFullYear()}`;
+const fmtLong  = x => `${x.getDate()} de ${MESL[x.getMonth()]} de ${x.getFullYear()}`;
+
+const SCALE = (function(){
+  if (!posts.length) return { ticks:[], rows:24, pct:()=>0, t0:0, t1:1 };
+  const first = d(posts[0].date).getTime(), last = d(posts[posts.length-1].date).getTime();
+  const raw = Math.max(last - first, 86400000 * 60);
+  const t0 = first - raw * 0.07, t1 = last + raw * 0.07;
+  const days = (t1 - t0) / 86400000;
+  const UNITS = [['week',7],['month',30.44],['quarter',91.31],['year',365.25]];
+  let unit = UNITS[0], best = Infinity;
+  UNITS.forEach(u => { const sc = Math.abs(days/u[1] - 30); if (sc < best){ best = sc; unit = u; } });
+  const step = t => {
+    const x = new Date(t);
+    if (unit[0] === 'week')    return new Date(x.getFullYear(), x.getMonth(), x.getDate()+7, 12).getTime();
+    if (unit[0] === 'month')   return new Date(x.getFullYear(), x.getMonth()+1, 1, 12).getTime();
+    if (unit[0] === 'quarter') return new Date(x.getFullYear(), x.getMonth()+3, 1, 12).getTime();
+    return new Date(x.getFullYear()+1, 0, 1, 12).getTime();
+  };
+  const minor = [];
+  let t = t0;
+  while (t <= t1 && minor.length < 200){ minor.push(t); t = step(t); }
+  const pct = msv => (msv - t0) / (t1 - t0);
+  const ticks = minor.map(msv => ({ pct: pct(msv), entry: -1 }))
+    .concat(posts.map((p,i) => ({ pct: pct(d(p.date).getTime()), entry: i })))
+    .sort((a,b) => a.pct - b.pct);
+  return { pct, ticks, rows: Math.max(24, minor.length), t0, t1 };
+})();
+const TICKS = SCALE.ticks;
+const pctOfPost = posts.map(p => SCALE.pct(d(p.date).getTime()));
+const dateAt = p => new Date(SCALE.t0 + p * (SCALE.t1 - SCALE.t0));
+
+/* capítulo que corresponde a una posición del archivo */
+function chapterAt(p){
+  let i = 0;
+  for (let k = 0; k < pctOfPost.length; k++) if (p >= pctOfPost[k] - 1e-9) i = k;
+  return i;
+}
+/* avance dentro del capítulo implicado por una posición */
+function fracWithin(p, i){
+  const a = pctOfPost[i];
+  const b = i + 1 < pctOfPost.length ? pctOfPost[i+1] : 1;
+  return b > a ? clamp((p - a) / (b - a), 0, 1) : 0;
+}
+
+/* ===========================================================
+   ESTADO
+   =========================================================== */
+let current = 0;
+let P = pctOfPost[0] ?? 0;   /* posición en el archivo, 0..1 */
+let scrubbing = false;
+
+/* ===========================================================
+   RIEL
+   =========================================================== */
+const ORDER = ['compressed','extended','split','tracking'];
+function cubicBezier(x1,y1,x2,y2){
+  const at = (a,b,t) => 3*a*t*(1-t)**2 + 3*b*t*t*(1-t) + t**3;
+  return x => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    let lo = 0, hi = 1, t = x;
+    for (let i = 0; i < 24; i++){ if (at(x1,x2,t) < x) lo = t; else hi = t; t = (lo+hi)/2; }
+    return at(y1,y2,t);
+  };
+}
+const EASE_OUT = cubicBezier(0.23, 1, 0.32, 1);
+
+const rail = (function(){
+  const host = document.getElementById('rail');
+  const svg  = document.getElementById('railSvg');
+  const pill = document.getElementById('pill');
+  const marker = document.getElementById('activeTick');
+  const TRANS = [
+    { duration:0.30, ease:EASE_OUT }, { duration:0.34, ease:EASE_OUT }, { duration:0.26, ease:EASE_OUT }
+  ];
+  let list = [], lines = [], poses = null, G = null, axis = 'v', L = 0, base = 0;
+  let extend = new Float64Array(0);
+  let progress = 0, target = 3, rafId = null, lastTime = 0;
+  let hoverAlong = null, entered = false, markAlong = 0;
+
+  /* en vertical: along = y, across = x desde el borde izquierdo
+     en horizontal: along = x, across = altura hacia arriba desde la base */
+  const map = (along, across) => axis === 'v' ? [across, along] : [along, base - across];
+
+  function readGeometry(){
+    const cs = getComputedStyle(document.documentElement);
+    const num = v => parseFloat(cs.getPropertyValue(v));
+    TRANS[0].duration = Math.max(0.001, num('--rail-fold')/1000);
+    TRANS[1].duration = Math.max(0.001, num('--rail-split')/1000);
+    TRANS[2].duration = Math.max(0.001, num('--rail-wave')/1000);
+    return {
+      gap:num('--tick-gap'), compactGap:num('--tick-compact-gap'), mobileH:num('--rail-mobile-h'),
+      stroke:num('--tick-stroke'), base:num('--tick-base'), baseEntry:num('--tick-base-entry'),
+      active:num('--tick-active'), ext:num('--tick-ext'), falloff:num('--tick-falloff'),
+      tau:Math.max(0.005, num('--rail-tau')/1000)
+    };
+  }
+
+  /* qué marcas se dibujan y dónde, según el modo */
+  function layout(){
+    if (isMobile.matches){
+      axis = 'h';
+      L = host.clientWidth || 320;
+      base = G.mobileH;
+      list = TICKS.map(t => ({ ...t, along: t.pct * L }));
+    } else if (isCompact.matches){
+      /* compacto: sólo capítulos, reapilados a paso fijo */
+      axis = 'v';
+      const entries = TICKS.filter(t => t.entry > -1);
+      L = Math.max(1, (entries.length - 1)) * G.compactGap;
+      base = 0;
+      list = entries.map((t,k) => ({ ...t, along: k * G.compactGap }));
+    } else {
+      axis = 'v';
+      L = SCALE.rows * G.gap;
+      base = 0;
+      list = TICKS.map(t => ({ ...t, along: t.pct * L }));
+    }
+  }
+  function alongOf(p){
+    if (isCompact.matches && list.length){
+      /* en compacto la escala ya no es lineal: interpolar entre capítulos */
+      for (let k = 0; k < list.length - 1; k++){
+        if (p <= list[k+1].pct){
+          const a = list[k], b = list[k+1];
+          const f = b.pct > a.pct ? clamp((p - a.pct)/(b.pct - a.pct), 0, 1) : 0;
+          return lerp(a.along, b.along, f);
+        }
+      }
+      return list[list.length-1].along;
+    }
+    return p * L;
+  }
+  function pFromAlong(a){
+    if (isCompact.matches && list.length){
+      for (let k = 0; k < list.length - 1; k++){
+        if (a <= list[k+1].along){
+          const x = list[k], y = list[k+1];
+          const f = y.along > x.along ? clamp((a - x.along)/(y.along - x.along), 0, 1) : 0;
+          return lerp(x.pct, y.pct, f);
+        }
+      }
+      return list[list.length-1].pct;
+    }
+    return clamp(a / (L || 1), 0, 1);
+  }
+
+  function buildPoses(){
+    const n = list.length, x0 = G.stroke/2, mid = L/2;
+    const foldLen = Math.min(48, L*0.14), segLen = foldLen/Math.max(1,n), top = mid - foldLen/2;
+    const compressed = [], extended = [], split = [];
+    for (let i = 0; i < n; i++){
+      const a1 = map(top + i*segLen, x0), a2 = map(top + (i+1)*segLen, x0);
+      compressed.push([a1[0],a1[1],a2[0],a2[1]]);
+      const b1 = map((i/n)*L, x0), b2 = map(((i+1)/n)*L, x0);
+      extended.push([b1[0],b1[1],b2[0],b2[1]]);
+      const len = list[i].entry > -1 ? G.baseEntry : G.base;
+      const c1 = map(list[i].along, x0), c2 = map(list[i].along, x0 + len);
+      split.push([c1[0],c1[1],c2[0],c2[1]]);
+    }
+    return { compressed, extended, split, tracking: split };
+  }
+  function build(){
+    G = readGeometry();
+    layout();
+    poses = buildPoses();
+    const n = list.length;
+    if (extend.length !== n) extend = new Float64Array(n);
+    const thick = Math.max(G.baseEntry + G.ext, G.active) + 6;
+    const W = axis === 'v' ? thick : L;
+    const H = axis === 'v' ? L : G.mobileH;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    if (lines.length !== n){
+      svg.innerHTML = '';
+      lines = list.map(() => svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg','line')));
+    }
+    list.forEach((t,i) => lines[i].classList.toggle('entry', t.entry > -1));
+    host.setAttribute('aria-orientation', axis === 'v' ? 'vertical' : 'horizontal');
+  }
+
+  function focusAlong(){
+    if (hoverAlong !== null && tokens.hoverWave === '1' && !scrubbing) return hoverAlong;
+    return alongOf(P);
+  }
+  const extensionFor = (i, fa) =>
+    G.ext * G.falloff ** (Math.abs(list[i].along - fa) / (axis === 'v' && !isCompact.matches ? G.gap : G.compactGap));
+
+  function tick(dt){
+    const fa = focusAlong();
+    const alpha = reduceMotion.matches ? 1 : 1 - Math.exp(-dt / G.tau);
+    let settled = true;
+    for (let i = 0; i < list.length; i++){
+      const goal = extensionFor(i, fa);
+      const nx = extend[i] + (goal - extend[i]) * alpha;
+      if (Math.abs(goal - nx) < 0.05) extend[i] = goal;
+      else { extend[i] = nx; settled = false; }
+    }
+    const goalA = alongOf(P);
+    const na = markAlong + (goalA - markAlong) * alpha;
+    if (Math.abs(goalA - na) < 0.2) markAlong = goalA;
+    else { markAlong = na; settled = false; }
+    placeMarkers();
+    return settled;
+  }
+  function placeMarkers(){
+    if (axis === 'v'){
+      marker.style.transform = `translateY(${markAlong - marker.offsetHeight/2}px)`;
+      pill.style.transform = `translateY(${markAlong - pill.offsetHeight/2}px)`;
+    } else {
+      marker.style.transform = `translate(${markAlong - marker.offsetWidth/2}px, ${base - marker.offsetHeight}px)`;
+      const px = clamp(markAlong - pill.offsetWidth/2, 0, Math.max(0, L - pill.offsetWidth));
+      pill.style.transform = `translateX(${px}px)`;
+    }
+  }
+  function applyGeometry(t){
+    const seg = Math.min(Math.max(Math.floor(t),0), TRANS.length-1);
+    const from = poses[ORDER[seg]], to = poses[ORDER[seg+1]];
+    const local = TRANS[seg].ease(t - seg);
+    const extScale = seg === TRANS.length-1 ? local : 0;
+    for (let i = 0; i < list.length; i++){
+      const f = from[i], g = to[i], el = lines[i];
+      const ex = extScale * extend[i];
+      el.setAttribute('x1', lerp(f[0], g[0], local));
+      el.setAttribute('y1', lerp(f[1], g[1], local));
+      el.setAttribute('x2', lerp(f[2], g[2], local) + (axis === 'v' ? ex : 0));
+      el.setAttribute('y2', lerp(f[3], g[3], local) - (axis === 'v' ? 0 : ex));
+    }
+    svg.dataset.phase = t < 1.4 ? 'fold' : 'ticks';
+    const on = t > 1.9;
+    pill.classList.toggle('on', on);
+    marker.classList.toggle('on', on);
+  }
+  function advance(dt){
+    if (reduceMotion.matches){ progress = target; return; }
+    let left = dt;
+    while (left > 0 && progress !== target){
+      const dir = target > progress ? 1 : -1;
+      const seg = dir > 0 ? Math.min(Math.floor(progress), TRANS.length-1)
+                          : Math.max(Math.ceil(progress)-1, 0);
+      const bound = dir > 0 ? seg + 1 : seg;
+      const stop = dir > 0 ? Math.min(target, bound) : Math.max(target, bound);
+      const dur = TRANS[seg].duration;
+      const time = Math.abs(stop - progress) * dur;
+      if (time <= left){ progress = stop; left -= time; }
+      else { progress += (left/dur) * dir; left = 0; }
+    }
+  }
+  function step(now){
+    const dt = Math.min((now - lastTime)/1000, 0.1);
+    lastTime = now;
+    advance(dt);
+    const settled = tick(dt);
+    applyGeometry(progress);
+    if (progress === target && settled){ rafId = null; return; }
+    rafId = requestAnimationFrame(step);
+  }
+  function kick(){ if (rafId === null){ lastTime = performance.now(); rafId = requestAnimationFrame(step); } }
+
+  function alongFromEvent(e){
+    const r = svg.getBoundingClientRect();
+    return axis === 'v' ? clamp(e.clientY - r.top, 0, L) : clamp(e.clientX - r.left, 0, L);
+  }
+
+  /* --- arrastre --- */
+  host.addEventListener('pointerdown', e => {
+    host.setPointerCapture(e.pointerId);
+    host.dataset.scrubbing = 'true';
+    beginScrub(axis === 'v' ? 'y' : 'x');
+    setP(pFromAlong(alongFromEvent(e)), true);
+    moveFollower(e);
+    e.preventDefault();
+  });
+  host.addEventListener('pointermove', e => {
+    if (host.dataset.scrubbing === 'true'){
+      setP(pFromAlong(alongFromEvent(e)), true);
+      moveFollower(e);
+      return;
+    }
+    if (!canHover.matches) return;
+    hoverAlong = alongFromEvent(e); kick();
+  });
+  const endScrub = e => {
+    if (host.dataset.scrubbing !== 'true') return;
+    host.dataset.scrubbing = 'false';
+    finishScrub();
+  };
+  host.addEventListener('pointerup', endScrub);
+  host.addEventListener('pointercancel', endScrub);
+  host.addEventListener('pointerleave', ()=>{ hoverAlong = null; kick(); });
+  host.addEventListener('keydown', e => {
+    const stepP = 1 / Math.max(1, list.length - 1);
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft'){ setP(clamp(P - stepP, 0, 1), true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight'){ setP(clamp(P + stepP, 0, 1), true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'Home'){ setP(0, true); finishScrub(); }
+    if (e.key === 'End'){ setP(1, true); finishScrub(); }
+  });
+
+  const remedia = () => { build(); markAlong = alongOf(P); kick(); };
+  addEventListener('resize', remedia);
+  isMobile.addEventListener('change', remedia);
+  isCompact.addEventListener('change', remedia);
+
+  return {
+    start(){
+      build();
+      const fa = focusAlong();
+      for (let i = 0; i < list.length; i++) extend[i] = extensionFor(i, fa);
+      markAlong = alongOf(P);
+      progress = (reduceMotion.matches || entered) ? target : 0;
+      entered = true;
+      applyGeometry(progress); kick();
+    },
+    replay(){ build(); progress = reduceMotion.matches ? target : 0; applyGeometry(progress); kick(); },
+    remeasure(){ build(); kick(); },
+    sync(){ kick(); },
+    setPill(text){ pill.textContent = text; placeMarkers(); }
+  };
+})();
+window.rail = rail;
+
+/* ===========================================================
+   CAPÍTULO
+   =========================================================== */
+const scroller = document.getElementById('scroller');
+const motion = document.getElementById('motion');
+const fDate = document.getElementById('fDate'), fLoc = document.getElementById('fLoc');
+const mDate = document.getElementById('mDate'), mLoc = document.getElementById('mLoc');
+const mobileMeta = document.getElementById('mobileMeta');
+const cueNext = document.getElementById('cueNext'), cuePrev = document.getElementById('cuePrev');
+const railEl = document.getElementById('rail');
+const ms = v => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(v)) || 0;
+
+function fill(i){
+  const p = posts[i];
+  document.getElementById('chapter').textContent = p.chapter || '';
+  document.getElementById('range').textContent = p.range || '';
+  document.getElementById('title').textContent = p.title;
+  document.getElementById('body').innerHTML = p.body.map(t => `<p>${t}</p>`).join('');
+  document.querySelector('[data-go="prev"]').disabled = i === 0;
+  document.querySelector('[data-go="next"]').disabled = i === posts.length - 1;
+  const nx = posts[i+1], pv = posts[i-1];
+  cueNext.innerHTML = nx ? `Continuar a ${nx.chapter || 'la siguiente entrada'} ${arrowSVG(false)}` : '';
+  cuePrev.innerHTML = pv ? `${arrowSVG(true)} Volver a ${pv.chapter || 'la entrada anterior'}` : '';
+  document.title = p.title + ' — Francisco Guadarrama';
+  if (p.id){ try{ history.replaceState(null, '', '#' + p.id); }catch(e){} }
+}
+
+/* los valores: fecha exacta mientras se arrastra, fecha del capítulo en reposo */
+function paintMeta(){
+  const dateText = scrubbing ? fmtLong(dateAt(P)) : fmtLong(d(posts[current].date));
+  const locText = posts[current].location || '—';
+  if (scrubbing){
+    fDate.textContent = dateText; fLoc.textContent = locText;
+  } else {
+    swapValue(fDate, dateText, lastDir);
+    swapValue(fLoc, locText, lastDir);
+  }
+  mDate.textContent = dateText; mLoc.textContent = locText;
+  rail.setPill(fmtShort(scrubbing ? dateAt(P) : d(posts[current].date)));
+  const vt = `${dateText}. ${locText}.`;
+  railEl.setAttribute('aria-valuenow', Math.round(P*100));
+  railEl.setAttribute('aria-valuetext', vt);
+  [fDate,fLoc].forEach(el => el.setAttribute('aria-valuenow', Math.round(P*100)));
+  fDate.setAttribute('aria-valuetext', dateText);
+  fLoc.setAttribute('aria-valuetext', locText);
+}
+
+let lastDir = 1;
+function swapValue(el, text, dir){
+  if (el.textContent === text) return;
+  if (reduceMotion.matches){ el.textContent = text; return; }
+  clearTimeout(el._t); clearTimeout(el._safety);
+  el.dataset.phase = dir > 0 ? 'out-up' : 'out-down';
+  el._t = setTimeout(() => {
+    el.textContent = text;
+    el.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
+    requestAnimationFrame(()=> requestAnimationFrame(()=> el.removeAttribute('data-phase')));
+  }, ms('--swap-dur'));
+  el._safety = setTimeout(()=>{ el.textContent = text; el.removeAttribute('data-phase'); }, ms('--swap-dur') + 900);
+}
+
+/* --- posición del archivo: única fuente de verdad --- */
+function setP(p, fromScrub){
+  P = clamp(p, 0, 1);
+  const i = chapterAt(P);
+  if (i !== current){
+    lastDir = i > current ? 1 : -1;
+    current = i;
+    fill(i);                       /* durante el arrastre el cambio es inmediato */
+    scroller.scrollTop = fracWithin(P, i) * Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+  }
+  paintMeta();
+  rail.sync();
+  if (fromScrub) onScroll();
+}
+
+function beginScrub(kind){
+  scrubbing = true;
+  document.body.classList.add(kind === 'x' ? 'scrubbing-x' : 'scrubbing');
+  if (isMobile.matches) mobileMeta.dataset.visible = 'true';
+  else follower.dataset.visible = 'true';
+}
+function finishScrub(){
+  scrubbing = false;
+  document.body.classList.remove('scrubbing','scrubbing-x');
+  follower.dataset.visible = 'false';
+  mobileMeta.dataset.visible = 'false';
+  /* al soltar, la posición se asienta en el punto de lectura del capítulo */
+  P = lerp(pctOfPost[current], current+1 < pctOfPost.length ? pctOfPost[current+1] : 1,
+           fracWithin(P, current));
+  paintMeta();
+  rail.sync();
+}
+
+/* --- seguidor de cursor --- */
+const follower = document.getElementById('follower'), chip = document.getElementById('chip');
+function moveFollower(e){
+  chip.textContent = fmtShort(dateAt(P));
+  follower.style.transform =
+    `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, calc(-100% - 12px))`;
+}
+
+/* --- metadatos deslizables --- */
+[fDate, fLoc].forEach(el => {
+  let startX = 0, startP = 0, active = false;
+  el.addEventListener('pointerdown', e => {
+    el.setPointerCapture(e.pointerId);
+    active = true; startX = e.clientX; startP = P;
+    beginScrub('x'); moveFollower(e); e.preventDefault();
+  });
+  el.addEventListener('pointermove', e => {
+    if (!active) return;
+    const span = ms('--scrub-px') || 900;
+    setP(startP + (e.clientX - startX)/span, true);
+    moveFollower(e);
+  });
+  const end = ()=>{ if (!active) return; active = false; finishScrub(); };
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', end);
+  el.addEventListener('keydown', e => {
+    const stepP = 1/60;
+    if (e.key === 'ArrowLeft'){ setP(P - stepP, true); finishScrub(); e.preventDefault(); }
+    if (e.key === 'ArrowRight'){ setP(P + stepP, true); finishScrub(); e.preventDefault(); }
+  });
+});
+
+/* --- navegación explícita, con animación --- */
+let busy = false;
+function goTo(i, dirHint){
+  if (i < 0 || i >= posts.length || i === current || busy) return;
+  const dir = dirHint || (i > current ? 1 : -1);
+  lastDir = dir; busy = true; push = 0;
+  absorb();                              /* B: empieza a tragarse lo que quede del gesto */
+  scroller.style.overflowY = 'hidden';   /* A: la inercia ya no puede mover el contenedor */
+  const land = () => {
+    current = i;
+    P = pctOfPost[i];
+    fill(i);
+    scroller.scrollTop = 0;
+    paintMeta();
+    onScroll(); rail.sync();
+    if (reduceMotion.matches){ busy = false; maybeUnlock(); return; }
+    motion.dataset.phase = dir > 0 ? 'in-down' : 'in-up';
+    requestAnimationFrame(()=> requestAnimationFrame(()=>{
+      motion.removeAttribute('data-phase');
+      setTimeout(()=>{ busy = false; maybeUnlock(); }, 200);
+    }));
+    clearTimeout(motion._safety);
+    motion._safety = setTimeout(()=>{
+      motion.removeAttribute('data-phase');
+      busy = false; absorbing = false; scroller.style.overflowY = '';
+    }, 1600);
+  };
+  if (reduceMotion.matches){ land(); return; }
+  motion.dataset.phase = dir > 0 ? 'out-up' : 'out-down';
+  setTimeout(land, ms('--swap-dur'));
+}
+
+/* --- lectura: el scroll interno mueve la posición del archivo --- */
+let ticking = false, push = 0, pushTimer = null;
+
+/* La inercia del trackpad sigue emitiendo eventos casi un segundo despues de
+   soltar. Tras un cambio de capitulo los descartamos, y cada evento descartado
+   reinicia la espera: solo volvemos a escuchar cuando el gesto muere de verdad. */
+let absorbing = false, absorbTimer = null;
+function absorb(){
+  absorbing = true;
+  clearTimeout(absorbTimer);
+  absorbTimer = setTimeout(()=>{ absorbing = false; maybeUnlock(); }, 160);
+}
+/* el contenedor se desbloquea solo cuando el cambio termino y el gesto murio */
+function maybeUnlock(){
+  if (!busy && !absorbing) scroller.style.overflowY = '';
+}
+function onScroll(){
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(()=>{
+    ticking = false;
+    const extra = ms('--extra') || 1;
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    const into = Math.min(extra, Math.max(0, scroller.scrollTop - (max - extra)));
+    scroller.dataset.scrolled = scroller.scrollTop > (ms('--scrolled-at') || 4) ? 'true' : 'false';
+    if (!busy){
+      cueNext.style.opacity = posts[current+1] ? (max > 4 ? into/extra : 1) : 0;
+      cuePrev.style.opacity = posts[current-1] && scroller.scrollTop < 4 ? 1 : 0;
+    }
+    if (!scrubbing && tokens.followScroll === '1' && posts.length > 1){
+      const frac = max > 20 ? clamp(scroller.scrollTop / max, 0, 1) : 0;
+      P = lerp(pctOfPost[current], current+1 < pctOfPost.length ? pctOfPost[current+1] : 1, frac);
+      rail.sync();
+    }
+  });
+}
+scroller.addEventListener('scroll', onScroll, {passive:true});
+
+function edgePush(delta){
+  if (absorbing){ absorb(); push = 0; return; }
+  if (busy || scrubbing) return;
+  const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+  const atTop = scroller.scrollTop <= 0;
+  const th = ms('--chap-threshold');
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(()=> push = 0, 220);
+  if (delta > 0 && atBottom && current < posts.length - 1){
+    push += delta; if (push > th) goTo(current + 1, 1);
+  } else if (delta < 0 && atTop && current > 0){
+    push -= delta; if (push > th) goTo(current - 1, -1);
+  } else push = 0;
+}
+addEventListener('wheel', e => {
+  /* eje dominante: un gesto lateral tambien avanza, uno vertical no se contamina */
+  const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  edgePush(delta);
+}, {passive:true});
+let touchY = null;
+addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, {passive:true});
+addEventListener('touchmove', e => {
+  if (touchY === null || scrubbing) return;
+  const y = e.touches[0].clientY;
+  edgePush(touchY - y); touchY = y;
+}, {passive:true});
+addEventListener('touchend', ()=>{ touchY = null; push = 0; }, {passive:true});
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (!b || b.disabled) return;
+  goTo(current + (b.dataset.go === 'next' ? 1 : -1));
+});
+addEventListener('keydown', e => {
+  if (e.target.matches('input,textarea') || e.target.closest('[role="slider"]')) return;
+  if (e.key === 'ArrowLeft')  goTo(current - 1);
+  if (e.key === 'ArrowRight') goTo(current + 1);
+  if (e.key === 'Escape') closePanels();
+});
+
+const topbar = document.querySelector('.topbar');
+function measureTopbar(){
+  document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px');
+}
+addEventListener('resize', ()=>{ measureTopbar(); onScroll(); });
+
+/* ===========================================================
+   PANELES
+   =========================================================== */
+function buildPanel(spec, container){
+  const box = document.getElementById(container);
+  spec.forEach(([name, items], gi) => {
+    const det = document.createElement('details');
+    if (gi === 0) det.open = true;
+    det.innerHTML = `<summary>${name}</summary>`;
+    items.forEach(([k,,label,type,def,min,max,stepv,unit]) => {
+      const row = document.createElement('div');
+      row.className = 'ctrl';
+      if (type === 'color'){
+        row.innerHTML = `<label for="c_${k}">${label}</label>
+          <input type="color" id="c_${k}" value="${def}">
+          <input type="text" id="h_${k}" value="${def}" spellcheck="false">`;
+        det.appendChild(row);
+        const pick = row.querySelector(`#c_${k}`), hex = row.querySelector(`#h_${k}`);
+        pick.addEventListener('input', ()=>{ hex.value = pick.value; tokens[k] = pick.value; apply(); save(); });
+        hex.addEventListener('change', ()=>{
+          const v = hex.value.trim();
+          if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)){ pick.value = v; tokens[k] = v; apply(); save(); }
+          else hex.value = tokens[k];
+        });
+      } else if (type === 'toggle'){
+        row.innerHTML = `<label for="t_${k}">${label}</label><input type="checkbox" id="t_${k}">`;
+        det.appendChild(row);
+        const cb = row.querySelector(`#t_${k}`);
+        cb.addEventListener('change', ()=>{ tokens[k] = cb.checked ? '1' : '0'; apply(); rail.sync(); save(); });
+      } else if (type === 'action'){
+        row.innerHTML = `<label>${label}</label><button type="button" id="a_${k}"
+          style="background:#2c2e37;border-radius:7px;padding:5px 11px;font-weight:600">Reproducir</button>`;
+        det.appendChild(row);
+        row.querySelector(`#a_${k}`).addEventListener('click', ()=> rail.replay());
+      } else {
+        row.innerHTML = `<label for="r_${k}">${label}</label><output id="o_${k}">${def}</output>
+          <input type="range" id="r_${k}" min="${min}" max="${max}" step="${stepv}" value="${parseFloat(def)}">`;
+        det.appendChild(row);
+        const sl = row.querySelector(`#r_${k}`), out = row.querySelector(`#o_${k}`);
+        sl.addEventListener('input', ()=>{
+          const val = sl.value + (unit || '');
+          tokens[k] = val; out.textContent = val; apply(); onScroll(); save();
+        });
+      }
+    });
+    box.appendChild(det);
+  });
+}
+function syncPanels(){
+  for (const k in tokens){
+    const sl = document.getElementById('r_'+k), out = document.getElementById('o_'+k),
+          pk = document.getElementById('c_'+k), hx = document.getElementById('h_'+k),
+          cb = document.getElementById('t_'+k);
+    if (sl){ sl.value = parseFloat(tokens[k]); out.textContent = tokens[k]; }
+    if (pk){ pk.value = tokens[k]; hx.value = tokens[k]; }
+    if (cb){ cb.checked = tokens[k] === '1'; }
+  }
+}
+function cssOut(){
+  const p3 = k => {
+    const h = tokens[k].replace('#',''), s = h.length===3 ? h.split('').map(c=>c+c).join('') : h;
+    return [0,2,4].map(i => +(parseInt(s.slice(i,i+2),16)/255).toFixed(4)).join(' ');
+  };
+  const lines = [];
+  ALL_SPEC.forEach(([,items]) => items.forEach(([k,v]) => {
+    if (!v || ['bg','text','accent'].includes(k)) return;
+    lines.push(`  ${v}: ${tokens[k]};`);
+  }));
+  return `:root{
+  --bg: ${tokens.bg};
+  --text: ${tokens.text};
+  --accent: ${tokens.accent};
+${lines.join('\n')}
+}
+
+@supports (color: color(display-p3 1 1 1)){
+  :root{
+    --bg: color(display-p3 ${p3('bg')});
+    --text: color(display-p3 ${p3('text')});
+    --accent: color(display-p3 ${p3('accent')});
+  }
+}`;
+}
+const FULL = () => cssOut() + '\n\n/* tokens.json */\n' + JSON.stringify(tokens, null, 2);
+const STORE = 'fg-blog-tokens-v7';
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(tokens)); }catch(e){} }
+function load(){
+  try{ const s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) tokens = {...DEFAULTS, ...s}; }catch(e){}
+}
+const dock = document.getElementById('dock');
+function closePanels(){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  if (PROTOTYPE) dock.hidden = false;
+}
+if (PROTOTYPE){
+  load();
+  buildPanel(SPEC_TYPE, 'groupsType');
+  buildPanel(SPEC_RAIL, 'groupsRail');
+  syncPanels();
+  dock.hidden = false;
+  dock.addEventListener('click', e => {
+    const id = e.target.dataset.open;
+    if (!id) return;
+    closePanels();
+    document.getElementById(id).classList.add('open');
+    dock.hidden = true;
+  });
+  document.querySelectorAll('.panel').forEach(panel => {
+    const out = panel.querySelector('.out');
+    panel.addEventListener('click', async e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      if (b.dataset.export){ out.value = FULL(); out.classList.add('show'); }
+      if (b.dataset.copy){
+        try{ await navigator.clipboard.writeText(cssOut()); b.textContent = 'Copiado'; }
+        catch(err){ out.value = cssOut(); out.classList.add('show'); out.select(); b.textContent = 'Selecciona y copia'; }
+        setTimeout(()=> b.textContent = 'Copiar CSS', 1600);
+      }
+      if (b.dataset.download){
+        const blob = new Blob([FULL()], {type:'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'tokens-blog.txt'; a.click();
+        URL.revokeObjectURL(a.href);
+      }
+      if (b.dataset.reset){ tokens = {...DEFAULTS}; apply(); syncPanels(); rail.sync(); onScroll(); out.classList.remove('show'); }
+    });
+  });
+}
+
+/* ===========================================================
+   ARRANQUE
+   =========================================================== */
+apply();
+measureTopbar();
+
+const hash = location.hash.slice(1);
+if (hash){ const i = posts.findIndex(p => p.id === hash); if (i > -1){ current = i; P = pctOfPost[i]; } }
+
+if (posts.length){
+  fill(current);
+  fDate.textContent = fmtLong(d(posts[current].date));
+  fLoc.textContent = posts[current].location || '—';
+  paintMeta();
+} else {
+  document.getElementById('title').textContent = 'Aún no hay entradas.';
+}
+
+document.fonts.ready.then(()=>{ measureTopbar(); rail.remeasure(); onScroll(); });
+rail.start();
+onScroll();
+</script>
+</body>
+</html>
