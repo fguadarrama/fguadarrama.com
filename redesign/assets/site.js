@@ -564,94 +564,207 @@
     }
   });
 
-  /* ---------- annotation renderer ---------- */
-  const heroCopies = {en:document.querySelector('.hero-copy.lang-en'),es:document.querySelector('.hero-copy.lang-es')};
+  /* ---------- word-by-word intro tuner + annotation renderer ---------- */
+  const debugPanel = document.getElementById('debugPanel');
+  const debugMode = new URLSearchParams(location.search).get('debug') === '1';
+  if (debugMode) root.dataset.debug = 'true';
+
+  const tunerKey = 'fg-debug-tuner-v1';
+  const heroCopies = {
+    en:document.querySelector('.hero-copy.lang-en'),
+    es:document.querySelector('.hero-copy.lang-es')
+  };
   const heroTextSources = {
     en:Array.from(heroCopies.en?.querySelectorAll('p') || []).map((p) => p.textContent),
     es:Array.from(heroCopies.es?.querySelectorAll('p') || []).map((p) => p.textContent)
   };
+
   const annotationDefaults = {
     en:{wavy:'one level upstream',circle:'Mexico’s poorest state',highlight:'high-value care',double:'inferior care'},
     es:{wavy:'un nivel más arriba',circle:'el estado más pobre de México',highlight:'atención de alto valor',double:'atención inferior'}
   };
-  let annotationConfig = (() => {
-    try {
-      const saved = JSON.parse(storageGet(annotationsKey) || 'null');
-      return saved?.en && saved?.es ? saved : structuredClone(annotationDefaults);
-    } catch { return structuredClone(annotationDefaults); }
-  })();
 
   const annotationSvg = {
     wavy:'<svg class="annotation-decoration" viewBox="0 0 140 14" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 Q5.5,3 9,6 T17,6 T25,6 T33,6 T41,6 T49,6 T57,6 T65,6 T73,6 T81,6 T89,6 T97,6 T105,6 T113,6 T121,6 T129,6 T137,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
+    underline:'<svg class="annotation-decoration" viewBox="0 0 140 10" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,6 C40,3 100,3 137,5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
+    double:'<svg class="annotation-decoration" viewBox="0 0 140 16" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,5 C40,2 100,2 137,4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/><path d="M5,12 C42,9 98,10 135,11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".75" filter="url(#hd-rough-soft)"/></svg>',
+    dotted:'<span class="annotation-decoration annotation-dots" aria-hidden="true"></span>',
     circle:'<svg class="annotation-decoration" viewBox="0 0 220 64" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M40,40 C20,23 53,7 102,5 C153,3 207,11 211,29 C215,47 167,60 109,60 C59,60 15,53 19,35 C21,27 27,22 37,20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#hd-rough)"/><path d="M43,37 C28,25 58,9 105,7 C151,6 199,14 206,29 C212,45 167,57 110,58" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".55" filter="url(#hd-rough-soft)"/></svg>',
     highlight:'<svg class="annotation-decoration" viewBox="0 0 170 26" preserveAspectRatio="none" aria-hidden="true"><path d="M4,17 C2,11 5,7 12,6 C45,2 95,2 138,4 C152,5 164,7 166,13 C167,18 163,21 155,22 C112,24 60,24 16,22 C8,21.5 4,20 4,17 Z" fill="currentColor" filter="url(#hd-rough-soft)"/></svg>',
-    double:'<svg class="annotation-decoration" viewBox="0 0 140 16" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,5 C40,2 100,2 137,4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/><path d="M5,12 C42,9 98,10 135,11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".75" filter="url(#hd-rough-soft)"/></svg>'
+    arrow:'<svg class="annotation-decoration" viewBox="0 0 150 18" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,7 C45,3 105,4 140,8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/><path d="M132,3 L142,8 L131,13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
+    bracket:'<svg class="annotation-decoration" viewBox="0 0 160 60" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M18,6 C9,7 6,12 6,30 C6,48 9,53 18,54" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none" filter="url(#hd-rough)"/><path d="M142,6 C151,7 154,12 154,30 C154,48 151,53 142,54" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none" filter="url(#hd-rough)"/></svg>',
+    box:'<svg class="annotation-decoration" viewBox="0 0 200 64" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M12,10 C60,6 140,6 188,10 C193,26 193,40 188,54 C140,58 60,58 12,54 C7,40 7,26 12,10 Z" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#hd-rough)"/></svg>',
+    strikethrough:'<svg class="annotation-decoration" viewBox="0 0 140 10" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,5 C40,7 100,3 137,5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
+    crossout:'<svg class="annotation-decoration" viewBox="0 0 140 40" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M4,32 C40,10 96,30 136,8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" filter="url(#hd-rough)"/><path d="M6,10 C44,30 92,12 134,30" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7" filter="url(#hd-rough-soft)"/></svg>'
   };
 
-  const makeAnnotation = (style,text) => {
+  const tokenizeParagraph = (text) => {
+    const tokens = [];
+    let wordIndex = 0;
+    let cursor = 0;
+    for (const match of text.matchAll(/\s+|[^\s]+/gu)) {
+      const value = match[0];
+      const start = match.index ?? cursor;
+      const end = start + value.length;
+      if (/^\s+$/u.test(value)) tokens.push({type:'space',text:value,start,end});
+      else tokens.push({type:'word',text:value,start,end,wordIndex:wordIndex++});
+      cursor = end;
+    }
+    return tokens;
+  };
+
+  const phraseWordRange = (lang, paragraphIndex, phrase) => {
+    const text = heroTextSources[lang]?.[paragraphIndex] || '';
+    const needle = String(phrase || '').trim();
+    if (!needle) return null;
+    const start = text.toLocaleLowerCase(lang).indexOf(needle.toLocaleLowerCase(lang));
+    if (start < 0) return null;
+    const end = start + needle.length;
+    const words = tokenizeParagraph(text).filter((token) => token.type === 'word' && token.end > start && token.start < end);
+    if (!words.length) return null;
+    return {p:paragraphIndex,start:words[0].wordIndex,end:words.at(-1).wordIndex};
+  };
+
+  const defaultLanguageTuning = (lang, phraseConfig = annotationDefaults[lang]) => {
+    const annotations = [];
+    for (const [style,phrase] of Object.entries(phraseConfig || {})) {
+      for (let pIndex = 0; pIndex < (heroTextSources[lang]?.length || 0); pIndex++) {
+        const range = phraseWordRange(lang,pIndex,phrase);
+        if (!range) continue;
+        annotations.push({...range,style,color:null});
+        break;
+      }
+    }
+    return {weights:{},annotations};
+  };
+
+  const loadLegacyAnnotations = () => {
+    try {
+      const saved = JSON.parse(storageGet(annotationsKey) || 'null');
+      return saved?.en && saved?.es ? saved : annotationDefaults;
+    } catch { return annotationDefaults; }
+  };
+
+  const freshTunerState = () => {
+    const legacy = loadLegacyAnnotations();
+    return {
+      en:defaultLanguageTuning('en',legacy.en),
+      es:defaultLanguageTuning('es',legacy.es)
+    };
+  };
+
+  let tunerState = (() => {
+    try {
+      const saved = JSON.parse(storageGet(tunerKey) || 'null');
+      if (saved?.en?.weights && Array.isArray(saved?.en?.annotations) && saved?.es?.weights && Array.isArray(saved?.es?.annotations)) return saved;
+    } catch {}
+    return freshTunerState();
+  })();
+
+  let selectedWords = new Set();
+  let selectionAnchor = null;
+
+  const localWordKey = (pIndex,wordIndex) => `${pIndex}:${wordIndex}`;
+  const fullWordKey = (lang,pIndex,wordIndex) => `${lang}:${pIndex}:${wordIndex}`;
+
+  const makeWord = (lang,pIndex,token,order) => {
+    const span = document.createElement('span');
+    const fullKey = fullWordKey(lang,pIndex,token.wordIndex);
+    span.className = 'tune-word';
+    span.dataset.tuneKey = fullKey;
+    span.dataset.tuneParagraph = String(pIndex);
+    span.dataset.tuneWord = String(token.wordIndex);
+    span.dataset.tuneOrder = String(order);
+    span.textContent = token.text;
+    const weight = tunerState[lang]?.weights?.[localWordKey(pIndex,token.wordIndex)];
+    if (weight !== undefined) span.style.fontWeight = String(weight);
+    span.classList.toggle('is-selected', selectedWords.has(fullKey));
+    return span;
+  };
+
+  const makeAnnotationShell = (annotation) => {
     const wrapper = document.createElement('span');
-    wrapper.className = `annotated annotated-${style}`;
+    wrapper.className = `annotated annotated-${annotation.style}`;
+    wrapper.style.setProperty('--annotation-color', annotation.color || 'var(--accent)');
     const label = document.createElement('span');
     label.className = 'annotation-text';
-    label.textContent = text;
     wrapper.appendChild(label);
     const template = document.createElement('template');
-    template.innerHTML = annotationSvg[style];
+    template.innerHTML = annotationSvg[annotation.style] || annotationSvg.underline;
     wrapper.appendChild(template.content.firstElementChild);
-    return wrapper;
+    return {wrapper,label};
   };
 
-  const renderHeroAnnotations = (lang) => {
+  const renderHero = (lang) => {
     const copy = heroCopies[lang];
     const texts = heroTextSources[lang];
-    if (!copy || !texts?.length) return {};
-    const config = annotationConfig[lang] || {};
-    const found = {wavy:false,circle:false,highlight:false,double:false};
+    if (!copy || !texts?.length) return;
+    const paragraphs = Array.from(copy.querySelectorAll('p'));
+    let globalOrder = 0;
 
-    Array.from(copy.querySelectorAll('p')).forEach((paragraph,index) => {
-      const text = texts[index] || '';
-      const candidates = [];
-      for (const style of ['wavy','circle','highlight','double']) {
-        const phrase = String(config[style] || '').trim();
-        if (!phrase) continue;
-        const start = text.toLocaleLowerCase(lang).indexOf(phrase.toLocaleLowerCase(lang));
-        if (start >= 0) candidates.push({style,phrase,start,end:start+phrase.length});
-      }
-      candidates.sort((a,b) => a.start - b.start || b.phrase.length - a.phrase.length);
+    paragraphs.forEach((paragraph,pIndex) => {
+      const tokens = tokenizeParagraph(texts[pIndex] || '');
+      const annotations = (tunerState[lang]?.annotations || [])
+        .filter((a) => a.p === pIndex && annotationSvg[a.style] && Number.isInteger(a.start) && Number.isInteger(a.end) && a.start <= a.end)
+        .sort((a,b) => a.start-b.start || a.end-b.end);
       const chosen = [];
-      for (const item of candidates) {
-        if (chosen.some((existing) => item.start < existing.end && item.end > existing.start)) continue;
-        chosen.push(item);
-        found[item.style] = true;
+      for (const annotation of annotations) {
+        if (chosen.some((existing) => annotation.start <= existing.end && annotation.end >= existing.start)) continue;
+        chosen.push(annotation);
       }
-      chosen.sort((a,b) => a.start-b.start);
+      const byStart = new Map(chosen.map((annotation) => [annotation.start,annotation]));
 
       paragraph.replaceChildren();
-      let cursor = 0;
-      for (const item of chosen) {
-        if (item.start > cursor) paragraph.appendChild(document.createTextNode(text.slice(cursor,item.start)));
-        paragraph.appendChild(makeAnnotation(item.style,text.slice(item.start,item.end)));
-        cursor = item.end;
+      let active = null;
+      let activeLabel = null;
+      for (const token of tokens) {
+        if (token.type === 'word' && !active && byStart.has(token.wordIndex)) {
+          active = byStart.get(token.wordIndex);
+          const shell = makeAnnotationShell(active);
+          paragraph.appendChild(shell.wrapper);
+          activeLabel = shell.label;
+        }
+
+        const target = activeLabel || paragraph;
+        if (token.type === 'space') target.appendChild(document.createTextNode(token.text));
+        else {
+          target.appendChild(makeWord(lang,pIndex,token,globalOrder));
+          globalOrder += 1;
+          if (active && token.wordIndex === active.end) {
+            active = null;
+            activeLabel = null;
+          }
+        }
       }
-      if (cursor < text.length) paragraph.appendChild(document.createTextNode(text.slice(cursor)));
     });
     setAnimationIndices();
-    return found;
   };
 
-  renderHeroAnnotations('en');
-  renderHeroAnnotations('es');
+  const renderAllHeroes = () => {
+    renderHero('en');
+    renderHero('es');
+  };
+
+  renderAllHeroes();
 
   /* ---------- debug panel ---------- */
-  const debugPanel = document.getElementById('debugPanel');
-  const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   const palettePickers = Array.from(document.querySelectorAll('[data-palette-picker]'));
   const paletteHex = Array.from(document.querySelectorAll('[data-palette-hex]'));
-  const annotationInputs = Array.from(document.querySelectorAll('[data-annotation-style]'));
   const typeInputs = Array.from(document.querySelectorAll('[data-type-var]'));
   const debugReset = document.getElementById('debugReset');
   const debugCopy = document.getElementById('debugCopy');
   const debugCollapse = document.getElementById('debugCollapse');
+  const tunerSelectionPreview = document.getElementById('tunerSelectionPreview');
+  const tunerWeightRange = document.getElementById('tunerWeightRange');
+  const tunerWeightNumber = document.getElementById('tunerWeightNumber');
+  const tunerBaseWeight = document.getElementById('tunerBaseWeight');
+  const tunerAnnotationStyle = document.getElementById('tunerAnnotationStyle');
+  const tunerAnnotationColorPicker = document.getElementById('tunerAnnotationColorPicker');
+  const tunerAnnotationColorHex = document.getElementById('tunerAnnotationColorHex');
+  const tunerApplyAnnotation = document.getElementById('tunerApplyAnnotation');
+  const tunerRemoveAnnotation = document.getElementById('tunerRemoveAnnotation');
+  const tunerClearSelection = document.getElementById('tunerClearSelection');
+  const tunerResetLanguage = document.getElementById('tunerResetLanguage');
   let typeConfig = (() => { try { return JSON.parse(storageGet(typeKey) || 'null') || {}; } catch { return {}; } })();
 
   const isHex = (value) => /^#[0-9a-f]{6}$/i.test(value);
@@ -697,17 +810,116 @@
     if (persist) storageSet(typeKey,JSON.stringify(typeConfig));
   };
 
-  const syncAnnotationInputs = () => {
-    const config = annotationConfig[root.lang] || {};
-    const found = renderHeroAnnotations(root.lang);
-    annotationInputs.forEach((input) => {
-      input.value = config[input.dataset.annotationStyle] || '';
-      input.classList.toggle('is-invalid', Boolean(input.value.trim()) && !found[input.dataset.annotationStyle]);
-    });
+  const persistTuner = () => storageSet(tunerKey,JSON.stringify(tunerState));
+
+  const currentHeroWords = () => Array.from(heroCopies[root.lang]?.querySelectorAll('.tune-word') || []);
+  const selectedElements = () => currentHeroWords().filter((word) => selectedWords.has(word.dataset.tuneKey));
+
+  const baseHeroWeight = () => {
+    const paragraph = heroCopies[root.lang]?.querySelector('p');
+    return Math.round(parseFloat(paragraph ? getComputedStyle(paragraph).fontWeight : '') || 580);
   };
 
-  onLanguageChanged = () => {
-    if (debugMode) syncAnnotationInputs();
+  const syncSelectedClasses = () => {
+    document.querySelectorAll('.tune-word').forEach((word) => word.classList.toggle('is-selected',selectedWords.has(word.dataset.tuneKey)));
+  };
+
+  const selectedRange = () => {
+    const words = selectedElements().map((word) => ({
+      p:Number(word.dataset.tuneParagraph),
+      w:Number(word.dataset.tuneWord),
+      order:Number(word.dataset.tuneOrder),
+      text:word.textContent || ''
+    })).sort((a,b) => a.order-b.order);
+    if (!words.length) return null;
+    if (words.some((word) => word.p !== words[0].p)) return null;
+    const indexes = words.map((word) => word.w).sort((a,b) => a-b);
+    for (let i=1;i<indexes.length;i++) if (indexes[i] !== indexes[i-1]+1) return null;
+    return {p:words[0].p,start:indexes[0],end:indexes.at(-1),words};
+  };
+
+  const annotationOverlap = (annotation,range) => annotation.p === range.p && annotation.start <= range.end && annotation.end >= range.start;
+
+  const exactAnnotation = (range) => range ? (tunerState[root.lang]?.annotations || []).find((a) => a.p === range.p && a.start === range.start && a.end === range.end) : null;
+
+  const setAnnotationColorControls = (value) => {
+    const normalized = normalizeHex(value) || currentPalette.accent;
+    if (tunerAnnotationColorPicker) tunerAnnotationColorPicker.value = normalized;
+    if (tunerAnnotationColorHex) {
+      tunerAnnotationColorHex.value = normalized;
+      tunerAnnotationColorHex.classList.remove('is-invalid');
+    }
+  };
+
+  const syncTunerControls = () => {
+    if (!debugMode) return;
+    const selected = selectedElements();
+    const range = selectedRange();
+    const baseline = baseHeroWeight();
+    if (tunerSelectionPreview) {
+      if (!selected.length) tunerSelectionPreview.textContent = root.lang === 'es' ? 'Haz clic en una palabra de la introducción' : 'Click a word in the introduction';
+      else {
+        const text = selected.sort((a,b) => Number(a.dataset.tuneOrder)-Number(b.dataset.tuneOrder)).map((word) => word.textContent).join(' ');
+        tunerSelectionPreview.textContent = selected.length > 8 ? `${text.slice(0,72)}… · ${selected.length} words` : text;
+      }
+    }
+
+    const values = selected.map((word) => {
+      const p = Number(word.dataset.tuneParagraph), w = Number(word.dataset.tuneWord);
+      return Number(tunerState[root.lang]?.weights?.[localWordKey(p,w)] ?? baseline);
+    });
+    const sameWeight = values.length && values.every((value) => value === values[0]);
+    const shownWeight = sameWeight ? values[0] : baseline;
+    if (tunerWeightRange) { tunerWeightRange.value = String(shownWeight); tunerWeightRange.disabled = !selected.length; }
+    if (tunerWeightNumber) {
+      tunerWeightNumber.disabled = !selected.length;
+      tunerWeightNumber.value = sameWeight ? String(values[0]) : (selected.length ? '' : String(baseline));
+      tunerWeightNumber.placeholder = selected.length && !sameWeight ? 'mixed' : '';
+    }
+    if (tunerBaseWeight) tunerBaseWeight.disabled = !selected.length;
+
+    const exact = exactAnnotation(range);
+    if (exact && tunerAnnotationStyle) tunerAnnotationStyle.value = exact.style;
+    if (exact) setAnnotationColorControls(exact.color || currentPalette.accent);
+    if (tunerApplyAnnotation) tunerApplyAnnotation.disabled = !range;
+    if (tunerRemoveAnnotation) tunerRemoveAnnotation.disabled = !range || !(tunerState[root.lang]?.annotations || []).some((a) => annotationOverlap(a,range));
+    if (tunerClearSelection) tunerClearSelection.disabled = !selected.length;
+  };
+
+  const clearWordSelection = () => {
+    selectedWords.clear();
+    selectionAnchor = null;
+    syncSelectedClasses();
+    syncTunerControls();
+  };
+
+  const applyWeightToSelection = (value) => {
+    const selected = selectedElements();
+    if (!selected.length) return;
+    const weight = Math.min(900,Math.max(100,Math.round(Number(value) || baseHeroWeight())));
+    const baseline = baseHeroWeight();
+    for (const word of selected) {
+      const key = localWordKey(Number(word.dataset.tuneParagraph),Number(word.dataset.tuneWord));
+      if (weight === baseline) delete tunerState[root.lang].weights[key];
+      else tunerState[root.lang].weights[key] = weight;
+    }
+    persistTuner();
+    renderHero(root.lang);
+    syncTunerControls();
+  };
+
+  const removeWeightFromSelection = () => {
+    const selected = selectedElements();
+    if (!selected.length) return;
+    for (const word of selected) delete tunerState[root.lang].weights[localWordKey(Number(word.dataset.tuneParagraph),Number(word.dataset.tuneWord))];
+    persistTuner();
+    renderHero(root.lang);
+    syncTunerControls();
+  };
+
+  onLanguageChanged = (lang) => {
+    clearWordSelection();
+    renderHero(lang);
     if (eyeButton) {
       const visible = eyeButton.getAttribute('aria-pressed') === 'true';
       eyeButton.setAttribute('aria-label',visible ? (root.lang === 'es' ? 'Ocultar contraseña' : 'Hide password') : (root.lang === 'es' ? 'Mostrar contraseña' : 'Show password'));
@@ -724,7 +936,38 @@
       const key = input.dataset.typeVar;
       input.value = typeConfig[key] ?? baseline[key] ?? '';
     });
-    syncAnnotationInputs();
+    setAnnotationColorControls(currentPalette.accent);
+    syncTunerControls();
+
+    document.addEventListener('click', (event) => {
+      const word = event.target.closest?.('.tune-word');
+      if (!word || !word.closest('.hero-copy') || currentView !== 'home') return;
+      event.preventDefault();
+      const key = word.dataset.tuneKey;
+      const order = Number(word.dataset.tuneOrder);
+      if (event.shiftKey && selectionAnchor) {
+        const anchor = currentHeroWords().find((candidate) => candidate.dataset.tuneKey === selectionAnchor);
+        if (anchor) {
+          const a = Number(anchor.dataset.tuneOrder);
+          const lo = Math.min(a,order), hi = Math.max(a,order);
+          if (!event.metaKey && !event.ctrlKey) selectedWords.clear();
+          currentHeroWords().forEach((candidate) => {
+            const candidateOrder = Number(candidate.dataset.tuneOrder);
+            if (candidateOrder >= lo && candidateOrder <= hi) selectedWords.add(candidate.dataset.tuneKey);
+          });
+        }
+      } else if (event.metaKey || event.ctrlKey) {
+        if (selectedWords.has(key)) selectedWords.delete(key); else selectedWords.add(key);
+        selectionAnchor = key;
+      } else {
+        selectedWords.clear();
+        selectedWords.add(key);
+        selectionAnchor = key;
+      }
+      syncSelectedClasses();
+      syncTunerControls();
+      Sounds.play('tap');
+    });
 
     palettePickers.forEach((input) => {
       input.addEventListener('input', () => {
@@ -746,22 +989,73 @@
       });
     });
 
-    annotationInputs.forEach((input) => {
-      input.addEventListener('input', () => {
-        const style = input.dataset.annotationStyle;
-        annotationConfig[root.lang][style] = input.value;
-        storageSet(annotationsKey,JSON.stringify(annotationConfig));
-        const found = renderHeroAnnotations(root.lang);
-        input.classList.toggle('is-invalid', Boolean(input.value.trim()) && !found[style]);
-      });
-    });
-
     typeInputs.forEach((input) => {
       input.addEventListener('input', () => {
         if (input.value === '') return;
         typeConfig[input.dataset.typeVar] = Number(input.value);
         applyTypeConfig(typeConfig);
+        syncTunerControls();
       });
+    });
+
+    tunerWeightRange?.addEventListener('input', () => {
+      if (tunerWeightNumber) tunerWeightNumber.value = tunerWeightRange.value;
+      applyWeightToSelection(tunerWeightRange.value);
+    });
+    tunerWeightNumber?.addEventListener('input', () => {
+      if (tunerWeightNumber.value === '') return;
+      const value = Math.min(900,Math.max(100,Number(tunerWeightNumber.value)));
+      if (tunerWeightRange) tunerWeightRange.value = String(value);
+      applyWeightToSelection(value);
+    });
+    tunerBaseWeight?.addEventListener('click', () => {
+      removeWeightFromSelection();
+      Sounds.play('state');
+    });
+
+    tunerAnnotationColorPicker?.addEventListener('input', () => setAnnotationColorControls(tunerAnnotationColorPicker.value));
+    tunerAnnotationColorHex?.addEventListener('input', () => {
+      const normalized = normalizeHex(tunerAnnotationColorHex.value);
+      tunerAnnotationColorHex.classList.toggle('is-invalid',!normalized);
+      if (normalized && tunerAnnotationColorPicker) tunerAnnotationColorPicker.value = normalized;
+    });
+    tunerAnnotationColorHex?.addEventListener('blur', () => {
+      if (!normalizeHex(tunerAnnotationColorHex.value)) setAnnotationColorControls(tunerAnnotationColorPicker?.value || currentPalette.accent);
+    });
+
+    tunerApplyAnnotation?.addEventListener('click', () => {
+      const range = selectedRange();
+      const color = normalizeHex(tunerAnnotationColorHex?.value) || tunerAnnotationColorPicker?.value || currentPalette.accent;
+      const style = tunerAnnotationStyle?.value || 'highlight';
+      if (!range || !annotationSvg[style]) { Sounds.play('error'); return; }
+      tunerState[root.lang].annotations = (tunerState[root.lang].annotations || []).filter((annotation) => !annotationOverlap(annotation,range));
+      tunerState[root.lang].annotations.push({p:range.p,start:range.start,end:range.end,style,color});
+      persistTuner();
+      renderHero(root.lang);
+      syncTunerControls();
+      Sounds.play('state');
+    });
+
+    tunerRemoveAnnotation?.addEventListener('click', () => {
+      const range = selectedRange();
+      if (!range) return;
+      const before = tunerState[root.lang].annotations.length;
+      tunerState[root.lang].annotations = tunerState[root.lang].annotations.filter((annotation) => !annotationOverlap(annotation,range));
+      if (tunerState[root.lang].annotations.length === before) return;
+      persistTuner();
+      renderHero(root.lang);
+      syncTunerControls();
+      Sounds.play('state');
+    });
+
+    tunerClearSelection?.addEventListener('click', clearWordSelection);
+    tunerResetLanguage?.addEventListener('click', () => {
+      tunerState[root.lang] = defaultLanguageTuning(root.lang,annotationDefaults[root.lang]);
+      persistTuner();
+      clearWordSelection();
+      renderHero(root.lang);
+      syncTunerControls();
+      Sounds.play('state');
     });
 
     debugCollapse?.addEventListener('click', () => {
@@ -775,30 +1069,41 @@
       storageRemove(paletteKey);
       storageRemove(typeKey);
       storageRemove(annotationsKey);
+      storageRemove(tunerKey);
       currentPalette = {...paletteDefaults};
       renderPalette();
       typeConfig = {};
       typeInputs.forEach((input) => root.style.removeProperty(input.dataset.typeVar));
-      annotationConfig = structuredClone(annotationDefaults);
-      renderHeroAnnotations('en');
-      renderHeroAnnotations('es');
+      tunerState = {
+        en:defaultLanguageTuning('en',annotationDefaults.en),
+        es:defaultLanguageTuning('es',annotationDefaults.es)
+      };
+      clearWordSelection();
+      renderAllHeroes();
       syncPaletteControls();
       const defaults = computedTypography();
       typeInputs.forEach((input) => input.value = defaults[input.dataset.typeVar] ?? '');
-      syncAnnotationInputs();
+      setAnnotationColorControls(currentPalette.accent);
+      syncTunerControls();
       Sounds.play('state');
     });
 
     debugCopy?.addEventListener('click', async () => {
-      const typeLines = typeInputs.map((input) => {
-        const value = typeConfig[input.dataset.typeVar] ?? input.value;
-        return `  ${input.dataset.typeVar}: ${value}${input.dataset.unit || ''};`;
-      }).join('\n');
-      const css = `:root {\n  --bg: ${currentPalette.bg};\n  --text: ${currentPalette.text};\n  --accent: ${currentPalette.accent};\n${typeLines}\n}\n\n/* ${root.lang.toUpperCase()} annotations\n${Object.entries(annotationConfig[root.lang]).map(([style,phrase]) => `  ${style}: ${phrase || '(off)'}`).join('\n')}\n*/`;
+      const typography = {};
+      typeInputs.forEach((input) => {
+        typography[input.dataset.typeVar] = typeConfig[input.dataset.typeVar] ?? Number(input.value);
+      });
+      const payload = {
+        palette:currentPalette,
+        theme:currentTheme,
+        typography,
+        intro:heroTextSources,
+        tuning:tunerState
+      };
       try {
-        await navigator.clipboard.writeText(css);
+        await navigator.clipboard.writeText(JSON.stringify(payload,null,2));
         debugCopy.textContent = 'Copied';
-        window.setTimeout(() => debugCopy.textContent = 'Copy CSS',900);
+        window.setTimeout(() => debugCopy.textContent = 'Copy tuning',900);
       } catch {}
     });
   }
