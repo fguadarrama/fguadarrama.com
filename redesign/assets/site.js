@@ -13,7 +13,7 @@
   const themeKey = 'fg-theme-v1';
   const soundKey = 'fg-sounds-v1';
   const paletteKey = 'fg-debug-palette-v4';
-  const typeKey = 'fg-debug-type-v2';
+  const typeKey = 'fg-debug-type-v4';
   const annotationsKey = 'fg-debug-annotations-v2';
 
   /* ---------- palette + theme ---------- */
@@ -95,7 +95,7 @@
   }, {capture:true});
 
   if (finePointer.matches) {
-    const hoverSelector = '.radial-trigger,.radial-item,.section-home,.site-name,.segmented-control button,.contact-actions a,.contact-actions button,.modal-close,.eye-button,.submit-button';
+    const hoverSelector = '.t-goo-main,.t-goo-item,.section-home,.segmented-control button,.contact-actions a,.contact-actions button,.modal-close,.eye-button,.submit-button';
     document.addEventListener('pointerover', (event) => {
       const target = event.target.closest?.(hoverSelector);
       if (!target || target.contains(event.relatedTarget)) return;
@@ -126,11 +126,11 @@
     document.querySelectorAll('[data-en][data-es]').forEach((node) => {
       node.textContent = lang === 'es' ? node.dataset.es : node.dataset.en;
     });
-    document.querySelectorAll('.radial-item').forEach((item) => {
+    document.querySelectorAll('[data-label-en][data-label-es]').forEach((item) => {
       const label = lang === 'es' ? item.dataset.labelEs : item.dataset.labelEn;
       if (label) item.setAttribute('aria-label', label);
     });
-    document.getElementById('radialTrigger')?.setAttribute('aria-label', lang === 'es' ? 'Abrir navegación' : 'Open navigation');
+    document.getElementById('gooeyMain')?.setAttribute('aria-label', lang === 'es' ? 'Abrir menú' : 'Open menu');
     document.querySelectorAll('.section-home').forEach((button) => button.setAttribute('aria-label', lang === 'es' ? 'Volver al inicio' : 'Back to home'));
     document.getElementById('settingsPopover')?.setAttribute('aria-label', lang === 'es' ? 'Ajustes del sitio' : 'Site settings');
     document.querySelector('[data-theme-choice]')?.parentElement?.setAttribute('aria-label', lang === 'es' ? 'Tema' : 'Theme');
@@ -153,7 +153,7 @@
 
   /* ---------- settings popover ---------- */
   const settingsPopover = document.getElementById('settingsPopover');
-  const settingsTrigger = document.getElementById('radialSettings');
+  const settingsTrigger = document.getElementById('gooeySettings');
   let settingsOpen = false;
 
   const openSettings = () => {
@@ -172,7 +172,7 @@
     settingsPopover.classList.remove('is-open');
     settingsPopover.setAttribute('aria-hidden', 'true');
     settingsTrigger?.setAttribute('aria-expanded', 'false');
-    if (restoreFocus) document.getElementById('radialTrigger')?.focus({preventScroll:true});
+    if (restoreFocus) document.getElementById('gooeyMain')?.focus({preventScroll:true});
   };
 
   document.querySelectorAll('[data-theme-choice]').forEach((button) => {
@@ -206,113 +206,63 @@
     closeSettings();
   });
 
-  /* ---------- radial menu ---------- */
-  const radial = document.querySelector('.radial-menu');
-  const trigger = document.getElementById('radialTrigger');
-  const allRadialItems = Array.from(document.querySelectorAll('.radial-item'));
-  const itemsWrap = document.getElementById('radialItems');
-  const scrim = document.getElementById('menuScrim');
+  /* ---------- Transitions.dev Gooey plus menu ---------- */
+  const gooAnchor = document.getElementById('gooeyMenu');
+  const gooMain = document.getElementById('gooeyMain');
+  const gooItems = Array.from(document.querySelectorAll('.t-goo-item'));
+  const gooBlur = document.getElementById('tGooBlur');
+  const gooMatrix = document.getElementById('tGooMatrix');
   let currentView = root.dataset.view || 'home';
-
-  const visibleRadialItems = () => allRadialItems.filter((item) => !item.hidden);
-
-  const updateRadialVisibility = () => {
-    allRadialItems.forEach((item) => { item.hidden = false; });
-  };
-
-  const placeRadialItems = () => {
-    const styles = getComputedStyle(root);
-    const radius = parseFloat(styles.getPropertyValue('--radial-radius')) || 112;
-    const items = visibleRadialItems();
-    const count = items.length;
-    items.forEach((item, index) => {
-      const t = count === 1 ? 0 : index / (count - 1);
-      const angle = Math.PI - (Math.PI / 2) * t;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      item.style.setProperty('--tx', `${x.toFixed(2)}px`);
-      item.style.setProperty('--ty', `${y.toFixed(2)}px`);
-      item.style.setProperty('--delay', `${index * 34}ms`);
-      item.style.setProperty('--close-delay', `${(count - 1 - index) * 18}ms`);
-    });
-  };
-
-  updateRadialVisibility();
-  placeRadialItems();
-  window.addEventListener('resize', placeRadialItems, {passive:true});
-
   let menuOpen = false;
-  let closeTimer = null;
+  let anticipationTimer = null;
 
-  const openMenu = () => {
-    if (menuOpen) return;
-    closeSettings();
-    window.clearTimeout(closeTimer);
-    updateRadialVisibility();
-    placeRadialItems();
-    menuOpen = true;
-    radial.classList.remove('is-closing');
-    radial.classList.add('is-open');
-    body.classList.add('menu-open');
-    trigger.setAttribute('aria-expanded', 'true');
-    trigger.setAttribute('aria-label', root.lang === 'es' ? 'Cerrar navegación' : 'Close navigation');
-    itemsWrap.setAttribute('aria-hidden', 'false');
-    const first = visibleRadialItems()[0];
-    window.setTimeout(() => first?.focus({preventScroll:true}), reduceMotion.matches ? 1 : 70);
+  const readNum = (name,fallback) => {
+    const raw = getComputedStyle(root).getPropertyValue(name).trim();
+    if (!raw) return fallback;
+    if (raw.endsWith('ms')) return parseFloat(raw);
+    if (raw.endsWith('s') && !raw.endsWith('ms')) return parseFloat(raw)*1000;
+    const n = parseFloat(raw); return Number.isFinite(n) ? n : fallback;
   };
-
-  const closeMenu = ({restoreFocus=false} = {}) => {
-    if (!menuOpen) return;
-    menuOpen = false;
-    radial.classList.add('is-closing');
-    radial.classList.remove('is-open');
-    body.classList.remove('menu-open');
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('aria-label', root.lang === 'es' ? 'Abrir navegación' : 'Open navigation');
-    itemsWrap.setAttribute('aria-hidden', 'true');
-    window.clearTimeout(closeTimer);
-    closeTimer = window.setTimeout(() => {
-      radial.classList.remove('is-closing');
-      if (restoreFocus) trigger.focus({preventScroll:true});
-    }, reduceMotion.matches ? 1 : 210);
+  const applyGooKnobs = () => {
+    const blur = readNum('--goo-blur',6);
+    const slope = readNum('--goo-contrast',18);
+    const intercept = -((slope*7)/18);
+    gooBlur?.setAttribute('stdDeviation',String(blur));
+    gooMatrix?.setAttribute('values',`1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${slope} ${intercept}`);
   };
-
-  trigger?.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
-  scrim?.addEventListener('click', () => closeMenu({restoreFocus:true}));
-
-  settingsTrigger?.addEventListener('click', () => {
-    closeMenu();
-    window.setTimeout(openSettings, reduceMotion.matches ? 1 : 105);
-  });
-
-  allRadialItems.forEach((item) => {
-    item.addEventListener('keydown', (event) => {
-      if (!menuOpen) return;
-      if (event.key === 'Escape' || event.key === 'Tab') {
-        event.preventDefault();
-        closeMenu({restoreFocus:true});
-        return;
-      }
-      const nextKey = event.key === 'ArrowDown' || event.key === 'ArrowRight';
-      const prevKey = event.key === 'ArrowUp' || event.key === 'ArrowLeft';
-      if (!nextKey && !prevKey) return;
-      event.preventDefault();
-      const items = visibleRadialItems();
-      const index = items.indexOf(item);
-      const nextIndex = (index + (nextKey ? 1 : -1) + items.length) % items.length;
-      items[nextIndex]?.focus({preventScroll:true});
-    });
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-    if (menuOpen) {
-      event.preventDefault();
-      closeMenu({restoreFocus:true});
-    } else if (settingsOpen) {
-      event.preventDefault();
-      closeSettings({restoreFocus:true});
-    }
+  const updateRadialVisibility = () => {};
+  const placeRadialItems = () => {};
+  const setMenuOpen = (next,{restoreFocus=false}={}) => {
+    if (!gooAnchor || !gooMain || menuOpen === next) return;
+    menuOpen = next; applyGooKnobs();
+    gooAnchor.dataset.open = next ? 'true' : 'false';
+    gooMain.setAttribute('aria-expanded',String(next));
+    gooMain.setAttribute('aria-label',root.lang === 'es' ? (next?'Cerrar menú':'Abrir menú') : (next?'Close menu':'Open menu'));
+    window.clearTimeout(anticipationTimer);
+    if (!next) {
+      gooAnchor.classList.add('is-anticipating');
+      anticipationTimer = window.setTimeout(()=>gooAnchor.classList.remove('is-anticipating'),readNum('--goo-anticip-dur',700)+50);
+      if (restoreFocus) window.setTimeout(()=>gooMain.focus({preventScroll:true}),reduceMotion.matches?1:80);
+    } else gooAnchor.classList.remove('is-anticipating');
+    gooItems.forEach((item)=>item.tabIndex=next?0:-1);
+  };
+  const openMenu = () => { closeSettings(); setMenuOpen(true); };
+  const closeMenu = (options={}) => setMenuOpen(false,options);
+  gooMain?.addEventListener('click',(event)=>{event.stopPropagation();menuOpen?closeMenu():openMenu();});
+  document.addEventListener('click',(event)=>{if(menuOpen && gooAnchor && !gooAnchor.contains(event.target)) closeMenu();});
+  settingsTrigger?.addEventListener('click',()=>{closeMenu();window.setTimeout(openSettings,reduceMotion.matches?1:105);});
+  gooItems.forEach((item)=>item.addEventListener('keydown',(event)=>{
+    if(!menuOpen) return;
+    if(event.key==='Escape'){event.preventDefault();closeMenu({restoreFocus:true});return;}
+    const nextKey=event.key==='ArrowDown'||event.key==='ArrowRight';
+    const prevKey=event.key==='ArrowUp'||event.key==='ArrowLeft';
+    if(!nextKey&&!prevKey)return;
+    event.preventDefault(); const i=gooItems.indexOf(item); gooItems[(i+(nextKey?1:-1)+gooItems.length)%gooItems.length]?.focus({preventScroll:true});
+  }));
+  document.addEventListener('keydown',(event)=>{
+    if(event.key!=='Escape')return;
+    if(menuOpen){event.preventDefault();closeMenu({restoreFocus:true});}
+    else if(settingsOpen){event.preventDefault();closeSettings({restoreFocus:true});}
   });
 
   /* ---------- view transitions + browser history ---------- */
@@ -570,7 +520,7 @@
   const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   if (debugMode) root.dataset.debug = 'true';
 
-  const tunerKey = 'fg-debug-tuner-v3';
+  const tunerKey = 'fg-debug-tuner-v5';
   const heroCopies = {
     en:document.querySelector('.hero-copy.lang-en'),
     es:document.querySelector('.hero-copy.lang-es')
@@ -585,13 +535,13 @@
     es:{wavy:'atención de alto valor a pesar de las limitaciones',highlight:'clínica en las montañas del estado más pobre de México',double:'Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.'}
   };
 
-  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"}]}};
+  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null},{"p":0,"start":27,"end":36,"style":"wavy","color":null},{"p":0,"start":6,"end":8,"style":"wavy","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":28,"end":40,"style":"wavy","color":null},{"p":0,"start":8,"end":11,"style":"wavy","color":null}]}};
   const cloneTunedDefaults = () => JSON.parse(JSON.stringify(tunedDefaults));
 
   const annotationSvg = {
     wavy:'<svg class="annotation-decoration" viewBox="0 0 140 14" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 Q5.5,3 9,6 T17,6 T25,6 T33,6 T41,6 T49,6 T57,6 T65,6 T73,6 T81,6 T89,6 T97,6 T105,6 T113,6 T121,6 T129,6 T137,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
     underline:'<svg class="annotation-decoration" viewBox="0 0 140 10" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,6 C40,3 100,3 137,5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
-    double:'<svg class="annotation-decoration" viewBox="0 0 140 16" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,5 C40,2 100,2 137,4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/><path d="M5,12 C42,9 98,10 135,11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".75" filter="url(#hd-rough-soft)"/></svg>',
+    double:'<svg class="annotation-decoration" viewBox="0 0 140 18" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M3,4.5 C40,2 100,2 137,4" stroke="currentColor" stroke-width="2.15" stroke-linecap="round" fill="none"/><path d="M5,14 C42,11 98,12 135,13" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" fill="none" opacity=".78"/></svg>',
     dotted:'<span class="annotation-decoration annotation-dots" aria-hidden="true"></span>',
     circle:'<svg class="annotation-decoration" viewBox="0 0 220 64" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M40,40 C20,23 53,7 102,5 C153,3 207,11 211,29 C215,47 167,60 109,60 C59,60 15,53 19,35 C21,27 27,22 37,20" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none" filter="url(#hd-rough)"/><path d="M43,37 C28,25 58,9 105,7 C151,6 199,14 206,29 C212,45 167,57 110,58" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".55" filter="url(#hd-rough-soft)"/></svg>',
     highlight:'<svg class="annotation-decoration" viewBox="0 0 170 26" preserveAspectRatio="none" aria-hidden="true"><path d="M4,17 C2,11 5,7 12,6 C45,2 95,2 138,4 C152,5 164,7 166,13 C167,18 163,21 155,22 C112,24 60,24 16,22 C8,21.5 4,20 4,17 Z" fill="currentColor" filter="url(#hd-rough-soft)"/></svg>',
@@ -687,73 +637,56 @@
     return span;
   };
 
-  const makeAnnotationShell = (annotation) => {
-    const wrapper = document.createElement('span');
-    wrapper.className = `annotated annotated-${annotation.style}`;
+  let annotationLayoutFrame = 0;
+
+  const makeAnnotationFragment = (annotation,index) => {
+    const fragment = document.createElement('span');
+    fragment.className = `annotation-fragment annotation-${annotation.style}`;
     const lightColor = annotation.color || 'var(--accent)';
     const darkColor = annotation.darkColor || lightColor;
-    wrapper.style.setProperty('--annotation-color-light', lightColor);
-    wrapper.style.setProperty('--annotation-color-dark', darkColor);
-    const label = document.createElement('span');
-    label.className = 'annotation-text';
-    wrapper.appendChild(label);
+    fragment.style.setProperty('--annotation-color-light',lightColor);
+    fragment.style.setProperty('--annotation-color-dark',darkColor);
     const template = document.createElement('template');
     template.innerHTML = annotationSvg[annotation.style] || annotationSvg.underline;
-    wrapper.appendChild(template.content.firstElementChild);
-    return {wrapper,label};
+    const decoration = template.content.firstElementChild;
+    decoration?.style.setProperty('--annotation-index',String(index));
+    fragment.appendChild(decoration);
+    return fragment;
   };
 
-  const renderHero = (lang) => {
+  const layoutHeroAnnotations = (lang) => {
     const copy = heroCopies[lang];
-    const texts = heroTextSources[lang];
-    if (!copy || !texts?.length) return;
+    if (!copy || copy.getClientRects().length === 0) return;
     const paragraphs = Array.from(copy.querySelectorAll('p'));
-    let globalOrder = 0;
-
     paragraphs.forEach((paragraph,pIndex) => {
-      const tokens = tokenizeParagraph(texts[pIndex] || '');
-      const annotations = (tunerState[lang]?.annotations || [])
-        .filter((a) => a.p === pIndex && annotationSvg[a.style] && Number.isInteger(a.start) && Number.isInteger(a.end) && a.start <= a.end)
-        .sort((a,b) => a.start-b.start || a.end-b.end);
-      const chosen = [];
-      for (const annotation of annotations) {
-        if (chosen.some((existing) => annotation.start <= existing.end && annotation.end >= existing.start)) continue;
-        chosen.push(annotation);
-      }
-      const byStart = new Map(chosen.map((annotation) => [annotation.start,annotation]));
-
-      paragraph.replaceChildren();
-      let active = null;
-      let activeLabel = null;
-      for (const token of tokens) {
-        if (token.type === 'word' && !active && byStart.has(token.wordIndex)) {
-          active = byStart.get(token.wordIndex);
-          const shell = makeAnnotationShell(active);
-          paragraph.appendChild(shell.wrapper);
-          activeLabel = shell.label;
-        }
-
-        const target = activeLabel || paragraph;
-        if (token.type === 'space') target.appendChild(document.createTextNode(token.text));
-        else {
-          target.appendChild(makeWord(lang,pIndex,token,globalOrder));
-          globalOrder += 1;
-          if (active && token.wordIndex === active.end) {
-            active = null;
-            activeLabel = null;
-          }
-        }
-      }
+      paragraph.querySelectorAll(':scope > .annotation-layer').forEach((layer)=>layer.remove());
+      const annotations = (tunerState[lang]?.annotations || []).filter((a)=>a.p===pIndex && annotationSvg[a.style] && Number.isInteger(a.start) && Number.isInteger(a.end) && a.start<=a.end);
+      if (!annotations.length) return;
+      const paragraphRect=paragraph.getBoundingClientRect(); if(!paragraphRect.width||!paragraphRect.height)return;
+      const layer=document.createElement('span');layer.className='annotation-layer';layer.setAttribute('aria-hidden','true');paragraph.appendChild(layer);
+      let annotationIndex=0;
+      annotations.forEach((annotation)=>{
+        const words=[];for(let wi=annotation.start;wi<=annotation.end;wi++){const word=paragraph.querySelector(`.tune-word[data-tune-word="${wi}"]`);if(word)words.push(word)}
+        if(!words.length)return;
+        const groups=[];
+        words.forEach((word)=>{const rect=word.getBoundingClientRect();if(!rect.width||!rect.height)return;const last=groups.at(-1);if(!last||Math.abs(rect.top-last.top)>2.5)groups.push({top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right});else{last.bottom=Math.max(last.bottom,rect.bottom);last.left=Math.min(last.left,rect.left);last.right=Math.max(last.right,rect.right)}});
+        groups.forEach((group)=>{const fragment=makeAnnotationFragment(annotation,annotationIndex++);fragment.style.left=`${group.left-paragraphRect.left}px`;fragment.style.top=`${group.top-paragraphRect.top}px`;fragment.style.width=`${Math.max(1,group.right-group.left)}px`;fragment.style.height=`${Math.max(1,group.bottom-group.top)}px`;layer.appendChild(fragment)});
+      });
     });
-    setAnimationIndices();
   };
-
-  const renderAllHeroes = () => {
-    renderHero('en');
-    renderHero('es');
+  const scheduleAnnotationLayout = () => {
+    window.cancelAnimationFrame(annotationLayoutFrame);
+    annotationLayoutFrame=window.requestAnimationFrame(()=>{layoutHeroAnnotations(root.lang);setAnimationIndices();});
   };
-
+  const renderHero = (lang) => {
+    const copy=heroCopies[lang],texts=heroTextSources[lang]; if(!copy||!texts?.length)return;
+    const paragraphs=Array.from(copy.querySelectorAll('p'));let globalOrder=0;
+    paragraphs.forEach((paragraph,pIndex)=>{const tokens=tokenizeParagraph(texts[pIndex]||'');paragraph.replaceChildren();for(const token of tokens){if(token.type==='space')paragraph.appendChild(document.createTextNode(token.text));else{paragraph.appendChild(makeWord(lang,pIndex,token,globalOrder));globalOrder+=1}}});
+    if(lang===root.lang)scheduleAnnotationLayout();
+  };
+  const renderAllHeroes = () => {renderHero('en');renderHero('es');scheduleAnnotationLayout();};
   renderAllHeroes();
+  window.addEventListener('resize',scheduleAnnotationLayout,{passive:true});
 
 
   /* ---------- inline portrait: toast open/close + Transitions.dev card tilt ---------- */
@@ -860,21 +793,14 @@
 
   const computedTypography = () => {
     const sample = heroCopies.en?.querySelector('p');
-    if (!sample) return {};
-    const style = getComputedStyle(sample);
-    const fontSize = parseFloat(style.fontSize) || 50;
-    const lineHeightPx = parseFloat(style.lineHeight);
-    const second = heroCopies.en?.querySelectorAll('p')[1];
-    const paragraphGapPx = second ? parseFloat(getComputedStyle(second).marginTop) : fontSize*.52;
-    return {
-      '--hero-weight':parseFloat(style.fontWeight) || 580,
-      '--hero-size':fontSize,
-      '--hero-line-height':Number.isFinite(lineHeightPx) ? lineHeightPx/fontSize : .99,
-      '--hero-letter-spacing':style.letterSpacing === 'normal' ? 0 : (parseFloat(style.letterSpacing) || 0)/fontSize,
-      '--hero-word-spacing':style.wordSpacing === 'normal' ? 0 : (parseFloat(style.wordSpacing) || 0)/fontSize,
-      '--hero-paragraph-gap':paragraphGapPx/fontSize,
-      '--hero-max-width':parseFloat(style.maxWidth) || 1100
-    };
+    const result = {};
+    if (sample) {
+      const style=getComputedStyle(sample);const fontSize=parseFloat(style.fontSize)||27;const lineHeightPx=parseFloat(style.lineHeight);const second=heroCopies.en?.querySelectorAll('p')[1];const paragraphGapPx=second?parseFloat(getComputedStyle(second).marginTop):fontSize*.55;
+      result['--hero-weight']=parseFloat(style.fontWeight)||230;result['--hero-size']=fontSize;result['--hero-line-height']=Number.isFinite(lineHeightPx)?lineHeightPx/fontSize:1;result['--hero-letter-spacing']=style.letterSpacing==='normal'?0:(parseFloat(style.letterSpacing)||0)/fontSize;result['--hero-word-spacing']=style.wordSpacing==='normal'?0:(parseFloat(style.wordSpacing)||0)/fontSize;result['--hero-paragraph-gap']=paragraphGapPx/fontSize;result['--hero-max-width']=parseFloat(getComputedStyle(root).getPropertyValue('--hero-max-width'))||860;
+    }
+    const rootStyle=getComputedStyle(root);
+    typeInputs.forEach((input)=>{const key=input.dataset.typeVar;if(result[key]!==undefined)return;const value=parseFloat(rootStyle.getPropertyValue(key).trim());if(Number.isFinite(value))result[key]=value;});
+    return result;
   };
 
   const applyTypeConfig = (config, persist = true) => {
@@ -887,6 +813,7 @@
       input.value = config[key];
     });
     if (persist) storageSet(typeKey,JSON.stringify(typeConfig));
+    scheduleAnnotationLayout();
   };
 
   const persistTuner = () => storageSet(tunerKey,JSON.stringify(tunerState));
