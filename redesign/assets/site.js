@@ -570,7 +570,7 @@
   const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   if (debugMode) root.dataset.debug = 'true';
 
-  const tunerKey = 'fg-debug-tuner-v2';
+  const tunerKey = 'fg-debug-tuner-v3';
   const heroCopies = {
     en:document.querySelector('.hero-copy.lang-en'),
     es:document.querySelector('.hero-copy.lang-es')
@@ -582,10 +582,10 @@
 
   const annotationDefaults = {
     en:{wavy:'one level upstream',circle:'Mexico’s poorest state',highlight:'high-value care',double:'inferior care'},
-    es:{wavy:'un nivel más arriba',circle:'el estado más pobre de México',highlight:'atención de alto valor',double:'atención inferior'}
+    es:{wavy:'atención de alto valor a pesar de las limitaciones',highlight:'clínica en las montañas del estado más pobre de México',double:'Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.'}
   };
 
-  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":0,"start":24,"end":27,"style":"wavy","color":null},{"p":1,"start":10,"end":15,"style":"circle","color":null},{"p":1,"start":43,"end":46,"style":"highlight","color":null},{"p":2,"start":5,"end":6,"style":"double","color":null}]}};
+  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"}]}};
   const cloneTunedDefaults = () => JSON.parse(JSON.stringify(tunedDefaults));
 
   const annotationSvg = {
@@ -666,14 +666,21 @@
   const fullWordKey = (lang,pIndex,wordIndex) => `${lang}:${pIndex}:${wordIndex}`;
 
   const makeWord = (lang,pIndex,token,order) => {
-    const span = document.createElement('span');
+    const isPortraitName = token.text.replace(/[.,;:!?¿¡]+$/u,'').toLocaleLowerCase(lang) === 'francisco';
+    const span = document.createElement(isPortraitName ? 'button' : 'span');
     const fullKey = fullWordKey(lang,pIndex,token.wordIndex);
-    span.className = 'tune-word';
+    span.className = isPortraitName ? 'tune-word portrait-name' : 'tune-word';
     span.dataset.tuneKey = fullKey;
     span.dataset.tuneParagraph = String(pIndex);
     span.dataset.tuneWord = String(token.wordIndex);
     span.dataset.tuneOrder = String(order);
     span.textContent = token.text;
+    if (isPortraitName) {
+      span.type = 'button';
+      span.setAttribute('aria-controls','portraitToast');
+      span.setAttribute('aria-expanded','false');
+      span.setAttribute('aria-label',lang === 'es' ? 'Mostrar retrato de Francisco' : 'Show Francisco’s portrait');
+    }
     const weight = tunerState[lang]?.weights?.[localWordKey(pIndex,token.wordIndex)];
     if (weight !== undefined) span.style.fontWeight = String(weight);
     span.classList.toggle('is-selected', selectedWords.has(fullKey));
@@ -747,6 +754,77 @@
   };
 
   renderAllHeroes();
+
+
+  /* ---------- inline portrait: toast open/close + Transitions.dev card tilt ---------- */
+  const portraitStage = document.getElementById('portraitStage');
+  const portraitToast = document.getElementById('portraitToast');
+  const portraitTilt = portraitToast?.querySelector('.t-tilt');
+  const portraitCard = portraitToast?.querySelector('.t-tilt-card');
+  let portraitOpen = false;
+
+  const syncPortraitTriggers = () => {
+    document.querySelectorAll('.portrait-name').forEach((trigger) => {
+      trigger.setAttribute('aria-expanded',String(portraitOpen));
+      trigger.setAttribute('aria-label',root.lang === 'es'
+        ? (portraitOpen ? 'Ocultar retrato de Francisco' : 'Mostrar retrato de Francisco')
+        : (portraitOpen ? 'Hide Francisco’s portrait' : 'Show Francisco’s portrait'));
+    });
+    const portraitImage = portraitToast?.querySelector('.portrait-image');
+    if (portraitImage) portraitImage.alt = root.lang === 'es' ? 'Retrato de Francisco Guadarrama' : 'Portrait of Francisco Guadarrama';
+  };
+
+  const resetPortraitTilt = () => {
+    if (portraitTilt) portraitTilt.classList.remove('is-hover');
+    if (portraitCard) {
+      portraitCard.classList.remove('is-tilting');
+      portraitCard.style.setProperty('--tilt-rx','0deg');
+      portraitCard.style.setProperty('--tilt-ry','0deg');
+    }
+  };
+
+  const setPortraitOpen = (open) => {
+    portraitOpen = Boolean(open);
+    portraitToast?.classList.toggle('is-open',portraitOpen);
+    portraitStage?.setAttribute('aria-hidden',String(!portraitOpen));
+    syncPortraitTriggers();
+    if (!portraitOpen) resetPortraitTilt();
+  };
+
+  document.addEventListener('click',(event) => {
+    const trigger = event.target.closest?.('.portrait-name');
+    if (trigger) {
+      event.preventDefault();
+      setPortraitOpen(!portraitOpen);
+      return;
+    }
+    if (!portraitOpen) return;
+    if (!event.target.closest?.('#portraitToast')) setPortraitOpen(false);
+  });
+
+  document.addEventListener('keydown',(event) => {
+    if (event.key === 'Escape' && portraitOpen) setPortraitOpen(false);
+  });
+
+  portraitToast?.addEventListener('click',(event) => {
+    if (event.target.closest?.('.portrait-image')) setPortraitOpen(false);
+  });
+
+  portraitTilt?.addEventListener('pointermove',(event) => {
+    if (!portraitTilt || !portraitCard || reduceMotion.matches) return;
+    const r = portraitTilt.getBoundingClientRect();
+    const px = Math.min(1,Math.max(0,(event.clientX-r.left)/r.width));
+    const py = Math.min(1,Math.max(0,(event.clientY-r.top)/r.height));
+    portraitTilt.classList.add('is-hover');
+    portraitCard.classList.add('is-tilting');
+    portraitCard.style.setProperty('--tilt-ry',((px-.5)*32).toFixed(2)+'deg');
+    portraitCard.style.setProperty('--tilt-rx',((.5-py)*32).toFixed(2)+'deg');
+    portraitCard.style.setProperty('--tilt-gx',(px*100).toFixed(1)+'%');
+    portraitCard.style.setProperty('--tilt-gy',(py*100).toFixed(1)+'%');
+  });
+
+  portraitTilt?.addEventListener('pointerleave',resetPortraitTilt);
+  syncPortraitTriggers();
 
   /* ---------- debug panel ---------- */
   const palettePickers = Array.from(document.querySelectorAll('[data-palette-picker]'));
@@ -921,6 +999,7 @@
   onLanguageChanged = (lang) => {
     clearWordSelection();
     renderHero(lang);
+    syncPortraitTriggers();
     if (eyeButton) {
       const visible = eyeButton.getAttribute('aria-pressed') === 'true';
       eyeButton.setAttribute('aria-label',visible ? (root.lang === 'es' ? 'Ocultar contraseña' : 'Hide password') : (root.lang === 'es' ? 'Mostrar contraseña' : 'Show password'));
@@ -942,7 +1021,7 @@
 
     document.addEventListener('click', (event) => {
       const word = event.target.closest?.('.tune-word');
-      if (!word || !word.closest('.hero-copy') || currentView !== 'home') return;
+      if (!word || !word.closest('.hero-copy') || currentView !== 'home' || word.classList.contains('portrait-name')) return;
       event.preventDefault();
       const key = word.dataset.tuneKey;
       const order = Number(word.dataset.tuneOrder);

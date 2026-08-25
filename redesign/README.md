@@ -50,3 +50,10 @@ Tuning changes are stored in `localStorage` for that browser. They are intention
 ## Existing services/assets
 The contact form continues to post to the Formspree endpoint from the previous website.
 The protected CV links point to the existing English and Spanish CV PDFs under `/assets/`.
+
+
+## v5 portrait + Spanish copy pass
+- Spanish introduction replaced with the approved three-paragraph copy and retuned semantically to mirror the English hierarchy.
+- `Francisco` is now used in both languages, rendered in the accent color, and opens the remote portrait at `https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp`.
+- Portrait uses the supplied Transitions.dev toast timing plus pointer-follow card tilt/glare behavior, adapted to vanilla JavaScript for GitHub Pages.
+- The double underline geometry was restored to the original 0.7em decoration height / -0.5em offset so both strokes remain visibly separated.
