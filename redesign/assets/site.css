@@ -51,19 +51,19 @@
   --hero-mobile-side-inset:22px;
 
   --section-title-size:50px;
-  --section-title-weight:580;
-  --record-title-size:28px;
-  --record-title-weight:530;
+  --section-title-weight:380;
+  --record-title-size:22px;
+  --record-title-weight:380;
   --record-body-size:17px;
   --record-body-weight:350;
   --record-date-size:16px;
   --record-date-weight:300;
   --record-meta-size:16px;
-  --record-meta-weight:530;
-  --contact-size:40px;
-  --contact-weight:530;
-  --footer-size:11px;
-  --footer-weight:350;
+  --record-meta-weight:400;
+  --contact-size:30px;
+  --contact-weight:380;
+  --footer-size:10px;
+  --footer-weight:280;
 
   --goo-spread:1;
   --goo-blur:6;
@@ -107,18 +107,21 @@ a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
 /* Transitions.dev Gooey plus menu; 40px circles on the supplied 200×140 geometry. */
-.t-goo-anchor{position:fixed;top:0;right:0;z-index:65;width:200px;height:140px;pointer-events:none}
+.t-goo-anchor{position:fixed;top:0;right:0;z-index:65;width:200px;height:220px;pointer-events:none;overflow:visible}
 .t-goo-layer{position:absolute;inset:0;width:200px;height:140px;overflow:visible;pointer-events:none;transform-origin:100px 100px}
 .t-goo-blob{fill:var(--bg);transform-box:fill-box;transform-origin:center;transform:translate(0,0);transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),fill 180ms ease;will-change:transform}
 .t-goo-blob-main{transition:fill 180ms ease}
 .t-goo-anchor[data-open="true"] .t-goo-blob:not(.t-goo-blob-main){transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread)))}
 .t-goo-anchor[data-open="false"] .t-goo-blob:not(.t-goo-blob-main){transition-duration:var(--goo-close-dur);transition-delay:calc(var(--ri,0)*var(--goo-close-stagger))}
-.t-goo-item,.t-goo-main{appearance:none;border:0;background:transparent;color:var(--text);position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
-.t-goo-main{z-index:5;pointer-events:auto}
+.t-goo-item,.t-goo-main{appearance:none;border:0;background:transparent;color:var(--text);position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent}
+.t-goo-main{z-index:5;pointer-events:auto;background:var(--bg);transition:background-color 180ms ease,color 140ms ease}
 .t-goo-item{z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease;will-change:transform,opacity,filter}
 .t-goo-anchor[data-open="true"] .t-goo-item{pointer-events:auto;opacity:1;filter:blur(0);transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(1)}
 .t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms}
 .t-goo-item svg{width:16px;height:16px;display:block;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:scale(.96);transition:transform 170ms var(--goo-icon-ease),color 140ms ease}
+.t-goo-label{position:absolute;right:calc(100% + 8px);top:50%;transform:translate(5px,-50%);white-space:nowrap;font-size:11px;font-weight:400;line-height:1;letter-spacing:-.025em;color:var(--text);opacity:0;filter:blur(2px);pointer-events:none;transition:opacity 170ms ease-out,filter 180ms ease-out,transform 220ms var(--goo-ease),color 140ms ease}
+.t-goo-anchor[data-open="true"] .t-goo-label{opacity:1;filter:blur(0);transform:translate(0,-50%);transition-delay:calc(90ms + (var(--i,0)*var(--goo-stagger)))}
+.t-goo-item:hover .t-goo-label,.t-goo-item:focus-visible .t-goo-label{color:var(--accent)}
 .t-goo-item:hover,.t-goo-item:focus-visible{color:var(--accent)}
 .t-goo-item:hover svg,.t-goo-item:focus-visible svg{transform:scale(1)}
 .t-goo-item:active{transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(.93)!important}
@@ -226,7 +229,7 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   padding:0;
   border:0;
   background:transparent;
-  color:var(--accent);
+  color:var(--text);
   font:inherit;
   font-weight:inherit;
   line-height:inherit;
@@ -264,11 +267,14 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   z-index:115;
   display:grid;
   place-items:center;
-  padding:28px;
+  padding:0;
   pointer-events:none;
+  overflow:hidden;
 }
 .portrait-toast{
-  width:min(310px,calc(100vw - 44px));
+  position:relative;
+  z-index:2;
+  width:min(465px,calc(100vw - 44px));
   max-height:calc(100svh - 56px);
   pointer-events:none;
 }
@@ -295,7 +301,7 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
 .t-tilt{touch-action:none}
 .t-tilt-card{
   position:relative;
-  border-radius:12px;
+  border-radius:16px;
   overflow:hidden;
   transform:
     perspective(var(--tilt-perspective))
@@ -313,11 +319,26 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   max-height:calc(100svh - 56px);
   object-fit:cover;
   object-position:center;
-  border-radius:12px;
-  cursor:pointer;
+  border-radius:16px;
+  cursor:default;
   -webkit-user-drag:none;
   user-select:none;
 }
+
+.portrait-close{
+  position:absolute;top:8px;right:8px;z-index:4;
+  width:24px;height:24px;padding:0;border:0;border-radius:50%;
+  display:grid;place-items:center;
+  background:#fdfdfc;color:#22223b;
+  box-shadow:0 1px 8px color-mix(in srgb,#22223b 12%,transparent);
+  -webkit-tap-highlight-color:transparent;
+  transition:transform 140ms var(--ease-out),opacity 140ms ease;
+}
+.portrait-close svg{width:16px;height:16px;display:block;pointer-events:none}
+.portrait-close:hover,.portrait-close:focus-visible{opacity:.78}
+.portrait-close:active{transform:scale(.92)}
+.t-smoky-canvas{position:absolute;left:0;top:0;z-index:3;display:block;pointer-events:none;transform-origin:center;will-change:transform,opacity}
+
 .t-tilt-glare{
   position:absolute;
   inset:0;

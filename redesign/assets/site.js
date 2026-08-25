@@ -12,8 +12,8 @@
   const langKey = 'fg-language-v3';
   const themeKey = 'fg-theme-v1';
   const soundKey = 'fg-sounds-v1';
-  const paletteKey = 'fg-debug-palette-v4';
-  const typeKey = 'fg-debug-type-v4';
+  const paletteKey = 'fg-debug-palette-v5';
+  const typeKey = 'fg-debug-type-v5';
   const annotationsKey = 'fg-debug-annotations-v2';
 
   /* ---------- palette + theme ---------- */
@@ -520,7 +520,7 @@
   const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   if (debugMode) root.dataset.debug = 'true';
 
-  const tunerKey = 'fg-debug-tuner-v5';
+  const tunerKey = 'fg-debug-tuner-v6';
   const heroCopies = {
     en:document.querySelector('.hero-copy.lang-en'),
     es:document.querySelector('.hero-copy.lang-es')
@@ -532,10 +532,10 @@
 
   const annotationDefaults = {
     en:{wavy:'one level upstream',circle:'Mexico’s poorest state',highlight:'high-value care',double:'inferior care'},
-    es:{wavy:'atención de alto valor a pesar de las limitaciones',highlight:'clínica en las montañas del estado más pobre de México',double:'Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.'}
+    es:{wavy:'atención de alto valor a pesar de las limitaciones',highlight:'clínica en las montañas del estado más pobre de México',underline:'Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.'}
   };
 
-  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null},{"p":0,"start":27,"end":36,"style":"wavy","color":null},{"p":0,"start":6,"end":8,"style":"wavy","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":28,"end":40,"style":"wavy","color":null},{"p":0,"start":8,"end":11,"style":"wavy","color":null}]}};
+  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null},{"p":0,"start":27,"end":36,"style":"wavy","color":null},{"p":0,"start":6,"end":8,"style":"wavy","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"underline","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":28,"end":40,"style":"wavy","color":null},{"p":0,"start":8,"end":11,"style":"wavy","color":null}]}};
   const cloneTunedDefaults = () => JSON.parse(JSON.stringify(tunedDefaults));
 
   const annotationSvg = {
@@ -689,11 +689,13 @@
   window.addEventListener('resize',scheduleAnnotationLayout,{passive:true});
 
 
-  /* ---------- inline portrait: toast open/close + Transitions.dev card tilt ---------- */
+  /* ---------- inline portrait: toast open + Transitions.dev tilt + smoky dissolve close ---------- */
   const portraitStage = document.getElementById('portraitStage');
   const portraitToast = document.getElementById('portraitToast');
   const portraitTilt = portraitToast?.querySelector('.t-tilt');
-  const portraitCard = portraitToast?.querySelector('.t-tilt-card');
+  const portraitCard = document.getElementById('portraitCard');
+  const portraitClose = document.getElementById('portraitClose');
+  const portraitSmokyCanvas = document.getElementById('portraitSmokyCanvas');
   let portraitOpen = false;
 
   const syncPortraitTriggers = () => {
@@ -705,6 +707,7 @@
     });
     const portraitImage = portraitToast?.querySelector('.portrait-image');
     if (portraitImage) portraitImage.alt = root.lang === 'es' ? 'Retrato de Francisco Guadarrama' : 'Portrait of Francisco Guadarrama';
+    portraitClose?.setAttribute('aria-label',root.lang === 'es' ? 'Cerrar retrato' : 'Close portrait');
   };
 
   const resetPortraitTilt = () => {
@@ -718,29 +721,56 @@
 
   const setPortraitOpen = (open) => {
     portraitOpen = Boolean(open);
+    if (portraitOpen && portraitCard) portraitCard.style.visibility = '';
     portraitToast?.classList.toggle('is-open',portraitOpen);
     portraitStage?.setAttribute('aria-hidden',String(!portraitOpen));
     syncPortraitTriggers();
     if (!portraitOpen) resetPortraitTilt();
   };
 
+  let portraitDissolveController = null;
+  const closePortraitWithDissolve = () => {
+    if (!portraitOpen || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
+    resetPortraitTilt();
+    if (!portraitDissolveController && typeof window.createSmokyDissolve === 'function') {
+      portraitDissolveController = window.createSmokyDissolve({
+        stage:portraitStage,
+        card:portraitCard,
+        canvas:portraitSmokyCanvas,
+        respawn:false,
+        onComplete:() => setPortraitOpen(false),
+      });
+    }
+    if (portraitDissolveController) {
+      const previousTransition = portraitCard.style.transition;
+      portraitCard.style.transition = 'none';
+      resetPortraitTilt();
+      void portraitCard.offsetWidth;
+      portraitDissolveController.dissolve();
+      portraitCard.style.transition = previousTransition;
+    } else setPortraitOpen(false);
+  };
+
   document.addEventListener('click',(event) => {
     const trigger = event.target.closest?.('.portrait-name');
     if (trigger) {
       event.preventDefault();
-      setPortraitOpen(!portraitOpen);
+      if (portraitOpen) closePortraitWithDissolve();
+      else setPortraitOpen(true);
       return;
     }
     if (!portraitOpen) return;
-    if (!event.target.closest?.('#portraitToast')) setPortraitOpen(false);
+    if (!event.target.closest?.('#portraitToast')) closePortraitWithDissolve();
   });
 
   document.addEventListener('keydown',(event) => {
-    if (event.key === 'Escape' && portraitOpen) setPortraitOpen(false);
+    if (event.key === 'Escape' && portraitOpen) closePortraitWithDissolve();
   });
 
-  portraitToast?.addEventListener('click',(event) => {
-    if (event.target.closest?.('.portrait-image')) setPortraitOpen(false);
+  portraitClose?.addEventListener('click',(event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    closePortraitWithDissolve();
   });
 
   portraitTilt?.addEventListener('pointermove',(event) => {

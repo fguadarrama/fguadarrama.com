@@ -7,6 +7,7 @@
   <meta name="description" content="Francisco Guadarrama, MD — advancing equitable cancer care through oncology access, stronger health systems, and high-value clinical decisions.">
   <meta name="author" content="Francisco Guadarrama">
   <meta name="theme-color" content="#fdfdfc">
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="12" fill="%23ea1b5c"/%3E%3Ctext x="32" y="35" text-anchor="middle" dominant-baseline="middle" fill="%23fdfdfc" font-family="Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="-1.5"%3EFG%3C/text%3E%3C/svg%3E'>
   <link rel="canonical" href="https://fguadarrama.com/">
   <meta name="robots" content="index, follow, noarchive">
   <meta property="og:title" content="Francisco Guadarrama">
@@ -24,7 +25,7 @@
       try {
         const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4577b5'};
         const dark = {bg:'#2c292f',text:'#fdfdfc',accent:'#a0b9d9'};
-        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v4') || 'null') || defaults;
+        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v5') || 'null') || defaults;
         const palette = saved.bg && saved.text && saved.accent ? saved : defaults;
         const theme = localStorage.getItem('fg-theme-v1') === 'dark' ? 'dark' : 'light';
         const active = theme === 'dark' ? dark : palette;
@@ -109,28 +110,33 @@
             </filter>
           </defs>
           <g filter="url(#t-goo-filter)">
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-55.43px;--fy:-32px;--i:0;--ri:4"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-32px;--fy:-55.43px;--i:1;--ri:3"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:0px;--fy:-64px;--i:2;--ri:2"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:32px;--fy:-55.43px;--i:3;--ri:1"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:55.43px;--fy:-32px;--i:4;--ri:0"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-69.55px;--fy:18.63px;--i:0;--ri:4"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-62.35px;--fy:36px;--i:1;--ri:3"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-50.91px;--fy:50.91px;--i:2;--ri:2"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-36px;--fy:62.35px;--i:3;--ri:1"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-18.63px;--fy:69.55px;--i:4;--ri:0"></circle>
             <circle class="t-goo-blob t-goo-blob-main" cx="100" cy="100" r="20"></circle>
           </g>
         </svg>
-        <button type="button" class="t-goo-item" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience" tabindex="-1" style="--fx:-55.43px;--fy:-32px;--i:0;--ri:4">
+        <button type="button" class="t-goo-item" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience" tabindex="-1" style="--fx:-69.55px;--fy:18.63px;--i:0;--ri:4">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V5.8A1.8 1.8 0 0 1 10.8 4h2.4A1.8 1.8 0 0 1 15 5.8V7M4.5 8.5h15v10.2a1.8 1.8 0 0 1-1.8 1.8H6.3a1.8 1.8 0 0 1-1.8-1.8V8.5Z"/><path d="M4.5 12.2c4.8 2.2 10.2 2.2 15 0M10.5 13.7h3"/></svg>
+          <span class="t-goo-label" data-en="Experience" data-es="Experiencia">Experience</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="education" data-label-en="Education" data-label-es="Formación académica" aria-label="Education" tabindex="-1" style="--fx:-32px;--fy:-55.43px;--i:1;--ri:3">
+        <button type="button" class="t-goo-item" data-view-target="education" data-label-en="Education" data-label-es="Formación académica" aria-label="Education" tabindex="-1" style="--fx:-62.35px;--fy:36px;--i:1;--ri:3">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-4 9 4-9 4-9-4Z"/><path d="M7 11v5.2c2.8 2.2 7.2 2.2 10 0V11M21 9v6"/></svg>
+          <span class="t-goo-label" data-en="Education" data-es="Formación académica">Education</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="publications" data-label-en="Publications" data-label-es="Publicaciones" aria-label="Publications" tabindex="-1" style="--fx:0px;--fy:-64px;--i:2;--ri:2">
+        <button type="button" class="t-goo-item" data-view-target="publications" data-label-en="Selected Publications" data-label-es="Publicaciones seleccionadas" aria-label="Selected Publications" tabindex="-1" style="--fx:-50.91px;--fy:50.91px;--i:2;--ri:2">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8.5L19 8v12.5H6V3.5Z"/><path d="M14.5 3.5V8H19M9 12h7M9 15.5h7"/></svg>
+          <span class="t-goo-label" data-en="Selected Publications" data-es="Publicaciones seleccionadas">Selected Publications</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="contact" data-label-en="Contact" data-label-es="Contacto" aria-label="Contact" tabindex="-1" style="--fx:32px;--fy:-55.43px;--i:3;--ri:1">
+        <button type="button" class="t-goo-item" data-view-target="contact" data-label-en="Contact" data-label-es="Contacto" aria-label="Contact" tabindex="-1" style="--fx:-36px;--fy:62.35px;--i:3;--ri:1">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H8l-4 3v-14Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+          <span class="t-goo-label" data-en="Contact" data-es="Contacto">Contact</span>
         </button>
-        <button type="button" class="t-goo-item" id="gooeySettings" aria-haspopup="dialog" aria-expanded="false" data-label-en="Settings" data-label-es="Ajustes" aria-label="Settings" tabindex="-1" style="--fx:55.43px;--fy:-32px;--i:4;--ri:0">
+        <button type="button" class="t-goo-item" id="gooeySettings" aria-haspopup="dialog" aria-expanded="false" data-label-en="Settings" data-label-es="Ajustes" aria-label="Settings" tabindex="-1" style="--fx:-18.63px;--fy:69.55px;--i:4;--ri:0">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+          <span class="t-goo-label" data-en="Settings" data-es="Ajustes">Settings</span>
         </button>
         <button type="button" class="t-goo-main" id="gooeyMain" aria-expanded="false" aria-label="Open menu">
           <span class="t-goo-swap"><span class="t-goo-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M10 4V16M4 10H16"/></svg></span></span>
@@ -172,7 +178,7 @@
         </div>
 
         <div class="hero-copy lang-es" lang="es">
-          <p>Hola, soy Francisco. Soy médico y actualmente trato a pacientes con cáncer, pero durante gran parte de mi carrera me ha obsesionado una pregunta que va más allá: ¿por qué un tratamiento eficaz llega a algunos pacientes y a otros no?</p>
+          <p>Hola, soy Francisco. Soy médico y actualmente trato a pacientes con cáncer, pero durante gran parte de mi carrera me ha interesado una pregunta que va más allá: ¿por qué un tratamiento eficaz llega a algunos pacientes y a otros no?</p>
           <p>Esta interrogante me ha seguido desde una clínica en las montañas del estado más pobre de México hasta un hospital nacional de referencia. Define mi trabajo en torno al acceso a medicamentos, la distribución de los recursos y los sistemas de salud capaces de dar atención de alto valor a pesar de las limitaciones.</p>
           <p>Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.</p>
         </div>
@@ -402,20 +408,26 @@
   </div>
 
 
-  <div class="portrait-stage" id="portraitStage" aria-hidden="true">
+  <div class="portrait-stage t-smoky-stage" id="portraitStage" aria-hidden="true">
     <div class="portrait-toast t-toast" id="portraitToast">
       <div class="t-tilt">
-        <div class="t-tilt-card">
+        <div class="t-tilt-card t-smoky-card" id="portraitCard">
           <img
             class="portrait-image"
             src="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp"
             alt="Portrait of Francisco Guadarrama"
             draggable="false"
           >
+          <button type="button" class="portrait-close t-smoky-delete" id="portraitClose" aria-label="Close portrait">
+            <svg width="16" height="16" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+          </button>
           <div class="t-tilt-glare" aria-hidden="true"></div>
         </div>
       </div>
     </div>
+    <canvas class="t-smoky-canvas" id="portraitSmokyCanvas" aria-hidden="true"></canvas>
   </div>
 
   <div class="dialog-backdrop" id="dialogBackdrop" hidden></div>
@@ -605,6 +617,7 @@
   </aside>
 
   <script src="assets/sounds.js" defer></script>
+  <script src="assets/smoky-dissolve.js" defer></script>
   <script src="assets/site.js" defer></script>
 </body>
 </html>
