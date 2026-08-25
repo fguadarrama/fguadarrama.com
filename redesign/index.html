@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-view="home">
+<html lang="en" data-view="home" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -19,6 +19,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script>
+    (() => {
+      try {
+        const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4f7f83'};
+        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v3') || 'null') || defaults;
+        const palette = saved.bg && saved.text && saved.accent ? saved : defaults;
+        const theme = localStorage.getItem('fg-theme-v1') === 'dark' ? 'dark' : 'light';
+        const root = document.documentElement;
+        root.dataset.theme = theme;
+        root.style.setProperty('--bg', theme === 'dark' ? palette.text : palette.bg);
+        root.style.setProperty('--text', theme === 'dark' ? palette.bg : palette.text);
+        root.style.setProperty('--accent', palette.accent);
+      } catch {}
+    })();
+  </script>
   <link rel="stylesheet" href="assets/site.css">
   <script type="application/ld+json">
   {
@@ -46,7 +61,7 @@
   <noscript><style>
     .view[hidden]{display:block!important}
     .view{min-height:auto!important;opacity:1!important;transform:none!important;filter:none!important}
-    .radial-menu,.menu-scrim,.language-toggle{display:none!important}
+    .radial-menu,.menu-scrim,.settings-popover{display:none!important}
     .app-shell{height:auto!important;overflow:visible!important}
   </style></noscript>
 </head>
@@ -70,7 +85,6 @@
     <header class="topbar">
       <div class="identity">
         <button class="site-name" type="button" data-view-target="home" aria-label="Home">Francisco Guadarrama</button>
-        <button id="languageToggle" class="language-toggle" type="button" aria-label="Switch to Spanish"><span>En</span></button>
       </div>
 
       <nav class="radial-menu" aria-label="Site sections">
@@ -78,6 +92,10 @@
           <span class="trigger-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
         </button>
         <div id="radialItems" class="radial-items" aria-hidden="true">
+          <button class="radial-item" type="button" data-view-target="home" data-label-en="Home" data-label-es="Inicio" aria-label="Home" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3.8l8.5 6.7v9.2H14v-5.4h-4v5.4H3.5v-9.2Z"/></svg>
+            <span class="radial-tooltip" data-en="Home" data-es="Inicio">Home</span>
+          </button>
           <button class="radial-item" type="button" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V5.8A1.8 1.8 0 0 1 10.8 4h2.4A1.8 1.8 0 0 1 15 5.8V7M4.5 8.5h15v10.2a1.8 1.8 0 0 1-1.8 1.8H6.3a1.8 1.8 0 0 1-1.8-1.8V8.5Z"/><path d="M4.5 12.2c4.8 2.2 10.2 2.2 15 0M10.5 13.7h3"/></svg>
             <span class="radial-tooltip" data-en="Experience" data-es="Experiencia">Experience</span>
@@ -94,8 +112,36 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H8l-4 3v-14Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
             <span class="radial-tooltip" data-en="Contact" data-es="Contacto">Contact</span>
           </button>
+          <button class="radial-item radial-settings" id="radialSettings" type="button" data-label-en="Settings" data-label-es="Ajustes" aria-label="Settings" aria-haspopup="dialog" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+            <span class="radial-tooltip" data-en="Settings" data-es="Ajustes">Settings</span>
+          </button>
         </div>
       </nav>
+
+      <div class="settings-popover" id="settingsPopover" role="dialog" aria-modal="false" aria-label="Site settings" aria-hidden="true">
+        <div class="settings-row">
+          <span class="settings-label" data-en="Theme" data-es="Tema">Theme</span>
+          <div class="segmented-control" role="group" aria-label="Theme">
+            <button type="button" data-theme-choice="light" aria-pressed="true" data-en="Light" data-es="Claro">Light</button>
+            <button type="button" data-theme-choice="dark" aria-pressed="false" data-en="Dark" data-es="Oscuro">Dark</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label" data-en="Language" data-es="Idioma">Language</span>
+          <div class="segmented-control" role="group" aria-label="Language">
+            <button type="button" data-language-choice="en" aria-pressed="true">En</button>
+            <button type="button" data-language-choice="es" aria-pressed="false">Es</button>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label" data-en="Interface sounds" data-es="Sonidos de interfaz">Interface sounds</span>
+          <div class="segmented-control" role="group" aria-label="Interface sounds">
+            <button type="button" data-sound-choice="on" aria-pressed="true" data-en="On" data-es="Sí">On</button>
+            <button type="button" data-sound-choice="off" aria-pressed="false" data-en="Off" data-es="No">Off</button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <button class="menu-scrim" id="menuScrim" type="button" tabindex="-1" aria-label="Close navigation"></button>
@@ -383,14 +429,70 @@
     </form>
   </dialog>
 
-  <aside class="debug-panel" id="debugPanel" hidden aria-label="Color debug panel">
-    <div class="debug-title">Palette</div>
-    <label>Background <input type="color" data-color-var="--bg" value="#fdfdfc"><output>#fdfdfc</output></label>
-    <label>Text <input type="color" data-color-var="--text" value="#22223b"><output>#22223b</output></label>
-    <label>Accent <input type="color" data-color-var="--accent" value="#4f7f83"><output>#4f7f83</output></label>
-    <div class="debug-actions"><button type="button" id="debugReset">Reset</button><button type="button" id="debugCopy">Copy CSS</button></div>
+  <aside class="debug-panel" id="debugPanel" hidden aria-label="Design debug panel">
+    <div class="debug-head">
+      <div>
+        <div class="debug-kicker">Design controls</div>
+        <div class="debug-title">Live debugger</div>
+      </div>
+      <button type="button" class="debug-collapse" id="debugCollapse" aria-expanded="true" aria-label="Collapse debug panel">−</button>
+    </div>
+
+    <div class="debug-body" id="debugBody">
+      <details open>
+        <summary>Palette</summary>
+        <div class="debug-section">
+          <label class="debug-color-row">
+            <span>Background</span>
+            <input type="color" data-palette-picker="bg" value="#fdfdfc" aria-label="Background color picker">
+            <input type="text" data-palette-hex="bg" value="#fdfdfc" maxlength="7" spellcheck="false" aria-label="Background HEX value">
+          </label>
+          <label class="debug-color-row">
+            <span>Text</span>
+            <input type="color" data-palette-picker="text" value="#22223b" aria-label="Text color picker">
+            <input type="text" data-palette-hex="text" value="#22223b" maxlength="7" spellcheck="false" aria-label="Text HEX value">
+          </label>
+          <label class="debug-color-row">
+            <span>Accent</span>
+            <input type="color" data-palette-picker="accent" value="#4f7f83" aria-label="Accent color picker">
+            <input type="text" data-palette-hex="accent" value="#4f7f83" maxlength="7" spellcheck="false" aria-label="Accent HEX value">
+          </label>
+          <p class="debug-note">Dark mode swaps the background and text colors; the accent stays constant.</p>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Intro annotations</summary>
+        <div class="debug-section">
+          <label class="debug-text-row"><span>Wavy underline</span><input type="text" data-annotation-style="wavy" spellcheck="false"></label>
+          <label class="debug-text-row"><span>Circle</span><input type="text" data-annotation-style="circle" spellcheck="false"></label>
+          <label class="debug-text-row"><span>Highlight</span><input type="text" data-annotation-style="highlight" spellcheck="false"></label>
+          <label class="debug-text-row"><span>Double underline</span><input type="text" data-annotation-style="double" spellcheck="false"></label>
+          <p class="debug-note">Enter any exact word or phrase from the active-language introduction. Leave a field empty to disable that annotation.</p>
+        </div>
+      </details>
+
+      <details open>
+        <summary>Intro typography</summary>
+        <div class="debug-section debug-typography">
+          <label><span>Weight</span><input type="number" data-type-var="--hero-weight" data-unit="" min="100" max="900" step="1"></label>
+          <label><span>Size</span><input type="number" data-type-var="--hero-size" data-unit="px" min="20" max="72" step=".5"><em>px</em></label>
+          <label><span>Line height</span><input type="number" data-type-var="--hero-line-height" data-unit="" min=".8" max="1.8" step=".01"></label>
+          <label><span>Letter spacing</span><input type="number" data-type-var="--hero-letter-spacing" data-unit="em" min="-.15" max=".08" step=".001"><em>em</em></label>
+          <label><span>Word spacing</span><input type="number" data-type-var="--hero-word-spacing" data-unit="em" min="-.10" max=".15" step=".005"><em>em</em></label>
+          <label><span>Paragraph gap</span><input type="number" data-type-var="--hero-paragraph-gap" data-unit="em" min="0" max="2" step=".01"><em>em</em></label>
+          <label><span>Max width</span><input type="number" data-type-var="--hero-max-width" data-unit="px" min="480" max="1400" step="10"><em>px</em></label>
+        </div>
+      </details>
+
+      <div class="debug-actions">
+        <button type="button" id="debugReset">Reset all</button>
+        <button type="button" id="debugCopy">Copy CSS</button>
+      </div>
+    </div>
   </aside>
 
+  <script src="assets/sounds.js" defer></script>
   <script src="assets/site.js" defer></script>
 </body>
 </html>
