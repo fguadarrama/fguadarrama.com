@@ -10,6 +10,18 @@ Static, GitHub Pages-ready website. No build step is required.
 - `THIRD_PARTY_NOTICES.md` — MIT notices for Opensource UI AnnotatedText and Procedural Sounds.
 - `CNAME` — custom domain.
 
+## Current baked tuning
+This tuning build now starts from the approved August 24 settings rather than the earlier generic defaults:
+
+- Light palette: `#fdfdfc` background, `#22223b` text, `#4577b5` accent.
+- Dark palette: `#2c292f` background, `#fdfdfc` text, `#a0b9d9` accent.
+- Intro baseline: weight 230, 27 px, line-height 1, letter-spacing -0.081em, word-spacing 0.055em, paragraph gap 0.55em, max-width 860 px.
+- The supplied word-by-word weights and annotations are the new reset/default state.
+- The pink double underline is `#ea1b5c` in light mode and `#ff96ac` in dark mode.
+- The greeting is prepended to the first paragraph: “Hi. I'm Frank.” / “Hola, soy Fran.” with the requested 240/350 weight split.
+
+Each content section has a dedicated return-to-home control on the far right of its heading. Its visible SVG is 18×18 px—the same as the radial-menu icons—inside a 32×32 px control aligned to the heading's vertical center.
+
 ## Settings
 The gear in the radial menu opens preferences for light/dark theme, English/Spanish and interface sounds. Preferences persist locally in the browser.
 

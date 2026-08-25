@@ -12,12 +12,13 @@
   const langKey = 'fg-language-v3';
   const themeKey = 'fg-theme-v1';
   const soundKey = 'fg-sounds-v1';
-  const paletteKey = 'fg-debug-palette-v3';
-  const typeKey = 'fg-debug-type-v1';
-  const annotationsKey = 'fg-debug-annotations-v1';
+  const paletteKey = 'fg-debug-palette-v4';
+  const typeKey = 'fg-debug-type-v2';
+  const annotationsKey = 'fg-debug-annotations-v2';
 
   /* ---------- palette + theme ---------- */
-  const paletteDefaults = { bg:'#fdfdfc', text:'#22223b', accent:'#4f7f83' };
+  const paletteDefaults = { bg:'#fdfdfc', text:'#22223b', accent:'#4577b5' };
+  const darkPalette = { bg:'#2c292f', text:'#fdfdfc', accent:'#a0b9d9' };
   let currentPalette = (() => {
     try {
       const saved = JSON.parse(storageGet(paletteKey) || 'null');
@@ -26,12 +27,14 @@
   })();
   let currentTheme = storageGet(themeKey) === 'dark' ? 'dark' : 'light';
 
-  const actualThemeColor = () => currentTheme === 'dark' ? currentPalette.text : currentPalette.bg;
+  const activePalette = () => currentTheme === 'dark' ? darkPalette : currentPalette;
+  const actualThemeColor = () => activePalette().bg;
 
   const renderPalette = () => {
-    root.style.setProperty('--bg', currentTheme === 'dark' ? currentPalette.text : currentPalette.bg);
-    root.style.setProperty('--text', currentTheme === 'dark' ? currentPalette.bg : currentPalette.text);
-    root.style.setProperty('--accent', currentPalette.accent);
+    const active = activePalette();
+    root.style.setProperty('--bg', active.bg);
+    root.style.setProperty('--text', active.text);
+    root.style.setProperty('--accent', active.accent);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', actualThemeColor());
   };
 
@@ -92,7 +95,7 @@
   }, {capture:true});
 
   if (finePointer.matches) {
-    const hoverSelector = '.radial-trigger,.radial-item,.site-name,.segmented-control button,.contact-actions a,.contact-actions button,.modal-close,.eye-button,.submit-button';
+    const hoverSelector = '.radial-trigger,.radial-item,.section-home,.site-name,.segmented-control button,.contact-actions a,.contact-actions button,.modal-close,.eye-button,.submit-button';
     document.addEventListener('pointerover', (event) => {
       const target = event.target.closest?.(hoverSelector);
       if (!target || target.contains(event.relatedTarget)) return;
@@ -128,6 +131,7 @@
       if (label) item.setAttribute('aria-label', label);
     });
     document.getElementById('radialTrigger')?.setAttribute('aria-label', lang === 'es' ? 'Abrir navegación' : 'Open navigation');
+    document.querySelectorAll('.section-home').forEach((button) => button.setAttribute('aria-label', lang === 'es' ? 'Volver al inicio' : 'Back to home'));
     document.getElementById('settingsPopover')?.setAttribute('aria-label', lang === 'es' ? 'Ajustes del sitio' : 'Site settings');
     document.querySelector('[data-theme-choice]')?.parentElement?.setAttribute('aria-label', lang === 'es' ? 'Tema' : 'Theme');
     document.querySelector('[data-language-choice]')?.parentElement?.setAttribute('aria-label', lang === 'es' ? 'Idioma' : 'Language');
@@ -213,10 +217,7 @@
   const visibleRadialItems = () => allRadialItems.filter((item) => !item.hidden);
 
   const updateRadialVisibility = () => {
-    allRadialItems.forEach((item) => {
-      const target = item.dataset.viewTarget;
-      if (target) item.hidden = target === currentView;
-    });
+    allRadialItems.forEach((item) => { item.hidden = false; });
   };
 
   const placeRadialItems = () => {
@@ -569,7 +570,7 @@
   const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   if (debugMode) root.dataset.debug = 'true';
 
-  const tunerKey = 'fg-debug-tuner-v1';
+  const tunerKey = 'fg-debug-tuner-v2';
   const heroCopies = {
     en:document.querySelector('.hero-copy.lang-en'),
     es:document.querySelector('.hero-copy.lang-es')
@@ -583,6 +584,9 @@
     en:{wavy:'one level upstream',circle:'Mexico’s poorest state',highlight:'high-value care',double:'inferior care'},
     es:{wavy:'un nivel más arriba',circle:'el estado más pobre de México',highlight:'atención de alto valor',double:'atención inferior'}
   };
+
+  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":0,"start":24,"end":27,"style":"wavy","color":null},{"p":1,"start":10,"end":15,"style":"circle","color":null},{"p":1,"start":43,"end":46,"style":"highlight","color":null},{"p":2,"start":5,"end":6,"style":"double","color":null}]}};
+  const cloneTunedDefaults = () => JSON.parse(JSON.stringify(tunedDefaults));
 
   const annotationSvg = {
     wavy:'<svg class="annotation-decoration" viewBox="0 0 140 14" fill="none" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 Q5.5,3 9,6 T17,6 T25,6 T33,6 T41,6 T49,6 T57,6 T65,6 T73,6 T81,6 T89,6 T97,6 T105,6 T113,6 T121,6 T129,6 T137,6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none" filter="url(#hd-rough-soft)"/></svg>',
@@ -645,13 +649,7 @@
     } catch { return annotationDefaults; }
   };
 
-  const freshTunerState = () => {
-    const legacy = loadLegacyAnnotations();
-    return {
-      en:defaultLanguageTuning('en',legacy.en),
-      es:defaultLanguageTuning('es',legacy.es)
-    };
-  };
+  const freshTunerState = () => cloneTunedDefaults();
 
   let tunerState = (() => {
     try {
@@ -685,7 +683,10 @@
   const makeAnnotationShell = (annotation) => {
     const wrapper = document.createElement('span');
     wrapper.className = `annotated annotated-${annotation.style}`;
-    wrapper.style.setProperty('--annotation-color', annotation.color || 'var(--accent)');
+    const lightColor = annotation.color || 'var(--accent)';
+    const darkColor = annotation.darkColor || lightColor;
+    wrapper.style.setProperty('--annotation-color-light', lightColor);
+    wrapper.style.setProperty('--annotation-color-dark', darkColor);
     const label = document.createElement('span');
     label.className = 'annotation-text';
     wrapper.appendChild(label);
@@ -1029,7 +1030,10 @@
       const style = tunerAnnotationStyle?.value || 'highlight';
       if (!range || !annotationSvg[style]) { Sounds.play('error'); return; }
       tunerState[root.lang].annotations = (tunerState[root.lang].annotations || []).filter((annotation) => !annotationOverlap(annotation,range));
-      tunerState[root.lang].annotations.push({p:range.p,start:range.start,end:range.end,style,color});
+      const semanticColor = color.toLowerCase() === currentPalette.accent.toLowerCase() ? null : color;
+      const nextAnnotation = {p:range.p,start:range.start,end:range.end,style,color:semanticColor};
+      if (semanticColor === '#ea1b5c') nextAnnotation.darkColor = '#ff96ac';
+      tunerState[root.lang].annotations.push(nextAnnotation);
       persistTuner();
       renderHero(root.lang);
       syncTunerControls();
@@ -1050,7 +1054,7 @@
 
     tunerClearSelection?.addEventListener('click', clearWordSelection);
     tunerResetLanguage?.addEventListener('click', () => {
-      tunerState[root.lang] = defaultLanguageTuning(root.lang,annotationDefaults[root.lang]);
+      tunerState[root.lang] = JSON.parse(JSON.stringify(tunedDefaults[root.lang]));
       persistTuner();
       clearWordSelection();
       renderHero(root.lang);
@@ -1074,10 +1078,7 @@
       renderPalette();
       typeConfig = {};
       typeInputs.forEach((input) => root.style.removeProperty(input.dataset.typeVar));
-      tunerState = {
-        en:defaultLanguageTuning('en',annotationDefaults.en),
-        es:defaultLanguageTuning('es',annotationDefaults.es)
-      };
+      tunerState = cloneTunedDefaults();
       clearWordSelection();
       renderAllHeroes();
       syncPaletteControls();

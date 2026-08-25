@@ -22,15 +22,17 @@
   <script>
     (() => {
       try {
-        const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4f7f83'};
-        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v3') || 'null') || defaults;
+        const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4577b5'};
+        const dark = {bg:'#2c292f',text:'#fdfdfc',accent:'#a0b9d9'};
+        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v4') || 'null') || defaults;
         const palette = saved.bg && saved.text && saved.accent ? saved : defaults;
         const theme = localStorage.getItem('fg-theme-v1') === 'dark' ? 'dark' : 'light';
+        const active = theme === 'dark' ? dark : palette;
         const root = document.documentElement;
         root.dataset.theme = theme;
-        root.style.setProperty('--bg', theme === 'dark' ? palette.text : palette.bg);
-        root.style.setProperty('--text', theme === 'dark' ? palette.bg : palette.text);
-        root.style.setProperty('--accent', palette.accent);
+        root.style.setProperty('--bg', active.bg);
+        root.style.setProperty('--text', active.text);
+        root.style.setProperty('--accent', active.accent);
       } catch {}
     })();
   </script>
@@ -92,10 +94,6 @@
           <span class="trigger-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
         </button>
         <div id="radialItems" class="radial-items" aria-hidden="true">
-          <button class="radial-item" type="button" data-view-target="home" data-label-en="Home" data-label-es="Inicio" aria-label="Home" hidden>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3.8l8.5 6.7v9.2H14v-5.4h-4v5.4H3.5v-9.2Z"/></svg>
-            <span class="radial-tooltip" data-en="Home" data-es="Inicio">Home</span>
-          </button>
           <button class="radial-item" type="button" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V5.8A1.8 1.8 0 0 1 10.8 4h2.4A1.8 1.8 0 0 1 15 5.8V7M4.5 8.5h15v10.2a1.8 1.8 0 0 1-1.8 1.8H6.3a1.8 1.8 0 0 1-1.8-1.8V8.5Z"/><path d="M4.5 12.2c4.8 2.2 10.2 2.2 15 0M10.5 13.7h3"/></svg>
             <span class="radial-tooltip" data-en="Experience" data-es="Experiencia">Experience</span>
@@ -150,13 +148,13 @@
       <section class="view home-view is-current" id="view-home" data-view="home" aria-labelledby="home-title">
         <h1 id="home-title" class="sr-only">Francisco Guadarrama</h1>
         <div class="hero-copy lang-en">
-          <p>I currently treat people with cancer, but for much of my career I have been drawn to a question that sits one level upstream: why does effective treatment reach some patients and not others?</p>
+          <p>Hi. I'm Frank. I currently treat people with cancer, but for much of my career I have been drawn to a question that sits one level upstream: why does effective treatment reach some patients and not others?</p>
           <p>That question has followed me from a remote clinic in Mexico’s poorest state to a national oncology referral center, shaping my focus on drug access, resource allocation, and health systems that can deliver high-value care under real constraints.</p>
           <p>I refuse to accept inferior care as an unavoidable consequence of scarcity.</p>
         </div>
 
         <div class="hero-copy lang-es" lang="es">
-          <p>Actualmente atiendo a personas con cáncer, pero durante gran parte de mi carrera me ha atraído una pregunta que se encuentra un nivel más arriba: ¿por qué un tratamiento eficaz llega a algunos pacientes y a otros no?</p>
+          <p>Hola, soy Fran. Actualmente atiendo a personas con cáncer, pero durante gran parte de mi carrera me ha atraído una pregunta que se encuentra un nivel más arriba: ¿por qué un tratamiento eficaz llega a algunos pacientes y a otros no?</p>
           <p>Esa pregunta me ha acompañado desde una clínica remota en el estado más pobre de México hasta un centro nacional de referencia oncológica, orientando mi interés hacia el acceso a medicamentos, la asignación de recursos y los sistemas de salud capaces de ofrecer atención de alto valor bajo restricciones reales.</p>
           <p>Me niego a aceptar una atención inferior como una consecuencia inevitable de la escasez.</p>
         </div>
@@ -164,7 +162,10 @@
 
       <section class="view content-view" id="view-experience" data-view="experience" aria-labelledby="experience-title" hidden>
         <div class="content-inner">
+          <div class="content-heading">
           <h2 id="experience-title" data-en="Experience" data-es="Experiencia">Experience</h2>
+          <button class="section-home" type="button" data-view-target="home" aria-label="Back to home"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" aria-hidden="true"><path d="M232,112a64.07,64.07,0,0,1-64,64H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48a8,8,0,0,1,11.32,11.32L51.31,160H168a48,48,0,0,0,0-96H80a8,8,0,0,1,0-16h88A64.07,64.07,0,0,1,232,112Z"></path></svg></button>
+        </div>
           <div class="records">
         <article class="record">
           <div class="record-rail">
@@ -258,7 +259,10 @@
 
       <section class="view content-view" id="view-education" data-view="education" aria-labelledby="education-title" hidden>
         <div class="content-inner">
+          <div class="content-heading">
           <h2 id="education-title" data-en="Education" data-es="Formación académica">Education</h2>
+          <button class="section-home" type="button" data-view-target="home" aria-label="Back to home"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" aria-hidden="true"><path d="M232,112a64.07,64.07,0,0,1-64,64H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48a8,8,0,0,1,11.32,11.32L51.31,160H168a48,48,0,0,0,0-96H80a8,8,0,0,1,0-16h88A64.07,64.07,0,0,1,232,112Z"></path></svg></button>
+        </div>
           <div class="records">
         <article class="record">
           <div class="record-rail">
@@ -286,7 +290,10 @@
 
       <section class="view content-view" id="view-publications" data-view="publications" aria-labelledby="publications-title" hidden>
         <div class="content-inner">
+          <div class="content-heading">
           <h2 id="publications-title" data-en="Selected Publications" data-es="Publicaciones seleccionadas">Selected Publications</h2>
+          <button class="section-home" type="button" data-view-target="home" aria-label="Back to home"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" aria-hidden="true"><path d="M232,112a64.07,64.07,0,0,1-64,64H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48a8,8,0,0,1,11.32,11.32L51.31,160H168a48,48,0,0,0,0-96H80a8,8,0,0,1,0-16h88A64.07,64.07,0,0,1,232,112Z"></path></svg></button>
+        </div>
           <div class="records">
         <article class="record publication-record">
           <div class="record-rail">
@@ -358,7 +365,10 @@
 
       <section class="view content-view contact-view" id="view-contact" data-view="contact" aria-labelledby="contact-title" hidden>
         <div class="content-inner">
+          <div class="content-heading">
           <h2 id="contact-title" data-en="Contact" data-es="Contacto">Contact</h2>
+          <button class="section-home" type="button" data-view-target="home" aria-label="Back to home"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" aria-hidden="true"><path d="M232,112a64.07,64.07,0,0,1-64,64H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48a8,8,0,0,1,11.32,11.32L51.31,160H168a48,48,0,0,0,0-96H80a8,8,0,0,1,0-16h88A64.07,64.07,0,0,1,232,112Z"></path></svg></button>
+        </div>
           <div class="contact-actions">
             <a href="https://linkedin.com/in/FranciscoGuadarrama" target="_blank" rel="noopener">LinkedIn</a>
             <button type="button" id="cvDownloadLink" data-en="Download CV" data-es="Descargar currículum">Download CV</button>
@@ -454,8 +464,8 @@
           </label>
           <label class="debug-color-row">
             <span>Accent</span>
-            <input type="color" data-palette-picker="accent" value="#4f7f83" aria-label="Accent color picker">
-            <input type="text" data-palette-hex="accent" value="#4f7f83" maxlength="7" spellcheck="false" aria-label="Accent HEX value">
+            <input type="color" data-palette-picker="accent" value="#4577b5" aria-label="Accent color picker">
+            <input type="text" data-palette-hex="accent" value="#4577b5" maxlength="7" spellcheck="false" aria-label="Accent HEX value">
           </label>
           <p class="debug-note">Dark mode swaps the background and text colors; the accent stays constant.</p>
         </div>
@@ -501,8 +511,8 @@
             </label>
             <label class="debug-color-row tuner-color-row">
               <span>Color</span>
-              <input type="color" id="tunerAnnotationColorPicker" value="#4f7f83" aria-label="Annotation color picker">
-              <input type="text" id="tunerAnnotationColorHex" value="#4f7f83" maxlength="7" spellcheck="false" aria-label="Annotation HEX value">
+              <input type="color" id="tunerAnnotationColorPicker" value="#4577b5" aria-label="Annotation color picker">
+              <input type="text" id="tunerAnnotationColorHex" value="#4577b5" maxlength="7" spellcheck="false" aria-label="Annotation HEX value">
             </label>
             <div class="tuner-inline-actions">
               <button type="button" id="tunerApplyAnnotation">Apply annotation</button>

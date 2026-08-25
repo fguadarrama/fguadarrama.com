@@ -5,7 +5,7 @@
 :root{
   --bg:#fdfdfc;
   --text:#22223b;
-  --accent:#4f7f83;
+  --accent:#4577b5;
 
   --t-size:50px;
   --t-weight:580;
@@ -41,13 +41,13 @@
   --content-max:1180px;
   --radial-radius:112px;
 
-  --hero-size:clamp(31px,3.35vw,52px);
-  --hero-weight:var(--t-weight);
-  --hero-line-height:.99;
-  --hero-letter-spacing:var(--t-ls);
-  --hero-word-spacing:var(--t-ws);
-  --hero-paragraph-gap:.52em;
-  --hero-max-width:1100px;
+  --hero-size:27px;
+  --hero-weight:230;
+  --hero-line-height:1;
+  --hero-letter-spacing:-.081em;
+  --hero-word-spacing:.055em;
+  --hero-paragraph-gap:.55em;
+  --hero-max-width:860px;
 }
 *{box-sizing:border-box}
 html{background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
@@ -102,12 +102,13 @@ html:not([data-view="home"]) .site-name::after{opacity:1;transform:scale(1)}
   position:absolute;top:0;right:0;z-index:5;
   width:44px;height:44px;border-radius:50%;
   display:grid;place-items:center;
-  background:var(--text);color:var(--bg);
-  transition:transform 150ms var(--ease-out),background-color 160ms ease,color 160ms ease;
+  background:var(--bg);color:var(--text);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--text) 16%,transparent),0 8px 24px color-mix(in srgb,var(--text) 7%,transparent);
+  transition:transform 150ms var(--ease-out),background-color 160ms ease,color 160ms ease,box-shadow 180ms var(--ease-out);
 }
-.radial-trigger:hover{transform:scale(1.035)}
+.radial-trigger:hover{transform:scale(1.035);color:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 36%,transparent),0 10px 28px color-mix(in srgb,var(--text) 9%,transparent)}
 .radial-trigger:active{transform:scale(.965)}
-.radial-trigger[aria-expanded="true"]{background:var(--accent)}
+.radial-trigger[aria-expanded="true"]{background:var(--bg);color:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 38%,transparent),0 10px 28px color-mix(in srgb,var(--text) 9%,transparent)}
 .trigger-glyph{width:16px;height:16px;position:relative;display:block}
 .trigger-glyph i{
   position:absolute;left:50%;top:50%;display:block;width:3px;height:3px;border-radius:50%;
@@ -270,7 +271,8 @@ html[lang="es"] .lang-es{display:block}
 
 .annotated{position:relative;display:inline-block;white-space:nowrap}
 .annotation-text{position:relative;z-index:2;color:var(--text)}
-.annotation-decoration{position:absolute;z-index:1;color:var(--annotation-color,var(--accent));pointer-events:none;overflow:visible}
+.annotation-decoration{position:absolute;z-index:1;color:var(--annotation-color-light,var(--accent));pointer-events:none;overflow:visible}
+html[data-theme="dark"] .annotation-decoration{color:var(--annotation-color-dark,var(--annotation-color-light,var(--accent)))}
 .annotated-wavy .annotation-decoration{bottom:-.25em;left:-2%;width:104%;height:.36em}
 .annotated-underline .annotation-decoration{bottom:-.30em;left:-1%;width:102%;height:.46em}
 .annotated-double .annotation-decoration{bottom:-.34em;left:-1%;width:102%;height:.48em}
@@ -297,10 +299,28 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{
 
 .content-view{overflow:auto;padding:124px var(--side-pad) 88px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
 .content-inner{width:min(var(--content-max),100%);margin:0 auto}
-.content-inner>h2{
+.content-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
   margin:0 0 54px;
+}
+.content-heading h2{
+  margin:0;
   font-size:var(--t-size);font-weight:var(--t-weight);line-height:var(--t-lh);
   letter-spacing:var(--t-ls);word-spacing:var(--t-ws);
+}
+.section-home{
+  appearance:none;border:0;background:transparent;color:var(--text);
+  width:32px;height:32px;flex:0 0 32px;padding:0;border-radius:50%;
+  display:grid;place-items:center;
+  transition:color 145ms ease,transform 150ms var(--ease-out),background-color 145ms ease;
+}
+.section-home svg{width:18px;height:18px;display:block;fill:currentColor;pointer-events:none}
+.section-home:hover,.section-home:focus-visible{color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.section-home:active{transform:scale(.92)}
+.content-view.is-entering .section-home{opacity:0;transform:translateX(5px)}
+.content-view.is-entering.is-entering-active .section-home{
+  opacity:1;transform:translateX(0);
+  transition:opacity 180ms var(--ease-out) 45ms,transform 220ms var(--ease-out) 45ms,color 145ms ease,background-color 145ms ease;
 }
 .records{border-top:1px solid color-mix(in srgb,var(--text) 72%,transparent)}
 .record{
@@ -515,7 +535,7 @@ dialog.modal[open]{
   .hero-copy{max-height:calc(100svh - 150px)}
   .hero-copy p{font-size:var(--hero-size);line-height:var(--hero-line-height);letter-spacing:var(--hero-letter-spacing);word-spacing:var(--hero-word-spacing)}
   .content-view{padding:102px var(--side-pad) 74px}
-  .content-inner>h2{font-size:40px;line-height:38px;margin-bottom:38px}
+  .content-heading{margin-bottom:38px}.content-heading h2{font-size:40px;line-height:38px}
   .record{grid-template-columns:1fr;gap:13px;padding:21px 0 24px}
   .record-rail{flex-direction:row;justify-content:space-between;gap:18px}
   .record-body h3{font-size:24px}
@@ -530,7 +550,7 @@ dialog.modal[open]{
   .radial-tooltip{display:none}
   .hero-copy p{font-size:var(--hero-size)}
   .annotated-circle .annotation-decoration{inset:-.25em -.27em;width:calc(100% + .54em);height:calc(100% + .50em)}
-  .content-inner>h2{font-size:36px;line-height:35px}
+  .content-heading h2{font-size:36px;line-height:35px}
   .contact-actions a,.contact-actions button{font-size:30px}
   dialog.modal{border-radius:12px}
   .modal form{padding:18px}
