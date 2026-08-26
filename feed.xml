@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Francisco Guadarrama — Selected Publications</title>
+    <link>https://fguadarrama.com/</link>
+    <description>Selected scholarly work by Francisco Guadarrama.</description>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Oncology drug shortages and disruptions to cancer treatment delivery in Mexico: A national oncologist survey.</title>
+      <link>https://doi.org/10.1200/JCO.2026.44.16_suppl.1599</link>
+      <guid isPermaLink="true">https://doi.org/10.1200/JCO.2026.44.16_suppl.1599</guid>
+    </item>
+    <item>
+      <title>Breast cancer and health inequalities: Another never ending story?</title>
+      <link>https://doi.org/10.1016/j.ric.2025.100014</link>
+      <guid isPermaLink="true">https://doi.org/10.1016/j.ric.2025.100014</guid>
+    </item>
+    <item>
+      <title>Euthanasia and physician-assisted suicide: a systematic review of medical students' attitudes in the last 10 years.</title>
+      <link>https://doi.org/10.18502/jmehm.v13i22.4864</link>
+      <guid isPermaLink="true">https://doi.org/10.18502/jmehm.v13i22.4864</guid>
+    </item>
+  </channel>
+</rss>

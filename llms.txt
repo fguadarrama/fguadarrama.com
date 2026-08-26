@@ -1,0 +1,29 @@
+# Francisco Guadarrama
+
+> Personal academic and professional website of Francisco Guadarrama, a physician working in medical oncology, health systems, access to cancer treatment, and high-value care under resource constraints.
+
+Canonical: https://fguadarrama.com/
+Languages: English and Spanish
+Author: Francisco Guadarrama
+
+## Main sections
+
+- Home: https://fguadarrama.com/
+- Experience: professional and clinical experience is contained in the Experience section of the homepage.
+- Education: medical and postgraduate training is contained in the Education section of the homepage.
+- Selected Publications: selected scholarly work with DOI links is contained in the Publications section of the homepage.
+- Contact: LinkedIn and the site's contact form are contained in the Contact section of the homepage.
+
+## Machine-readable resources
+
+- Sitemap: https://fguadarrama.com/sitemap.xml
+- JSON Feed: https://fguadarrama.com/feed.json
+- RSS Feed: https://fguadarrama.com/feed.xml
+- robots.txt: https://fguadarrama.com/robots.txt
+
+## Identity links
+
+- ORCID: https://orcid.org/0000-0003-2241-0791
+- Google Scholar: https://scholar.google.com/citations?user=YVW4b40AAAAJ
+- GitHub: https://github.com/fguadarrama/
+- LinkedIn: https://linkedin.com/in/FranciscoGuadarrama
