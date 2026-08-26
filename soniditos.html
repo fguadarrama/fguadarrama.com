@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
   <title>Soniditos</title>
   <style>
     :root {
@@ -16,22 +19,6 @@
       --pressed: #eeeeeb;
       --accent: #356c8c;
       --shadow: 0 1px 2px rgba(0,0,0,.04), 0 7px 22px rgba(0,0,0,.035);
-
-      /* Transitions.dev — Success check */
-      --check-opacity-dur: 500ms;
-      --check-rotate-dur: 500ms;
-      --check-rotate-from: 80deg;
-      --check-bob-dur: 500ms;
-      --check-y-amount: 40px;
-      --check-blur-dur: 500ms;
-      --check-blur-from: 10px;
-      --check-path-dur: 500ms;
-      --check-path-delay: 80ms;
-      --check-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-      --check-ease-opacity: cubic-bezier(0.22, 1, 0.36, 1);
-      --check-ease-rotate: cubic-bezier(0.22, 1, 0.36, 1);
-      --check-ease-bob: cubic-bezier(0.34, 1.35, 0.64, 1);
-      --check-ease-path: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -57,7 +44,7 @@
       min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-size: 15px;
       line-height: 1.4;
       letter-spacing: -.01em;
@@ -75,6 +62,7 @@
 
     h1 {
       margin: 0;
+      font-family: "Space Grotesk", "Inter", sans-serif;
       font-size: clamp(30px, 5vw, 44px);
       line-height: 1;
       letter-spacing: -.045em;
@@ -101,6 +89,7 @@
 
     h2 {
       margin: 0;
+      font-family: "Space Grotesk", "Inter", sans-serif;
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: .085em;
@@ -137,7 +126,8 @@
       cursor: pointer;
       text-align: left;
       font: inherit;
-      font-weight: 540;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+      font-weight: 500;
       letter-spacing: -.015em;
       transition:
         transform 100ms ease,
@@ -203,89 +193,114 @@
     }
 
 
-    .copy-feedback {
-      position: absolute;
-      inset: 0 12px 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 7px;
-      pointer-events: none;
-      color: #0ce08e;
-      opacity: 0;
-    }
-
-    .copy-feedback-label {
-      font-size: 11px;
-      font-weight: 650;
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
 
     /* Transitions.dev — Success check */
+
+    /*
+      Usage:
+        <!-- Wrap your icon (SVG, image, anything) in .t-success-check.
+             The wrapper drives fade + rotate + blur + Y-bob; if your
+             icon is an SVG <path>, it gets the stroke-draw animation.
+             Bring your own icon size / colors. -->
+        <span class="t-success-check" data-state="out" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <!-- your icon path(s) here -->
+          </svg>
+        </span>
+
+      Trigger:
+        - Cold load is data-state="out" (opacity 0; no animation).
+        - Show: set data-state="in" (fade + rotate + blur + Y-bob
+          + path draw run in parallel).
+
+      Snippet covers the appear transition only — bring your own
+      hide behavior (e.g. unmount, opacity:0, or a custom exit).
+    */
+
+    :root {
+      --check-opacity-dur: 500ms;
+      --check-rotate-dur: 500ms;
+      --check-rotate-from: 80deg;
+      --check-bob-dur: 500ms;
+      --check-y-amount: 40px;
+      --check-blur-dur: 500ms;
+      --check-blur-from: 10px;
+      --check-path-dur: 500ms;
+      --check-path-delay: 80ms;
+      --check-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-opacity: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-rotate: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-bob: cubic-bezier(0.34, 1.35, 0.64, 1);
+      --check-ease-path: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Wrapper drives the appear animation; it doesn't own any
+       sizing or color so you can drop in any icon. */
     .t-success-check {
       display: inline-block;
       transform-origin: center;
       opacity: 0;
       will-change: transform, opacity, filter;
     }
-
-    .t-success-check svg {
-      display: block;
-      overflow: visible;
-      width: 20px;
-      height: 20px;
-    }
-
+    /* overflow: visible keeps the stroke from clipping while it
+       draws; display: block kills the inline whitespace under SVGs. */
+    .t-success-check svg { display: block; overflow: visible; }
+    /* Stroke-draw setup. Replace 20 with the result of
+       path.getTotalLength() for your path; round caps mean any
+       sub-pixel overshoot is invisible. */
     .t-success-check svg path {
       stroke-dasharray: 20;
       stroke-dashoffset: 20;
     }
 
-    .copy-feedback[data-state="in"] {
-      opacity: 1;
-    }
-
-    .copy-feedback[data-state="in"] .t-success-check {
+    .t-success-check[data-state="in"] {
       animation:
         t-check-fade   var(--check-opacity-dur) var(--check-ease-opacity) forwards,
         t-check-rotate var(--check-rotate-dur)  var(--check-ease-rotate)  forwards,
         t-check-blur   var(--check-blur-dur)    var(--check-ease-out)     forwards,
         t-check-bob    var(--check-bob-dur)     var(--check-ease-bob)     forwards;
     }
-
-    .copy-feedback[data-state="in"] .t-success-check svg path {
+    .t-success-check[data-state="in"] svg path {
       animation: t-check-draw var(--check-path-dur) var(--check-ease-path) var(--check-path-delay, 0ms) forwards;
     }
 
-    .sound.copying > .sound-label,
-    .sound.copying > .state {
-      opacity: .18;
-      transition: opacity 120ms ease;
-    }
-
-    @keyframes t-check-fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
+    @keyframes t-check-fade { from { opacity: 0; } to { opacity: 1; } }
     @keyframes t-check-rotate {
       from { transform: rotate(var(--check-rotate-from)); }
-      to { transform: rotate(0deg); }
+      to   { transform: rotate(0deg); }
     }
-
     @keyframes t-check-blur {
       from { filter: blur(var(--check-blur-from)); }
-      to { filter: blur(0); }
+      to   { filter: blur(0); }
     }
-
     @keyframes t-check-bob {
       from { translate: 0 var(--check-y-amount); }
-      to { translate: 0 0; }
+      to   { translate: 0 0; }
+    }
+    @keyframes t-check-draw { to { stroke-dashoffset: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .t-success-check { animation: none !important; opacity: 1; }
+      .t-success-check svg path { animation: none !important; stroke-dashoffset: 0 !important; }
     }
 
-    @keyframes t-check-draw {
-      to { stroke-dashoffset: 0; }
+    /* Positioning only: the Transitions.dev component above is unchanged. */
+    .copy-success-host {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+
+    .copy-success-host .t-success-check {
+      color: #0ce08e;
+    }
+
+    .copy-success-host svg {
+      width: 64px;
+      height: 64px;
     }
 
     footer {
@@ -333,6 +348,21 @@
   </style>
 </head>
 <body>
+
+  <div class="copy-success-host" aria-hidden="true">
+    <span class="t-success-check" data-state="out" aria-hidden="true" style="color:#0ce08e">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path
+          d="M12 24.5L20.5 33L36 16.5"
+          pathLength="20"
+          stroke="currentColor"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </div>
   <main>
     <header>
       <h1>Soniditos</h1>
@@ -1464,63 +1494,24 @@ const notificationKndwr = {
       if (!ok) throw new Error("Copy command failed");
     }
 
-    function createCopyFeedback() {
-      const feedback = document.createElement("span");
-      feedback.className = "copy-feedback";
-      feedback.dataset.state = "out";
-      feedback.setAttribute("aria-hidden", "true");
+    let copySuccessTimer = null;
 
-      const label = document.createElement("span");
-      label.className = "copy-feedback-label";
-      label.textContent = "Copied";
+    function showCopied() {
+      const check = document.querySelector(".copy-success-host .t-success-check");
+      if (!check) return;
 
-      const icon = document.createElement("span");
-      icon.className = "t-success-check";
-      icon.dataset.state = "out";
-      icon.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M5.5 12.5 9.5 16.5 18.5 7.5"
-            pathLength="20"
-            stroke="currentColor"
-            stroke-width="2.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      `;
+      if (copySuccessTimer) {
+        clearTimeout(copySuccessTimer);
+        copySuccessTimer = null;
+      }
 
-      feedback.append(label, icon);
-      return feedback;
-    }
+      check.dataset.state = "out";
+      void check.offsetWidth;
+      check.dataset.state = "in";
 
-    const copyTimers = new WeakMap();
-
-    function showCopied(button) {
-      const feedback = button.querySelector(".copy-feedback");
-      const icon = feedback.querySelector(".t-success-check");
-
-      const oldTimer = copyTimers.get(button);
-      if (oldTimer) clearTimeout(oldTimer);
-
-      feedback.dataset.state = "out";
-      icon.dataset.state = "out";
-      button.classList.remove("copying");
-
-      // Restart the supplied appear animation on every click.
-      void feedback.offsetWidth;
-
-      button.classList.add("copying");
-      feedback.dataset.state = "in";
-      icon.dataset.state = "in";
-
-      const timer = window.setTimeout(() => {
-        feedback.dataset.state = "out";
-        icon.dataset.state = "out";
-        button.classList.remove("copying");
-      }, 1050);
-
-      copyTimers.set(button, timer);
+      copySuccessTimer = window.setTimeout(() => {
+        check.dataset.state = "out";
+      }, 900);
     }
 
     async function playAndCopy(button, name, patch) {
@@ -1529,7 +1520,7 @@ const notificationKndwr = {
 
       try {
         await copyText(soundCode(name, patch));
-        showCopied(button);
+        showCopied();
       } catch (error) {
         console.error("Could not copy sound code:", error);
       }
@@ -1544,7 +1535,7 @@ const notificationKndwr = {
       label.className = "sound-label";
       label.textContent = name;
 
-      button.append(label, createCopyFeedback());
+      button.append(label);
 
       button.addEventListener("click", () => {
         playAndCopy(button, name, patch);
@@ -1568,7 +1559,7 @@ const notificationKndwr = {
       state.className = "state";
       state.textContent = "idle";
 
-      button.append(label, state, createCopyFeedback());
+      button.append(label, state);
 
       let active = false;
 
