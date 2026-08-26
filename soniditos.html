@@ -1,0 +1,1603 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Soniditos</title>
+  <style>
+    :root {
+      --bg: #f7f7f5;
+      --panel: #ffffff;
+      --text: #202022;
+      --muted: #747477;
+      --border: rgba(32, 32, 34, .13);
+      --border-strong: rgba(32, 32, 34, .22);
+      --pressed: #eeeeeb;
+      --accent: #356c8c;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 7px 22px rgba(0,0,0,.035);
+
+      /* Transitions.dev — Success check */
+      --check-opacity-dur: 500ms;
+      --check-rotate-dur: 500ms;
+      --check-rotate-from: 80deg;
+      --check-bob-dur: 500ms;
+      --check-y-amount: 40px;
+      --check-blur-dur: 500ms;
+      --check-blur-from: 10px;
+      --check-path-dur: 500ms;
+      --check-path-delay: 80ms;
+      --check-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-opacity: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-rotate: cubic-bezier(0.22, 1, 0.36, 1);
+      --check-ease-bob: cubic-bezier(0.34, 1.35, 0.64, 1);
+      --check-ease-path: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111214;
+        --panel: #191a1d;
+        --text: #f2f2f0;
+        --muted: #98999e;
+        --border: rgba(255,255,255,.11);
+        --border-strong: rgba(255,255,255,.20);
+        --pressed: #24262a;
+        --accent: #8fc0dc;
+        --shadow: 0 1px 2px rgba(0,0,0,.24), 0 7px 22px rgba(0,0,0,.15);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.4;
+      letter-spacing: -.01em;
+    }
+
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 52px 0 72px;
+    }
+
+    header {
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 44px);
+      line-height: 1;
+      letter-spacing: -.045em;
+      font-weight: 650;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    section + section {
+      margin-top: 34px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 11px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .085em;
+      font-weight: 650;
+      color: var(--muted);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .sound {
+      position: relative;
+      width: 100%;
+      min-height: 58px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      font-weight: 540;
+      letter-spacing: -.015em;
+      transition:
+        transform 100ms ease,
+        background-color 120ms ease,
+        border-color 120ms ease,
+        box-shadow 120ms ease;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    .sound:hover {
+      border-color: var(--border-strong);
+    }
+
+    .sound:active {
+      transform: scale(.985);
+      background: var(--pressed);
+      box-shadow: none;
+    }
+
+    .sound:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .sound.playing {
+      animation: pulse 240ms cubic-bezier(.16,1,.3,1);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(.985); }
+      45% { transform: scale(1.012); }
+      100% { transform: scale(1); }
+    }
+
+    .state {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .state::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: .45;
+      transition: background-color 120ms ease, opacity 120ms ease;
+    }
+
+    .sound[data-active="true"] .state {
+      color: var(--accent);
+    }
+
+    .sound[data-active="true"] .state::before {
+      opacity: 1;
+    }
+
+
+    .copy-feedback {
+      position: absolute;
+      inset: 0 12px 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+      pointer-events: none;
+      color: #0ce08e;
+      opacity: 0;
+    }
+
+    .copy-feedback-label {
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    /* Transitions.dev — Success check */
+    .t-success-check {
+      display: inline-block;
+      transform-origin: center;
+      opacity: 0;
+      will-change: transform, opacity, filter;
+    }
+
+    .t-success-check svg {
+      display: block;
+      overflow: visible;
+      width: 20px;
+      height: 20px;
+    }
+
+    .t-success-check svg path {
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+    }
+
+    .copy-feedback[data-state="in"] {
+      opacity: 1;
+    }
+
+    .copy-feedback[data-state="in"] .t-success-check {
+      animation:
+        t-check-fade   var(--check-opacity-dur) var(--check-ease-opacity) forwards,
+        t-check-rotate var(--check-rotate-dur)  var(--check-ease-rotate)  forwards,
+        t-check-blur   var(--check-blur-dur)    var(--check-ease-out)     forwards,
+        t-check-bob    var(--check-bob-dur)     var(--check-ease-bob)     forwards;
+    }
+
+    .copy-feedback[data-state="in"] .t-success-check svg path {
+      animation: t-check-draw var(--check-path-dur) var(--check-ease-path) var(--check-path-delay, 0ms) forwards;
+    }
+
+    .sound.copying > .sound-label,
+    .sound.copying > .state {
+      opacity: .18;
+      transition: opacity 120ms ease;
+    }
+
+    @keyframes t-check-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes t-check-rotate {
+      from { transform: rotate(var(--check-rotate-from)); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes t-check-blur {
+      from { filter: blur(var(--check-blur-from)); }
+      to { filter: blur(0); }
+    }
+
+    @keyframes t-check-bob {
+      from { translate: 0 var(--check-y-amount); }
+      to { translate: 0 0; }
+    }
+
+    @keyframes t-check-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    footer {
+      margin-top: 42px;
+      color: var(--muted);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 24px, 980px);
+        padding-top: 32px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr; }
+      .hint { display: none; }
+      .sound { min-height: 56px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        transition-duration: 1ms !important;
+      }
+
+      .t-success-check {
+        animation: none !important;
+        opacity: 1;
+      }
+
+      .t-success-check svg path {
+        animation: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Soniditos</h1>
+      <p class="subtitle">17 procedural interface sounds · click to play + copy code</p>
+    </header>
+
+    <section>
+      <div class="section-head">
+        <h2>Transitions</h2>
+        <div class="hint">click to alternate idle ↔ active</div>
+      </div>
+      <div class="grid" id="transitions"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Hover</h2></div>
+      <div class="grid" id="hover"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Notifications</h2></div>
+      <div class="grid" id="notification"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Taps</h2></div>
+      <div class="grid" id="tap"></div>
+    </section>
+
+    <section>
+      <div class="section-head"><h2>Errors</h2></div>
+      <div class="grid" id="error"></div>
+    </section>
+
+    <footer>
+      Each click copies the JavaScript recipe for the sound that was played. Transition buttons use directional inversion for active → idle.
+    </footer>
+  </main>
+
+  <script>
+    /*
+      Standalone Web Audio recipe player adapted from:
+      https://github.com/m1ckc3s/procedural-sounds
+      MIT-licensed project. No audio files are used.
+    */
+    function playSound(patch, context) {
+      const ctx = context || playSound.ctx || (playSound.ctx = new (window.AudioContext || window.webkitAudioContext)());
+      if (ctx.state === "suspended") ctx.resume();
+      const S = 0.0001;
+      const t0 = ctx.currentTime;
+
+      function noiseBuffer(seconds, color) {
+        const len = Math.max(1, Math.floor(ctx.sampleRate * seconds));
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        if (color === "pink") {
+          let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+          for (let i = 0; i < len; i++) {
+            const w = Math.random() * 2 - 1;
+            b0 = 0.99886 * b0 + w * 0.0555179;
+            b1 = 0.99332 * b1 + w * 0.0750759;
+            b2 = 0.969 * b2 + w * 0.153852;
+            b3 = 0.8665 * b3 + w * 0.3104856;
+            b4 = 0.55 * b4 + w * 0.5329522;
+            b5 = -0.7616 * b5 - w * 0.016898;
+            d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * 0.5362) * 0.11;
+            b6 = w * 0.115926;
+          }
+        } else if (color === "brown") {
+          let last = 0;
+          for (let i = 0; i < len; i++) {
+            const w = Math.random() * 2 - 1;
+            last = (last + 0.02 * w) / 1.02;
+            d[i] = last * 3.5;
+          }
+        } else {
+          for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        }
+        return buf;
+      }
+
+      function reverb(o) {
+        const decay = o.decay == null ? 0.5 : o.decay;
+        const mix = o.mix == null ? 0.3 : o.mix;
+        const damping = o.damping == null ? 0 : o.damping;
+        const input = ctx.createGain(), output = ctx.createGain();
+        const dry = ctx.createGain(); dry.gain.value = 1 - mix;
+        input.connect(dry); dry.connect(output);
+        const wet = ctx.createGain(); wet.gain.value = mix; input.connect(wet);
+        const wetOut = ctx.createGain(); wetOut.connect(output);
+        const len = Math.ceil(ctx.sampleRate * decay * (o.roomSize == null ? 1 : o.roomSize));
+        const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+        for (let ch = 0; ch < 2; ch++) {
+          const d = buf.getChannelData(ch);
+          for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (len * 0.28));
+          if (damping > 0) {
+            const c = Math.min(damping, 0.99);
+            let prev = 0;
+            for (let i = 0; i < len; i++) { prev = d[i] * (1 - c) + prev * c; d[i] = prev; }
+          }
+        }
+        const conv = ctx.createConvolver(); conv.buffer = buf;
+        const pre = o.preDelay == null ? 0 : o.preDelay;
+        if (pre > 0) {
+          const pd = ctx.createDelay(Math.max(pre + 0.01, 1));
+          pd.delayTime.value = pre;
+          wet.connect(pd); pd.connect(conv);
+        } else {
+          wet.connect(conv);
+        }
+        conv.connect(wetOut);
+        return { input, output };
+      }
+
+      function shimmer(o) {
+        const input = ctx.createGain(), output = ctx.createGain();
+        input.connect(output);
+        const delay = ctx.createDelay(1); delay.delayTime.value = o.delay;
+        const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = o.lowpass == null ? 4000 : o.lowpass;
+        const fb = ctx.createGain(); fb.gain.value = o.feedback;
+        const wet = ctx.createGain(); wet.gain.value = o.wet;
+        input.connect(delay); delay.connect(lp); lp.connect(fb); fb.connect(delay);
+        lp.connect(wet); wet.connect(output);
+        return { input, output };
+      }
+
+      for (const layer of (patch.layers || [patch])) {
+        const t = t0 + (layer.delay || 0);
+        const gain = layer.gain == null ? 0.5 : layer.gain;
+        const env = layer.envelope;
+        const a = env ? env.attack || 0 : 0;
+        const d = env ? env.decay : 0;
+        const sus = env ? env.sustain || 0 : 0;
+        const rel = env ? env.release || 0 : 0;
+        const dur = env ? a + d + rel : 0.5;
+
+        const g = ctx.createGain();
+        if (!env) {
+          g.gain.setValueAtTime(gain, t);
+          g.gain.setTargetAtTime(S, t, 0.15);
+        } else if (env.curve === "ramp") {
+          const peak = Math.max(gain, S);
+          g.gain.setValueAtTime(S, t);
+          if (a > 0) g.gain.exponentialRampToValueAtTime(peak, t + a);
+          else g.gain.setValueAtTime(peak, t);
+          g.gain.exponentialRampToValueAtTime(S, t + a + d);
+        } else {
+          g.gain.setValueAtTime(S, t);
+          if (a > 0) g.gain.linearRampToValueAtTime(gain, t + a);
+          else g.gain.setValueAtTime(gain, t);
+          if (sus > 0) {
+            g.gain.setTargetAtTime(Math.max(sus * gain, S), t + a, d / 3);
+            if (rel > 0) g.gain.setTargetAtTime(S, t + a + d, rel / 3);
+          } else {
+            g.gain.setTargetAtTime(S, t + a, d / 3);
+          }
+        }
+
+        let src;
+        const s = layer.source;
+        if (s.type === "noise") {
+          src = ctx.createBufferSource();
+          src.buffer = noiseBuffer(dur + 0.1, s.color);
+        } else {
+          src = ctx.createOscillator();
+          src.type = s.type;
+          const f = s.frequency;
+          if (typeof f === "number") {
+            src.frequency.setValueAtTime(f, t);
+          } else {
+            src.frequency.setValueAtTime(f.start, t);
+            src.frequency.exponentialRampToValueAtTime(Math.max(f.end, 1), t + Math.min(f.time == null ? dur : f.time, dur));
+          }
+          if (s.detune) src.detune.value = s.detune;
+          if (s.fm) {
+            const carrier = typeof f === "number" ? f : f.start;
+            const mod = ctx.createOscillator();
+            mod.type = "sine";
+            mod.frequency.value = carrier * s.fm.ratio;
+            const mg = ctx.createGain();
+            mg.gain.value = s.fm.depth;
+            mod.connect(mg); mg.connect(src.frequency);
+            mod.start(t); mod.stop(t + dur + 0.1);
+          }
+        }
+        src.start(t); src.stop(t + dur + 0.1);
+
+        let node = src;
+        const filters = !layer.filter ? [] : (Array.isArray(layer.filter) ? layer.filter : [layer.filter]);
+        for (const f of filters) {
+          const bq = ctx.createBiquadFilter();
+          bq.type = f.type;
+          bq.frequency.setValueAtTime(f.frequency, t);
+          bq.Q.value = f.Q == null ? (f.resonance == null ? 1 : f.resonance) : f.Q;
+          if (f.envelope) {
+            const peakAt = t + (f.envelope.attack || 0);
+            bq.frequency.linearRampToValueAtTime(f.envelope.peak, peakAt);
+            bq.frequency.exponentialRampToValueAtTime(Math.max(f.frequency, 1), peakAt + f.envelope.decay);
+          }
+          node.connect(bq); node = bq;
+        }
+        node.connect(g);
+
+        let out = g;
+        for (const fx of (layer.effects || [])) {
+          const built = fx.type === "reverb" ? reverb(fx) : fx.type === "delay" ? shimmer(fx) : null;
+          if (!built) continue;
+          out.connect(built.input); out = built.output;
+        }
+        out.connect(ctx.destination);
+      }
+    }
+
+    // Repository-equivalent directional inversion:
+    // 1) reverse each frequency sweep
+    // 2) transpose static tones down a minor third
+    // 3) mirror layer onset order
+    const STATIC_TRANSPOSE_RATIO = Math.pow(2, -3 / 12);
+
+    function clonePatch(value) {
+      return typeof structuredClone === "function"
+        ? structuredClone(value)
+        : JSON.parse(JSON.stringify(value));
+    }
+
+    function invertFrequency(freq) {
+      if (typeof freq === "number") return freq * STATIC_TRANSPOSE_RATIO;
+      return { start: freq.end, end: freq.start };
+    }
+
+    function invertPatch(patch) {
+      const layers = (patch.layers || [patch]).map(clonePatch);
+      const maxOnset = Math.max(...layers.map(layer => layer.delay ?? 0));
+
+      for (const layer of layers) {
+        const mirrored = maxOnset - (layer.delay ?? 0);
+        if (mirrored > 0) layer.delay = mirrored;
+        else delete layer.delay;
+
+        if (layer.source.type !== "noise") {
+          layer.source.frequency = invertFrequency(layer.source.frequency);
+        }
+      }
+
+      return layers.length === 1 ? layers[0] : { layers };
+    }
+
+const transitionTpqsh = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 462.76758743560254
+      },
+      "envelope": {
+        "attack": 0.001,
+        "decay": 0.024966494668048036,
+        "sustain": 0,
+        "release": 0.004,
+        "curve": "ramp"
+      },
+      "gain": 0.224
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 519.4384134665165
+      },
+      "envelope": {
+        "attack": 0.001,
+        "decay": 0.06232769350904647,
+        "sustain": 0,
+        "release": 0.004,
+        "curve": "ramp"
+      },
+      "gain": 0.175,
+      "delay": 0.04566487630280263
+    }
+  ]
+};
+
+const transitionWwmre = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 1456.279,
+          "end": 1302.469
+        },
+        "fm": {
+          "depth": 151,
+          "ratio": 2.452
+        }
+      },
+      "envelope": {
+        "attack": 0.005,
+        "decay": 0.079,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.346,
+      "filter": {
+        "type": "bandpass",
+        "frequency": 1113,
+        "Q": 2.949,
+        "envelope": {
+          "attack": 0.004,
+          "peak": 6820,
+          "decay": 0.276
+        }
+      },
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.12863652689170707,
+          "feedback": 0.21626317849200966,
+          "wet": 0.18167015520154522,
+          "lowpass": 3731.4817040712223
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 971.949,
+          "end": 869.295
+        }
+      },
+      "envelope": {
+        "attack": 0.005,
+        "decay": 0.079,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.183,
+      "delay": 0.023,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 2510.298421598117,
+        "Q": 2.0717735516651428
+      },
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.12863652689170707,
+          "feedback": 0.21626317849200966,
+          "wet": 0.18167015520154522,
+          "lowpass": 3731.4817040712223
+        }
+      ]
+    }
+  ]
+};
+
+const transitionH96py = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 800,
+          "end": 1200
+        }
+      },
+      "envelope": {
+        "attack": 0,
+        "decay": 0.03,
+        "sustain": 0,
+        "release": 0.01
+      },
+      "gain": 0.209,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1544.0762188063532,
+        "Q": 1.3097635305611601
+      }
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 1000,
+          "end": 1500
+        }
+      },
+      "envelope": {
+        "attack": 0,
+        "decay": 0.03,
+        "sustain": 0,
+        "release": 0.01
+      },
+      "delay": 0.05,
+      "gain": 0.174,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1791.7281630197126,
+        "Q": 1.2910203748507607
+      }
+    }
+  ]
+};
+
+const transitionF01rg = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 1250.136,
+          "end": 625.068
+        }
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.083,
+        "sustain": 0,
+        "release": 0.017,
+        "curve": "ramp"
+      },
+      "gain": 0.133,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1726.8196768055036,
+        "Q": 2.6233961726463746
+      },
+      "delay": 0.092
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 625.068,
+          "end": 312.534
+        }
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.152,
+        "sustain": 0,
+        "release": 0.03,
+        "curve": "ramp"
+      },
+      "gain": 0.125,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 900.609965533964,
+        "Q": 4.295329077359308
+      }
+    }
+  ]
+};
+
+const transition9dea4 = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 798.175,
+          "end": 532.718
+        }
+      },
+      "envelope": {
+        "attack": 0.001,
+        "decay": 0.027,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.227,
+      "delay": 0.041,
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.09562223341394324,
+          "feedback": 0.3030654652133946,
+          "wet": 0.18610923157693907,
+          "lowpass": 4924.401296498068
+        }
+      ],
+      "filter": {
+        "type": "lowpass",
+        "frequency": 2210.6058872775693,
+        "Q": 3.281356937019447
+      }
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": {
+          "start": 399.087,
+          "end": 597.955
+        }
+      },
+      "envelope": {
+        "attack": 0.001,
+        "decay": 0.056,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.169,
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.09562223341394324,
+          "feedback": 0.3030654652133946,
+          "wet": 0.18610923157693907,
+          "lowpass": 4924.401296498068
+        }
+      ],
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1024.2039873527165,
+        "Q": 1.413862830106606
+      }
+    }
+  ]
+};
+
+const hover8w80y = {
+  "source": {
+    "type": "noise",
+    "color": "white"
+  },
+  "envelope": {
+    "attack": 0.0005,
+    "decay": 0.01,
+    "sustain": 0,
+    "release": 0.004
+  },
+  "gain": 3,
+  "filter": {
+    "type": "bandpass",
+    "frequency": 2842.5384098557793,
+    "Q": 42
+  }
+};
+
+const hoverR862n = {
+  "source": {
+    "type": "sine",
+    "frequency": 3500
+  },
+  "envelope": {
+    "attack": 0,
+    "decay": 0.01,
+    "sustain": 0,
+    "release": 0.003,
+    "curve": "ramp"
+  },
+  "gain": 0.282,
+  "filter": {
+    "type": "bandpass",
+    "frequency": 5400,
+    "Q": 1.8
+  }
+};
+
+const hoverVn058 = {
+  "source": {
+    "type": "sine",
+    "frequency": {
+      "start": 1506.3640368972165,
+      "end": 1942.0289483185713
+    }
+  },
+  "envelope": {
+    "attack": 0.002,
+    "decay": 0.020750626168737744,
+    "sustain": 0,
+    "release": 0.004,
+    "curve": "ramp"
+  },
+  "gain": 0.11
+};
+
+const hoverAc3cr = {
+  "source": {
+    "type": "sine",
+    "frequency": {
+      "start": 381.7476677186295,
+      "end": 190.87383385931474
+    }
+  },
+  "envelope": {
+    "attack": 0,
+    "decay": 0.04088913492804468,
+    "sustain": 0,
+    "release": 0.012705050117425001
+  },
+  "gain": 0.071
+};
+
+const notificationJ7csd = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 474.97507095825773
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.06598390323165738,
+        "sustain": 0,
+        "release": 0.01309233652418097,
+        "curve": "ramp"
+      },
+      "gain": 0.23,
+      "effects": [
+        {
+          "type": "reverb",
+          "decay": 0.3,
+          "damping": 0.505,
+          "mix": 0.11444275074791152
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 474.97507095825773
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.10755923769842575,
+        "sustain": 0,
+        "release": 0.016486846522020204,
+        "curve": "ramp"
+      },
+      "gain": 0.229,
+      "delay": 0.18060657014155473,
+      "effects": [
+        {
+          "type": "reverb",
+          "decay": 0.3,
+          "damping": 0.505,
+          "mix": 0.1369626026861965
+        }
+      ]
+    }
+  ]
+};
+
+const notification7we5g = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 475.2940772762051
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.07242196105761449,
+        "sustain": 0,
+        "release": 0.011974452531090802,
+        "curve": "ramp"
+      },
+      "gain": 0.226,
+      "effects": [
+        {
+          "type": "reverb",
+          "decay": 0.3,
+          "damping": 0.505,
+          "mix": 0.14902013577574413
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 475.2940772762051
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.09009522110389917,
+        "sustain": 0,
+        "release": 0.016732352992942668,
+        "curve": "ramp"
+      },
+      "gain": 0.243,
+      "delay": 0.12652013476475887,
+      "effects": [
+        {
+          "type": "reverb",
+          "decay": 0.3,
+          "damping": 0.505,
+          "mix": 0.13663375667945202
+        }
+      ]
+    }
+  ]
+};
+
+const tap0j5w1 = {
+  "source": {
+    "type": "triangle",
+    "frequency": {
+      "start": 120,
+      "end": 60
+    }
+  },
+  "envelope": {
+    "attack": 0,
+    "decay": 0.05,
+    "sustain": 0,
+    "release": 0
+  },
+  "gain": 0.207,
+  "filter": {
+    "type": "lowpass",
+    "frequency": 369.7408722828652,
+    "Q": 4.3994457186843725
+  }
+};
+
+const tapBnqth = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 1000
+      },
+      "envelope": {
+        "attack": 0,
+        "decay": 0.012,
+        "sustain": 0,
+        "release": 0.004,
+        "curve": "ramp"
+      },
+      "gain": 0.299
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 1200
+      },
+      "envelope": {
+        "attack": 0,
+        "decay": 0.012,
+        "sustain": 0,
+        "release": 0.004,
+        "curve": "ramp"
+      },
+      "delay": 0.035,
+      "gain": 0.261
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 2000
+      },
+      "envelope": {
+        "attack": 0,
+        "decay": 0.012,
+        "sustain": 0,
+        "release": 0.004,
+        "curve": "ramp"
+      },
+      "gain": 0.164,
+      "delay": 0
+    }
+  ]
+};
+
+const tapPhznx = {
+  "source": {
+    "type": "sine",
+    "frequency": {
+      "start": 400,
+      "end": 200
+    }
+  },
+  "envelope": {
+    "attack": 0,
+    "decay": 0.048143939134802784,
+    "sustain": 0,
+    "release": 0.012,
+    "curve": "ramp"
+  },
+  "gain": 0.242
+};
+
+const error78dys = {
+  "layers": [
+    {
+      "source": {
+        "type": "noise",
+        "color": "white"
+      },
+      "envelope": {
+        "attack": 0.001018384097666117,
+        "decay": 0.01,
+        "sustain": 0,
+        "release": 0.001,
+        "curve": "ramp"
+      },
+      "gain": 0.104,
+      "filter": {
+        "type": "bandpass",
+        "frequency": 1911,
+        "Q": 1.6
+      }
+    },
+    {
+      "source": {
+        "type": "triangle",
+        "frequency": 637.068
+      },
+      "envelope": {
+        "attack": 0.0008529671257160811,
+        "decay": 0.028209112534630154,
+        "sustain": 0,
+        "release": 0.01,
+        "curve": "ramp"
+      },
+      "gain": 0.323,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1911
+      }
+    },
+    {
+      "source": {
+        "type": "noise",
+        "color": "white"
+      },
+      "envelope": {
+        "attack": 0.001876086784073693,
+        "decay": 0.01,
+        "sustain": 0,
+        "release": 0.001,
+        "curve": "ramp"
+      },
+      "gain": 0.13,
+      "filter": {
+        "type": "bandpass",
+        "frequency": 1911,
+        "Q": 1.6
+      },
+      "delay": 0.101
+    },
+    {
+      "source": {
+        "type": "triangle",
+        "frequency": 637.068
+      },
+      "envelope": {
+        "attack": 0.0011383168788817262,
+        "decay": 0.046081931565451456,
+        "sustain": 0,
+        "release": 0.014,
+        "curve": "ramp"
+      },
+      "gain": 0.303,
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1911
+      },
+      "delay": 0.101
+    }
+  ]
+};
+
+const error32zxk = {
+  "layers": [
+    {
+      "source": {
+        "type": "noise",
+        "color": "white"
+      },
+      "envelope": {
+        "attack": 0.001,
+        "decay": 0.018,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.053,
+      "filter": {
+        "type": "bandpass",
+        "frequency": 500,
+        "Q": 1.596
+      },
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.11,
+          "feedback": 0.297,
+          "wet": 0.147,
+          "lowpass": 2599
+        }
+      ]
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 121.904
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.364,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.109,
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.11,
+          "feedback": 0.297,
+          "wet": 0.147,
+          "lowpass": 2599
+        }
+      ],
+      "filter": {
+        "type": "lowpass",
+        "frequency": 325.5750148364511,
+        "Q": 4.61306501572765
+      }
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 336.455
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.127,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.049,
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.11,
+          "feedback": 0.297,
+          "wet": 0.147,
+          "lowpass": 2599
+        }
+      ],
+      "filter": {
+        "type": "lowpass",
+        "frequency": 1125.699740350382,
+        "Q": 3.7759736032400673
+      }
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 658.28
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.092,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.026,
+      "effects": [
+        {
+          "type": "delay",
+          "delay": 0.11,
+          "feedback": 0.297,
+          "wet": 0.147,
+          "lowpass": 2599
+        }
+      ],
+      "filter": {
+        "type": "lowpass",
+        "frequency": 2355.1450959775616,
+        "Q": 5.5512103824894625
+      }
+    }
+  ]
+};
+
+const notificationKndwr = {
+  "layers": [
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 390.208
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.042,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.168
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 780.416
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.046,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.154,
+      "delay": 0.076
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 390.208
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.048,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.134,
+      "delay": 0.193
+    },
+    {
+      "source": {
+        "type": "sine",
+        "frequency": 780.416
+      },
+      "envelope": {
+        "attack": 0.002,
+        "decay": 0.191,
+        "sustain": 0,
+        "release": 0,
+        "curve": "ramp"
+      },
+      "gain": 0.134,
+      "delay": 0.176
+    }
+  ]
+};
+
+    const sounds = {
+      transition: [
+        ["transitionTpqsh", transitionTpqsh],
+        ["transitionWwmre", transitionWwmre],
+        ["transitionH96py", transitionH96py],
+        ["transitionF01rg", transitionF01rg],
+        ["transition9dea4", transition9dea4],
+      ],
+      hover: [
+        ["hover8w80y", hover8w80y],
+        ["hoverR862n", hoverR862n],
+        ["hoverVn058", hoverVn058],
+        ["hoverAc3cr", hoverAc3cr],
+      ],
+      notification: [
+        ["notificationJ7csd", notificationJ7csd],
+        ["notification7we5g", notification7we5g],
+        ["notificationKndwr", notificationKndwr],
+      ],
+      tap: [
+        ["tap0j5w1", tap0j5w1],
+        ["tapBnqth", tapBnqth],
+        ["tapPhznx", tapPhznx],
+      ],
+      error: [
+        ["error78dys", error78dys],
+        ["error32zxk", error32zxk],
+      ],
+    };
+
+    function animateButton(button) {
+      button.classList.remove("playing");
+      void button.offsetWidth;
+      button.classList.add("playing");
+      window.setTimeout(() => button.classList.remove("playing"), 260);
+    }
+
+    function identifier(name) {
+      const parts = String(name || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim()
+        .split(" ")
+        .filter(Boolean);
+
+      if (parts.length === 0) return "sound";
+
+      const camel =
+        parts[0] +
+        parts.slice(1).map(part => part[0].toUpperCase() + part.slice(1)).join("");
+
+      return /^[0-9]/.test(camel)
+        ? `sound${camel[0].toUpperCase()}${camel.slice(1)}`
+        : camel;
+    }
+
+    function soundCode(name, patch) {
+      const id = identifier(name);
+      return `const ${id} = ${JSON.stringify(patch, null, 2)};\n\nplaySound(${id});\n`;
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      textarea.style.pointerEvents = "none";
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      const ok = document.execCommand("copy");
+      textarea.remove();
+
+      if (!ok) throw new Error("Copy command failed");
+    }
+
+    function createCopyFeedback() {
+      const feedback = document.createElement("span");
+      feedback.className = "copy-feedback";
+      feedback.dataset.state = "out";
+      feedback.setAttribute("aria-hidden", "true");
+
+      const label = document.createElement("span");
+      label.className = "copy-feedback-label";
+      label.textContent = "Copied";
+
+      const icon = document.createElement("span");
+      icon.className = "t-success-check";
+      icon.dataset.state = "out";
+      icon.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M5.5 12.5 9.5 16.5 18.5 7.5"
+            pathLength="20"
+            stroke="currentColor"
+            stroke-width="2.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+
+      feedback.append(label, icon);
+      return feedback;
+    }
+
+    const copyTimers = new WeakMap();
+
+    function showCopied(button) {
+      const feedback = button.querySelector(".copy-feedback");
+      const icon = feedback.querySelector(".t-success-check");
+
+      const oldTimer = copyTimers.get(button);
+      if (oldTimer) clearTimeout(oldTimer);
+
+      feedback.dataset.state = "out";
+      icon.dataset.state = "out";
+      button.classList.remove("copying");
+
+      // Restart the supplied appear animation on every click.
+      void feedback.offsetWidth;
+
+      button.classList.add("copying");
+      feedback.dataset.state = "in";
+      icon.dataset.state = "in";
+
+      const timer = window.setTimeout(() => {
+        feedback.dataset.state = "out";
+        icon.dataset.state = "out";
+        button.classList.remove("copying");
+      }, 1050);
+
+      copyTimers.set(button, timer);
+    }
+
+    async function playAndCopy(button, name, patch) {
+      playSound(patch);
+      animateButton(button);
+
+      try {
+        await copyText(soundCode(name, patch));
+        showCopied(button);
+      } catch (error) {
+        console.error("Could not copy sound code:", error);
+      }
+    }
+
+    function makeOneShotButton(name, patch) {
+      const button = document.createElement("button");
+      button.className = "sound";
+      button.type = "button";
+
+      const label = document.createElement("span");
+      label.className = "sound-label";
+      label.textContent = name;
+
+      button.append(label, createCopyFeedback());
+
+      button.addEventListener("click", () => {
+        playAndCopy(button, name, patch);
+      });
+
+      return button;
+    }
+
+    function makeTransitionButton(name, patch) {
+      const button = document.createElement("button");
+      button.className = "sound";
+      button.type = "button";
+      button.dataset.active = "false";
+      button.setAttribute("aria-pressed", "false");
+
+      const label = document.createElement("span");
+      label.className = "sound-label";
+      label.textContent = name;
+
+      const state = document.createElement("span");
+      state.className = "state";
+      state.textContent = "idle";
+
+      button.append(label, state, createCopyFeedback());
+
+      let active = false;
+
+      button.addEventListener("click", () => {
+        active = !active;
+
+        const playedPatch = active ? patch : invertPatch(patch);
+        const playedName = active ? name : `${name}Reverse`;
+
+        playAndCopy(button, playedName, playedPatch);
+
+        button.dataset.active = String(active);
+        button.setAttribute("aria-pressed", String(active));
+        state.textContent = active ? "active" : "idle";
+      });
+
+      return button;
+    }
+
+    for (const [name, patch] of sounds.transition) {
+      document.getElementById("transitions").appendChild(makeTransitionButton(name, patch));
+    }
+
+    for (const category of ["hover", "notification", "tap", "error"]) {
+      const container = document.getElementById(category);
+      for (const [name, patch] of sounds[category]) {
+        container.appendChild(makeOneShotButton(name, patch));
+      }
+    }
+  </script>
+</body>
+</html>
