@@ -287,12 +287,13 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   display:inline-block;
   width:.64em;height:.64em;
   vertical-align:.01em;
-  color:var(--text);fill:currentColor;
-  transform:rotate(320deg);transform-origin:50% 50%;
+  color:#ea1b5c;fill:currentColor;
+  transform:rotate(45deg);transform-origin:50% 50%;
   cursor:pointer;
   transition:color 150ms ease,opacity 150ms ease,transform 140ms var(--ease-out);
 }
 .portrait-trigger-group:hover .portrait-cue,.portrait-trigger-group:focus-within .portrait-cue{opacity:.76}
+html[data-theme="dark"] .portrait-cue{color:#ff96ac}
 
 :root{
   --tilt-perspective:1000px;
