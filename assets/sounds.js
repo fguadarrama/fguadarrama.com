@@ -180,7 +180,24 @@
     }
   }
 
+  const transitiontpqsh = {
+    layers: [
+      {
+        source: { type: 'sine', frequency: 462.76758743560254 },
+        envelope: { attack: 0.001, decay: 0.024966494668048036, sustain: 0, release: 0.004, curve: 'ramp' },
+        gain: 0.224
+      },
+      {
+        source: { type: 'sine', frequency: 519.4384134665165 },
+        envelope: { attack: 0.001, decay: 0.06232769350904647, sustain: 0, release: 0.004, curve: 'ramp' },
+        gain: 0.175,
+        delay: 0.04566487630280263
+      }
+    ]
+  };
+
   const recipes = {
+    portraitTransition: transitiontpqsh,
     hover: {
       source:{type:'sine',frequency:{start:1506.3640368972165,end:1942.0289483185713}},
       envelope:{attack:0.002,decay:0.020750626168737744,sustain:0,release:0.004,curve:'ramp'},

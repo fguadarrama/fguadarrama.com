@@ -88,7 +88,7 @@
     Sounds.prime();
     if (event.button !== 0) return;
     const control = event.target.closest?.('button:not(:disabled),a[href]');
-    if (!control || control.closest('.segmented-control')) return;
+    if (!control || control.closest('.segmented-control') || control.closest('.portrait-name,.portrait-close')) return;
     Sounds.play('tap');
   }, {capture:true});
   document.addEventListener('keydown', (event) => {
@@ -563,8 +563,7 @@
 
   /* ---------- word-by-word intro tuner + annotation renderer ---------- */
   const debugPanel = document.getElementById('debugPanel');
-  const debugMode = new URLSearchParams(location.search).get('debug') === '1';
-  if (debugMode) root.dataset.debug = 'true';
+  const debugMode = false;
 
   const tunerKey = 'fg-debug-tuner-v7';
   const heroCopies = {
@@ -661,6 +660,19 @@
   const localWordKey = (pIndex,wordIndex) => `${pIndex}:${wordIndex}`;
   const fullWordKey = (lang,pIndex,wordIndex) => `${lang}:${pIndex}:${wordIndex}`;
 
+  const makePortraitCue = () => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','portrait-cue');
+    svg.setAttribute('viewBox','0 0 256 256');
+    svg.setAttribute('fill','currentColor');
+    svg.setAttribute('aria-hidden','true');
+    svg.setAttribute('focusable','false');
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M205.66,85.66a8,8,0,0,1-11.32,0L160,51.31V128A104.11,104.11,0,0,1,56,232a8,8,0,0,1,0-16,88.1,88.1,0,0,0,88-88V51.31L109.66,85.66A8,8,0,0,1,98.34,74.34l48-48a8,8,0,0,1,11.32,0l48,48A8,8,0,0,1,205.66,85.66Z');
+    svg.appendChild(path);
+    return svg;
+  };
+
   const makeWord = (lang,pIndex,token,order) => {
     const isPortraitName = token.text.replace(/[.,;:!?¿¡]+$/u,'').toLocaleLowerCase(lang) === 'francisco';
     const span = document.createElement(isPortraitName ? 'button' : 'span');
@@ -673,9 +685,15 @@
     span.textContent = token.text;
     if (isPortraitName) {
       span.type = 'button';
+      span.style.fontWeight = '630';
       span.setAttribute('aria-controls','portraitToast');
       span.setAttribute('aria-expanded','false');
       span.setAttribute('aria-label',lang === 'es' ? 'Mostrar retrato de Francisco' : 'Show Francisco’s portrait');
+      const group = document.createElement('span');
+      group.className = 'portrait-trigger-group';
+      group.append(span,makePortraitCue());
+      span.classList.toggle('is-selected', selectedWords.has(fullKey));
+      return group;
     }
     const weight = tunerState[lang]?.weights?.[localWordKey(pIndex,token.wordIndex)];
     if (weight !== undefined) span.style.fontWeight = String(weight);
@@ -765,20 +783,28 @@
     }
   };
 
+  let portraitClosing = false;
+
   const setPortraitOpen = (open) => {
     const wasOpen = portraitOpen;
     portraitOpen = Boolean(open);
+    if (portraitOpen) portraitClosing = false;
     if (portraitOpen && portraitCard) portraitCard.style.visibility = '';
     portraitToast?.classList.toggle('is-open',portraitOpen);
     portraitStage?.setAttribute('aria-hidden',String(!portraitOpen));
     syncPortraitTriggers();
     if (!portraitOpen) resetPortraitTilt();
-    if (portraitOpen && !wasOpen) Haptics.trigger('medium');
+    if (portraitOpen && !wasOpen) {
+      Sounds.play('portraitTransition');
+      Haptics.trigger('medium');
+    }
   };
 
   let portraitDissolveController = null;
   const closePortraitWithDissolve = () => {
-    if (!portraitOpen || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
+    if (!portraitOpen || portraitClosing || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
+    portraitClosing = true;
+    Sounds.play('portraitTransition');
     Haptics.trigger('light');
     resetPortraitTilt();
     if (!portraitDissolveController && typeof window.createSmokyDissolve === 'function') {
@@ -787,7 +813,7 @@
         card:portraitCard,
         canvas:portraitSmokyCanvas,
         respawn:false,
-        onComplete:() => setPortraitOpen(false),
+        onComplete:() => { portraitClosing = false; setPortraitOpen(false); },
       });
     }
     if (portraitDissolveController) {
@@ -797,11 +823,11 @@
       void portraitCard.offsetWidth;
       portraitDissolveController.dissolve();
       portraitCard.style.transition = previousTransition;
-    } else setPortraitOpen(false);
+    } else { portraitClosing = false; setPortraitOpen(false); }
   };
 
   document.addEventListener('click',(event) => {
-    const trigger = event.target.closest?.('.portrait-name');
+    const trigger = event.target.closest?.('.portrait-name,.portrait-cue');
     if (trigger) {
       event.preventDefault();
       if (portraitOpen) closePortraitWithDissolve();

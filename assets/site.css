@@ -127,17 +127,17 @@ a{color:inherit}
   appearance:none;position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;
   display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;
   border:1px solid color-mix(in srgb,var(--text) 11%,transparent);background:var(--bg);color:var(--text);
-  box-shadow:0 2px 7px color-mix(in srgb,var(--text) 5%,transparent),0 12px 34px color-mix(in srgb,var(--text) 7%,transparent);
-  transition:background-color 180ms ease,color 140ms ease,border-color 180ms ease,box-shadow 180ms ease;
+  box-shadow:none;
+  transition:background-color 180ms ease,color 140ms ease,border-color 180ms ease;
 }
 .t-goo-main{z-index:5;pointer-events:auto}
 .t-goo-item{
   z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);
-  transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease,background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease;
+  transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease,background-color 180ms ease,border-color 180ms ease;
   will-change:transform,opacity,filter;
 }
 .t-goo-anchor[data-open="true"] .t-goo-item{pointer-events:auto;opacity:1;filter:blur(0);transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(1)}
-.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms,180ms,180ms,180ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms,0ms,0ms,0ms}
+.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms,180ms,180ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms,0ms,0ms}
 .t-goo-item svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:scale(.9);transition:transform 190ms var(--goo-icon-ease),color 140ms ease}
 .t-goo-anchor[data-open="true"] .t-goo-item svg{transform:scale(1.06)}
 .t-goo-label{position:absolute;right:calc(100% + 10px);top:50%;transform:translate(6px,-50%);white-space:nowrap;font-size:11px;font-weight:400;line-height:1;letter-spacing:-.025em;color:var(--text);opacity:0;filter:blur(2px);pointer-events:none;transition:opacity 170ms ease-out,filter 180ms ease-out,transform 230ms var(--goo-ease),color 140ms ease}
@@ -268,7 +268,7 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   background:transparent;
   color:var(--text);
   font:inherit;
-  font-weight:inherit;
+  font-weight:630;
   line-height:inherit;
   letter-spacing:inherit;
   word-spacing:inherit;
@@ -281,6 +281,18 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
 .portrait-name:hover,.portrait-name:focus-visible{opacity:.76}
 .portrait-name:active{transform:scale(.97)}
 .portrait-name:focus-visible{outline:2px solid var(--accent);outline-offset:.12em;border-radius:.10em}
+
+.portrait-trigger-group{display:inline;white-space:nowrap}
+.portrait-cue{
+  display:inline-block;
+  width:.64em;height:.64em;
+  vertical-align:.01em;
+  color:var(--text);fill:currentColor;
+  transform:rotate(320deg);transform-origin:50% 50%;
+  cursor:pointer;
+  transition:color 150ms ease,opacity 150ms ease,transform 140ms var(--ease-out);
+}
+.portrait-trigger-group:hover .portrait-cue,.portrait-trigger-group:focus-within .portrait-cue{opacity:.76}
 
 :root{
   --tilt-perspective:1000px;
@@ -634,7 +646,7 @@ dialog.modal[open]{
   #gooeySettings{--fx:-22px!important;--fy:136px!important}
   .t-goo-label{
     right:calc(100% + 8px);padding:4px 7px;border-radius:999px;background:var(--bg);
-    box-shadow:0 0 0 3px var(--bg);font-size:11px;line-height:1.05;
+    box-shadow:none;font-size:11px;line-height:1.05;
   }
   .settings-popover{top:126px;right:var(--home-edge)}
   .content-view{padding:102px var(--side-pad) 74px}
