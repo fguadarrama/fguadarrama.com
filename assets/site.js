@@ -4,6 +4,7 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const Sounds = window.FGSounds || { play(){}, prime(){}, setEnabled(){}, get enabled(){ return false; } };
+  const Haptics = { trigger(input,options){ try { window.FGHaptics?.trigger(input,options); } catch {} } };
 
   const storageGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
   const storageSet = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
@@ -161,6 +162,7 @@
     settingsOpen = true;
     settingsPopover.classList.add('is-open');
     settingsPopover.setAttribute('aria-hidden', 'false');
+    Haptics.trigger('medium');
     settingsTrigger?.setAttribute('aria-expanded', 'true');
     const active = settingsPopover.querySelector('[aria-pressed="true"]');
     window.setTimeout(() => active?.focus({preventScroll:true}), reduceMotion.matches ? 1 : 80);
@@ -178,13 +180,13 @@
   document.querySelectorAll('[data-theme-choice]').forEach((button) => {
     button.addEventListener('click', () => {
       const changed = applyTheme(button.dataset.themeChoice);
-      if (changed) Sounds.play('state');
+      if (changed) { Sounds.play('state'); Haptics.trigger('selection'); }
     });
   });
   document.querySelectorAll('[data-language-choice]').forEach((button) => {
     button.addEventListener('click', () => {
       const changed = applyLanguage(button.dataset.languageChoice);
-      if (changed) Sounds.play('state');
+      if (changed) { Sounds.play('state'); Haptics.trigger('selection'); }
     });
   });
   document.querySelectorAll('[data-sound-choice]').forEach((button) => {
@@ -197,6 +199,7 @@
       Sounds.setEnabled(next);
       updateSoundControls();
       if (next) Sounds.play('state');
+      Haptics.trigger('selection');
     });
   });
 
@@ -248,7 +251,7 @@
   };
   const openMenu = () => { closeSettings(); setMenuOpen(true); };
   const closeMenu = (options={}) => setMenuOpen(false,options);
-  gooMain?.addEventListener('click',(event)=>{event.stopPropagation();menuOpen?closeMenu():openMenu();});
+  gooMain?.addEventListener('click',(event)=>{event.stopPropagation();const opening=!menuOpen;opening?openMenu():closeMenu();Haptics.trigger(opening?'medium':'light');});
   document.addEventListener('click',(event)=>{if(menuOpen && gooAnchor && !gooAnchor.contains(event.target)) closeMenu();});
   settingsTrigger?.addEventListener('click',()=>{closeMenu();window.setTimeout(openSettings,reduceMotion.matches?1:105);});
   gooItems.forEach((item)=>item.addEventListener('keydown',(event)=>{
@@ -345,6 +348,7 @@
     closeMenu();
     closeSettings();
     if (!commitView(nextName)) return;
+    Haptics.trigger('selection');
     if (historyMode === 'push') {
       try { history.pushState({view:nextName}, ''); } catch {}
     }
@@ -374,7 +378,10 @@
   const closeDialog = (dialog) => { if (dialog?.open) dialog.close(); };
 
   document.querySelectorAll('[data-close-dialog]').forEach((button) => {
-    button.addEventListener('click', () => closeDialog(button.closest('dialog')));
+    button.addEventListener('click', () => {
+      closeDialog(button.closest('dialog'));
+      Haptics.trigger('light');
+    });
   });
 
   [messageDialog,cvDialog].forEach((dialog) => {
@@ -405,6 +412,7 @@
   const contactError = (text, focusTarget) => {
     formStatus.textContent = text;
     Sounds.play('error');
+    Haptics.trigger('error');
     focusTarget?.focus?.();
   };
 
@@ -412,6 +420,7 @@
     formOpenedAt = Date.now();
     formStatus.textContent = '';
     openDialog(messageDialog);
+    Haptics.trigger('medium');
     window.setTimeout(() => msg?.focus({preventScroll:true}), 70);
   });
 
@@ -441,6 +450,7 @@
       }
       formStatus.textContent = cstr().sent;
       Sounds.play('success');
+      Haptics.trigger('success');
       contactForm.reset();
       window.setTimeout(() => closeDialog(messageDialog), 950);
     } catch (error) {
@@ -490,6 +500,7 @@
   cvTrigger?.addEventListener('click', () => {
     resetCv();
     openDialog(cvDialog);
+    Haptics.trigger('medium');
     window.setTimeout(() => cvPassword.focus({preventScroll:true}),70);
   });
   cvPassword?.addEventListener('input', () => {
@@ -526,11 +537,13 @@
         passwordShell.classList.add('is-error');
         cvStatus.textContent = root.lang === 'es' ? 'Contraseña incorrecta.' : 'Incorrect password.';
         Sounds.play('error');
+        Haptics.trigger('error');
         cvPassword.select();
         cvSubmit.disabled = false;
         return;
       }
       Sounds.play('success');
+      Haptics.trigger('success');
       const link = document.createElement('a');
       link.href = decodeTarget(root.lang);
       link.download = '';
@@ -543,6 +556,7 @@
     } catch {
       cvStatus.textContent = root.lang === 'es' ? 'No fue posible validar la contraseña.' : 'The password could not be validated.';
       Sounds.play('error');
+      Haptics.trigger('error');
       cvSubmit.disabled = false;
     }
   });
@@ -752,17 +766,20 @@
   };
 
   const setPortraitOpen = (open) => {
+    const wasOpen = portraitOpen;
     portraitOpen = Boolean(open);
     if (portraitOpen && portraitCard) portraitCard.style.visibility = '';
     portraitToast?.classList.toggle('is-open',portraitOpen);
     portraitStage?.setAttribute('aria-hidden',String(!portraitOpen));
     syncPortraitTriggers();
     if (!portraitOpen) resetPortraitTilt();
+    if (portraitOpen && !wasOpen) Haptics.trigger('medium');
   };
 
   let portraitDissolveController = null;
   const closePortraitWithDissolve = () => {
     if (!portraitOpen || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
+    Haptics.trigger('light');
     resetPortraitTilt();
     if (!portraitDissolveController && typeof window.createSmokyDissolve === 'function') {
       portraitDissolveController = window.createSmokyDissolve({

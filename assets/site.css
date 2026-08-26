@@ -86,6 +86,7 @@
 
   /* Desktop optical edge shared by the hero and the radial trigger. */
   --home-edge:calc(var(--side-pad) + var(--hero-left-offset));
+  --radial-anchor-top:0px;
 }
 *{box-sizing:border-box}
 html{background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
@@ -120,7 +121,7 @@ a{color:inherit}
    The original SVG goo layer is intentionally hidden at rest/open so every
    satellite remains a geometrically identical circle rather than merging
    into a connected blob when the five-item fan is fully expanded. */
-.t-goo-anchor{position:fixed;top:0;right:calc(var(--home-edge) - 80px);z-index:65;width:220px;height:380px;pointer-events:none;overflow:visible}
+.t-goo-anchor{position:fixed;top:var(--radial-anchor-top);right:calc(var(--home-edge) - 80px);z-index:65;width:220px;height:380px;pointer-events:none;overflow:visible}
 .t-goo-layer{display:none}
 .t-goo-item,.t-goo-main{
   appearance:none;position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;
@@ -409,11 +410,15 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
 }
 .section-home{
   appearance:none;border:0;background:transparent;color:var(--text);
+  position:fixed;top:calc(var(--radial-anchor-top) + 134px);right:calc(var(--home-edge) + 20px);z-index:66;
   width:40px;height:40px;flex:0 0 40px;padding:0;border-radius:50%;
   display:grid;place-items:center;
   transition:color 145ms ease,transform 150ms var(--ease-out),background-color 145ms ease;
 }
-.section-home svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.75;pointer-events:none}
+.section-home .back-arrow-icon{
+  width:20px;height:20px;display:block;fill:currentColor;stroke:currentColor;stroke-width:6.4;
+  stroke-linejoin:round;pointer-events:none;
+}
 .section-home:hover,.section-home:focus-visible{color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,transparent)}
 .section-home:active{transform:scale(.92)}
 .content-view.is-entering .section-home{opacity:0;transform:translateX(5px)}
@@ -620,7 +625,8 @@ dialog.modal[open]{
   /* Mobile radial layout stays entirely in the blank band above the hero.
      Labels receive opaque background chips so body copy can never reduce
      legibility if font metrics or viewport chrome shift by a few pixels. */
-  .t-goo-anchor{top:-58px;right:calc(var(--home-edge) - 80px);height:310px}
+  :root{--radial-anchor-top:-58px}
+  .t-goo-anchor{right:calc(var(--home-edge) - 80px);height:310px}
   .t-goo-item[data-view-target="experience"]{--fx:-154px!important;--fy:-8px!important}
   .t-goo-item[data-view-target="education"]{--fx:-124px!important;--fy:28px!important}
   .t-goo-item[data-view-target="publications"]{--fx:-94px!important;--fy:64px!important}
@@ -633,7 +639,6 @@ dialog.modal[open]{
   .settings-popover{top:126px;right:var(--home-edge)}
   .content-view{padding:102px var(--side-pad) 74px}
   .content-heading{margin-bottom:38px}.content-heading h2{font-size:min(var(--section-title-size),38px);line-height:.96}
-  .content-heading .section-home{position:fixed;top:42px;right:calc(var(--home-edge) + 72px);z-index:66}
   .record{grid-template-columns:1fr;gap:13px;padding:21px 0 24px}
   .record-rail{flex-direction:row;justify-content:space-between;gap:18px}
   .record-body h3{font-size:min(var(--record-title-size),24px)}
