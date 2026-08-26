@@ -372,7 +372,7 @@
     <section>
       <div class="section-head">
         <h2>Transitions</h2>
-        <div class="hint">click to alternate idle ↔ active</div>
+        <div class="hint">click to alternate · copies full idle ↔ active code</div>
       </div>
       <div class="grid" id="transitions"></div>
     </section>
@@ -398,7 +398,7 @@
     </section>
 
     <footer>
-      Each click copies the JavaScript recipe for the sound that was played. Transition buttons use directional inversion for active → idle.
+      Each click copies reusable JavaScript. Transition buttons copy the complete idle ↔ active implementation, including the repository-style inverse behavior.
     </footer>
   </main>
 
@@ -1473,6 +1473,80 @@ const notificationKndwr = {
       return `const ${id} = ${JSON.stringify(patch, null, 2)};\n\nplaySound(${id});\n`;
     }
 
+    function transitionCode(name, patch) {
+      const id = identifier(name);
+      const stateId = `${id}Active`;
+      const toggleId = `toggle${id[0].toUpperCase()}${id.slice(1)}`;
+
+      return `// Two-state transition sound.
+// idle → active: plays the original patch.
+// active → idle: plays a derived inverse patch.
+//
+// The inverse matches procedural-sounds' transition behavior:
+// - frequency sweeps are reversed
+// - static tones are transposed down a minor third
+// - layer onset order is mirrored
+//
+// Requires the playSound(patch) player function from procedural-sounds.
+
+const ${id} = ${JSON.stringify(patch, null, 2)};
+
+const STATIC_TRANSPOSE_RATIO = Math.pow(2, -3 / 12);
+
+function invertFrequency(freq) {
+  if (typeof freq === "number") {
+    return freq * STATIC_TRANSPOSE_RATIO;
+  }
+  return { start: freq.end, end: freq.start };
+}
+
+function invertPatch(patch) {
+  const clone = value =>
+    typeof structuredClone === "function"
+      ? structuredClone(value)
+      : JSON.parse(JSON.stringify(value));
+
+  const layers = (patch.layers || [patch]).map(clone);
+  const maxOnset = Math.max(...layers.map(layer => layer.delay ?? 0));
+
+  for (const layer of layers) {
+    const mirrored = maxOnset - (layer.delay ?? 0);
+
+    if (mirrored > 0) {
+      layer.delay = mirrored;
+    } else {
+      delete layer.delay;
+    }
+
+    if (layer.source.type !== "noise") {
+      layer.source.frequency = invertFrequency(layer.source.frequency);
+    }
+  }
+
+  return layers.length === 1 ? layers[0] : { layers };
+}
+
+let ${stateId} = false;
+
+function ${toggleId}() {
+  ${stateId} = !${stateId};
+
+  if (${stateId}) {
+    // idle → active
+    playSound(${id});
+  } else {
+    // active → idle
+    playSound(invertPatch(${id}));
+  }
+
+  return ${stateId};
+}
+
+// Example:
+// button.addEventListener("click", ${toggleId});
+`;
+    }
+
     async function copyText(text) {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
@@ -1514,12 +1588,12 @@ const notificationKndwr = {
       }, 900);
     }
 
-    async function playAndCopy(button, name, patch) {
+    async function playAndCopy(button, name, patch, code = null) {
       playSound(patch);
       animateButton(button);
 
       try {
-        await copyText(soundCode(name, patch));
+        await copyText(code || soundCode(name, patch));
         showCopied();
       } catch (error) {
         console.error("Could not copy sound code:", error);
@@ -1567,9 +1641,10 @@ const notificationKndwr = {
         active = !active;
 
         const playedPatch = active ? patch : invertPatch(patch);
-        const playedName = active ? name : `${name}Reverse`;
 
-        playAndCopy(button, playedName, playedPatch);
+        // Play the direction corresponding to the new state, but always copy
+        // the complete reusable two-state transition implementation.
+        playAndCopy(button, name, playedPatch, transitionCode(name, patch));
 
         button.dataset.active = String(active);
         button.setAttribute("aria-pressed", String(active));
