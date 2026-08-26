@@ -116,36 +116,42 @@ a{color:inherit}
 .topbar{position:fixed;inset:0 0 auto 0;z-index:60;height:0;padding:0;pointer-events:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
-/* Transitions.dev Gooey plus menu, adapted to five actions.
-   The original transition uses a broad fan; these five positions keep that
-   silhouette while opening the arc enough for labels to breathe. */
-.t-goo-anchor{position:fixed;top:0;right:calc(var(--home-edge) - 80px);z-index:65;width:200px;height:330px;pointer-events:none;overflow:visible}
-.t-goo-layer{position:absolute;inset:0;width:200px;height:310px;overflow:visible;pointer-events:none;transform-origin:100px 100px}
-.t-goo-blob{fill:var(--bg);transform-box:fill-box;transform-origin:center;transform:translate(0,0);transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),fill 180ms ease;will-change:transform}
-.t-goo-blob-main{transition:fill 180ms ease}
-.t-goo-anchor[data-open="true"] .t-goo-blob:not(.t-goo-blob-main){transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread)))}
-.t-goo-anchor[data-open="false"] .t-goo-blob:not(.t-goo-blob-main){transition-duration:var(--goo-close-dur);transition-delay:calc(var(--ri,0)*var(--goo-close-stagger))}
-.t-goo-item,.t-goo-main{appearance:none;border:0;background:transparent;color:var(--text);position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent}
-.t-goo-main{z-index:5;pointer-events:auto;background:var(--bg);transition:background-color 180ms ease,color 140ms ease}
-.t-goo-item{z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease;will-change:transform,opacity,filter}
+/* Radial menu: independent circular controls.
+   The original SVG goo layer is intentionally hidden at rest/open so every
+   satellite remains a geometrically identical circle rather than merging
+   into a connected blob when the five-item fan is fully expanded. */
+.t-goo-anchor{position:fixed;top:0;right:calc(var(--home-edge) - 80px);z-index:65;width:220px;height:380px;pointer-events:none;overflow:visible}
+.t-goo-layer{display:none}
+.t-goo-item,.t-goo-main{
+  appearance:none;position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;
+  display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;
+  border:1px solid color-mix(in srgb,var(--text) 11%,transparent);background:var(--bg);color:var(--text);
+  box-shadow:0 2px 7px color-mix(in srgb,var(--text) 5%,transparent),0 12px 34px color-mix(in srgb,var(--text) 7%,transparent);
+  transition:background-color 180ms ease,color 140ms ease,border-color 180ms ease,box-shadow 180ms ease;
+}
+.t-goo-main{z-index:5;pointer-events:auto}
+.t-goo-item{
+  z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);
+  transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease,background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease;
+  will-change:transform,opacity,filter;
+}
 .t-goo-anchor[data-open="true"] .t-goo-item{pointer-events:auto;opacity:1;filter:blur(0);transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(1)}
-.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms}
-.t-goo-item svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:scale(.88);transition:transform 190ms var(--goo-icon-ease),color 140ms ease}
-.t-goo-anchor[data-open="true"] .t-goo-item svg{transform:scale(1)}
+.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms,180ms,180ms,180ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms,0ms,0ms,0ms}
+.t-goo-item svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:scale(.9);transition:transform 190ms var(--goo-icon-ease),color 140ms ease}
+.t-goo-anchor[data-open="true"] .t-goo-item svg{transform:scale(1.06)}
 .t-goo-label{position:absolute;right:calc(100% + 10px);top:50%;transform:translate(6px,-50%);white-space:nowrap;font-size:11px;font-weight:400;line-height:1;letter-spacing:-.025em;color:var(--text);opacity:0;filter:blur(2px);pointer-events:none;transition:opacity 170ms ease-out,filter 180ms ease-out,transform 230ms var(--goo-ease),color 140ms ease}
 .t-goo-anchor[data-open="true"] .t-goo-label{opacity:1;filter:blur(0);transform:translate(0,-50%);transition-delay:calc(95ms + (var(--i,0)*var(--goo-stagger)))}
 .t-goo-item:hover .t-goo-label,.t-goo-item:focus-visible .t-goo-label{color:var(--accent)}
-.t-goo-item:hover,.t-goo-item:focus-visible{color:var(--accent)}
-.t-goo-item:hover svg,.t-goo-item:focus-visible svg{transform:scale(1.06)}
+.t-goo-item:hover,.t-goo-item:focus-visible,.t-goo-main:hover,.t-goo-main:focus-visible{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 34%,transparent)}
+.t-goo-item:hover svg,.t-goo-item:focus-visible svg{transform:scale(1.1)}
 .t-goo-item:active{transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(.94)!important}
-.t-goo-item:active svg{transform:scale(.96)}
+.t-goo-item:active svg{transform:scale(.98)}
 .t-goo-swap,.t-goo-icon{display:grid;place-items:center;width:20px;height:20px}
 .t-goo-icon{transition:transform 420ms var(--goo-ease),filter 220ms ease,opacity 220ms ease;will-change:transform,filter}
 .t-goo-icon svg{width:20px;height:20px}
-.t-goo-main:hover,.t-goo-main:focus-visible{color:var(--accent)}
 .t-goo-main:active .t-goo-icon{transform:scale(.94)}
 .t-goo-anchor[data-open="true"] .t-goo-icon{transform:rotate(45deg)}
-.t-goo-anchor.is-anticipating .t-goo-layer,.t-goo-anchor.is-anticipating .t-goo-main{animation:t-goo-anticip var(--goo-anticip-dur) var(--goo-ease)}
+.t-goo-anchor.is-anticipating .t-goo-main{animation:t-goo-anticip var(--goo-anticip-dur) var(--goo-ease)}
 @keyframes t-goo-anticip{0%,100%{transform:translateY(0)}18%{transform:translateY(3px)}38%{transform:translateY(-1.5px)}58%{transform:translateY(.7px)}}
 
 .settings-popover{
@@ -359,7 +365,7 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
   position:absolute;top:8px;right:8px;z-index:4;
   width:24px;height:24px;padding:0;border:0;border-radius:0;
   display:grid;place-items:center;
-  background:transparent;color:#25253a;
+  background:transparent;color:#fdfdfc;
   box-shadow:none;
   -webkit-tap-highlight-color:transparent;
   transition:transform 150ms var(--ease-out),opacity 140ms ease;
@@ -610,9 +616,24 @@ dialog.modal[open]{
   .home-view{padding:108px 0}
   .hero-copy{width:calc(100vw - (var(--hero-mobile-side-inset)*2));max-width:none;margin-left:var(--hero-mobile-side-inset);margin-right:var(--hero-mobile-side-inset)}
   .hero-copy p{font-size:clamp(22px,5.8vw,var(--hero-size));line-height:var(--hero-line-height);letter-spacing:var(--hero-letter-spacing);word-spacing:var(--hero-word-spacing)}
+
+  /* Mobile radial layout stays entirely in the blank band above the hero.
+     Labels receive opaque background chips so body copy can never reduce
+     legibility if font metrics or viewport chrome shift by a few pixels. */
+  .t-goo-anchor{top:-58px;right:calc(var(--home-edge) - 80px);height:310px}
+  .t-goo-item[data-view-target="experience"]{--fx:-154px!important;--fy:-8px!important}
+  .t-goo-item[data-view-target="education"]{--fx:-124px!important;--fy:28px!important}
+  .t-goo-item[data-view-target="publications"]{--fx:-94px!important;--fy:64px!important}
+  .t-goo-item[data-view-target="contact"]{--fx:-60px!important;--fy:100px!important}
+  #gooeySettings{--fx:-22px!important;--fy:136px!important}
+  .t-goo-label{
+    right:calc(100% + 8px);padding:4px 7px;border-radius:999px;background:var(--bg);
+    box-shadow:0 0 0 3px var(--bg);font-size:11px;line-height:1.05;
+  }
   .settings-popover{top:126px;right:var(--home-edge)}
   .content-view{padding:102px var(--side-pad) 74px}
   .content-heading{margin-bottom:38px}.content-heading h2{font-size:min(var(--section-title-size),38px);line-height:.96}
+  .content-heading .section-home{position:fixed;top:42px;right:calc(var(--home-edge) + 72px);z-index:66}
   .record{grid-template-columns:1fr;gap:13px;padding:21px 0 24px}
   .record-rail{flex-direction:row;justify-content:space-between;gap:18px}
   .record-body h3{font-size:min(var(--record-title-size),24px)}

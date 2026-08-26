@@ -401,7 +401,7 @@
     es:{fields:'Por favor completa todos los campos.',email:'Por favor ingresa una dirección de correo electrónico válida.',robot:'Por favor confirma que no eres un robot.',trap:'Por favor revisa tu mensaje antes de enviar.',send:'Error al enviar. Intenta de nuevo.',sent:'Mensaje enviado · Gracias, te responderé pronto.'}
   };
   const cstr = () => contactStrings[root.lang === 'es' ? 'es' : 'en'];
-  const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  const validEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && email?.checkValidity?.() !== false;
   const contactError = (text, focusTarget) => {
     formStatus.textContent = text;
     Sounds.play('error');
@@ -430,13 +430,21 @@
       payload.append('email',email.value.trim());
       payload.append('message',msg.value.trim());
       payload.append('_gotcha','');
-      const response = await fetch('https://formspree.io/f/maqpznrg',{method:'POST',headers:{Accept:'application/json'},body:payload});
-      if (!response.ok) throw new Error('send');
+      const response = await fetch(contactForm.action,{method:'POST',headers:{Accept:'application/json'},body:payload,mode:'cors'});
+      let result = null;
+      try { result = await response.json(); } catch {}
+      if (!response.ok) {
+        const serverText = Array.isArray(result?.errors) ? result.errors.map((item)=>item?.message).filter(Boolean).join(' ') : '';
+        const emailRejected = response.status === 422 && /email/i.test(serverText || '');
+        if (emailRejected) return contactError(cstr().email,email);
+        throw new Error(serverText || `HTTP ${response.status}`);
+      }
       formStatus.textContent = cstr().sent;
       Sounds.play('success');
       contactForm.reset();
       window.setTimeout(() => closeDialog(messageDialog), 950);
-    } catch {
+    } catch (error) {
+      console.warn('Contact form submission failed:',error);
       contactError(cstr().send);
     } finally {
       submitMessage.disabled = false;

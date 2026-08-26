@@ -420,7 +420,7 @@ function createSmokyDissolve({ stage, card, canvas, respawn = true, onComplete }
     // Only the icon changes here; the dissolve motion/physics below are untouched.
     const ix = cardW - 8 - 24,
       iy = 8;
-    sc.strokeStyle = "#25253a";
+    sc.strokeStyle = "#fdfdfc";
     sc.lineWidth = 2;
     sc.lineCap = "round";
     sc.lineJoin = "round";

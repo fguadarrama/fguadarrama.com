@@ -1,17 +1,18 @@
-# Francisco Guadarrama — redesign tuning build v8
+# Francisco Guadarrama — redesign build v9
 
-GitHub Pages-ready build. Open `index.html`; append `?debug=1` to expose the live debugger.
+GitHub Pages-ready static build. Open `index.html`; append `?debug=1` to expose the live debugger.
 
 ## This revision
 
-- Applies the supplied English and Spanish word-level tuning and the supplied light palette/typography defaults.
-- Keeps the Spanish final statement as one line-aware underline stroke per rendered line.
-- Reworks the Transitions.dev Gooey Plus Menu into a substantially wider five-action lower-left fan so labels and buttons no longer crowd each other.
-- Optically aligns the radial trigger's right inset with the introduction's left inset on desktop; the same rule collapses to the mobile hero inset.
-- Keeps the `+` surface on the page background and enlarges activated satellite icons to the same 20 px size as the `+`.
-- Replaces the portrait close `X` with the requested 24 px Lucide minimize SVG, with no backing circle, and updates only the smoky-dissolve snapshot painter to match it.
-- Adds a Transitions.dev-style 500 ms text reveal with 40 ms capped stagger on every section entry, a quiet 200 ms exit, and reduced-motion handling.
-- Reduces footer contrast substantially.
-- Preserves the generated `FG` SVG-data favicon, GitHub Pages files, portrait sizing, tilt behavior, and smoky-dissolve motion.
+- Replaces the fully-open goo blob with five independent, identical circular radial controls so the fan cannot merge into a caterpillar shape.
+- Repositions the mobile fan into the blank upper band, adds page-background label chips on mobile, and separates the section back control from the global radial trigger.
+- Keeps the portrait minimize control transparent and renders its SVG in `#fdfdfc` in both light and dark themes, including the smoky-dissolve snapshot.
+- Routes every procedural interface sound through a 0.65 master gain.
+- Hardens the contact form with a real Formspree `action`, named form fields, stricter local e-mail validation, JSON error handling, and native-POST progressive enhancement if JavaScript submission is unavailable.
+- Adds GitHub Pages-compatible discoverability files: `robots.txt`, `sitemap.xml`, `llms.txt`, JSON Feed, RSS Feed, and an agent-friendly `404.html`.
+- Expands Open Graph/Twitter metadata and JSON-LD with `Person`, `WebSite`, and `ProfilePage`, including `dateModified`.
+- Does not change the visible body text of the website.
 
-The debugger persists locally and `Copy tuning` exports the current settings.
+## GitHub Pages limitations
+
+Response-header features such as HTTP `Link` headers and content negotiation by `Accept: text/markdown` cannot be configured from a plain GitHub Pages repository. DNS-level discovery likewise has to be configured at the DNS provider rather than in this ZIP.

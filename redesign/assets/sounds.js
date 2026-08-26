@@ -11,6 +11,9 @@
     if (ctx.state === 'suspended') ctx.resume().catch(() => {});
     const S = 0.0001;
     const t0 = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.value = 0.65;
+    master.connect(ctx.destination);
 
     function noiseBuffer(seconds, color) {
       const len = Math.max(1, Math.floor(ctx.sampleRate * seconds));
@@ -173,7 +176,7 @@
         out.connect(built.input);
         out = built.output;
       }
-      out.connect(ctx.destination);
+      out.connect(master);
     }
   }
 
