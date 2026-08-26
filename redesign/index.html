@@ -25,9 +25,9 @@
       try {
         const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4577b5'};
         const dark = {bg:'#2c292f',text:'#fdfdfc',accent:'#a0b9d9'};
-        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v5') || 'null') || defaults;
+        const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v6') || 'null') || defaults;
         const palette = saved.bg && saved.text && saved.accent ? saved : defaults;
-        const theme = localStorage.getItem('fg-theme-v1') === 'dark' ? 'dark' : 'light';
+        const theme = localStorage.getItem('fg-theme-v2') === 'dark' ? 'dark' : 'light';
         const active = theme === 'dark' ? dark : palette;
         const root = document.documentElement;
         root.dataset.theme = theme;
@@ -88,9 +88,9 @@
     <header class="topbar">
 
       <nav class="t-goo-anchor" id="gooeyMenu" data-open="false" aria-label="Site sections">
-        <svg class="t-goo-layer" viewBox="0 0 200 140" aria-hidden="true" focusable="false">
+        <svg class="t-goo-layer" viewBox="0 0 200 310" aria-hidden="true" focusable="false">
           <defs>
-            <filter id="t-goo-filter" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+            <filter id="t-goo-filter" filterUnits="userSpaceOnUse" x="-150" y="-120" width="500" height="470" color-interpolation-filters="sRGB">
               <feGaussianBlur id="tGooBlur" in="SourceGraphic" stdDeviation="6" result="blur"/>
               <feColorMatrix id="tGooMatrix" in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"/>
               <feComposite in="SourceGraphic" in2="goo" operator="atop" result="shape"/>
@@ -110,31 +110,31 @@
             </filter>
           </defs>
           <g filter="url(#t-goo-filter)">
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-69.55px;--fy:18.63px;--i:0;--ri:4"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-62.35px;--fy:36px;--i:1;--ri:3"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-50.91px;--fy:50.91px;--i:2;--ri:2"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-36px;--fy:62.35px;--i:3;--ri:1"></circle>
-            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-18.63px;--fy:69.55px;--i:4;--ri:0"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-126px;--fy:8px;--i:0;--ri:4"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-108px;--fy:48px;--i:1;--ri:3"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-86px;--fy:88px;--i:2;--ri:2"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-56px;--fy:128px;--i:3;--ri:1"></circle>
+            <circle class="t-goo-blob" cx="100" cy="100" r="20" style="--fx:-16px;--fy:166px;--i:4;--ri:0"></circle>
             <circle class="t-goo-blob t-goo-blob-main" cx="100" cy="100" r="20"></circle>
           </g>
         </svg>
-        <button type="button" class="t-goo-item" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience" tabindex="-1" style="--fx:-69.55px;--fy:18.63px;--i:0;--ri:4">
+        <button type="button" class="t-goo-item" data-view-target="experience" data-label-en="Experience" data-label-es="Experiencia" aria-label="Experience" tabindex="-1" style="--fx:-126px;--fy:8px;--i:0;--ri:4">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V5.8A1.8 1.8 0 0 1 10.8 4h2.4A1.8 1.8 0 0 1 15 5.8V7M4.5 8.5h15v10.2a1.8 1.8 0 0 1-1.8 1.8H6.3a1.8 1.8 0 0 1-1.8-1.8V8.5Z"/><path d="M4.5 12.2c4.8 2.2 10.2 2.2 15 0M10.5 13.7h3"/></svg>
           <span class="t-goo-label" data-en="Experience" data-es="Experiencia">Experience</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="education" data-label-en="Education" data-label-es="Formación académica" aria-label="Education" tabindex="-1" style="--fx:-62.35px;--fy:36px;--i:1;--ri:3">
+        <button type="button" class="t-goo-item" data-view-target="education" data-label-en="Education" data-label-es="Formación académica" aria-label="Education" tabindex="-1" style="--fx:-108px;--fy:48px;--i:1;--ri:3">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-4 9 4-9 4-9-4Z"/><path d="M7 11v5.2c2.8 2.2 7.2 2.2 10 0V11M21 9v6"/></svg>
           <span class="t-goo-label" data-en="Education" data-es="Formación académica">Education</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="publications" data-label-en="Selected Publications" data-label-es="Publicaciones seleccionadas" aria-label="Selected Publications" tabindex="-1" style="--fx:-50.91px;--fy:50.91px;--i:2;--ri:2">
+        <button type="button" class="t-goo-item" data-view-target="publications" data-label-en="Selected Publications" data-label-es="Publicaciones seleccionadas" aria-label="Selected Publications" tabindex="-1" style="--fx:-86px;--fy:88px;--i:2;--ri:2">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8.5L19 8v12.5H6V3.5Z"/><path d="M14.5 3.5V8H19M9 12h7M9 15.5h7"/></svg>
           <span class="t-goo-label" data-en="Selected Publications" data-es="Publicaciones seleccionadas">Selected Publications</span>
         </button>
-        <button type="button" class="t-goo-item" data-view-target="contact" data-label-en="Contact" data-label-es="Contacto" aria-label="Contact" tabindex="-1" style="--fx:-36px;--fy:62.35px;--i:3;--ri:1">
+        <button type="button" class="t-goo-item" data-view-target="contact" data-label-en="Contact" data-label-es="Contacto" aria-label="Contact" tabindex="-1" style="--fx:-56px;--fy:128px;--i:3;--ri:1">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H8l-4 3v-14Z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
           <span class="t-goo-label" data-en="Contact" data-es="Contacto">Contact</span>
         </button>
-        <button type="button" class="t-goo-item" id="gooeySettings" aria-haspopup="dialog" aria-expanded="false" data-label-en="Settings" data-label-es="Ajustes" aria-label="Settings" tabindex="-1" style="--fx:-18.63px;--fy:69.55px;--i:4;--ri:0">
+        <button type="button" class="t-goo-item" id="gooeySettings" aria-haspopup="dialog" aria-expanded="false" data-label-en="Settings" data-label-es="Ajustes" aria-label="Settings" tabindex="-1" style="--fx:-16px;--fy:166px;--i:4;--ri:0">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
           <span class="t-goo-label" data-en="Settings" data-es="Ajustes">Settings</span>
         </button>
@@ -419,9 +419,7 @@
             draggable="false"
           >
           <button type="button" class="portrait-close t-smoky-delete" id="portraitClose" aria-label="Close portrait">
-            <svg width="16" height="16" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-              <path d="M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minimize-icon lucide-minimize" aria-hidden="true"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
           </button>
           <div class="t-tilt-glare" aria-hidden="true"></div>
         </div>

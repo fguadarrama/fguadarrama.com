@@ -416,20 +416,31 @@ function createSmokyDissolve({ stage, card, canvas, respawn = true, onComplete }
       sc.fillStyle = "#e9e9ec";
       sc.fillRect(0, 0, cardW, cardH);
     }
-    const bx = cardW - 8 - 12,
-      by = 8 + 12;
-    sc.beginPath();
-    sc.arc(bx, by, 12, 0, Math.PI * 2);
-    sc.fillStyle = "rgba(255, 255, 255, 0.92)";
-    sc.fill();
-    sc.strokeStyle = "#17181c";
-    sc.lineWidth = 1.5;
+    // Match the visible 24×24 Lucide minimize control in the snapshot.
+    // Only the icon changes here; the dissolve motion/physics below are untouched.
+    const ix = cardW - 8 - 24,
+      iy = 8;
+    sc.strokeStyle = "#25253a";
+    sc.lineWidth = 2;
     sc.lineCap = "round";
+    sc.lineJoin = "round";
     sc.beginPath();
-    sc.moveTo(bx - 3.5, by - 3.5);
-    sc.lineTo(bx + 3.5, by + 3.5);
-    sc.moveTo(bx + 3.5, by - 3.5);
-    sc.lineTo(bx - 3.5, by + 3.5);
+    sc.moveTo(ix + 8, iy + 3);
+    sc.lineTo(ix + 8, iy + 6);
+    sc.arcTo(ix + 8, iy + 8, ix + 6, iy + 8, 2);
+    sc.lineTo(ix + 3, iy + 8);
+    sc.moveTo(ix + 21, iy + 8);
+    sc.lineTo(ix + 18, iy + 8);
+    sc.arcTo(ix + 16, iy + 8, ix + 16, iy + 6, 2);
+    sc.lineTo(ix + 16, iy + 3);
+    sc.moveTo(ix + 3, iy + 16);
+    sc.lineTo(ix + 6, iy + 16);
+    sc.arcTo(ix + 8, iy + 16, ix + 8, iy + 18, 2);
+    sc.lineTo(ix + 8, iy + 21);
+    sc.moveTo(ix + 16, iy + 21);
+    sc.lineTo(ix + 16, iy + 18);
+    sc.arcTo(ix + 16, iy + 16, ix + 18, iy + 16, 2);
+    sc.lineTo(ix + 21, iy + 16);
     sc.stroke();
     // Pixel buffers for the software displacement map + blur.
     // The snapshot is premultiplied once here — bilinear

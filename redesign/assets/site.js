@@ -10,10 +10,10 @@
   const storageRemove = (key) => { try { localStorage.removeItem(key); } catch {} };
 
   const langKey = 'fg-language-v3';
-  const themeKey = 'fg-theme-v1';
+  const themeKey = 'fg-theme-v2';
   const soundKey = 'fg-sounds-v1';
-  const paletteKey = 'fg-debug-palette-v5';
-  const typeKey = 'fg-debug-type-v5';
+  const paletteKey = 'fg-debug-palette-v6';
+  const typeKey = 'fg-debug-type-v6';
   const annotationsKey = 'fg-debug-annotations-v2';
 
   /* ---------- palette + theme ---------- */
@@ -271,12 +271,28 @@
 
   const setAnimationIndices = () => {
     document.querySelectorAll('.hero-copy').forEach((copy) => {
-      copy.querySelectorAll('p').forEach((paragraph, index) => paragraph.style.setProperty('--p-index', index));
+      copy.querySelectorAll('p').forEach((paragraph, index) => {
+        paragraph.classList.add('t-stagger-line');
+        paragraph.style.setProperty('--stagger-index', Math.min(index, 5));
+      });
       copy.querySelectorAll('.annotation-decoration').forEach((decoration, index) => decoration.style.setProperty('--annotation-index', index));
     });
     document.querySelectorAll('.content-view').forEach((view) => {
-      view.querySelectorAll('.record,.contact-actions>*').forEach((item, index) => item.style.setProperty('--item-index', Math.min(index, 7)));
+      const lines = [
+        view.querySelector('.content-heading h2'),
+        ...view.querySelectorAll('.record,.contact-actions>*')
+      ].filter(Boolean);
+      lines.forEach((item, index) => {
+        item.classList.add('t-stagger-line');
+        item.style.setProperty('--stagger-index', Math.min(index, 5));
+      });
     });
+  };
+
+  let enterCleanupTimer = 0;
+  const finishRevealClasses = (view) => {
+    if (!view) return;
+    view.classList.remove('is-entering','is-entering-active');
   };
 
   const commitView = (nextName) => {
@@ -285,6 +301,8 @@
     if (!next || nextName === currentView) return false;
 
     switching = true;
+    window.clearTimeout(enterCleanupTimer);
+    finishRevealClasses(current);
     current?.classList.add('is-leaving');
 
     const swap = () => {
@@ -294,6 +312,7 @@
       }
       next.hidden = false;
       next.scrollTop = 0;
+      next.classList.remove('is-leaving','is-entering-active');
       next.classList.add('is-entering');
       currentView = nextName;
       root.dataset.view = nextName;
@@ -304,15 +323,20 @@
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           next.classList.add('is-entering-active','is-current');
-          window.setTimeout(() => {
-            next.classList.remove('is-entering','is-entering-active');
+          if (reduceMotion.matches) {
+            finishRevealClasses(next);
             switching = false;
-          }, reduceMotion.matches ? 1 : 340);
+            return;
+          }
+          /* Interaction is released before the visual reveal finishes;
+             cleanup happens after the last capped stagger (500 + 5×40ms). */
+          window.setTimeout(() => { switching = false; }, 260);
+          enterCleanupTimer = window.setTimeout(() => finishRevealClasses(next), 740);
         });
       });
     };
 
-    window.setTimeout(swap, reduceMotion.matches ? 1 : 145);
+    window.setTimeout(swap, reduceMotion.matches ? 1 : 200);
     return true;
   };
 
@@ -520,7 +544,7 @@
   const debugMode = new URLSearchParams(location.search).get('debug') === '1';
   if (debugMode) root.dataset.debug = 'true';
 
-  const tunerKey = 'fg-debug-tuner-v6';
+  const tunerKey = 'fg-debug-tuner-v7';
   const heroCopies = {
     en:document.querySelector('.hero-copy.lang-en'),
     es:document.querySelector('.hero-copy.lang-es')
@@ -535,7 +559,7 @@
     es:{wavy:'atención de alto valor a pesar de las limitaciones',highlight:'clínica en las montañas del estado más pobre de México',underline:'Me niego a aceptar una atención médica inferior como una consecuencia inevitable de la escasez.'}
   };
 
-  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":240,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":15,"end":18,"style":"highlight","color":null},{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":1,"start":7,"end":12,"style":"highlight","color":null},{"p":0,"start":27,"end":36,"style":"wavy","color":null},{"p":0,"start":6,"end":8,"style":"wavy","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":240,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":7,"end":16,"style":"highlight","color":null},{"p":1,"start":19,"end":22,"style":"highlight","color":null},{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"underline","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":28,"end":40,"style":"wavy","color":null},{"p":0,"start":8,"end":11,"style":"wavy","color":null}]}};
+  const tunedDefaults = {"en":{"weights":{"0:6":350,"0:7":350,"0:8":350,"0:27":350,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:15":350,"1:16":350,"1:17":350,"1:18":350,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"0:9":240,"0:10":240,"0:11":240,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:3":240,"0:4":240,"0:5":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:13":240,"1:14":240,"1:19":240,"1:20":240,"1:21":240,"1:22":240,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"0:0":240,"0:1":240,"0:2":350},"annotations":[{"p":1,"start":33,"end":37,"style":"wavy","color":null},{"p":2,"start":0,"end":11,"style":"double","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":27,"end":36,"style":"wavy","color":null},{"p":0,"start":2,"end":2,"style":"highlight","color":"#ffe14d"},{"p":1,"start":7,"end":12,"style":"highlight","color":"#ffe14d"},{"p":1,"start":15,"end":18,"style":"highlight","color":"#ffe14d"},{"p":0,"start":5,"end":8,"style":"wavy","color":null}]},"es":{"weights":{"0:0":240,"0:1":240,"0:2":350,"0:3":240,"0:4":240,"0:5":240,"0:6":240,"0:7":350,"0:8":350,"0:9":350,"0:10":350,"0:11":350,"0:12":240,"0:13":240,"0:14":240,"0:15":240,"0:16":240,"0:17":240,"0:18":240,"0:19":240,"0:20":240,"0:21":240,"0:22":240,"0:23":240,"0:24":240,"0:25":240,"0:26":240,"0:27":240,"0:28":350,"0:29":350,"0:30":350,"0:31":350,"0:32":350,"0:33":350,"0:34":350,"0:35":350,"0:36":350,"0:37":350,"0:38":350,"0:39":350,"0:40":350,"1:0":240,"1:1":240,"1:2":240,"1:3":240,"1:4":240,"1:5":240,"1:6":240,"1:7":350,"1:8":350,"1:9":350,"1:10":350,"1:11":350,"1:12":350,"1:13":350,"1:14":350,"1:15":350,"1:16":350,"1:17":240,"1:18":240,"1:19":350,"1:20":350,"1:21":350,"1:22":350,"1:23":240,"1:24":240,"1:25":240,"1:26":240,"1:27":240,"1:28":240,"1:29":240,"1:30":240,"1:31":240,"1:32":240,"1:33":240,"1:34":240,"1:35":240,"1:36":240,"1:37":240,"1:38":240,"1:39":240,"1:40":240,"1:41":240,"1:42":240,"1:43":240,"1:44":240,"1:45":240,"1:46":240,"1:47":240,"1:48":240,"1:49":240,"1:50":240,"1:51":240,"1:52":240,"1:53":240,"2:0":300,"2:1":300,"2:2":300,"2:3":300,"2:4":300,"2:5":300,"2:6":300,"2:7":300,"2:8":300,"2:9":300,"2:10":300,"2:11":300,"2:12":300,"2:13":300,"2:14":300},"annotations":[{"p":1,"start":45,"end":53,"style":"wavy","color":null},{"p":2,"start":0,"end":14,"style":"underline","color":"#ea1b5c","darkColor":"#ff96ac"},{"p":0,"start":28,"end":40,"style":"wavy","color":null},{"p":0,"start":7,"end":11,"style":"wavy","color":null},{"p":0,"start":2,"end":2,"style":"highlight","color":"#ffe14d"},{"p":1,"start":7,"end":16,"style":"highlight","color":"#ffe14d"},{"p":1,"start":19,"end":22,"style":"highlight","color":"#ffe14d"}]}};
   const cloneTunedDefaults = () => JSON.parse(JSON.stringify(tunedDefaults));
 
   const annotationSvg = {
@@ -1146,5 +1170,15 @@
   }
 
   setAnimationIndices();
+  const initialView = getView(currentView);
+  if (initialView && !reduceMotion.matches) {
+    initialView.classList.add('is-entering');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        initialView.classList.add('is-entering-active');
+        enterCleanupTimer = window.setTimeout(() => finishRevealClasses(initialView), 740);
+      });
+    });
+  }
   root.dataset.ready = 'true';
 })();
