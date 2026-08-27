@@ -86,7 +86,6 @@
 
   /* Desktop optical edge shared by the hero and the radial trigger. */
   --home-edge:calc(var(--side-pad) + var(--hero-left-offset));
-  --radial-anchor-top:0px;
 }
 *{box-sizing:border-box}
 html{background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%}
@@ -114,45 +113,38 @@ a{color:inherit}
 
 .app-shell{height:100svh;overflow:hidden;position:relative;background:var(--bg)}
 
-.topbar{position:fixed;inset:0;z-index:60;padding:0;pointer-events:none}
+.topbar{position:fixed;inset:0 0 auto 0;z-index:60;height:0;padding:0;pointer-events:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
 /* Radial menu: independent circular controls.
-   The original SVG goo layer is intentionally hidden at rest/open so every
-   satellite remains a geometrically identical circle rather than merging
-   into a connected blob when the five-item fan is fully expanded. */
-.t-goo-anchor{position:fixed;top:var(--radial-anchor-top);right:calc(var(--home-edge) - 80px);z-index:65;width:220px;height:380px;pointer-events:none;overflow:visible}
+   This is the same positioning/hit-testing architecture used by the known-good
+   /redesign build: a large fixed anchor inside .topbar, pointer-events disabled
+   on the anchor, restored only on the main trigger/open satellites. */
+.t-goo-anchor{position:fixed;top:0;right:calc(var(--home-edge) - 80px);z-index:65;width:220px;height:380px;pointer-events:none;overflow:visible}
 .t-goo-layer{display:none}
 .t-goo-item,.t-goo-main{
   appearance:none;position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;
-  display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;
   border:1px solid color-mix(in srgb,var(--text) 11%,transparent);background:var(--bg);color:var(--text);
   box-shadow:none;
   transition:background-color 180ms ease,color 140ms ease,border-color 180ms ease;
 }
-.t-goo-main{z-index:5;pointer-events:auto;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-appearance:none;appearance:none}
+.t-goo-main{z-index:5;pointer-events:auto}
 .t-goo-item{
   z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);
-  transition:transform var(--goo-open-dur) var(--goo-ease) var(--goo-open-delay,0ms),opacity var(--goo-icon-dur) ease-out var(--goo-open-delay,0ms),filter var(--goo-icon-dur) ease-out var(--goo-open-delay,0ms),color 140ms ease,background-color 180ms ease,border-color 180ms ease;
+  transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease,background-color 180ms ease,border-color 180ms ease;
   will-change:transform,opacity,filter;
 }
-/* Precomputed timings avoid CSS Values 4 multiplication, which is not
-   consistently supported by Firefox/Safari. Visual timing is unchanged. */
-.t-goo-item:nth-of-type(1){--goo-open-delay:0ms;--goo-close-delay:96ms;--goo-label-delay:95ms}
-.t-goo-item:nth-of-type(2){--goo-open-delay:42ms;--goo-close-delay:72ms;--goo-label-delay:137ms}
-.t-goo-item:nth-of-type(3){--goo-open-delay:84ms;--goo-close-delay:48ms;--goo-label-delay:179ms}
-.t-goo-item:nth-of-type(4){--goo-open-delay:126ms;--goo-close-delay:24ms;--goo-label-delay:221ms}
-.t-goo-item:nth-of-type(5){--goo-open-delay:168ms;--goo-close-delay:0ms;--goo-label-delay:263ms}
-.t-goo-anchor[data-open="true"] .t-goo-item{pointer-events:auto;opacity:1;filter:blur(0);transform:translate(var(--fx),var(--fy)) scale(1)}
-.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms,180ms,180ms;transition-delay:var(--goo-close-delay,0ms),var(--goo-close-delay,0ms),var(--goo-close-delay,0ms),0ms,0ms,0ms}
+.t-goo-anchor[data-open="true"] .t-goo-item{pointer-events:auto;opacity:1;filter:blur(0);transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(1)}
+.t-goo-anchor[data-open="false"] .t-goo-item{transition-duration:var(--goo-close-dur),180ms,180ms,140ms,180ms,180ms;transition-delay:calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),calc(var(--ri,0)*var(--goo-close-stagger)),0ms,0ms,0ms}
 .t-goo-item svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:scale(.9);transition:transform 190ms var(--goo-icon-ease),color 140ms ease}
 .t-goo-anchor[data-open="true"] .t-goo-item svg{transform:scale(1.06)}
 .t-goo-label{position:absolute;right:calc(100% + 10px);top:50%;transform:translate(6px,-50%);white-space:nowrap;font-size:11px;font-weight:400;line-height:1;letter-spacing:-.025em;color:var(--text);opacity:0;filter:blur(2px);pointer-events:none;transition:opacity 170ms ease-out,filter 180ms ease-out,transform 230ms var(--goo-ease),color 140ms ease}
-.t-goo-anchor[data-open="true"] .t-goo-label{opacity:1;filter:blur(0);transform:translate(0,-50%);transition-delay:var(--goo-label-delay,95ms)}
+.t-goo-anchor[data-open="true"] .t-goo-label{opacity:1;filter:blur(0);transform:translate(0,-50%);transition-delay:calc(95ms + (var(--i,0)*var(--goo-stagger)))}
 .t-goo-item:hover .t-goo-label,.t-goo-item:focus-visible .t-goo-label{color:var(--accent)}
 .t-goo-item:hover,.t-goo-item:focus-visible,.t-goo-main:hover,.t-goo-main:focus-visible{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 34%,transparent)}
 .t-goo-item:hover svg,.t-goo-item:focus-visible svg{transform:scale(1.1)}
-.t-goo-item:active{transform:translate(var(--fx),var(--fy)) scale(.94)!important}
+.t-goo-item:active{transform:translate(calc(var(--fx)*var(--goo-spread)),calc(var(--fy)*var(--goo-spread))) scale(.94)!important}
 .t-goo-item:active svg{transform:scale(.98)}
 .t-goo-swap,.t-goo-icon{display:grid;place-items:center;width:20px;height:20px}
 .t-goo-icon{transition:transform 420ms var(--goo-ease),filter 220ms ease,opacity 220ms ease;will-change:transform,filter}
@@ -669,11 +661,9 @@ dialog.modal[open]{
   .hero-copy{width:calc(100vw - var(--hero-mobile-side-inset) - var(--hero-mobile-side-inset));max-width:none;margin-left:var(--hero-mobile-side-inset);margin-right:var(--hero-mobile-side-inset)}
   .hero-copy p{font-size:clamp(22px,5.8vw,var(--hero-size));line-height:var(--hero-line-height);letter-spacing:var(--hero-letter-spacing);word-spacing:var(--hero-word-spacing)}
 
-  /* Mobile radial layout stays entirely in the blank band above the hero.
-     Labels receive opaque background chips so body copy can never reduce
-     legibility if font metrics or viewport chrome shift by a few pixels. */
-  :root{--radial-anchor-top:-58px}
-  .t-goo-anchor{right:calc(var(--home-edge) - 80px);height:310px}
+  /* Mobile radial layout: preserve the exact known-good /redesign anchor
+     geometry. Only the label shadow remains removed by design. */
+  .t-goo-anchor{top:-58px;right:calc(var(--home-edge) - 80px);height:310px}
   .t-goo-item[data-view-target="experience"]{--fx:-154px!important;--fy:-8px!important}
   .t-goo-item[data-view-target="education"]{--fx:-124px!important;--fy:28px!important}
   .t-goo-item[data-view-target="publications"]{--fx:-94px!important;--fy:64px!important}
@@ -686,6 +676,7 @@ dialog.modal[open]{
   .settings-popover{top:126px;right:var(--home-edge)}
   .content-view{padding:102px var(--side-pad) 74px}
   .content-heading{margin-bottom:38px}.content-heading h2{font-size:min(var(--section-title-size),38px);line-height:.96}
+  .content-heading .section-home{position:fixed;top:42px;right:calc(var(--home-edge) + 72px);z-index:66}
   .record{grid-template-columns:1fr;gap:13px;padding:21px 0 24px}
   .record-rail{flex-direction:row;justify-content:space-between;gap:18px}
   .record-body h3{font-size:min(var(--record-title-size),24px)}

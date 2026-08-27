@@ -237,8 +237,9 @@
   const placeRadialItems = () => {};
   const setMenuOpen = (next,{restoreFocus=false}={}) => {
     if (!gooAnchor || !gooMain || menuOpen === next) return;
-    menuOpen = next; applyGooKnobs();
-    gooAnchor.setAttribute('data-open', next ? 'true' : 'false');
+    menuOpen = next;
+    applyGooKnobs();
+    gooAnchor.dataset.open = next ? 'true' : 'false';
     gooMain.setAttribute('aria-expanded',String(next));
     gooMain.setAttribute('aria-label',root.lang === 'es' ? (next?'Cerrar menú':'Abrir menú') : (next?'Close menu':'Open menu'));
     window.clearTimeout(anticipationTimer);
@@ -252,19 +253,14 @@
   const openMenu = () => { closeSettings(); setMenuOpen(true); };
   const closeMenu = (options={}) => setMenuOpen(false,options);
 
-  /* Keep the trigger path deliberately simple and identical to the
-     cross-browser reference component: one ordinary click toggles the menu,
-     and propagation is stopped so the document-level outside-click handler
-     cannot immediately close it again. Pointer-event deduplication is not
-     used here; Safari and Firefox already synthesize a reliable click for a
-     native <button>. */
-  const onGooMainClick = (event) => {
+  /* Known-good /redesign interaction path: one native click toggles state,
+     propagation is stopped, and the document click only handles outside-close. */
+  gooMain?.addEventListener('click',(event)=>{
     event.stopPropagation();
-    const opening = gooAnchor?.getAttribute('data-open') !== 'true';
+    const opening = !menuOpen;
     opening ? openMenu() : closeMenu();
     Haptics.trigger(opening ? 'medium' : 'light');
-  };
-  gooMain?.addEventListener('click', onGooMainClick);
+  });
   document.addEventListener('click',(event)=>{if(menuOpen && gooAnchor && !gooAnchor.contains(event.target)) closeMenu();});
   settingsTrigger?.addEventListener('click',()=>{closeMenu();window.setTimeout(openSettings,reduceMotion.matches?1:105);});
   gooItems.forEach((item)=>item.addEventListener('keydown',(event)=>{
