@@ -3,7 +3,7 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const Sounds = window.FGSounds || { play(){}, togglePortraitTransition(){}, prime(){}, setEnabled(){}, get enabled(){ return false; } };
+  const Sounds = window.FGSounds || { play(){}, playPortraitOpen(){}, playPortraitClose(){}, prime(){}, setEnabled(){}, get enabled(){ return false; } };
   const Haptics = { trigger(input,options){ try { window.FGHaptics?.trigger(input,options); } catch {} } };
 
   const storageGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
@@ -846,7 +846,7 @@
         portraitToast?.classList.remove('is-opening-guard');
         portraitGuardTimer = 0;
       },420);
-      Sounds.togglePortraitTransition();
+      Sounds.playPortraitOpen();
       Haptics.trigger('medium');
     }
   };
@@ -856,7 +856,7 @@
     if (!force && !portraitCloseAllowed()) return;
     if (!portraitOpen || portraitClosing || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
     portraitClosing = true;
-    Sounds.togglePortraitTransition();
+    Sounds.playPortraitClose();
     Haptics.trigger('light');
     resetPortraitTilt();
     if (!portraitDissolveController && typeof window.createSmokyDissolve === 'function') {
