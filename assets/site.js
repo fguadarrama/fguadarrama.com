@@ -301,8 +301,12 @@
       copy.querySelectorAll('p').forEach((paragraph, index) => {
         paragraph.classList.add('t-stagger-line');
         paragraph.style.setProperty('--stagger-index', Math.min(index, 5));
+        paragraph.style.setProperty('--stagger-delay', `${Math.min(index, 5) * readNum('--stagger-stagger', 40)}ms`);
       });
-      copy.querySelectorAll('.annotation-decoration').forEach((decoration, index) => decoration.style.setProperty('--annotation-index', index));
+      copy.querySelectorAll('.annotation-decoration').forEach((decoration, index) => {
+        decoration.style.setProperty('--annotation-index', index);
+        decoration.style.setProperty('--annotation-delay', `${150 + (index * 30)}ms`);
+      });
     });
     document.querySelectorAll('.content-view').forEach((view) => {
       const lines = [
@@ -312,6 +316,7 @@
       lines.forEach((item, index) => {
         item.classList.add('t-stagger-line');
         item.style.setProperty('--stagger-index', Math.min(index, 5));
+        item.style.setProperty('--stagger-delay', `${Math.min(index, 5) * readNum('--stagger-stagger', 40)}ms`);
       });
     });
   };
@@ -746,6 +751,7 @@
     template.innerHTML = annotationSvg[annotation.style] || annotationSvg.underline;
     const decoration = template.content.firstElementChild;
     decoration?.style.setProperty('--annotation-index',String(index));
+    decoration?.style.setProperty('--annotation-delay',`${150 + (index * 30)}ms`);
     fragment.appendChild(decoration);
     return fragment;
   };
