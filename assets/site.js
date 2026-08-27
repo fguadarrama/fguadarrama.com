@@ -268,11 +268,15 @@
     else if(settingsOpen){event.preventDefault();closeSettings({restoreFocus:true});}
   });
 
-  /* Haptics are deliberately attached as a separate side effect so the
-     menu state machine above remains byte-for-byte equivalent to the
-     known-good /redesign interaction path. */
+  /* Radial haptics: keep the known-good /redesign state machine untouched.
+     WebHaptics may synthesize a click on a hidden switch in Safari. Trigger the
+     opening haptic before the menu opens, and the closing haptic after it closes,
+     so that synthetic click can never trip the outside-click closer. */
   gooMain?.addEventListener('click',()=>{
-    Haptics.trigger(gooAnchor?.dataset.open === 'true' ? 'medium' : 'light');
+    if (gooAnchor?.dataset.open === 'false') Haptics.trigger('medium');
+  },{capture:true});
+  gooMain?.addEventListener('click',()=>{
+    if (gooAnchor?.dataset.open === 'false') Haptics.trigger('light');
   });
 
   /* ---------- view transitions + browser history ---------- */
