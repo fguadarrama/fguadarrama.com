@@ -3,7 +3,7 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  const Sounds = window.FGSounds || { play(){}, prime(){}, setEnabled(){}, get enabled(){ return false; } };
+  const Sounds = window.FGSounds || { play(){}, togglePortraitTransition(){}, prime(){}, setEnabled(){}, get enabled(){ return false; } };
   const Haptics = { trigger(input,options){ try { window.FGHaptics?.trigger(input,options); } catch {} } };
 
   const storageGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
@@ -88,7 +88,7 @@
     Sounds.prime();
     if (event.button !== 0) return;
     const control = event.target.closest?.('button:not(:disabled),a[href]');
-    if (!control || control.closest('.segmented-control') || control.closest('.portrait-name,.portrait-close')) return;
+    if (!control || control.closest('.segmented-control') || control.closest('.portrait-name,.portrait-cue-hit,.portrait-close')) return;
     Sounds.play('tap');
   }, {capture:true});
   document.addEventListener('keydown', (event) => {
@@ -251,7 +251,31 @@
   };
   const openMenu = () => { closeSettings(); setMenuOpen(true); };
   const closeMenu = (options={}) => setMenuOpen(false,options);
-  gooMain?.addEventListener('click',(event)=>{event.stopPropagation();const opening=!menuOpen;opening?openMenu():closeMenu();Haptics.trigger(opening?'medium':'light');});
+  // Safari can lose/delay the synthetic click for a fixed control that sits
+  // outside a zero-height header. Handle touch/pen on pointerup, then ignore
+  // the follow-up synthetic click. Mouse and keyboard continue to use click.
+  let lastGooPointerActivation = -Infinity;
+  const activateGooMain = (event) => {
+    event?.stopPropagation();
+    const opening = !menuOpen;
+    opening ? openMenu() : closeMenu();
+    Haptics.trigger(opening ? 'medium' : 'light');
+  };
+  gooMain?.addEventListener('pointerup',(event)=>{
+    if (event.isPrimary === false || event.pointerType === 'mouse') return;
+    event.preventDefault();
+    event.stopPropagation();
+    lastGooPointerActivation = performance.now();
+    activateGooMain(event);
+  },{passive:false});
+  gooMain?.addEventListener('click',(event)=>{
+    if (performance.now() - lastGooPointerActivation < 700) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    activateGooMain(event);
+  });
   document.addEventListener('click',(event)=>{if(menuOpen && gooAnchor && !gooAnchor.contains(event.target)) closeMenu();});
   settingsTrigger?.addEventListener('click',()=>{closeMenu();window.setTimeout(openSettings,reduceMotion.matches?1:105);});
   gooItems.forEach((item)=>item.addEventListener('keydown',(event)=>{
@@ -822,7 +846,7 @@
         portraitToast?.classList.remove('is-opening-guard');
         portraitGuardTimer = 0;
       },420);
-      Sounds.play('portraitTransition');
+      Sounds.togglePortraitTransition();
       Haptics.trigger('medium');
     }
   };
@@ -832,7 +856,7 @@
     if (!force && !portraitCloseAllowed()) return;
     if (!portraitOpen || portraitClosing || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
     portraitClosing = true;
-    Sounds.play('portraitTransition');
+    Sounds.togglePortraitTransition();
     Haptics.trigger('light');
     resetPortraitTilt();
     if (!portraitDissolveController && typeof window.createSmokyDissolve === 'function') {

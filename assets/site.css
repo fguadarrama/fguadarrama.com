@@ -114,7 +114,7 @@ a{color:inherit}
 
 .app-shell{height:100svh;overflow:hidden;position:relative;background:var(--bg)}
 
-.topbar{position:fixed;inset:0 0 auto 0;z-index:60;height:0;padding:0;pointer-events:none}
+.topbar{position:fixed;inset:0 0 auto 0;z-index:60;height:0;padding:0;pointer-events:auto}
 :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 
 /* Radial menu: independent circular controls.
@@ -125,12 +125,12 @@ a{color:inherit}
 .t-goo-layer{display:none}
 .t-goo-item,.t-goo-main{
   appearance:none;position:absolute;left:80px;top:80px;width:40px;height:40px;padding:0;border-radius:50%;
-  display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;
+  display:grid;place-items:center;overflow:visible;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
   border:1px solid color-mix(in srgb,var(--text) 11%,transparent);background:var(--bg);color:var(--text);
   box-shadow:none;
   transition:background-color 180ms ease,color 140ms ease,border-color 180ms ease;
 }
-.t-goo-main{z-index:5;pointer-events:auto}
+.t-goo-main{z-index:5;pointer-events:auto;touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .t-goo-item{
   z-index:4;pointer-events:none;opacity:0;filter:blur(4px);transform:translate(0,0) scale(.82);
   transition:transform var(--goo-open-dur) var(--goo-ease) calc(var(--i,0)*var(--goo-stagger)),opacity var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),filter var(--goo-icon-dur) ease-out calc(var(--i,0)*var(--goo-stagger)),color 140ms ease,background-color 180ms ease,border-color 180ms ease;
