@@ -237,8 +237,7 @@
   const placeRadialItems = () => {};
   const setMenuOpen = (next,{restoreFocus=false}={}) => {
     if (!gooAnchor || !gooMain || menuOpen === next) return;
-    menuOpen = next;
-    applyGooKnobs();
+    menuOpen = next; applyGooKnobs();
     gooAnchor.dataset.open = next ? 'true' : 'false';
     gooMain.setAttribute('aria-expanded',String(next));
     gooMain.setAttribute('aria-label',root.lang === 'es' ? (next?'Cerrar menú':'Abrir menú') : (next?'Close menu':'Open menu'));
@@ -252,15 +251,7 @@
   };
   const openMenu = () => { closeSettings(); setMenuOpen(true); };
   const closeMenu = (options={}) => setMenuOpen(false,options);
-
-  /* Known-good /redesign interaction path: one native click toggles state,
-     propagation is stopped, and the document click only handles outside-close. */
-  gooMain?.addEventListener('click',(event)=>{
-    event.stopPropagation();
-    const opening = !menuOpen;
-    opening ? openMenu() : closeMenu();
-    Haptics.trigger(opening ? 'medium' : 'light');
-  });
+  gooMain?.addEventListener('click',(event)=>{event.stopPropagation();menuOpen?closeMenu():openMenu();});
   document.addEventListener('click',(event)=>{if(menuOpen && gooAnchor && !gooAnchor.contains(event.target)) closeMenu();});
   settingsTrigger?.addEventListener('click',()=>{closeMenu();window.setTimeout(openSettings,reduceMotion.matches?1:105);});
   gooItems.forEach((item)=>item.addEventListener('keydown',(event)=>{
@@ -275,6 +266,13 @@
     if(event.key!=='Escape')return;
     if(menuOpen){event.preventDefault();closeMenu({restoreFocus:true});}
     else if(settingsOpen){event.preventDefault();closeSettings({restoreFocus:true});}
+  });
+
+  /* Haptics are deliberately attached as a separate side effect so the
+     menu state machine above remains byte-for-byte equivalent to the
+     known-good /redesign interaction path. */
+  gooMain?.addEventListener('click',()=>{
+    Haptics.trigger(gooAnchor?.dataset.open === 'true' ? 'medium' : 'light');
   });
 
   /* ---------- view transitions + browser history ---------- */
