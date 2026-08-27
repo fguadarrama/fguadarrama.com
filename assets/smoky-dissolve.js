@@ -416,32 +416,16 @@ function createSmokyDissolve({ stage, card, canvas, respawn = true, onComplete }
       sc.fillStyle = "#e9e9ec";
       sc.fillRect(0, 0, cardW, cardH);
     }
-    // Match the visible 24×24 Lucide minimize control in the snapshot.
-    // Only the icon changes here; the dissolve motion/physics below are untouched.
-    const ix = cardW - 8 - 24,
-      iy = 8;
-    sc.strokeStyle = "#fdfdfc";
-    sc.lineWidth = 2;
-    sc.lineCap = "round";
-    sc.lineJoin = "round";
-    sc.beginPath();
-    sc.moveTo(ix + 8, iy + 3);
-    sc.lineTo(ix + 8, iy + 6);
-    sc.arcTo(ix + 8, iy + 8, ix + 6, iy + 8, 2);
-    sc.lineTo(ix + 3, iy + 8);
-    sc.moveTo(ix + 21, iy + 8);
-    sc.lineTo(ix + 18, iy + 8);
-    sc.arcTo(ix + 16, iy + 8, ix + 16, iy + 6, 2);
-    sc.lineTo(ix + 16, iy + 3);
-    sc.moveTo(ix + 3, iy + 16);
-    sc.lineTo(ix + 6, iy + 16);
-    sc.arcTo(ix + 8, iy + 16, ix + 8, iy + 18, 2);
-    sc.lineTo(ix + 8, iy + 21);
-    sc.moveTo(ix + 16, iy + 21);
-    sc.lineTo(ix + 16, iy + 18);
-    sc.arcTo(ix + 16, iy + 16, ix + 18, iy + 16, 2);
-    sc.lineTo(ix + 21, iy + 16);
-    sc.stroke();
+    // Match the visible 32×32 red close icon in the snapshot.
+    // Only the snapshotted control changes here; dissolve motion/physics are untouched.
+    const ix = cardW - 30 - 40 + 4,
+      iy = 22 + 4;
+    sc.save();
+    sc.translate(ix, iy);
+    sc.scale(32 / 256, 32 / 256);
+    sc.fillStyle = "#ea1b5c";
+    sc.fill(new Path2D("M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"));
+    sc.restore();
     // Pixel buffers for the software displacement map + blur.
     // The snapshot is premultiplied once here — bilinear
     // sampling and the box blur then stay fringe-free.
@@ -581,13 +565,16 @@ function createSmokyDissolve({ stage, card, canvas, respawn = true, onComplete }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       canvas.style.transform = "";
       canvas.style.opacity = "";
+      // A real delete has no respawn phase: complete immediately after the
+      // final dissolve frame. This changes only the post-animation lockout.
+      if (!respawn) {
+        if (onComplete) onComplete();
+        running = false;
+        return;
+      }
       window.setTimeout(
         function () {
           if (onComplete) onComplete();
-          if (!respawn) {
-            running = false;
-            return;
-          }
           // Demo replay: soft re-entry. Real apps usually remove the card
           // in onComplete instead (leave respawn: false).
           card.style.visibility = "";
