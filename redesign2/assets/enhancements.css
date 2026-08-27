@@ -1,0 +1,52 @@
+/* Root-site visual refinements layered over the known-good /redesign base. */
+
+/* Radial menu: retain the /redesign geometry and hit-testing exactly; remove only shadows. */
+.t-goo-item,.t-goo-main{box-shadow:none}
+
+/* Francisco portrait cue. */
+.portrait-name{font-weight:630}
+.portrait-trigger-group{display:inline;white-space:nowrap}
+.portrait-cue-hit{
+  position:relative;display:inline-grid;place-items:center;
+  width:.64em;height:.64em;margin:0 0 0 .18em;padding:0;border:0;
+  vertical-align:.01em;background:transparent;color:#ea1b5c;cursor:pointer;outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.portrait-cue-hit::before{
+  content:"";position:absolute;left:50%;top:50%;width:1.22em;height:1.22em;
+  border:0;border-radius:50%;background:transparent;transform:translate(-50%,-50%);
+}
+.portrait-cue-hit:focus-visible{outline:2px solid var(--accent);outline-offset:.18em;border-radius:50%}
+.portrait-cue{
+  position:relative;z-index:1;display:block;width:.64em;height:.64em;color:inherit;fill:currentColor;
+  transform:rotate(45deg);transform-origin:50% 50%;pointer-events:none;
+  transition:opacity 150ms ease,transform 140ms var(--ease-out);
+}
+.portrait-trigger-group:hover .portrait-cue,.portrait-trigger-group:focus-within .portrait-cue{opacity:.76}
+.portrait-cue-hit:active .portrait-cue{transform:rotate(45deg) scale(.94)}
+html[data-theme="dark"] .portrait-cue-hit{color:#ff96ac}
+
+/* Portrait interaction/close control from the root site. */
+.t-toast.is-open.is-opening-guard{pointer-events:none}
+.portrait-image{cursor:pointer}
+.portrait-close{
+  top:22px;right:30px;width:40px;height:40px;
+  background:transparent;color:#ea1b5c;box-shadow:none;
+}
+.portrait-close svg{width:32px;height:32px}
+
+/* Root-site back control. */
+.section-home{
+  position:fixed;top:calc(var(--radial-anchor-top) + 134px);right:calc(var(--home-edge) + 20px);z-index:66;
+  width:40px;height:40px;flex:0 0 40px;
+}
+.section-home .back-arrow-icon{
+  width:20px;height:20px;display:block;fill:currentColor;stroke:currentColor;stroke-width:6.4;
+  stroke-linejoin:round;pointer-events:none;
+}
+
+@media(max-width:820px){
+  /* Keep /redesign's exact radial coordinates; only remove the mobile label halo. */
+  .t-goo-label{box-shadow:none}
+  .content-heading .section-home{position:fixed;top:42px;right:calc(var(--home-edge) + 72px);z-index:66}
+}
