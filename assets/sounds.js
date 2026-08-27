@@ -196,8 +196,51 @@
     ]
   };
 
+  // Two-state portrait transition sound.
+  // idle -> active uses the original patch; active -> idle uses the
+  // procedural-sounds inverse convention supplied by the site owner.
+  const STATIC_TRANSPOSE_RATIO = Math.pow(2, -3 / 12);
+
+  function invertFrequency(freq) {
+    if (typeof freq === 'number') return freq * STATIC_TRANSPOSE_RATIO;
+    return { start: freq.end, end: freq.start };
+  }
+
+  function invertPatch(patch) {
+    const clone = (value) =>
+      typeof structuredClone === 'function'
+        ? structuredClone(value)
+        : JSON.parse(JSON.stringify(value));
+
+    const layers = (patch.layers || [patch]).map(clone);
+    const maxOnset = Math.max(...layers.map((layer) => layer.delay ?? 0));
+
+    for (const layer of layers) {
+      const mirrored = maxOnset - (layer.delay ?? 0);
+      if (mirrored > 0) layer.delay = mirrored;
+      else delete layer.delay;
+
+      if (layer.source.type !== 'noise') {
+        layer.source.frequency = invertFrequency(layer.source.frequency);
+      }
+    }
+
+    return layers.length === 1 ? layers[0] : { layers };
+  }
+
+  const transitiontpqshInverse = invertPatch(transitiontpqsh);
+
+  // Portrait transitions are deliberately explicit rather than state-toggled.
+  // This prevents the audio direction from getting out of sync with the
+  // portrait UI after guarded/deduplicated Safari click sequences.
+  function playPortraitTransition(direction) {
+    if (!enabled) return;
+    try {
+      playSound(direction === 'close' ? transitiontpqshInverse : transitiontpqsh);
+    } catch {}
+  }
+
   const recipes = {
-    portraitTransition: transitiontpqsh,
     hover: {
       source:{type:'sine',frequency:{start:1506.3640368972165,end:1942.0289483185713}},
       envelope:{attack:0.002,decay:0.020750626168737744,sustain:0,release:0.004,curve:'ramp'},
@@ -237,6 +280,8 @@
 
   window.FGSounds = {
     setEnabled(value){ enabled = Boolean(value); },
+    playPortraitOpen(){ playPortraitTransition('open'); },
+    playPortraitClose(){ playPortraitTransition('close'); },
     get enabled(){ return enabled; },
     prime(){
       if (!enabled) return;
