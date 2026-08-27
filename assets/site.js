@@ -660,7 +660,14 @@
   const localWordKey = (pIndex,wordIndex) => `${pIndex}:${wordIndex}`;
   const fullWordKey = (lang,pIndex,wordIndex) => `${lang}:${pIndex}:${wordIndex}`;
 
-  const makePortraitCue = () => {
+  const makePortraitCue = (lang) => {
+    const hit = document.createElement('button');
+    hit.type = 'button';
+    hit.className = 'portrait-cue-hit';
+    hit.setAttribute('aria-controls','portraitToast');
+    hit.setAttribute('aria-expanded','false');
+    hit.setAttribute('aria-label',lang === 'es' ? 'Mostrar retrato de Francisco' : 'Show Francisco’s portrait');
+
     const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
     svg.setAttribute('class','portrait-cue');
     svg.setAttribute('viewBox','0 0 256 256');
@@ -670,7 +677,8 @@
     const path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d','M205.66,85.66a8,8,0,0,1-11.32,0L160,51.31V128A104.11,104.11,0,0,1,56,232a8,8,0,0,1,0-16,88.1,88.1,0,0,0,88-88V51.31L109.66,85.66A8,8,0,0,1,98.34,74.34l48-48a8,8,0,0,1,11.32,0l48,48A8,8,0,0,1,205.66,85.66Z');
     svg.appendChild(path);
-    return svg;
+    hit.appendChild(svg);
+    return hit;
   };
 
   const makeWord = (lang,pIndex,token,order) => {
@@ -691,7 +699,7 @@
       span.setAttribute('aria-label',lang === 'es' ? 'Mostrar retrato de Francisco' : 'Show Francisco’s portrait');
       const group = document.createElement('span');
       group.className = 'portrait-trigger-group';
-      group.append(span,makePortraitCue());
+      group.append(span,makePortraitCue(lang));
       span.classList.toggle('is-selected', selectedWords.has(fullKey));
       return group;
     }
@@ -763,7 +771,7 @@
   let portraitOpen = false;
 
   const syncPortraitTriggers = () => {
-    document.querySelectorAll('.portrait-name').forEach((trigger) => {
+    document.querySelectorAll('.portrait-name,.portrait-cue-hit').forEach((trigger) => {
       trigger.setAttribute('aria-expanded',String(portraitOpen));
       trigger.setAttribute('aria-label',root.lang === 'es'
         ? (portraitOpen ? 'Ocultar retrato de Francisco' : 'Mostrar retrato de Francisco')
@@ -784,6 +792,9 @@
   };
 
   let portraitClosing = false;
+  let portraitInteractiveAfter = 0;
+  let portraitGuardTimer = 0;
+  const portraitCloseAllowed = () => performance.now() >= portraitInteractiveAfter;
 
   const setPortraitOpen = (open) => {
     const wasOpen = portraitOpen;
@@ -793,15 +804,32 @@
     portraitToast?.classList.toggle('is-open',portraitOpen);
     portraitStage?.setAttribute('aria-hidden',String(!portraitOpen));
     syncPortraitTriggers();
-    if (!portraitOpen) resetPortraitTilt();
+    if (!portraitOpen) {
+      resetPortraitTilt();
+      portraitToast?.classList.remove('is-opening-guard');
+      if (portraitGuardTimer) window.clearTimeout(portraitGuardTimer);
+      portraitGuardTimer = 0;
+      portraitInteractiveAfter = 0;
+    }
     if (portraitOpen && !wasOpen) {
+      // Safari can dispatch a delayed synthetic click after the activating tap.
+      // Keep the newly-mounted portrait temporarily non-interactive so that
+      // follow-up event cannot immediately hit the image and close it again.
+      portraitInteractiveAfter = performance.now() + 420;
+      portraitToast?.classList.add('is-opening-guard');
+      if (portraitGuardTimer) window.clearTimeout(portraitGuardTimer);
+      portraitGuardTimer = window.setTimeout(() => {
+        portraitToast?.classList.remove('is-opening-guard');
+        portraitGuardTimer = 0;
+      },420);
       Sounds.play('portraitTransition');
       Haptics.trigger('medium');
     }
   };
 
   let portraitDissolveController = null;
-  const closePortraitWithDissolve = () => {
+  const closePortraitWithDissolve = (force = false) => {
+    if (!force && !portraitCloseAllowed()) return;
     if (!portraitOpen || portraitClosing || !portraitStage || !portraitCard || !portraitSmokyCanvas) return;
     portraitClosing = true;
     Sounds.play('portraitTransition');
@@ -827,14 +855,14 @@
   };
 
   document.addEventListener('click',(event) => {
-    const trigger = event.target.closest?.('.portrait-name,.portrait-cue');
+    const trigger = event.target.closest?.('.portrait-name,.portrait-cue-hit');
     if (trigger) {
       event.preventDefault();
       if (portraitOpen) closePortraitWithDissolve();
       else setPortraitOpen(true);
       return;
     }
-    if (!portraitOpen) return;
+    if (!portraitOpen || !portraitCloseAllowed()) return;
     if (!event.target.closest?.('#portraitToast')) closePortraitWithDissolve();
   });
 
@@ -845,11 +873,11 @@
   portraitClose?.addEventListener('click',(event) => {
     event.preventDefault();
     event.stopPropagation();
-    closePortraitWithDissolve();
+    closePortraitWithDissolve(true);
   });
 
   portraitCard?.addEventListener('click',(event) => {
-    if (event.target.closest?.('#portraitClose')) return;
+    if (event.target.closest?.('#portraitClose') || !portraitCloseAllowed()) return;
     event.preventDefault();
     event.stopPropagation();
     closePortraitWithDissolve();

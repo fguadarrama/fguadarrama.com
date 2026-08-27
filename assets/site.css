@@ -283,17 +283,43 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
 .portrait-name:focus-visible{outline:2px solid var(--accent);outline-offset:.12em;border-radius:.10em}
 
 .portrait-trigger-group{display:inline;white-space:nowrap}
-.portrait-cue{
-  display:inline-block;
+.portrait-cue-hit{
+  position:relative;
+  display:inline-grid;
+  place-items:center;
   width:.64em;height:.64em;
+  margin:0 0 0 .18em;
+  padding:0;border:0;
   vertical-align:.01em;
-  color:#ea1b5c;fill:currentColor;
-  transform:rotate(45deg);transform-origin:50% 50%;
+  background:transparent;
+  color:#ea1b5c;
   cursor:pointer;
-  transition:color 150ms ease,opacity 150ms ease,transform 140ms var(--ease-out);
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+}
+/* Invisible circular hit target: larger than the thin arrow without changing line layout. */
+.portrait-cue-hit::before{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:1.22em;height:1.22em;
+  border:0;border-radius:50%;
+  background:transparent;
+  transform:translate(-50%,-50%);
+}
+.portrait-cue-hit:focus-visible{outline:2px solid var(--accent);outline-offset:.18em;border-radius:50%}
+.portrait-cue{
+  position:relative;z-index:1;
+  display:block;
+  width:.64em;height:.64em;
+  color:inherit;fill:currentColor;
+  transform:rotate(45deg);transform-origin:50% 50%;
+  pointer-events:none;
+  transition:opacity 150ms ease,transform 140ms var(--ease-out);
 }
 .portrait-trigger-group:hover .portrait-cue,.portrait-trigger-group:focus-within .portrait-cue{opacity:.76}
-html[data-theme="dark"] .portrait-cue{color:#ff96ac}
+.portrait-cue-hit:active .portrait-cue{transform:rotate(45deg) scale(.94)}
+html[data-theme="dark"] .portrait-cue-hit{color:#ff96ac}
 
 :root{
   --tilt-perspective:1000px;
@@ -348,6 +374,7 @@ html[data-theme="dark"] .portrait-cue{color:#ff96ac}
     transform var(--toast-open) var(--toast-ease),
     filter var(--toast-open) var(--toast-ease);
 }
+.t-toast.is-open.is-opening-guard{pointer-events:none}
 .t-tilt{touch-action:none}
 .t-tilt-card{
   position:relative;
