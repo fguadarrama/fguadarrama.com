@@ -17,12 +17,12 @@
   <meta property="og:site_name" content="Francisco Guadarrama">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="es_MX">
-  <meta property="og:image" content="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp">
+  <meta property="og:image" content="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg">
   <meta property="og:image:alt" content="Portrait of Francisco Guadarrama">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Francisco Guadarrama">
   <meta name="twitter:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints.">
-  <meta name="twitter:image" content="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp">
+  <meta name="twitter:image" content="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg">
   <meta name="twitter:image:alt" content="Portrait of Francisco Guadarrama">
   <link rel="alternate" type="application/feed+json" title="Francisco Guadarrama — JSON Feed" href="/feed.json">
   <link rel="alternate" type="application/rss+xml" title="Francisco Guadarrama — RSS" href="/feed.xml">
@@ -48,6 +48,12 @@
     })();
   </script>
   <link rel="stylesheet" href="assets/site.css?v=20260827-r2-static1">
+  <style>
+    /* Palette fallback: the inline script above sets these as inline styles on
+       <html> when JS runs (inline styles win over this rule). If JS is off,
+       these keep the site from rendering with unresolved custom properties. */
+    :root{--bg:#fdfdfc;--text:#22223b;--accent:#4577b5}
+  </style>
   <script type="application/ld+json">
   {
     "@context":"https://schema.org/",
@@ -58,7 +64,7 @@
         "name":"Francisco Guadarrama",
         "alternateName":"Francisco Guadarrama Conzuelo",
         "url":"https://fguadarrama.com/",
-        "image":"https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp",
+        "image":"https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg",
         "jobTitle":"Medical Oncologist",
         "alumniOf":[
           {"@type":"CollegeOrUniversity","name":"Universidad Nacional Autónoma de México","alternateName":"UNAM"},
@@ -95,10 +101,33 @@
   }
   </script>
   <noscript><style>
+    /* ---- No-JavaScript fallback ---------------------------------------- */
+    /* 1. Show every section as one continuous, scrollable page. */
     .view[hidden]{display:block!important}
-    .view{min-height:auto!important;opacity:1!important;transform:none!important;filter:none!important}
-    .t-goo-anchor,.settings-popover{display:none!important}
+    .view{min-height:auto!important;opacity:1!important;transform:none!important;filter:none!important;scroll-margin-top:1.5rem}
     .app-shell{height:auto!important;overflow:visible!important}
+    .content-view{padding-bottom:2.5rem}
+
+    /* 2. Hide every control that only works with JavaScript. */
+    .t-goo-anchor,.settings-popover,.section-home,.portrait-stage,
+    .dialog-backdrop,.modal,#cvDownloadLink,#messageTrigger{display:none!important}
+
+    /* 3. Language toggle is JS-driven: show the English copy only. */
+    .hero-copy.lang-es{display:none!important}
+
+    /* 4. Plain anchor navigation and a plain contact form. */
+    .nojs-nav{display:flex;flex-wrap:wrap;gap:1rem 1.5rem;padding:1rem 0;margin:0}
+    .nojs-nav a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+    .nojs-nav a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+    .nojs-note{margin:0 0 1rem;max-width:34rem}
+    .nojs-form{display:grid;gap:.85rem;max-width:34rem;margin-top:1rem}
+    .nojs-form label{display:grid;gap:.3rem}
+    .nojs-form input,.nojs-form textarea{font:inherit;color:var(--text);background:transparent;
+      border:1px solid var(--text);border-radius:.4rem;padding:.55rem .65rem;width:100%}
+    .nojs-form textarea{min-height:8rem;resize:vertical}
+    .nojs-form button{font:inherit;justify-self:start;padding:.6rem 1.2rem;border-radius:.4rem;
+      border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+    .nojs-form .honeypot{position:absolute;left:-9999px;width:1px;height:1px}
   </style></noscript>
 </head>
 <body>
@@ -174,7 +203,16 @@
           <span class="t-goo-swap"><span class="t-goo-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M10 4V16M4 10H16"/></svg></span></span>
         </button>
       </nav>
-      
+
+      <noscript>
+        <nav class="nojs-nav" aria-label="Site sections">
+          <a href="#view-experience">Experience</a>
+          <a href="#view-education">Education</a>
+          <a href="#view-publications">Selected Publications</a>
+          <a href="#view-contact">Contact</a>
+        </nav>
+      </noscript>
+
       <div class="settings-popover" id="settingsPopover" role="dialog" aria-modal="false" aria-label="Site settings" aria-hidden="true">
         <div class="settings-row">
           <span class="settings-label" data-en="Theme" data-es="Tema">Theme</span>
@@ -431,6 +469,26 @@
             <button type="button" id="cvDownloadLink" data-en="Download CV" data-es="Descargar currículum">Download CV</button>
             <button type="button" id="messageTrigger" data-en="Send me a message" data-es="Envíame un mensaje">Send me a message</button>
           </div>
+
+          <noscript>
+            <p class="nojs-note">My CV is available on request — ask for it in the message below.</p>
+            <form class="nojs-form" action="https://formspree.io/f/maqpznrg" method="post">
+              <label>
+                <span>Message</span>
+                <textarea name="message" maxlength="500" required></textarea>
+              </label>
+              <label>
+                <span>Name</span>
+                <input name="name" maxlength="60" autocomplete="name" required>
+              </label>
+              <label>
+                <span>Email address</span>
+                <input type="email" name="email" maxlength="80" inputmode="email" autocomplete="email" required>
+              </label>
+              <input name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button type="submit">Send message</button>
+            </form>
+          </noscript>
         </div>
       </section>
     </main>
@@ -447,7 +505,7 @@
         <div class="t-tilt-card t-smoky-card" id="portraitCard">
           <img
             class="portrait-image"
-            src="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp"
+            src="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg"
             alt="Portrait of Francisco Guadarrama"
             draggable="false"
           >
@@ -521,5 +579,210 @@
   <script src="assets/smoky-dissolve.js?v=20260827-r2-static1" defer></script>
   <script type="module" src="assets/haptics.js?v=20260827-r2-static1"></script>
   <script src="assets/site.js?v=20260827-r2-static1" defer></script>
+
+  <!--
+    Text reveals powered by kugiri (MIT), by Edoardo Lunardi.
+    https://github.com/edoardolunardi/kugiri
+    This layer is intentionally transient: after each reveal the original DOM
+    is restored so the existing site scripts keep full ownership of content,
+    language switching, navigation, links and controls.
+  -->
+  <script type="module">
+    import { splitText } from "https://cdn.jsdelivr.net/npm/kugiri@0.4.0/+esm";
+
+    (() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const targetSelector = [
+        ".hero-copy p",
+        ".content-heading h2",
+        ".record-date",
+        ".record-meta",
+        ".record-body h3",
+        ".record-copy p",
+        ".contact-actions a",
+        ".contact-actions button"
+      ].join(",");
+
+      let activeSplits = [];
+      let activeAnimations = [];
+      let revealTimer = 0;
+      let generation = 0;
+
+      const isVisible = (element) => {
+        if (!element || element.closest("[hidden]")) return false;
+        const style = getComputedStyle(element);
+        return style.display !== "none" &&
+               style.visibility !== "hidden" &&
+               element.getClientRects().length > 0;
+      };
+
+      const stopActiveReveal = () => {
+        generation += 1;
+
+        for (const animation of activeAnimations) {
+          try { animation.cancel(); } catch {}
+        }
+        activeAnimations = [];
+
+        for (const split of activeSplits) {
+          try { split.revert(); } catch {}
+        }
+        activeSplits = [];
+      };
+
+      const currentView = () => {
+        const namedView = document.documentElement.dataset.view;
+        if (namedView) {
+          const byName = document.querySelector(`.view[data-view="${CSS.escape(namedView)}"]`);
+          if (byName && !byName.hidden) return byName;
+        }
+
+        return document.querySelector(".view.is-current:not([hidden])") ||
+               document.querySelector(".view:not([hidden])");
+      };
+
+      const revealCurrentView = async () => {
+        if (reduceMotion.matches) {
+          stopActiveReveal();
+          return;
+        }
+
+        stopActiveReveal();
+        const run = generation;
+
+        const view = currentView();
+        if (!view) return;
+
+        const targets = [...view.querySelectorAll(targetSelector)].filter(isVisible);
+        if (!targets.length) return;
+
+        let splits;
+        try {
+          splits = splitText(targets, {
+            type: ["lines"],
+            mask: "lines"
+          });
+        } catch {
+          return;
+        }
+
+        if (run !== generation) {
+          for (const split of splits) {
+            try { split.revert(); } catch {}
+          }
+          return;
+        }
+
+        activeSplits = splits;
+
+        const animations = [];
+        splits.forEach((split, targetIndex) => {
+          const targetDelay = Math.min(targetIndex * 30, 450);
+
+          split.lines.forEach((line, lineIndex) => {
+            const animation = line.animate(
+              [
+                { transform: "translateY(0.55em)", opacity: 0 },
+                { transform: "translateY(0)", opacity: 1 }
+              ],
+              {
+                duration: 720,
+                delay: targetDelay + lineIndex * 52,
+                easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+                fill: "backwards"
+              }
+            );
+            animations.push(animation);
+          });
+        });
+
+        activeAnimations = animations;
+
+        await Promise.allSettled(
+          animations.map((animation) => animation.finished)
+        );
+
+        if (run !== generation) return;
+
+        for (const split of splits) {
+          for (const mask of split.masks) {
+            mask.style.clipPath = "none";
+          }
+        }
+
+        for (const split of splits) {
+          try { split.revert(); } catch {}
+        }
+
+        activeSplits = [];
+        activeAnimations = [];
+      };
+
+      const queueReveal = (delay = 70) => {
+        window.clearTimeout(revealTimer);
+        revealTimer = window.setTimeout(() => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(revealCurrentView);
+          });
+        }, delay);
+      };
+
+      /*
+        Revert before the existing site code handles a navigation or language
+        click. This prevents temporary line wrappers from ever becoming part
+        of the site's own state updates.
+      */
+      document.addEventListener("click", (event) => {
+        const control = event.target.closest(
+          "[data-language-choice], [data-view-target]"
+        );
+        if (!control) return;
+
+        stopActiveReveal();
+        queueReveal(90);
+      }, true);
+
+      /*
+        The root already carries data-view; observing it gives us a second,
+        implementation-independent hook for view changes made by site.js.
+      */
+      new MutationObserver((mutations) => {
+        if (mutations.some((mutation) => mutation.attributeName === "data-view")) {
+          queueReveal(70);
+        }
+      }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-view"]
+      });
+
+      reduceMotion.addEventListener?.("change", () => {
+        if (reduceMotion.matches) {
+          stopActiveReveal();
+        } else {
+          queueReveal(0);
+        }
+      });
+
+      /*
+        Because each split is reverted after its reveal, no stale layout
+        snapshot remains. If the viewport changes mid-animation, cancel cleanly
+        rather than forcing a reflow or replay while the user is resizing.
+      */
+      window.addEventListener("resize", stopActiveReveal, { passive: true });
+
+      const start = async () => {
+        try {
+          await document.fonts.ready;
+        } catch {}
+        queueReveal(0);
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+    })();
+  </script>
 </body>
 </html>
