@@ -17,12 +17,12 @@
   <meta property="og:site_name" content="Francisco Guadarrama">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="es_MX">
-  <meta property="og:image" content="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp">
+  <meta property="og:image" content="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg">
   <meta property="og:image:alt" content="Portrait of Francisco Guadarrama">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Francisco Guadarrama">
   <meta name="twitter:description" content="Equitable cancer care, stronger health systems, and high-value oncology decisions under real-world constraints.">
-  <meta name="twitter:image" content="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp">
+  <meta name="twitter:image" content="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg">
   <meta name="twitter:image:alt" content="Portrait of Francisco Guadarrama">
   <link rel="alternate" type="application/feed+json" title="Francisco Guadarrama — JSON Feed" href="/feed.json">
   <link rel="alternate" type="application/rss+xml" title="Francisco Guadarrama — RSS" href="/feed.xml">
@@ -64,7 +64,7 @@
         "name":"Francisco Guadarrama",
         "alternateName":"Francisco Guadarrama Conzuelo",
         "url":"https://fguadarrama.com/",
-        "image":"https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp",
+        "image":"https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg",
         "jobTitle":"Medical Oncologist",
         "alumniOf":[
           {"@type":"CollegeOrUniversity","name":"Universidad Nacional Autónoma de México","alternateName":"UNAM"},
@@ -505,7 +505,7 @@
         <div class="t-tilt-card t-smoky-card" id="portraitCard">
           <img
             class="portrait-image"
-            src="https://fguadarrama.com/assets/d8f5126qwvtiakg162.webp"
+            src="https://fguadarrama.com/assets/25BDE11C-24B6-4FA4-8103-B07C466064C3_1_201_a.jpeg"
             alt="Portrait of Francisco Guadarrama"
             draggable="false"
           >
@@ -579,5 +579,210 @@
   <script src="assets/smoky-dissolve.js?v=20260827-r2-static1" defer></script>
   <script type="module" src="assets/haptics.js?v=20260827-r2-static1"></script>
   <script src="assets/site.js?v=20260827-r2-static1" defer></script>
+
+  <!--
+    Text reveals powered by kugiri (MIT), by Edoardo Lunardi.
+    https://github.com/edoardolunardi/kugiri
+    This layer is intentionally transient: after each reveal the original DOM
+    is restored so the existing site scripts keep full ownership of content,
+    language switching, navigation, links and controls.
+  -->
+  <script type="module">
+    import { splitText } from "https://cdn.jsdelivr.net/npm/kugiri@0.4.0/+esm";
+
+    (() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const targetSelector = [
+        ".hero-copy p",
+        ".content-heading h2",
+        ".record-date",
+        ".record-meta",
+        ".record-body h3",
+        ".record-copy p",
+        ".contact-actions a",
+        ".contact-actions button"
+      ].join(",");
+
+      let activeSplits = [];
+      let activeAnimations = [];
+      let revealTimer = 0;
+      let generation = 0;
+
+      const isVisible = (element) => {
+        if (!element || element.closest("[hidden]")) return false;
+        const style = getComputedStyle(element);
+        return style.display !== "none" &&
+               style.visibility !== "hidden" &&
+               element.getClientRects().length > 0;
+      };
+
+      const stopActiveReveal = () => {
+        generation += 1;
+
+        for (const animation of activeAnimations) {
+          try { animation.cancel(); } catch {}
+        }
+        activeAnimations = [];
+
+        for (const split of activeSplits) {
+          try { split.revert(); } catch {}
+        }
+        activeSplits = [];
+      };
+
+      const currentView = () => {
+        const namedView = document.documentElement.dataset.view;
+        if (namedView) {
+          const byName = document.querySelector(`.view[data-view="${CSS.escape(namedView)}"]`);
+          if (byName && !byName.hidden) return byName;
+        }
+
+        return document.querySelector(".view.is-current:not([hidden])") ||
+               document.querySelector(".view:not([hidden])");
+      };
+
+      const revealCurrentView = async () => {
+        if (reduceMotion.matches) {
+          stopActiveReveal();
+          return;
+        }
+
+        stopActiveReveal();
+        const run = generation;
+
+        const view = currentView();
+        if (!view) return;
+
+        const targets = [...view.querySelectorAll(targetSelector)].filter(isVisible);
+        if (!targets.length) return;
+
+        let splits;
+        try {
+          splits = splitText(targets, {
+            type: ["lines"],
+            mask: "lines"
+          });
+        } catch {
+          return;
+        }
+
+        if (run !== generation) {
+          for (const split of splits) {
+            try { split.revert(); } catch {}
+          }
+          return;
+        }
+
+        activeSplits = splits;
+
+        const animations = [];
+        splits.forEach((split, targetIndex) => {
+          const targetDelay = Math.min(targetIndex * 30, 450);
+
+          split.lines.forEach((line, lineIndex) => {
+            const animation = line.animate(
+              [
+                { transform: "translateY(0.55em)", opacity: 0 },
+                { transform: "translateY(0)", opacity: 1 }
+              ],
+              {
+                duration: 720,
+                delay: targetDelay + lineIndex * 52,
+                easing: "cubic-bezier(0.23, 1, 0.32, 1)",
+                fill: "backwards"
+              }
+            );
+            animations.push(animation);
+          });
+        });
+
+        activeAnimations = animations;
+
+        await Promise.allSettled(
+          animations.map((animation) => animation.finished)
+        );
+
+        if (run !== generation) return;
+
+        for (const split of splits) {
+          for (const mask of split.masks) {
+            mask.style.clipPath = "none";
+          }
+        }
+
+        for (const split of splits) {
+          try { split.revert(); } catch {}
+        }
+
+        activeSplits = [];
+        activeAnimations = [];
+      };
+
+      const queueReveal = (delay = 70) => {
+        window.clearTimeout(revealTimer);
+        revealTimer = window.setTimeout(() => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(revealCurrentView);
+          });
+        }, delay);
+      };
+
+      /*
+        Revert before the existing site code handles a navigation or language
+        click. This prevents temporary line wrappers from ever becoming part
+        of the site's own state updates.
+      */
+      document.addEventListener("click", (event) => {
+        const control = event.target.closest(
+          "[data-language-choice], [data-view-target]"
+        );
+        if (!control) return;
+
+        stopActiveReveal();
+        queueReveal(90);
+      }, true);
+
+      /*
+        The root already carries data-view; observing it gives us a second,
+        implementation-independent hook for view changes made by site.js.
+      */
+      new MutationObserver((mutations) => {
+        if (mutations.some((mutation) => mutation.attributeName === "data-view")) {
+          queueReveal(70);
+        }
+      }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-view"]
+      });
+
+      reduceMotion.addEventListener?.("change", () => {
+        if (reduceMotion.matches) {
+          stopActiveReveal();
+        } else {
+          queueReveal(0);
+        }
+      });
+
+      /*
+        Because each split is reverted after its reveal, no stale layout
+        snapshot remains. If the viewport changes mid-animation, cancel cleanly
+        rather than forcing a reflow or replay while the user is resizing.
+      */
+      window.addEventListener("resize", stopActiveReveal, { passive: true });
+
+      const start = async () => {
+        try {
+          await document.fonts.ready;
+        } catch {}
+        queueReveal(0);
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start, { once: true });
+      } else {
+        start();
+      }
+    })();
+  </script>
 </body>
 </html>
