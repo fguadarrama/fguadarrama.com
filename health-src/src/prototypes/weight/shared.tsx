@@ -36,13 +36,14 @@ export function WeightChart({ records, metric, compact = false }: { records: Wei
   const data = ascending(records).filter((record) => metric === 'weight' || record.bodyFat != null).map((record) => ({
     ...record,
     label: formatDate(record.date),
+    timestamp: new Date(`${record.date}T${record.time || '00:00'}:00`).getTime(),
     value: metric === 'weight' ? record.weight : record.bodyFat,
   }))
   return <div className={compact ? 'weight-chart weight-chart--compact' : 'weight-chart'}>
     <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 620, height: compact ? 210 : 330 }}>
       <LineChart data={data} margin={{ top: 16, right: 12, bottom: 0, left: compact ? -18 : 4 }}>
         <CartesianGrid vertical={false} stroke="#2d293016" />
-        <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
+        <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
         <YAxis domain={['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 10, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} width={compact ? 34 : 42} />
         <Tooltip cursor={{ stroke: '#2d29302a' }} content={({ active, payload }) => {
           const point = payload?.[0]?.payload as WeightRecord & { value: number } | undefined
@@ -70,7 +71,7 @@ export function AddWeightDialog({ open, onClose, onAdd }: { open: boolean; onClo
     onClose()
   }
   return <div className="weight-dialog-layer"><button className="weight-dialog-backdrop" aria-label="Cerrar" onClick={onClose} /><section className="weight-dialog" role="dialog" aria-modal="true" aria-labelledby="add-weight-title"><div className="weight-dialog-head"><div><span className="weight-eyebrow">Nueva medición</span><h2 id="add-weight-title">Registrar peso</h2></div><button className="weight-close" aria-label="Cerrar" onClick={onClose}>×</button></div><form onSubmit={submit}>
-    <label>Fecha<input name="date" type="date" required defaultValue="2026-08-08" /></label>
+    <label>Fecha<input name="date" type="date" required defaultValue={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0,10)} /></label>
     <label>Peso <span>kg</span><input name="weight" type="number" inputMode="decimal" min="1" max="500" step="0.01" required placeholder="72.20" /></label>
     <label>Grasa corporal <span>opcional · %</span><input name="bodyFat" type="number" inputMode="decimal" min="1" max="100" step="0.01" placeholder="23.50" /></label>
     {error && <p className="weight-form-error" role="alert">{error}</p>}

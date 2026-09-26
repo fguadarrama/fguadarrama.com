@@ -7,6 +7,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: './',
+  // Do not crawl old single-file release artifacts for development dependencies.
+  optimizeDeps: { entries: ['index.html', 'prototype.html', 'detail.html', 'weight.html', 'reports.html'] },
   build: {
     outDir: 'dist',
     sourcemap: false,

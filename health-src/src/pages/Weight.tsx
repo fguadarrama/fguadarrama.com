@@ -10,6 +10,7 @@ import {
 } from '../prototypes/weight/shared'
 import { formatWeight, formatWeightDate } from '../data/weight-data'
 import { useWeightStore } from '../stores/weightStore'
+import BodyComposition from '../components/BodyComposition'
 import '../prototypes/weight/weight.css'
 import '../styles/integrated-pages.css'
 
@@ -38,7 +39,7 @@ export default function Weight() {
         </div>
         <dl className="weight-overview__facts">
           <div><dt>Cambio total</dt><dd><AnimatedNumber value={change} /> kg</dd></div>
-          <div><dt>Grasa corporal</dt><dd><AnimatedNumber value={latest.bodyFat ?? 0} /> %</dd></div>
+          <div><dt>Grasa corporal</dt><dd>{latest.bodyFat == null ? '—' : <><AnimatedNumber value={latest.bodyFat} /> %</>}</dd></div>
           <div><dt>Mediciones</dt><dd>{records.length}</dd></div>
         </dl>
       </section>
@@ -76,6 +77,7 @@ export default function Weight() {
         </section>
       </div>
 
+      <BodyComposition records={records} />
       <AddWeightDialog open={adding} onClose={() => setAdding(false)} onAdd={addRecord} />
     </div>
   )

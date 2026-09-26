@@ -9,6 +9,7 @@ const repo = resolve(root, '..')
 const privatePaths = [
   '.env.local', '.release-password.local', 'lab_data.xlsx', 'DATA_RECONCILIATION.md', 'src/data/lab-data.json',
   'src/data/parameter-layout.json', 'src/data/weight-records.local.json', 'src/data/sources/2026-08-07-quest.json',
+  'src/data/sources/2026-09-26-weight-audit.json',
 ]
 for (const privatePath of privatePaths) {
   if (!existsSync(resolve(root, privatePath))) continue
@@ -23,7 +24,8 @@ const candidates = execFileSync('git', ['ls-files', '--cached', '--others', '--e
   .split('\n').filter(Boolean)
 const env = loadEnv('production', root, 'VITE_PATIENT_')
 const clinical = JSON.parse(readFileSync(resolve(root, 'src/data/lab-data.json'), 'utf8'))
-const needles = [env.VITE_PATIENT_CURP, env.VITE_PATIENT_FULL_NAME, clinical.results?.[0]?.result_id].filter(Boolean)
+const weightRecords = JSON.parse(readFileSync(resolve(root, 'src/data/weight-records.local.json'), 'utf8'))
+const needles = [env.VITE_PATIENT_CURP, env.VITE_PATIENT_FULL_NAME, clinical.results?.[0]?.result_id, ...weightRecords.flatMap(record => [record.id, record.composition?.sourceImage])].filter(Boolean)
 for (const candidate of candidates) {
   if (/\.(?:png|jpe?g|webp|woff2?|xlsx|pdf)$/i.test(candidate)) continue
   const text = readFileSync(resolve(repo, candidate), 'utf8')

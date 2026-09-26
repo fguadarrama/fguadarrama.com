@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { descendingWeights, WEIGHT_RECORDS, type WeightRecord } from '../data/weight-data'
+import { descendingWeights, mergeWeightRecords, WEIGHT_RECORDS, type WeightRecord } from '../data/weight-data'
 
 type NewWeightRecord = Omit<WeightRecord, 'id' | 'source'>
 
@@ -30,7 +30,14 @@ export const useWeightStore = create<WeightState>()(
     }),
     {
       name: 'health-weight-records-v1',
-      version: 1,
+      version: 2,
+      migrate: (persisted) => ({ records: mergeWeightRecords((persisted as Partial<WeightState>)?.records) }),
+      merge: (persisted, current) => ({
+        ...current,
+        records: mergeWeightRecords((persisted as Partial<WeightState>)?.records),
+      }),
+      // The bundled source remains inside the encrypted release, not duplicated in localStorage.
+      partialize: (state) => ({ records: state.records.filter((record) => !WEIGHT_RECORDS.some((base) => base.id === record.id)) }),
     },
   ),
 )

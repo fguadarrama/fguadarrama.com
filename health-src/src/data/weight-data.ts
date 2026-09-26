@@ -1,3 +1,25 @@
+export type BodyComposition = {
+  waterMass: number
+  waterPercent: number
+  fatMass: number
+  boneMass: number
+  bonePercent: number
+  proteinMass: number
+  proteinPercent: number
+  muscleMass: number
+  musclePercent: number
+  skeletalMuscleMass: number
+  fatFreeMass: number
+  bmi: number
+  bodyScore: number
+  visceralFatRating: number
+  basalMetabolicRate: number
+  waistHipRatio: number
+  bodyAge: number
+  heartRate?: number
+  sourceImage: string
+}
+
 export type WeightRecord = {
   id: string
   date: string
@@ -5,12 +27,20 @@ export type WeightRecord = {
   weight: number
   bodyFat?: number
   source: string
+  composition?: BodyComposition
 }
 
 export const WEIGHT_RECORDS = privateWeightRecords as WeightRecord[]
 
 export const descendingWeights = (records: WeightRecord[]) => [...records].sort((a, b) => `${b.date}T${b.time}`.localeCompare(`${a.date}T${a.time}`))
 export const ascendingWeights = (records: WeightRecord[]) => [...records].sort((a, b) => `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`))
+
+// Source corrections win over an old cached baseline; manual measurements survive.
+export function mergeWeightRecords(saved: WeightRecord[] = [], baseline = WEIGHT_RECORDS) {
+  const merged = new Map(saved.map((record) => [record.id, record]))
+  for (const record of baseline) merged.set(record.id, record)
+  return descendingWeights([...merged.values()])
+}
 
 export function formatWeight(value: number) {
   return new Intl.NumberFormat('es-MX', { minimumFractionDigits: 1, maximumFractionDigits: 2 }).format(value)
