@@ -282,7 +282,7 @@ export function findResult(cid: string, date: string): Result | null {
   return s.find((r) => r.date === date) || null
 }
 
-/** Compute accent color for a given category (returns a CSS var string). */
+/** Readable same-hue accent for thin chart marks on a white background. */
 export function categoryAccentVar(cat: string): string {
-  return `var(--cat-${categorySlug(cat)})`
+  return `var(--cat-${categorySlug(cat)}-title)`
 }

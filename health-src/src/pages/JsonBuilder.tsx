@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { goeyToast } from 'goey-toast'
 import { data, categorySlug, sortCategories } from '../lib/data'
 import type { Parameter } from '../lib/types'
+import '../styles/json-builder.css'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -32,7 +33,7 @@ function fmtDate(iso: string): string {
   if (!iso || iso.length < 10) return iso || ''
   const [y, m, d] = iso.split('-')
   const mo = MONTHS_SHORT[Number(m) - 1] || m
-  return `${d}.${mo}.${y.slice(-2)}`
+  return `${d} ${mo} ${y.slice(-2)}`
 }
 
 // ---------------------------------------------------------------------------
@@ -93,7 +94,7 @@ const KNOWN_LABS = [...new Set(data.results.map(r => r.lab).filter(Boolean))].so
 // Helpers
 // ---------------------------------------------------------------------------
 function genId() { return Math.random().toString(36).slice(2, 10) }
-function todayIso() { return new Date().toISOString().slice(0, 10) }
+function todayIso() { return new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0, 10) }
 
 function parseNumberOrNull(v: string): number | null {
   if (v.trim() === '') return null
@@ -156,6 +157,7 @@ function LabCombobox({ value, onChange }: { value: string; onChange: (v: string)
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <input
+        id="global-laboratory"
         type="text"
         value={query}
         onChange={e => { setQuery(e.target.value); onChange(e.target.value); setOpen(true) }}
@@ -283,13 +285,13 @@ function ParamSearch({
 // Styles
 // ---------------------------------------------------------------------------
 const fieldStyle: React.CSSProperties = {
-  width: '100%', padding: '9px 12px',
+  width: '100%', height: 42, boxSizing: 'border-box', padding: '9px 12px',
   background: 'var(--surface)', border: '1px solid var(--border)',
   borderRadius: 'var(--r-sm)', fontSize: 14,
   fontFamily: 'var(--font-ui)', color: 'var(--ink)', outline: 'none',
 }
 const cellInputStyle: React.CSSProperties = {
-  width: '100%', padding: '6px 8px',
+  width: '100%', height: 36, boxSizing: 'border-box', padding: '6px 8px',
   background: 'transparent', border: '1px solid var(--border)',
   borderRadius: 'var(--r-sm)', fontSize: 13,
   fontFamily: 'var(--font-num)', color: 'var(--ink)', outline: 'none',
@@ -370,7 +372,7 @@ export default function JsonBuilder() {
   const readyCount = rows.filter(r => r.parameter_canonical).length
 
   return (
-    <div className="stack-5">
+    <div className="stack-5 json-builder">
       {/* Header */}
       <section>
         <div className="eyebrow">Herramienta</div>
@@ -386,10 +388,10 @@ export default function JsonBuilder() {
       >
         <div className="card__head"><div className="card__title">Fecha y laboratorio</div></div>
         <div className="card__body">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr auto', gap: 12, alignItems: 'end' }}>
+          <div className="json-global-fields">
             <div>
-              <label style={labelStyle}>Fecha</label>
-              <input type="date" value={globalDate}
+              <label htmlFor="global-date" style={labelStyle}>Fecha</label>
+              <input id="global-date" type="date" value={globalDate}
                 onChange={e => setGlobalDate(e.target.value)} style={fieldStyle} />
               {globalDate && (
                 <div style={{ fontSize: 11, color: 'var(--ink-50)', marginTop: 3,
@@ -399,10 +401,10 @@ export default function JsonBuilder() {
               )}
             </div>
             <div>
-              <label style={labelStyle}>Laboratorio</label>
+              <label htmlFor="global-laboratory" style={labelStyle}>Laboratorio</label>
               <LabCombobox value={globalLab} onChange={setGlobalLab} />
             </div>
-            <button onClick={applyGlobal} className="btn btn--ghost" style={{ fontSize: 13, padding: '9px 14px', whiteSpace: 'nowrap' }}>
+            <button onClick={applyGlobal} className="btn btn--ghost json-apply" style={{ fontSize: 13, padding: '9px 14px', whiteSpace: 'nowrap' }}>
               Aplicar a todas las filas
             </button>
           </div>
@@ -460,7 +462,7 @@ export default function JsonBuilder() {
           <span className="chip">{readyCount} parámetros</span>
         </div>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+          <table className="json-entry-table" style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: '1.5px solid var(--ink)' }}>
                 <th style={thStyle}>Fecha</th>

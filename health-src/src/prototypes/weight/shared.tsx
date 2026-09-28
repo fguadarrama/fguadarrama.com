@@ -1,10 +1,13 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import {
-  CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts'
 import { ascendingWeights as ascending, descendingWeights as descending, formatWeightDate as formatDate, formatWeight, WEIGHT_RECORDS as INITIAL_WEIGHT_RECORDS, type WeightRecord } from '../../data/weight-data'
 import { PATIENT, patientAge, patientDobShort } from '../../lib/patient'
+import { WEIGHT_ACCENT } from '../../lib/body-composition'
+import { LEAN_ACCENT, webColor } from '../../lib/palette'
+import { weightTrend } from '../../lib/weight-trend'
 
 export type Metric = 'weight' | 'bodyFat'
 
@@ -32,27 +35,39 @@ export function AnimatedNumber({ value, decimals = 1, className }: { value: numb
 
 export function WeightChart({ records, metric, compact = false }: { records: WeightRecord[]; metric: Metric; compact?: boolean }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  const unit = metric === 'weight' ? 'kg' : '%'
-  const data = ascending(records).filter((record) => metric === 'weight' || record.bodyFat != null).map((record) => ({
-    ...record,
-    label: formatDate(record.date),
-    timestamp: new Date(`${record.date}T${record.time || '00:00'}:00`).getTime(),
-    value: metric === 'weight' ? record.weight : record.bodyFat,
-  }))
-  return <div className={compact ? 'weight-chart weight-chart--compact' : 'weight-chart'}>
-    <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 620, height: compact ? 210 : 330 }}>
-      <LineChart data={data} margin={{ top: 16, right: 12, bottom: 0, left: compact ? -18 : 4 }}>
-        <CartesianGrid vertical={false} stroke="#2d293016" />
-        <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
-        <YAxis domain={['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 10, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} width={compact ? 34 : 42} />
+  const [chartWidth, setChartWidth] = useState(620)
+  const isWeight = metric === 'weight'
+  const data = weightTrend(records).filter(r => isWeight || r.bodyFat != null)
+  const labelIndices = new Set(chartWidth >= 600 ? [0, Math.floor(data.length / 3), Math.floor(data.length * 2 / 3), data.length - 1] : [0, data.length - 1])
+  const pink = webColor(WEIGHT_ACCENT)
+  return <div className={compact ? 'weight-chart weight-chart--compact weight-breakdown' : 'weight-chart weight-breakdown'}>
+    <div className="weight-breakdown__plot" role="img" aria-label={isWeight ? 'Peso total y masa libre de grasa a través del tiempo. La franja entre las líneas representa la masa grasa.' : 'Porcentaje de grasa corporal a través del tiempo'}>
+    <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 620, height: compact ? 190 : 310 }} onResize={width => setChartWidth(width)}>
+      <ComposedChart data={data} margin={{ top: isWeight ? 42 : 16, right: 16, bottom: 0, left: 0 }}>
+        <CartesianGrid vertical={false} stroke="#2d2930" strokeWidth={.4} />
+        <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={data.filter((_,i) => i === 0 || i === data.length-1 || i % Math.ceil(data.length/5) === 0).map(r => r.timestamp)} interval="preserveStartEnd" tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
+        <YAxis tickCount={isWeight ? 8 : 5} domain={isWeight ? [(min: number) => Math.floor((min - 2) / 5) * 5, (max: number) => Math.ceil((max + 1) / 5) * 5] : ['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 12, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickFormatter={v => Number(v).toLocaleString('es-MX', { maximumFractionDigits: 1 })} tickLine={false} axisLine={false} width={38} />
         <Tooltip cursor={{ stroke: '#2d29302a' }} content={({ active, payload }) => {
-          const point = payload?.[0]?.payload as WeightRecord & { value: number } | undefined
-          if (!active || point?.value == null) return null
-          return <div className="weight-tooltip"><span>{formatDate(point.date, true)}</span><strong>{formatWeight(point.value)} <small>{unit}</small></strong><p>{point.source}</p></div>
+          const point = payload?.[0]?.payload as ReturnType<typeof weightTrend>[number] | undefined
+          if (!active || !point) return null
+          return <div className="weight-tooltip"><span>{formatDate(point.date, true)}</span><strong>{formatWeight(point.weight)} <small>kg</small></strong>
+            {point.bodyFat != null && <p>Grasa corporal: {formatWeight(point.bodyFat)} %</p>}
+            {isWeight && point.lean != null && <><p>Masa libre de grasa: {formatWeight(point.lean)} kg</p><p>Masa grasa: {formatWeight(point.fat!)} kg</p><small>{point.leanCalculated ? 'Calculadas a partir del peso y el % de grasa.' : 'Masas reportadas por la báscula.'}</small></>}
+          </div>
         }} />
-        <Line type="monotone" dataKey="value" stroke="#2d694c" strokeWidth={2.4} dot={{ r: 3, fill: '#fff', stroke: '#2d694c', strokeWidth: 1.8 }} activeDot={{ r: 5 }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />
-      </LineChart>
+        {isWeight && <Area type="monotoneX" dataKey="fatBand" stroke="none" fill={pink} fillOpacity={.13} isAnimationActive={false} connectNulls={false} tooltipType="none" />}
+        {isWeight && <Line type="monotoneX" dataKey="lean" stroke={LEAN_ACCENT} strokeWidth={2.5} connectNulls={false} dot={({ cx, cy, payload }) => payload.lean == null ? <g /> : <rect x={(cx ?? 0)-3} y={(cy ?? 0)-3} width={6} height={6} fill={LEAN_ACCENT} />} activeDot={{ r: 4, fill: LEAN_ACCENT }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />}
+        <Line type="monotoneX" dataKey={isWeight ? 'weight' : 'bodyFat'} stroke={pink} strokeWidth={2.5} dot={({ cx, cy, index, payload }) => <g>
+          <circle cx={cx} cy={cy} r={3.5} fill={pink} />
+          {isWeight && labelIndices.has(index!) && <text x={cx} y={(cy ?? 0)-24} textAnchor={index === 0 ? 'start' : index === data.length-1 ? 'end' : 'middle'} fill="#2d2930" fontSize={12} fontFamily="Albert Sans Variable" fontWeight={450}>
+            <tspan x={cx}>{formatWeight(payload.weight)} kg</tspan>
+            {payload.bodyFat != null && <tspan x={cx} dy={14}>{formatWeight(payload.bodyFat)} %</tspan>}
+          </text>}
+        </g>} activeDot={{ r: 5, fill: pink }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />
+      </ComposedChart>
     </ResponsiveContainer>
+    </div>
+    {isWeight && <div className="weight-breakdown__legend"><span><i className="weight-key weight-key--total" />Peso total · kg</span><span><i className="weight-key weight-key--lean" />Masa libre de grasa · kg</span><span><i className="weight-key weight-key--fat" />Masa grasa · kg</span></div>}
   </div>
 }
 

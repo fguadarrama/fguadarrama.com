@@ -12,6 +12,8 @@
   --ink-06: transparent;
 
   --alarm: #ff1d58;
+  --watermelon: #ff0059;
+  --weight-accent: var(--watermelon);
   --alarm-12: transparent;
   --alarm-25: #ff1d58;
 
@@ -20,16 +22,26 @@
   --ok-12: color-mix(in srgb, #1e8a6b 12%, transparent);
 
   /* --- Category accents (sRGB fallback) --- */
-  --cat-hematologia:    #3f6f8f;
-  --cat-hepatica:       #009766;
-  --cat-quimica:        #2d694c;
-  --cat-lipidos:        #714fac;
-  --cat-endocrinologia: #52659a;
-  --cat-electrolitos:   #2f7c86;
-  --cat-orina:          #69da74;
-  --cat-serologia:      #86586f;
-  --cat-infecciosos:    #a3683a;
-  --cat-lcr:            #40302f;
+  --cat-hematologia: #3e3bd7;
+  --cat-hematologia-title: #3e3bd7;
+  --cat-hepatica: #479a6d;
+  --cat-hepatica-title: #237646;
+  --cat-quimica: #ff5f17;
+  --cat-quimica-title: #b53c00;
+  --cat-lipidos: #8631b5;
+  --cat-lipidos-title: #8631b5;
+  --cat-endocrinologia: #005fec;
+  --cat-endocrinologia-title: #005fec;
+  --cat-electrolitos: #ffd449;
+  --cat-electrolitos-title: #806200;
+  --cat-orina: #008797;
+  --cat-orina-title: #00717d;
+  --cat-serologia: var(--watermelon);
+  --cat-serologia-title: #c6004d;
+  --cat-infecciosos: #5e33fe;
+  --cat-infecciosos-title: #5e33fe;
+  --cat-lcr: #b56400;
+  --cat-lcr-title: #995000;
 
   /* --- Surfaces --- */
   --surface: #ffffff;
@@ -87,7 +99,7 @@ body :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, label, button, a
 .cat-panel__title,
 .ctable__expand-btn,
 .ctable__icon-btn,
-.drawer-header__eyebrow { color: var(--cat-accent, var(--ink)) !important; }
+.drawer-header__eyebrow { color: var(--cat-title, var(--ink)) !important; }
 .nav__item--active,
 .nav__item--active:hover,
 .btn,
@@ -221,10 +233,11 @@ h4 { font-size: 14px; line-height: 1.3; font-weight: 600; text-transform: upperc
 }
 .brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   font-family: var(--font-ui);
 }
+.brand__icon { width: 34px; height: 34px; flex: 0 0 34px; }
 .brand__mark {
   font-size: 20px;
   font-weight: 500;
@@ -731,7 +744,7 @@ h4 { font-size: 14px; line-height: 1.3; font-weight: 600; text-transform: upperc
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: var(--cat-accent, var(--ink)) !important;
+  color: var(--cat-title, var(--ink)) !important;
   transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 .ctable__icon-btn svg {
@@ -937,16 +950,16 @@ h4 { font-size: 14px; line-height: 1.3; font-weight: 600; text-transform: upperc
 }
 
 /* Category mapping: sets the --cat-accent custom prop on a container */
-.cat-hematologia    { --cat-accent: var(--cat-hematologia);    --cat-accent-soft: color-mix(in srgb, var(--cat-hematologia) 8%, transparent); }
-.cat-hepatica       { --cat-accent: var(--cat-hepatica);       --cat-accent-soft: color-mix(in srgb, var(--cat-hepatica) 8%, transparent); }
-.cat-quimica        { --cat-accent: var(--cat-quimica);        --cat-accent-soft: color-mix(in srgb, var(--cat-quimica) 8%, transparent); }
-.cat-lipidos        { --cat-accent: var(--cat-lipidos);        --cat-accent-soft: color-mix(in srgb, var(--cat-lipidos) 8%, transparent); }
-.cat-endocrinologia { --cat-accent: var(--cat-endocrinologia); --cat-accent-soft: color-mix(in srgb, var(--cat-endocrinologia) 8%, transparent); }
-.cat-electrolitos   { --cat-accent: var(--cat-electrolitos);   --cat-accent-soft: color-mix(in srgb, var(--cat-electrolitos) 8%, transparent); }
-.cat-orina          { --cat-accent: var(--cat-orina);          --cat-accent-soft: color-mix(in srgb, var(--cat-orina) 8%, transparent); }
-.cat-serologia      { --cat-accent: var(--cat-serologia);      --cat-accent-soft: color-mix(in srgb, var(--cat-serologia) 8%, transparent); }
-.cat-infecciosos    { --cat-accent: var(--cat-infecciosos);    --cat-accent-soft: color-mix(in srgb, var(--cat-infecciosos) 8%, transparent); }
-.cat-lcr            { --cat-accent: var(--cat-lcr);            --cat-accent-soft: color-mix(in srgb, var(--cat-lcr) 8%, transparent); }
+.cat-hematologia    { --cat-title: var(--cat-hematologia-title); --cat-accent: var(--cat-hematologia);    --cat-accent-soft: color-mix(in srgb, var(--cat-hematologia) 8%, transparent); }
+.cat-hepatica       { --cat-title: var(--cat-hepatica-title); --cat-accent: var(--cat-hepatica);       --cat-accent-soft: color-mix(in srgb, var(--cat-hepatica) 8%, transparent); }
+.cat-quimica        { --cat-title: var(--cat-quimica-title); --cat-accent: var(--cat-quimica);        --cat-accent-soft: color-mix(in srgb, var(--cat-quimica) 8%, transparent); }
+.cat-lipidos        { --cat-title: var(--cat-lipidos-title); --cat-accent: var(--cat-lipidos);        --cat-accent-soft: color-mix(in srgb, var(--cat-lipidos) 8%, transparent); }
+.cat-endocrinologia { --cat-title: var(--cat-endocrinologia-title); --cat-accent: var(--cat-endocrinologia); --cat-accent-soft: color-mix(in srgb, var(--cat-endocrinologia) 8%, transparent); }
+.cat-electrolitos   { --cat-title: var(--cat-electrolitos-title); --cat-accent: var(--cat-electrolitos);   --cat-accent-soft: color-mix(in srgb, var(--cat-electrolitos) 8%, transparent); }
+.cat-orina          { --cat-title: var(--cat-orina-title); --cat-accent: var(--cat-orina);          --cat-accent-soft: color-mix(in srgb, var(--cat-orina) 8%, transparent); }
+.cat-serologia      { --cat-title: var(--cat-serologia-title); --cat-accent: var(--cat-serologia);      --cat-accent-soft: color-mix(in srgb, var(--cat-serologia) 8%, transparent); }
+.cat-infecciosos    { --cat-title: var(--cat-infecciosos-title); --cat-accent: var(--cat-infecciosos);    --cat-accent-soft: color-mix(in srgb, var(--cat-infecciosos) 8%, transparent); }
+.cat-lcr            { --cat-title: var(--cat-lcr-title); --cat-accent: var(--cat-lcr);            --cat-accent-soft: color-mix(in srgb, var(--cat-lcr) 8%, transparent); }
 
 /* -----------------------------------------------------------------------------
  * Mobile adjustments (≤640px)
@@ -1125,6 +1138,9 @@ h4 { font-size: 14px; line-height: 1.3; font-weight: 600; text-transform: upperc
   color: #2d2930;
 }
 @supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root { --watermelon: color(display-p3 0.9215686275 0.0823529412 0.3607843137); }
+  }
   .goey-titleSuccess,
   [data-goey-type="success"] .goey-title {
     color: #2d2930;

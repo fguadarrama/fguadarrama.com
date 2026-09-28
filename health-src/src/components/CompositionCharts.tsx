@@ -1,14 +1,9 @@
+import { webColor } from "../lib/palette"
 // Adapted from Lieflat Charts; see THIRD_PARTY_NOTICES.md.
 // Preserve its pop/fade stagger and ECharts quarticOut timings.
-import { useEffect, useRef, useState } from 'react'
-import * as echarts from 'echarts/core'
-import { TreemapChart } from 'echarts/charts'
-import { TooltipComponent, AriaComponent } from 'echarts/components'
-import { SVGRenderer } from 'echarts/renderers'
-import { useReducedMotion } from 'framer-motion'
-import type { CompositionPart } from '../lib/body-composition'
+import { useEffect, useState } from 'react'
+import { rosePetals, type CompositionPart } from '../lib/body-composition'
 import { formatWeight } from '../data/weight-data'
-echarts.use([TreemapChart, TooltipComponent, AriaComponent, SVGRenderer])
 type Props = { parts: CompositionPart[]; total: number }
 const reading = (p: CompositionPart) => `${p.label}: ${formatWeight(p.mass)} kg${p.percentage == null ? '' : ` · ${formatWeight(p.percentage)} %`}`
 function useCompactChart() {
@@ -30,7 +25,7 @@ export function DotCascade({ parts }: Props) {
           // sqrt(fraction) gives proportional area to a partial kilogram.
           return <g key={k} className="lieflat-pop" style={{ animationDelay: `${i * .05 + k * .03}s` }}>
             {fractional && <circle cx={x} cy={y} r="2.2" fill="white" stroke="#2d2930" strokeWidth=".4" />}
-            <circle cx={x} cy={y} r={fractional ? 2.2 * Math.sqrt(remainder) : 2.2} fill={part.color} stroke="#2d2930" strokeWidth=".25"><title>{reading(part)}</title></circle>
+            <circle cx={x} cy={y} r={fractional ? 2.2 * Math.sqrt(remainder) : 2.2} fill={webColor(part.color)} stroke="#2d2930" strokeWidth=".25"><title>{reading(part)}</title></circle>
           </g>
         })}
         <text x={x} y={base - 23 - (n - 1) * 5.1} textAnchor="middle" fontSize={compact ? 16 : 20}>{formatWeight(part.mass)} kg</text>
@@ -41,32 +36,42 @@ export function DotCascade({ parts }: Props) {
 }
 
 export function NestedTreemap({ parts, total }: Props) {
-  const host = useRef<HTMLDivElement>(null)
-  const reduceMotion = useReducedMotion()
-  useEffect(() => {
-    if (!host.current) return
-    const chart = echarts.init(host.current, undefined, { renderer: 'svg' })
-    const leaf = (p: CompositionPart) => ({ name: p.label, value: p.mass, itemStyle: { color: p.color }, label: { show: p.key === 'water' || p.key === 'fat', color: '#2d2930' } })
-    const fat = parts.find(p => p.key === 'fat')!
-    chart.setOption({
-      animation: !reduceMotion, animationDuration: 900, animationEasing: 'quarticOut', aria: { enabled: true, label: { description: parts.map(reading).join('. ') } },
-      textStyle: { fontFamily: 'Albert Sans Variable', color: '#2d2930' },
-      tooltip: { confine: true, backgroundColor: '#fff', borderColor: '#2d2930', borderWidth: 1, extraCssText: 'box-shadow:none', textStyle: { color: '#2d2930', fontSize: 13, fontFamily: 'Albert Sans Variable' }, formatter: (p: any) => `${p.name}: ${formatWeight(Number(p.value))} kg` },
-      series: [{ type: 'treemap', data: [
-        { name: `Masa libre de grasa · ${formatWeight(total - fat.mass)} kg`, children: parts.filter(p => p.key !== 'fat').map(leaf) },
-        { name: 'Grasa', children: [leaf(fat)] },
-      ], top: 0, right: 0, bottom: 0, left: 0, roam: false, nodeClick: false, breadcrumb: { show: false }, leafDepth: 2, squareRatio: 1.2,
-        label: { show: true, position: 'insideTopLeft', padding: [10, 8], color: '#2d2930', fontSize: 14, fontWeight: 400, lineHeight: 21, formatter: (p: any) => p.treePathInfo.length <= 1 ? '' : p.treePathInfo.length === 2 ? p.name : `${p.name === 'Agua corporal' ? 'Agua\n' : ''}${formatWeight(Number(p.value))} kg` },
-        upperLabel: { show: true, height: 32, padding: [0, 10], color: '#2d2930', fontSize: 13, fontWeight: 400, backgroundColor: '#fff' },
-        itemStyle: { borderColor: '#fff', borderWidth: 2, gapWidth: 2 }, emphasis: { disabled: true },
-        levels: [{ itemStyle: { borderWidth: 0, gapWidth: 5 } }, { upperLabel: { show: true, height: 32 }, itemStyle: { borderColor: '#fff', borderWidth: 3, gapWidth: 3 } }, { upperLabel: { show: false }, itemStyle: { borderColor: '#2d2930', borderWidth: .5, gapWidth: 2 } }],
-      }],
-    })
-    const resize = new ResizeObserver(() => chart.resize())
-    resize.observe(host.current)
-    return () => { resize.disconnect(); chart.dispose() }
-  }, [parts, total, reduceMotion])
-  return <div ref={host} className="composition-treemap" role="img" aria-label="Treemap de masa corporal. Valores exactos en la tabla contigua." />
+  const compact = useCompactChart(), width = compact ? 360 : 640, usable = width - 12, height = 260
+  const fat = parts.find(p => p.key === 'fat')!, water = parts.find(p => p.key === 'water')!
+  const fatWidth = usable * fat.mass / total, freeWidth = usable - fatWidth
+  const waterWidth = usable * water.mass / total, sideWidth = freeWidth - waterWidth
+  const others = parts.filter(p => p.key !== 'fat' && p.key !== 'water')
+  let y = 52
+  const boxes = [{ ...water, x: 6, y, w: waterWidth, h: height }, { ...fat, x: 6 + freeWidth, y, w: fatWidth, h: height }, ...others.map(p => {
+    const h = height * p.mass / (total - fat.mass - water.mass), box = { ...p, x: 6 + waterWidth, y, w: sideWidth, h }; y += h; return box
+  })]
+  return <svg viewBox={`0 0 ${width} 385`} role="img" aria-label="Treemap proporcional: cada recuadro tiene su masa etiquetada">
+    <text x="6" y="20" fontSize="14">Masa libre de grasa · {formatWeight(total-fat.mass)} kg</text>
+    <path d={`M6 42 V32 H${6+freeWidth} V42`} stroke="#2d2930" fill="none" />
+    {boxes.map((p,i) => <g key={p.key} className="lieflat-quartic" style={{ animationDelay: `${i*.06}s` }}>
+      <rect x={p.x} y={p.y} width={p.w} height={p.h} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".7"><title>{reading(p)}</title></rect>
+      {p.key !== 'unassigned' && <g>
+        <rect x={p.x+p.w/2-Math.min(p.w-4,94)/2} y={p.y+p.h/2-18} width={Math.min(p.w-4,94)} height="36" rx="4" fill="white" />
+        <text x={p.x+p.w/2} y={p.y+p.h/2+11} textAnchor="middle" fontSize="14">{formatWeight(p.mass)} kg</text>
+        <text x={p.x+p.w/2} y={p.y+p.h/2-5} textAnchor="middle" fontSize="12">{p.key === 'water' ? 'Agua' : p.key === 'fat' ? 'Grasa' : p.key === 'bone' ? 'Mineral óseo' : 'Proteínas'}</text>
+      </g>}
+      {p.key === 'unassigned' && <g><path d={`M${p.x+p.w/2} ${p.y+p.h/2} V343 H${width-8}`} fill="none" stroke="#2d2930" /><text x={width-8} y="367" textAnchor="end" fontSize="14">Sin desglosar · {formatWeight(p.mass)} kg</text></g>}
+    </g>)}
+  </svg>
+}
+
+export function PetalRose({ parts }: Props) {
+  const petals = rosePetals(parts)
+  return <svg viewBox="0 0 360 340" role="img" aria-label={`Petal Rose. El área de cada pétalo representa su masa. ${parts.filter(p => p.key !== 'unassigned').map(reading).join('. ')}`}>
+    {petals.map((p,i) => <g key={p.key} className="lieflat-quartic" style={{ animationDelay: `${i*.09}s` }}>
+      <path d={p.path} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".6" strokeLinejoin="round"><title>{reading(p)}</title></path>
+      <rect x={p.x-30} y={p.y-11} width="60" height="23" rx="5" fill="white" />
+      <text x={p.x} y={p.y+5} textAnchor="middle" fontSize="15">{formatWeight(p.mass)}</text>
+    </g>)}
+    <text x="180" y="175" textAnchor="middle" fontSize="13">kg</text>
+    <text x="22" y="26" fontSize="13">Proteínas</text><text x="338" y="26" textAnchor="end" fontSize="13">Agua corporal</text>
+    <text x="22" y="320" fontSize="13">Mineral óseo</text><text x="338" y="320" textAnchor="end" fontSize="13">Masa grasa</text>
+  </svg>
 }
 
 const polar = (r: number, angle: number) => [150 + Math.cos(angle * Math.PI / 180) * r, 151 + Math.sin(angle * Math.PI / 180) * r]
@@ -76,10 +81,10 @@ export function TickGauges({ parts }: Props) {
     return <figure key={part.key}><svg viewBox="0 0 300 218" role="img" aria-label={reading(part)}>
       {Array.from({ length: 100 }, (_, k) => {
         const filled = k < Math.floor(pct), a = -195 + k / 100 * 210, inner = polar(104, a), outer = polar(filled ? 121 : 109, a)
-        return <line key={k} x1={inner[0]} y1={inner[1]} x2={outer[0]} y2={outer[1]} stroke={filled ? part.color : '#2d2930'} strokeWidth={filled ? 2.5 : .7} className="lieflat-fade" style={{ animationDelay: `${k * .012}s` }} />
+        return <line key={k} x1={inner[0]} y1={inner[1]} x2={outer[0]} y2={outer[1]} stroke={filled ? webColor(part.color) : '#2d2930'} strokeWidth={filled ? 2.5 : .7} className="lieflat-fade" style={{ animationDelay: `${k * .012}s` }} />
       })}
       {[0, 25, 50, 75, 100].map(v => { const p = polar(86, -195 + v / 100 * 210); return <text key={v} x={p[0]} y={p[1] + 4} textAnchor="middle" fontSize="11">{v}</text> })}
-      <circle cx={end[0]} cy={end[1]} r="3" fill={part.color} stroke="#2d2930" strokeWidth=".5" className="lieflat-pop" style={{ animationDelay: '1.1s' }} />
+      <circle cx={end[0]} cy={end[1]} r="3" fill={webColor(part.color)} stroke="#2d2930" strokeWidth=".5" className="lieflat-pop" style={{ animationDelay: '1.1s' }} />
       <text x="150" y="151" textAnchor="middle" fontSize="29">{formatWeight(pct)} %</text>
       <text x="150" y="176" textAnchor="middle" fontSize="14">{formatWeight(part.mass)} kg</text>
     </svg><figcaption>{part.label}</figcaption></figure>
@@ -97,8 +102,8 @@ export function AggregateSankey({ parts, total }: Props) {
       const h = p.mass * scale, sa = sourceY + massBefore * scale, da = y0 + massBefore * scale + i * gap
       massBefore += p.mass
       return <g key={p.key}>
-        <path d={`M${xl} ${sa} C${mid} ${sa} ${mid} ${da} ${xr} ${da} L${xr} ${da + h} C${mid} ${da + h} ${mid} ${sa + h} ${xl} ${sa + h} Z`} fill={p.color} stroke="#2d2930" strokeWidth=".5" className="lieflat-fade" style={{ animationDelay: `${.2 + i * .06}s` }}><title>{reading(p)}</title></path>
-        <rect x={xr} y={da} width="7" height={h} fill={p.color} stroke="#2d2930" strokeWidth=".5" className="lieflat-fade" style={{ animationDelay: `${.1 + i * .06}s` }} />
+        <path d={`M${xl} ${sa} C${mid} ${sa} ${mid} ${da} ${xr} ${da} L${xr} ${da + h} C${mid} ${da + h} ${mid} ${sa + h} ${xl} ${sa + h} Z`} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".5" className="lieflat-fade" style={{ animationDelay: `${.2 + i * .06}s` }}><title>{reading(p)}</title></path>
+        <rect x={xr} y={da} width="7" height={h} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".5" className="lieflat-fade" style={{ animationDelay: `${.1 + i * .06}s` }} />
         <text x={xr + 20} y={da + h / 2 - 4} fontSize={compact ? 13 : 15}>{p.label}</text>
         <text x={xr + 20} y={da + h / 2 + 16} fontSize="16">{formatWeight(p.mass)} kg</text>
       </g>

@@ -8,9 +8,13 @@ import {
   useWeightSummary,
   type Metric,
 } from '../prototypes/weight/shared'
-import { formatWeight, formatWeightDate } from '../data/weight-data'
+import { descendingWeights, formatWeight, formatWeightDate } from '../data/weight-data'
 import { useWeightStore } from '../stores/weightStore'
 import BodyComposition from '../components/BodyComposition'
+import CompositionTimeline from '../components/CompositionTimeline'
+import BigSlice from '../components/BigSlice'
+import { massParts } from '../lib/body-composition'
+import { play } from '../lib/sounds'
 import '../prototypes/weight/weight.css'
 import '../styles/integrated-pages.css'
 
@@ -20,6 +24,21 @@ export default function Weight() {
   const { latest, change } = useWeightSummary(records)
   const [metric, setMetric] = useState<Metric>('weight')
   const [adding, setAdding] = useState(false)
+  const [exporting, setExporting] = useState(false)
+  const [exportError, setExportError] = useState('')
+  const composition = descendingWeights(records.filter(r => r.composition))[0]
+  async function downloadReport() {
+    setExporting(true); setExportError('')
+    try {
+      const { generateWeightReportBlob } = await import('../lib/weight-pdf')
+      const blob = await generateWeightReportBlob(records)
+      const url = URL.createObjectURL(blob), link = document.createElement('a')
+      link.href = url; link.download = `peso-composicion-${new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10)}.pdf`
+      document.body.appendChild(link); link.click(); link.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 60_000); play('scan')
+    } catch { setExportError('No se pudo generar el PDF. Inténtalo de nuevo.') }
+    finally { setExporting(false) }
+  }
 
   return (
     <div className="integrated-weight">
@@ -28,8 +47,9 @@ export default function Weight() {
           <span className="eyebrow section-accent-weight">Seguimiento</span>
           <h1>Peso</h1>
         </div>
-        <button className="outline-action" onClick={() => setAdding(true)}>Añadir medición</button>
+        <div className="weight-page-actions"><button className="outline-action" onClick={downloadReport} disabled={exporting}>{exporting ? 'Generando PDF…' : 'Descargar PDF'}</button><button className="outline-action" onClick={() => setAdding(true)}>Añadir medición</button></div>
       </header>
+      {exportError && <p role="alert">{exportError}</p>}
 
       <section className="weight-overview" aria-label="Resumen de peso">
         <div className="weight-overview__current">
@@ -44,7 +64,7 @@ export default function Weight() {
         </dl>
       </section>
 
-      <div className="weight-data-grid">
+      <div className="weight-data-grid weight-dashboard-grid">
         <section className="integrated-panel weight-trend-panel">
           <header>
             <h2>Tendencia</h2>
@@ -52,7 +72,9 @@ export default function Weight() {
           </header>
           <WeightChart records={records} metric={metric} />
         </section>
-
+        {composition && <section className="integrated-panel weight-composition-panel"><header><h2>Composición actual</h2><span>{formatWeightDate(composition.date)}</span></header><div className="weight-composition-chart"><BigSlice parts={massParts(composition)} total={composition.weight} /></div></section>}
+      </div>
+      <CompositionTimeline records={records} />
         <section className="integrated-panel weight-history-panel">
           <header><h2>Mediciones</h2></header>
           <div className="integrated-table-scroll">
@@ -75,8 +97,6 @@ export default function Weight() {
             </table>
           </div>
         </section>
-      </div>
-
       <BodyComposition records={records} />
       <AddWeightDialog open={adding} onClose={() => setAdding(false)} onAdd={addRecord} />
     </div>

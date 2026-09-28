@@ -23,7 +23,7 @@
 .rb-preview{background:var(--bg)}
 .rb-sheet{box-shadow:none}
 .rb-lab-section>header{border-bottom-color:var(--cat-accent,var(--rb-ink))}
-.rb-lab-section>header h3{color:var(--cat-accent,var(--rb-ink))!important}
+.rb-lab-section>header h3{color:var(--cat-title,var(--rb-ink))!important}
 .rb-weight-section>header h3{color:#2d694c!important}
 .rb-table-scroll td:first-child{font-size:13px}
 .rb-mono{font-family:var(--font-num);font-weight:400}

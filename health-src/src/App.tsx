@@ -16,6 +16,7 @@ function Header() {
       <div className="container">
         <div className="site-header__inner">
           <div className="brand">
+            <img className="brand__icon" src={document.querySelector<HTMLLinkElement>('link[rel="icon"]')?.href} alt="" width={34} height={34} />
             <span className="brand__mark">Historial médico</span>
             <span className="brand__pipe">|</span>
             <span className="brand__initials">FGC</span>

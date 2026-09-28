@@ -7,12 +7,15 @@
 // and right-padded to prevent "mg/dL" from clipping into the value column.
 
 import React from 'react'
+import { LAB_ACCENTS, LAB_TITLE_COLORS, pdfColor, WATERMELON_SRGB } from './palette'
 import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Line, Circle, Rect, pdf } from '@react-pdf/renderer'
-import albertSansRegularUrl from '@fontsource/albert-sans/files/albert-sans-latin-ext-400-normal.woff?url'
-import albertSansMediumUrl from '@fontsource/albert-sans/files/albert-sans-latin-ext-500-normal.woff?url'
-import albertSansSemiBoldUrl from '@fontsource/albert-sans/files/albert-sans-latin-ext-600-normal.woff?url'
-import albertSansBoldUrl from '@fontsource/albert-sans/files/albert-sans-latin-ext-700-normal.woff?url'
-import albertSansItalicUrl from '@fontsource/albert-sans/files/albert-sans-latin-ext-400-italic.woff?url'
+// Latin includes Spanish, digits and basic punctuation. Latin-ext alone omits
+// these glyphs and silently causes the PDF engine to fall back to Helvetica.
+import albertSansRegularUrl from '@fontsource/albert-sans/files/albert-sans-latin-400-normal.woff?url'
+import albertSansMediumUrl from '@fontsource/albert-sans/files/albert-sans-latin-500-normal.woff?url'
+import albertSansSemiBoldUrl from '@fontsource/albert-sans/files/albert-sans-latin-600-normal.woff?url'
+import albertSansBoldUrl from '@fontsource/albert-sans/files/albert-sans-latin-700-normal.woff?url'
+import albertSansItalicUrl from '@fontsource/albert-sans/files/albert-sans-latin-400-italic.woff?url'
 import {
   data,
   formatValue,
@@ -52,18 +55,7 @@ Font.register({
 })
 Font.registerHyphenationCallback((w) => (w.length > 24 ? [w.slice(0, 12), w.slice(12)] : [w]))
 
-const CAT_ACCENTS: Record<string, string> = {
-  'Hematología': '#3f6f8f',
-  'Hepática': '#009766',
-  'Química': '#2d694c',
-  'Lípidos': '#714fac',
-  'Endocrinología': '#52659a',
-  'Electrolitos': '#2f7c86',
-  'Orina': '#69da74',
-  'Serología': '#86586f',
-  'Infecciosos': '#a3683a',
-  'LCR': '#40302f',
-}
+const CAT_ACCENTS = LAB_ACCENTS
 const CAT_HEADINGS: Record<string, string> = {
   'Hematología': 'Biometría hemática',
   'Hepática': 'Pruebas de funcionamiento hepático',
@@ -134,9 +126,9 @@ const PLAIN_SUPERSCRIPTS: Record<string, string> = {
 
 /** Render exponents with Albert Sans digits raised by the PDF text engine.
  * This avoids relying on incomplete precomposed superscript glyph subsets. */
-function PdfUnit({ unit, style, fontSize = 8 }: { unit: string; style?: any; fontSize?: number }) {
+export function PdfUnit({ unit, style, fontSize = 8 }: { unit: string; style?: any; fontSize?: number }) {
   const parts = formatUnit(unit).split(/([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+)/g).filter(Boolean)
-  return <Text style={[style, { fontSize }]}>{parts.map((part, index) => {
+  return <Text style={[style, { fontSize, fontFamily: 'AlbertSans' }]}>{parts.map((part, index) => {
     const superscript = [...part].every((character) => PLAIN_SUPERSCRIPTS[character] !== undefined)
     if (!superscript) return <React.Fragment key={`${part}-${index}`}>{part}</React.Fragment>
     const plain = [...part].map((character) => PLAIN_SUPERSCRIPTS[character]).join('')
@@ -361,7 +353,7 @@ function CategorySection({ cat, parameterIds, dates, latestPerCategory }: { cat:
   const categoryDates = latestPerCategory ? availableDates.slice(0, 5) : availableDates
   if (categoryDates.length === 0) return null
 
-  const accent = CAT_ACCENTS[cat] || COLORS.ink
+  const accent = pdfColor(CAT_ACCENTS[cat] || COLORS.ink)
   const heading = CAT_HEADINGS[cat] || cat
   const dateChunks = chunks(categoryDates, 5)
 
@@ -369,7 +361,7 @@ function CategorySection({ cat, parameterIds, dates, latestPerCategory }: { cat:
     <>{dateChunks.map((chunk, index) => <View key={`${cat}-${index}`} style={portraitStyles.catPanel} wrap minPresenceAhead={110}>
         <View style={[portraitStyles.catAccentBar, { backgroundColor: accent }]} />
         <View style={portraitStyles.catHeader}>
-          <Text style={[portraitStyles.catTitle, { color: accent }]}>{heading}</Text>
+          <Text style={[portraitStyles.catTitle, { color: LAB_TITLE_COLORS[cat] || COLORS.ink }]}>{heading}</Text>
           {dateChunks.length > 1 && <Text style={portraitStyles.catContinuation}>{index + 1} / {dateChunks.length}</Text>}
         </View>
         <View style={portraitStyles.table}>
@@ -383,8 +375,8 @@ function CategorySection({ cat, parameterIds, dates, latestPerCategory }: { cat:
 function WeightSection({ records }: { records: WeightRecord[] }) {
   if (records.length === 0) return null
   return <View style={portraitStyles.catPanel} wrap minPresenceAhead={110}>
-    <View style={[portraitStyles.catAccentBar, { backgroundColor: '#2d694c' }]} />
-    <View style={portraitStyles.catHeader}><Text style={[portraitStyles.catTitle, { color: '#2d694c' }]}>Peso y composición corporal</Text></View>
+    <View style={[portraitStyles.catAccentBar, { backgroundColor: WATERMELON_SRGB }]} />
+    <View style={portraitStyles.catHeader}><Text style={[portraitStyles.catTitle, { color: '#c6004d' }]}>Peso y composición corporal</Text></View>
     <View style={portraitStyles.table}>
       <View style={portraitStyles.tableHead} fixed>
         <Text style={[portraitStyles.tableHeadCell, { width: 190 }]}>Fecha</Text>
@@ -748,7 +740,7 @@ function ParameterReportDoc({ cid }: { cid: string }) {
     .filter((r) => r.value_numeric !== null)
     .map((r) => ({ date: r.date, value: r.value_numeric as number }))
 
-  const accent = CAT_ACCENTS[p.category] || COLORS.ink
+  const accent = LAB_TITLE_COLORS[p.category] || COLORS.ink
   const refLow = p.lab_ref_low ?? p.guideline_target_low
   const refHigh = p.lab_ref_high ?? p.guideline_target_high
   const refText = formatRef(refLow, refHigh, p.lab_ref_operator)

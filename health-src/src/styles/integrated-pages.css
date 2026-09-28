@@ -40,8 +40,10 @@
 
 .section-accent-weight,
 .integrated-weight h2 {
-  color: #2d694c !important;
+  color: var(--weight-accent, #eb155c) !important;
 }
+
+.integrated-weight { --green: var(--weight-accent, #eb155c); }
 
 .weight-summary-grid {
   display: grid;
@@ -296,7 +298,7 @@
 }
 
 .weight-event > i {
-  background: #2d694c;
+  background: var(--weight-accent, #eb155c);
 }
 
 .timeline-event-card {

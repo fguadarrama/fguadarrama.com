@@ -1,0 +1,9 @@
+.json-global-fields { display: grid; grid-template-columns: minmax(160px,1fr) minmax(230px,2fr) auto; gap: 12px; align-items: start; }
+.json-global-fields label { display: block; height: 20px; margin-bottom: 6px !important; line-height: 20px; }
+.json-global-fields .json-apply { margin-top: 26px; height: 42px; align-self: start; }
+.json-entry-table { min-width: 1140px; }
+.json-entry-table tbody td { vertical-align: top; }
+.json-entry-table :is(input,select) { height: 36px; box-sizing: border-box; }
+.json-entry-table th { text-transform: none !important; letter-spacing: normal !important; }
+.json-builder :is(input,select,button):focus-visible { outline: 2px solid #2d2930 !important; outline-offset: 2px; }
+@media(max-width:760px) { .json-global-fields { grid-template-columns: 1fr; } .json-global-fields .json-apply { margin-top: 0; justify-self: start; } }
