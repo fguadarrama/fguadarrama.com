@@ -9,6 +9,11 @@ if (files.length !== 1 || files[0] !== 'index.html') throw new Error(`Release mu
 const file = resolve(releaseDir, 'index.html')
 if (!statSync(file).isFile()) throw new Error('Encrypted release index is missing.')
 const html = readFileSync(file, 'utf8')
+// React PDF's Yoga layout engine compiles bundled WASM, not JavaScript eval.
+// Keep network access blocked while allowing that narrowly scoped operation.
+const csp = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] || ''
+if (!csp.includes("'wasm-unsafe-eval'") || csp.includes("'unsafe-eval'")) throw new Error('PDF requires WASM permission without JavaScript eval permission.')
+if (!csp.includes("connect-src 'none'")) throw new Error('Release must block external connections.')
 const env = loadEnv('production', process.cwd(), 'VITE_PATIENT_')
 const clinical = JSON.parse(readFileSync(resolve(process.cwd(), 'src/data/lab-data.json'), 'utf8'))
 const firstResult = clinical.results?.[0] || {}
