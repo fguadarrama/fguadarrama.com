@@ -28,6 +28,18 @@ export type WeightRecord = {
   bodyFat?: number
   source: string
   composition?: BodyComposition
+  // Keep the partial InBody report separate from Xiaomi's four-part breakdown.
+  // Preserve "Muscle Mass" without assuming it means skeletal muscle.
+  inBody?: {
+    heightCm: number
+    sex: 'male' | 'female'
+    muscleMass: number
+    fatMass: number
+    bmi: number
+    extracellularWaterRatio: number
+    visceralFatLevel: number
+    sourceDocument: string
+  }
 }
 
 export const WEIGHT_RECORDS = privateWeightRecords as WeightRecord[]

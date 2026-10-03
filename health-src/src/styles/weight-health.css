@@ -1,0 +1,49 @@
+.weight-health { background: #fff; border: 1px solid #2d2930; border-radius: 16px; margin: 16px 0 20px; color: #2d2930; }
+.weight-health > header, .inbody-readings > header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 18px 22px; }
+.weight-health h2 { color: var(--weight-accent, #eb155c); font-size: 20px; font-weight: 450; margin: 0; }
+.weight-health header span { font-size: 13px; }
+.weight-health__grid { display: grid; grid-template-columns: 1fr 1fr 1.2fr; padding: 0 22px 18px; }
+.weight-health__grid article { padding: 0 20px; border-left: 1px solid #2d2930; min-width: 0; }
+.weight-health__grid article:first-child { padding-left: 0; border-left: 0; }
+.weight-health__grid article:last-child { padding-right: 0; }
+.weight-health h3 { font-size: 14px; font-weight: 375; margin: 0; }
+.weight-health p { font-size: 13px; line-height: 1.5; margin: 4px 0 0; }
+.weight-health .health-value { font-size: clamp(25px, 2.8vw, 36px); font-variant-numeric: tabular-nums; font-weight: 400; line-height: 1.3; margin: 9px 0; }
+.health-value small { font-size: 13px; font-weight: 375; white-space: nowrap; }
+.weight-health__method { border-top: 1px solid #2d2930; padding: 12px 22px; font-size: 13px; }
+.weight-health__method summary { cursor: pointer; width: fit-content; }
+.weight-health__method > div { max-width: 100ch; padding: 8px 0; }
+.weight-health a { color: #2d2930; text-decoration: underline; }
+.inbody-readings { margin-bottom: 20px; }
+.inbody-readings table { min-width: 830px; table-layout: fixed; }
+.inbody-readings th, .inbody-readings td { text-align: center !important; font-size: 13px; font-weight: 375; font-variant-numeric: tabular-nums; text-transform: none; letter-spacing: normal; }
+.inbody-note { padding: 12px 22px 18px; font-size: 13px; line-height: 1.5; color: #2d2930; margin: 0; }
+.weight-key--reference { border-top: 2px dashed #777; background: none !important; height: 0 !important; }
+.ibw-options { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 0; gap: 12px; margin: 0; padding: 0 22px 16px; }
+.ibw-options legend { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ibw-options label { display: grid; grid-template-columns: 18px 1fr; align-items: center; gap: 9px; border: 1px solid #2d2930; border-radius: 8px; padding: 13px 10px; cursor: pointer; font-size: 14px; }
+.ibw-options label[data-selected="true"] { outline: 2px solid var(--weight-accent); outline-offset: 2px; }
+.ibw-options input { accent-color: var(--weight-accent); margin: 0; }
+.ibw-options strong { grid-column: 2; font-size: 25px; font-weight: 400; font-variant-numeric: tabular-nums; }
+.ibw-options small { font-size: 13px; font-weight: 375; }
+.ibw-equation, .ibw-slider { display: block; padding: 0 22px 16px; }
+.ibw-slider { font-size: 14px; max-width: 480px; }
+.ibw-slider input { display: block; width: 100%; accent-color: var(--weight-accent); margin-top: 10px; }
+.ibw-equation strong { font-weight: 450; }
+.energy-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 0 22px 12px; }
+.energy-controls label { display: grid; gap: 7px; font-size: 13px; }
+.energy-controls select { width: 100%; min-width: 0; border: 1px solid #2d2930; border-radius: 7px; padding: 10px; color: #2d2930; background: #fff; font: inherit; }
+.weight-health .energy-caption { padding: 0 22px 15px; }
+.energy-comparison { border-collapse: collapse; width: 100%; margin-top: 16px; }
+.energy-comparison th, .energy-comparison td { font-size: 13px; padding: 8px; text-align: left; border-bottom: 1px solid #2d2930; font-weight: 375; }
+.weight-health :focus-visible { outline: 2px solid #2d2930; outline-offset: 4px; }
+@media (max-width: 700px) {
+  .weight-health > header, .inbody-readings > header { flex-wrap: wrap; padding: 15px; }
+  .weight-health__grid { grid-template-columns: 1fr; padding: 0 15px; }
+  .weight-health__grid article, .weight-health__grid article:first-child { padding: 14px 0; border-left: 0; border-top: 1px solid #2d2930; }
+  .weight-health .health-value { font-size: 30px; }
+  .weight-health__method { padding: 12px 15px; }
+  .inbody-note { padding: 12px 15px; }
+  .ibw-options { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 15px 16px; }
+  .energy-controls { grid-template-columns: 1fr; padding: 0 15px 12px; }
+}

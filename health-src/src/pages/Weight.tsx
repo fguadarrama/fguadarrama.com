@@ -13,6 +13,11 @@ import { useWeightStore } from '../stores/weightStore'
 import BodyComposition from '../components/BodyComposition'
 import CompositionTimeline from '../components/CompositionTimeline'
 import BigSlice from '../components/BigSlice'
+import WeightHealth from '../components/WeightHealth'
+import WeightReference from '../components/WeightReference'
+import InBodyReadings from '../components/InBodyReadings'
+import profile from '../data/body-profile.local.json'
+import { ibwEstimates, weightHealth, type IbwMethod } from '../lib/weight-health'
 import { massParts } from '../lib/body-composition'
 import { play } from '../lib/sounds'
 import '../prototypes/weight/weight.css'
@@ -21,11 +26,15 @@ import '../styles/integrated-pages.css'
 export default function Weight() {
   const records = useWeightStore((state) => state.records)
   const addRecord = useWeightStore((state) => state.addRecord)
-  const { latest, change } = useWeightSummary(records)
+  const { latest, fromPeak } = useWeightSummary(records)
+  const bmi = weightHealth(latest.weight, profile.heightCm, null, profile.sex).bmi
   const [metric, setMetric] = useState<Metric>('weight')
   const [adding, setAdding] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [exportError, setExportError] = useState('')
+  const [ibwMethod, setIbwMethod] = useState<IbwMethod>('devine')
+  const [targetBmi, setTargetBmi] = useState(22.5)
+  const reference = ibwEstimates(profile.heightCm, profile.sex, targetBmi).find(m => m.id === ibwMethod)!
   const composition = descendingWeights(records.filter(r => r.composition))[0]
   async function downloadReport() {
     setExporting(true); setExportError('')
@@ -58,9 +67,9 @@ export default function Weight() {
           <p>{formatWeightDate(latest.date, true)}</p>
         </div>
         <dl className="weight-overview__facts">
-          <div><dt>Cambio total</dt><dd><AnimatedNumber value={change} /> kg</dd></div>
+          <div><dt>Cambio desde el máximo</dt><dd><AnimatedNumber value={fromPeak} /> kg</dd></div>
           <div><dt>Grasa corporal</dt><dd>{latest.bodyFat == null ? '—' : <><AnimatedNumber value={latest.bodyFat} /> %</>}</dd></div>
-          <div><dt>Mediciones</dt><dd>{records.length}</dd></div>
+          <div><dt>IMC actual</dt><dd><AnimatedNumber value={bmi} /> kg/m²</dd></div>
         </dl>
       </section>
 
@@ -70,16 +79,19 @@ export default function Weight() {
             <h2>Tendencia</h2>
             <MetricToggle metric={metric} onChange={setMetric} />
           </header>
-          <WeightChart records={records} metric={metric} />
+          <WeightChart records={records} metric={metric} referenceWeight={reference.value ?? undefined} referenceLabel={reference.name} />
         </section>
         {composition && <section className="integrated-panel weight-composition-panel"><header><h2>Composición actual</h2><span>{formatWeightDate(composition.date)}</span></header><div className="weight-composition-chart"><BigSlice parts={massParts(composition)} total={composition.weight} /></div></section>}
       </div>
+      <WeightHealth latest={latest} />
+      <WeightReference weight={latest.weight} method={ibwMethod} targetBmi={targetBmi} onMethod={setIbwMethod} onBmi={setTargetBmi} />
+      <InBodyReadings records={records} />
       <CompositionTimeline records={records} />
         <section className="integrated-panel weight-history-panel">
           <header><h2>Mediciones</h2></header>
           <div className="integrated-table-scroll">
             <table>
-              <thead><tr><th>Fecha</th><th>Peso</th><th>Grasa corporal</th></tr></thead>
+              <thead><tr><th>Fecha</th><th>Peso</th><th>Grasa corporal</th><th>Fuente</th></tr></thead>
               <tbody>
                 {records.map((record, index) => (
                   <motion.tr
@@ -91,6 +103,7 @@ export default function Weight() {
                     <td title={record.source}>{formatWeightDate(record.date)}</td>
                     <td>{formatWeight(record.weight)} kg</td>
                     <td>{record.bodyFat != null ? `${formatWeight(record.bodyFat)} %` : '—'}</td>
+                    <td>{record.inBody ? 'InBody' : record.source.startsWith('Báscula Xiaomi') ? 'Xiaomi' : record.source}</td>
                   </motion.tr>
                 ))}
               </tbody>

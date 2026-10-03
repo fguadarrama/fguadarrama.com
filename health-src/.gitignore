@@ -26,6 +26,8 @@ src/data/lab-data.json
 lab_data.xlsx
 src/data/sources/
 src/data/weight-records.local.json
+src/data/body-profile.local.json
+tmp/
 src/data/parameter-layout.json
 DATA_RECONCILIATION.md
 output/

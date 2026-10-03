@@ -94,6 +94,8 @@ function formatDobSpanish(iso: string): string {
 }
 
 function formatRef(low: number | null, high: number | null, op: string): string {
+  if (op === '<' && high !== null) return `< ${formatValue(high)}`
+  if (op === '>' && low !== null) return `> ${formatValue(low)}`
   if (op === '<=' && high !== null) return `≤ ${formatValue(high)}`
   if (op === '>=' && low !== null) return `≥ ${formatValue(low)}`
   if (low !== null && high !== null) return `${formatValue(low)}-${formatValue(high)}`

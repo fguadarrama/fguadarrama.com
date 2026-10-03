@@ -1,7 +1,7 @@
 // src/lib/types.ts
 // Shape of the build-time JSON (see scripts/build-data.mjs)
 
-export type RefOperator = 'range' | '<=' | '>=' | ''
+export type RefOperator = 'range' | '<' | '>' | '<=' | '>=' | ''
 export type ValueOperator = '<' | '<=' | '>' | '>=' | ''
 
 export interface Parameter {

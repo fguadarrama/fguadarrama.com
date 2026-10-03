@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import NumberFlow, { useCanAnimate } from '@number-flow/react'
 import {
-  Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Area, CartesianGrid, ComposedChart, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts'
 import { ascendingWeights as ascending, descendingWeights as descending, formatWeightDate as formatDate, formatWeight, WEIGHT_RECORDS as INITIAL_WEIGHT_RECORDS, type WeightRecord } from '../../data/weight-data'
 import { PATIENT, patientAge, patientDobShort } from '../../lib/patient'
@@ -33,7 +33,7 @@ export function AnimatedNumber({ value, decimals = 1, className }: { value: numb
   return <NumberFlow className={className} value={value} locales="es-MX" format={{ minimumFractionDigits: decimals, maximumFractionDigits: 2 }} animated={canAnimate} />
 }
 
-export function WeightChart({ records, metric, compact = false }: { records: WeightRecord[]; metric: Metric; compact?: boolean }) {
+export function WeightChart({ records, metric, compact = false, referenceWeight, referenceLabel = 'IMC 22' }: { records: WeightRecord[]; metric: Metric; compact?: boolean; referenceWeight?: number; referenceLabel?: string }) {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const [chartWidth, setChartWidth] = useState(620)
   const isWeight = metric === 'weight'
@@ -52,7 +52,8 @@ export function WeightChart({ records, metric, compact = false }: { records: Wei
           if (!active || !point) return null
           return <div className="weight-tooltip"><span>{formatDate(point.date, true)}</span><strong>{formatWeight(point.weight)} <small>kg</small></strong>
             {point.bodyFat != null && <p>Grasa corporal: {formatWeight(point.bodyFat)} %</p>}
-            {isWeight && point.lean != null && <><p>Masa libre de grasa: {formatWeight(point.lean)} kg</p><p>Masa grasa: {formatWeight(point.fat!)} kg</p><small>{point.leanCalculated ? 'Calculadas a partir del peso y el % de grasa.' : 'Masas reportadas por la báscula.'}</small></>}
+            <p>{point.inBody ? 'InBody' : point.source}</p>
+            {isWeight && point.lean != null && <><p>Masa libre de grasa: {formatWeight(point.lean)} kg</p><p>Masa grasa: {formatWeight(point.fat!)} kg</p><small>{point.leanMethod === 'fatMass' ? 'Masa libre de grasa calculada: peso − grasa reportada.' : point.leanCalculated ? 'Calculadas a partir del peso y el % de grasa.' : 'Masas reportadas por la báscula.'}</small></>}
           </div>
         }} />
         {isWeight && <Area type="monotoneX" dataKey="fatBand" stroke="none" fill={pink} fillOpacity={.13} isAnimationActive={false} connectNulls={false} tooltipType="none" />}
@@ -64,10 +65,11 @@ export function WeightChart({ records, metric, compact = false }: { records: Wei
             {payload.bodyFat != null && <tspan x={cx} dy={14}>{formatWeight(payload.bodyFat)} %</tspan>}
           </text>}
         </g>} activeDot={{ r: 5, fill: pink }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />
+        {isWeight && referenceWeight != null && <ReferenceLine y={referenceWeight} stroke="#777777" strokeDasharray="5 5" strokeWidth={1.5} ifOverflow="extendDomain" />}
       </ComposedChart>
     </ResponsiveContainer>
     </div>
-    {isWeight && <div className="weight-breakdown__legend"><span><i className="weight-key weight-key--total" />Peso total · kg</span><span><i className="weight-key weight-key--lean" />Masa libre de grasa · kg</span><span><i className="weight-key weight-key--fat" />Masa grasa · kg</span></div>}
+    {isWeight && <div className="weight-breakdown__legend"><span><i className="weight-key weight-key--total" />Peso total · kg</span><span><i className="weight-key weight-key--lean" />Masa libre de grasa · kg</span><span><i className="weight-key weight-key--fat" />Masa grasa · kg</span>{referenceWeight != null && <span><i className="weight-key weight-key--reference" />{referenceLabel} · {referenceWeight.toFixed(1)} kg</span>}</div>}
   </div>
 }
 

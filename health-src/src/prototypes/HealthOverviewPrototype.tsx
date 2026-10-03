@@ -164,6 +164,8 @@ function referenceFor(result: Result, parameter: Parameter): string {
   const low = result.ref_low ?? parameter.lab_ref_low ?? parameter.guideline_target_low
   const high = result.ref_high ?? parameter.lab_ref_high ?? parameter.guideline_target_high
   const operator = result.ref_operator || parameter.lab_ref_operator
+  if (operator === '<' && high != null) return `< ${formatNumeric(high, parameter.category)}`
+  if (operator === '>' && low != null) return `> ${formatNumeric(low, parameter.category)}`
   if (operator === '<=' && high != null) return `≤ ${formatNumeric(high, parameter.category)}`
   if (operator === '>=' && low != null) return `≥ ${formatNumeric(low, parameter.category)}`
   if (low != null && high != null) return `${formatNumeric(low, parameter.category)}–${formatNumeric(high, parameter.category)}`

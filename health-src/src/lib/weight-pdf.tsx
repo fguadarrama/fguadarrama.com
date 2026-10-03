@@ -35,7 +35,8 @@ function PdfTrend({ records, composition = false, width = 320, height = 175 }: {
   const all = series.flatMap(p => p.values).filter((v): v is number => v != null), min = composition ? 0 : Math.floor((Math.min(...all)-2)/5)*5, max = Math.ceil((Math.max(...all)+1)/5)*5
   const bottom = composition ? 34 : 58
   const x = (i: number) => 30 + (timestamps[i]-minT)/(maxT-minT || 1)*(width-44), y = (v: number) => height-bottom-(v-min)/(max-min)*(height-bottom-14)
-  const labels = [...new Set([0, Math.floor((sorted.length-1)/2), sorted.length-1])]
+  const midpoint = timestamps.reduce((best,t,i) => Math.abs(t-(minT+maxT)/2) < Math.abs(timestamps[best]-(minT+maxT)/2) ? i : best, 0)
+  const labels = [...new Set([0, ...(x(midpoint)-x(0) > 65 && x(sorted.length-1)-x(midpoint) > 65 ? [midpoint] : []), sorted.length-1])]
   return <Svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
     {Array.from({ length: composition ? 4 : 8 }, (_, i) => min + i*(max-min)/(composition ? 3 : 7)).map(v => <React.Fragment key={v}><Line x1={30} x2={width-14} y1={y(v)} y2={y(v)} stroke={ink} strokeWidth={.3} /><Text x={24} y={y(v)+3} textAnchor="end" fill={ink} style={{ fontSize: 8 }}>{v.toFixed(1)}</Text></React.Fragment>)}
     {!composition && sorted.slice(1).map((r,j) => r.lean == null || sorted[j].lean == null ? null : <Path key={r.id} d={`M${x(j)} ${y(sorted[j].weight)} L${x(j+1)} ${y(r.weight)} L${x(j+1)} ${y(r.lean)} L${x(j)} ${y(sorted[j].lean!)} Z`} fill={WATERMELON_SRGB} fillOpacity={.13} />)}
@@ -65,14 +66,14 @@ function Footer() { return <Text fixed style={s.footer} render={({ pageNumber, t
 export function WeightReportDocument({ records, printed = new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10) }: { records: WeightRecord[]; printed?: string }) {
   const sorted = ascendingWeights(records), latest = sorted[sorted.length-1], snapshots = compositionSnapshots(records), recent = snapshots[snapshots.length-1]
   if (!latest) throw new Error('No hay registros de peso para exportar.')
-  const change = latest.weight-sorted[0].weight
+  const change = latest.weight-Math.max(...sorted.map(r => r.weight))
   // Explicit batches keep reports readable as future measurements are added.
   const batches = Array.from({ length: Math.ceil(records.length/16) }, (_,i) => descendingWeights(records).slice(i*16,(i+1)*16))
   const snapshotBatches = Array.from({ length: Math.ceil(snapshots.length/4) }, (_,i) => snapshots.slice(i*4,(i+1)*4))
   return <Document title="Peso y composición corporal" author={PATIENT.fullName}>
     {batches.map((batch,bi) => <Page key={`weight-${bi}`} size="A4" style={s.page}>
       <Header printed={printed} />
-      {bi === 0 && <><View style={s.summary}><View style={s.fact}><Text>Peso actual · {formatWeightDate(latest.date)}</Text><Text style={s.number}>{formatWeight(latest.weight)} kg</Text></View><View style={s.fact}><Text>Cambio desde {formatWeightDate(sorted[0].date)}</Text><Text style={s.number}>{change > 0 ? '+' : ''}{formatWeight(change)} kg</Text></View><View style={s.fact}><Text>Grasa corporal actual</Text><Text style={s.number}>{latest.bodyFat == null ? '—' : `${formatWeight(latest.bodyFat)} %`}</Text></View></View>
+      {bi === 0 && <><View style={s.summary}><View style={s.fact}><Text>Peso actual · {formatWeightDate(latest.date)}</Text><Text style={s.number}>{formatWeight(latest.weight)} kg</Text></View><View style={s.fact}><Text>Cambio desde el máximo</Text><Text style={s.number}>{change > 0 ? '+' : ''}{formatWeight(change)} kg</Text></View><View style={s.fact}><Text>Grasa corporal actual</Text><Text style={s.number}>{latest.bodyFat == null ? '—' : `${formatWeight(latest.bodyFat)} %`}</Text></View></View>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}><View style={{ width: 305 }}><Text style={s.heading}>Evolución del peso · kg</Text><PdfTrend records={records} width={295} height={220} /></View>{recent && <View style={{ width: 225 }}><Text style={s.heading}>Composición · {formatWeightDate(recent.date)}</Text><PdfBigSlice record={recent} /></View>}</View>
       </>}
       <Text style={s.heading}>Mediciones de peso{bi ? ' · continuación' : ''}</Text>
@@ -89,6 +90,17 @@ export function WeightReportDocument({ records, printed = new Date(Date.now()-ne
         const value = m.key === 'bodyFat' ? r.bodyFat : m.key === 'unassigned' ? unassignedMass(r) : r.composition?.[m.key as keyof NonNullable<WeightRecord['composition']>]
         return <Text key={r.id} style={[s.cell,{ width: 308/batch.length }]}>{typeof value === 'number' ? new Intl.NumberFormat('es-MX',{ maximumFractionDigits: 2 }).format(value) : '—'}</Text>
       })}</View>)}
+      <Footer />
+    </Page>)}
+    {descendingWeights(records.filter(r => r.inBody)).map(r => <Page key={r.id} size="A4" style={s.page}>
+      <Header printed={printed} /><Text style={s.heading}>Composición corporal · InBody · {formatWeightDate(r.date)}</Text>
+      <Text style={s.subtitle}>{r.inBody!.sourceDocument}</Text>
+      {[
+        ['Estatura', r.inBody!.heightCm, 'cm'], ['Sexo', r.inBody!.sex === 'male' ? 'Masculino' : 'Femenino', ''],
+        ['Peso', r.weight, 'kg'], ['Grasa corporal', r.bodyFat, '%'], ['Masa grasa', r.inBody!.fatMass, 'kg'],
+        ['Masa muscular (Muscle Mass)', r.inBody!.muscleMass, 'kg'], ['IMC reportado', r.inBody!.bmi, 'kg/m²'],
+        ['Relación agua extracelular / total', r.inBody!.extracellularWaterRatio, ''], ['Nivel de grasa visceral', r.inBody!.visceralFatLevel, ''],
+      ].map(([label,value,unit]) => <View key={String(label)} wrap={false} style={s.row}><Text style={[s.cell,{width:'65%',textAlign:'left'}]}>{label}</Text><Text style={[s.cell,{width:'20%'}]}>{value}</Text><PdfUnit unit={String(unit)} style={[s.cell,{width:'15%'}]} fontSize={9} /></View>)}
       <Footer />
     </Page>)}
   </Document>

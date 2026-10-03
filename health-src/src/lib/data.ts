@@ -114,6 +114,8 @@ export function isOutOfRange(r: Result, p?: Parameter): boolean {
   const op = r.ref_operator || p?.lab_ref_operator || ''
   if (op === '<=') return hi !== null && v > hi
   if (op === '>=') return lo !== null && v < lo
+  if (op === '<') return hi !== null && v >= hi
+  if (op === '>') return lo !== null && v <= lo
   if (lo !== null && v < lo) return true
   if (hi !== null && v > hi) return true
   return false
@@ -199,6 +201,8 @@ export function directionOf(r: Result, p?: Parameter): 'above' | 'below' | null 
   const lo = r.ref_low ?? p?.lab_ref_low ?? p?.guideline_target_low ?? null
   const hi = r.ref_high ?? p?.lab_ref_high ?? p?.guideline_target_high ?? null
   const op = r.ref_operator || p?.lab_ref_operator || ''
+  if (op === '<') return hi !== null && v >= hi ? 'above' : null
+  if (op === '>') return lo !== null && v <= lo ? 'below' : null
   if (op === '<=') {
     if (hi !== null && v > hi) return 'above'
     return null

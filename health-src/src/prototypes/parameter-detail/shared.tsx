@@ -78,6 +78,8 @@ export function referenceFor(result: Result, metric: Metric) {
   const low = result.ref_low ?? metric.parameter.lab_ref_low ?? metric.parameter.guideline_target_low
   const high = result.ref_high ?? metric.parameter.lab_ref_high ?? metric.parameter.guideline_target_high
   const operator = result.ref_operator || metric.parameter.lab_ref_operator
+  if (operator === '<' && high != null) return `< ${formatValue(high, metric)}`
+  if (operator === '>' && low != null) return `> ${formatValue(low, metric)}`
   if (operator === '<=' && high != null) return `≤ ${formatValue(high, metric)}`
   if (operator === '>=' && low != null) return `≥ ${formatValue(low, metric)}`
   if (low != null && high != null) return `${formatValue(low, metric)}–${formatValue(high, metric)}`

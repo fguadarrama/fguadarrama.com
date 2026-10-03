@@ -10,6 +10,8 @@ const privatePaths = [
   '.env.local', '.release-password.local', 'lab_data.xlsx', 'DATA_RECONCILIATION.md', 'src/data/lab-data.json',
   'src/data/parameter-layout.json', 'src/data/weight-records.local.json', 'src/data/sources/2026-08-07-quest.json',
   'src/data/sources/2026-09-26-weight-audit.json',
+  'src/data/body-profile.local.json', 'src/data/sources/inbody-import.local.json',
+  'src/data/sources/2026-09-29-quest-audit.json',
 ]
 for (const privatePath of privatePaths) {
   if (!existsSync(resolve(root, privatePath))) continue

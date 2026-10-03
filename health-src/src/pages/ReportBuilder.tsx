@@ -75,6 +75,8 @@ function referenceFor(parameter: Parameter) {
   const low = latest?.ref_low ?? parameter.lab_ref_low
   const high = latest?.ref_high ?? parameter.lab_ref_high
   const operator = latest?.ref_operator || parameter.lab_ref_operator
+  if (operator === '<' && high != null) return `< ${high}`
+  if (operator === '>' && low != null) return `> ${low}`
   if (operator === '<=' && high != null) return `≤ ${high}`
   if (operator === '>=' && low != null) return `≥ ${low}`
   if (low != null && high != null) return `${low}–${high}`

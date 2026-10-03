@@ -9,7 +9,7 @@ try {
   assert.deepEqual(COMPOSITION_COLORS, { water:'#b9d6e5', fat:'#ffda8f', bone:'#03694c', protein:'#eb155c' })
   assert.equal(WEIGHT_ACCENT, '#eb155c')
   const source = JSON.parse(readFileSync('src/data/sources/2026-09-26-weight-audit.json', 'utf8'))
-  assert.equal(rows.length, source.uniqueMeasurements)
+  assert.equal(rows.filter(r => !r.inBody).length, source.uniqueMeasurements)
   assert.equal(new Set(rows.map(r => r.id)).size, rows.length)
   assert.equal(rows.filter(r => r.composition).length, source.completeCompositionMeasurements)
   for (const correction of source.corrections) assert.equal(rows.find(r => r.id === correction.id)[correction.field], correction.corrected)
@@ -33,6 +33,7 @@ try {
     assert.ok(Math.abs(point.lean + point.fat - point.weight) < 1e-9)
     assert.deepEqual(point.fatBand, [point.lean, point.weight])
     if (point.composition) { assert.equal(point.lean, point.composition.fatFreeMass); assert.equal(point.leanCalculated, false) }
+    else if (point.inBody) { assert.equal(point.lean, point.weight-point.inBody.fatMass); assert.equal(point.leanCalculated, true) }
     else { assert.equal(point.lean, point.weight*(1-point.bodyFat/100)); assert.equal(point.leanCalculated, true) }
   }
   assert.equal(weightTrend([manual])[0].lean, null, 'Never invent missing composition')
