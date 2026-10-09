@@ -9,9 +9,10 @@ try {
   assert.deepEqual(COMPOSITION_COLORS, { water:'#b9d6e5', fat:'#ffda8f', bone:'#03694c', protein:'#eb155c' })
   assert.equal(WEIGHT_ACCENT, '#eb155c')
   const source = JSON.parse(readFileSync('src/data/sources/2026-09-26-weight-audit.json', 'utf8'))
-  assert.equal(rows.filter(r => !r.inBody).length, source.uniqueMeasurements)
+  const originalRows = rows.filter(r => !r.inBody && r.date <= '2026-09-26')
+  assert.equal(originalRows.length, source.uniqueMeasurements)
   assert.equal(new Set(rows.map(r => r.id)).size, rows.length)
-  assert.equal(rows.filter(r => r.composition).length, source.completeCompositionMeasurements)
+  assert.equal(originalRows.filter(r => r.composition).length, source.completeCompositionMeasurements)
   for (const correction of source.corrections) assert.equal(rows.find(r => r.id === correction.id)[correction.field], correction.corrected)
   for (const row of rows) {
     assert.ok(Number.isFinite(row.weight) && row.weight > 0)

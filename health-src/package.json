@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Personal lab results visualizer — reads lab_data.xlsx and renders trends, abnormalities, and PDF reports.",
   "scripts": {
+    "weight:import": "node scripts/import-weight-image.mjs",
     "prebuild:data": "node scripts/build-data.mjs",
     "dev": "npm run prebuild:data && vite",
     "dev:prototype": "vite --open /prototype.html",

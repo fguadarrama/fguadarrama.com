@@ -26,6 +26,7 @@ src/data/lab-data.json
 lab_data.xlsx
 src/data/sources/
 src/data/weight-records.local.json
+src/data/weight-records.local.json.tmp
 src/data/body-profile.local.json
 tmp/
 src/data/parameter-layout.json

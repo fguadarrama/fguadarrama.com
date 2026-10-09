@@ -23,6 +23,35 @@ npm run build
 
 `npm run prebuild:data` normaliza las fuentes —incluido `Quest Diagnostics`— y regenera el JSON clínico local.
 
+## Actualizar peso desde una captura Xiaomi
+
+En macOS, con las herramientas de desarrollo de Apple instaladas, desde `health-src`:
+
+```bash
+npm run weight:import -- "/ruta/a/la/captura.jpg"
+```
+
+Reconoce localmente la pantalla completa en inglés de composición corporal,
+sin subir la imagen a ningún servicio. Presenta los valores y pide confirmación.
+Si faltan cifras o la captura está comprimida, guarda un borrador JSON privado:
+revísalo contra la imagen, corrige los campos y cambia `reviewed` a `true`.
+
+```bash
+npm run weight:import -- --review "/ruta/al/borrador.json" --apply --build
+```
+
+`--date AAAA-MM-DD --time HH:MM` permite confirmar la fecha/hora cuando no se lee.
+La fecha de Xiaomi está en **mes/día/año**, no día/mes/año. No se infiere a partir
+del nombre del archivo. El IMC de la báscula se conserva; el sitio calcula aparte
+el IMC con la estatura fija. Se conservan los porcentajes reportados sin forzarlos
+a sumar 100 %.
+
+Se añade sólo esa lectura, con respaldo, validación de masas y bloqueo de
+duplicados/conflictos. Los borradores y respaldos están excluidos de Git.
+`--build` usa la contraseña local existente para reconstruir el archivo cifrado;
+no modifica la contraseña, el Excel de laboratorios ni hace push automáticamente.
+También puedes ejecutar el script con su ruta absoluta desde cualquier carpeta.
+
 ## Release protegido para GitHub Pages
 
 No se debe publicar `dist/`: contiene datos en texto legible. El único flujo autorizado es:
