@@ -729,7 +729,7 @@
 
   const makeAnnotationFragment = (annotation,index) => {
     const fragment = document.createElement('span');
-    fragment.className = `annotation-fragment annotation-${annotation.style}`;
+    fragment.className = `annotation-fragment annotation-${annotation.style}${annotation.darkOnly ? " annotation-dark-only" : ""}`;
     const lightColor = annotation.color || 'var(--accent)';
     const darkColor = annotation.darkColor || lightColor;
     fragment.style.setProperty('--annotation-color-light',lightColor);
@@ -751,6 +751,12 @@
       paragraph.querySelectorAll(':scope > .annotation-layer').forEach((layer)=>layer.remove());
       paragraph.querySelectorAll('.is-highlighted').forEach((word)=>word.classList.remove('is-highlighted'));
       const annotations = (tunerState[lang]?.annotations || []).filter((a)=>a.p===pIndex && annotationSvg[a.style] && Number.isInteger(a.start) && Number.isInteger(a.end) && a.start<=a.end);
+      const connectedHighlight = lang === 'es'
+        ? {start:7,firstEnd:16,secondStart:19,end:22}
+        : {start:7,firstEnd:12,secondStart:15,end:18};
+      if (pIndex === 1 && annotations.some((a)=>a.style === 'highlight' && a.start === connectedHighlight.start && a.end === connectedHighlight.firstEnd) && annotations.some((a)=>a.style === 'highlight' && a.start === connectedHighlight.secondStart && a.end === connectedHighlight.end)) {
+        annotations.push({p:1,start:connectedHighlight.start,end:connectedHighlight.end,style:'highlight',color:'#ffe14d',darkOnly:true});
+      }
       if (!annotations.length) return;
       const paragraphRect=paragraph.getBoundingClientRect(); if(!paragraphRect.width||!paragraphRect.height)return;
       const layer=document.createElement('span');layer.className='annotation-layer';layer.setAttribute('aria-hidden','true');paragraph.appendChild(layer);

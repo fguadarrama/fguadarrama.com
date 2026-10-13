@@ -23,3 +23,16 @@ Ajuste de paleta y estética solicitado y revisado por el propietario.
 - Verificación: sintaxis JavaScript, git diff --check y vista previa visual local.
 
 Este archivo está en un directorio oculto, sin enlaces desde el sitio ni inclusión en sitemap. El directorio está excluido en robots.txt y Jekyll omite por defecto directorios que empiezan con punto. El historial del repositorio sigue siendo visible en GitHub.
+
+## Lunes 12 de octubre de 2026, 8:36 p. m. — America/Mexico_City
+
+Agente: Codex, basado en GPT-6. Variante exacta y nivel de esfuerzo no expuestos.
+
+Correcciones visuales autorizadas por el propietario.
+
+- Subrayado doble: altura de 0.82em a 0.28em y posición inferior de -0.58em a -0.22em. Las dos barras quedan más próximas y no invaden el siguiente renglón. Misma regla para inglés y español, desktop y mobile.
+- Highlight dark: franja continua que incluye “to a” en inglés y “hasta un” en español. Los rangos de light se conservan.
+- Colores de la paleta conservados; ninguna palabra del sitio modificada.
+- Sitemap: lastmod actualizado de 2026-09-09 a 2026-10-12 por solicitud explícita del propietario. No se añadieron URLs ni el changelog interno.
+- CSS y JavaScript: versión de caché actualizada de 20261012-palette1 a 20261012-palette2.
+- Verificación: sintaxis JavaScript, XML del sitemap, git diff --check y capturas locales de desktop/mobile.
