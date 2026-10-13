@@ -5,7 +5,7 @@
 :root{
   --bg:#fdfdfc;
   --text:#22223b;
-  --accent:#4577b5;
+  --accent:#4392ba;
 
   --t-size:50px;
   --t-weight:580;
@@ -159,7 +159,7 @@ a{color:inherit}
   width:min(302px,calc(100vw - var(--side-pad) - var(--side-pad)));
   padding:10px;border:1px solid color-mix(in srgb,var(--text) 24%,transparent);border-radius:13px;
   background:var(--bg);color:var(--text);
-  box-shadow:0 18px 54px color-mix(in srgb,var(--text) 13%,transparent);
+  box-shadow:none;
   opacity:0;filter:blur(2px);transform:translateY(-5px) scale(.975);transform-origin:top right;
   visibility:hidden;pointer-events:none;
   transition:opacity 155ms ease-out,filter 175ms ease-out,transform 205ms var(--ease-out),visibility 0s linear 205ms;
@@ -248,6 +248,10 @@ html[data-theme="dark"] .annotation-fragment{color:var(--annotation-color-dark,v
 .annotation-dots{background:radial-gradient(circle,currentColor 1.25px,transparent 1.35px);background-size:.46em 100%;background-position:0 100%;background-repeat:repeat-x}
 .annotation-fragment.annotation-circle .annotation-decoration{inset:-.30em -.35em;width:calc(100% + .70em);height:calc(100% + .60em)}
 .annotation-fragment.annotation-highlight .annotation-decoration{left:-3%;bottom:.02em;width:106%;height:.82em;opacity:.28;--annotation-opacity:.28}
+html[data-theme="dark"] .annotation-fragment.annotation-double{color:rgb(255, 24, 102)}
+html[data-theme="dark"] .annotation-fragment.annotation-highlight{color:#ffe14d}
+html[data-theme="dark"] .annotation-fragment.annotation-highlight .annotation-decoration{left:0;bottom:0;width:100%;height:100%;background:#ffe14d;border-radius:.10em;opacity:1;--annotation-opacity:1}
+html[data-theme="dark"] .tune-word.is-highlighted{color:var(--bg)}
 .annotation-fragment.annotation-arrow .annotation-decoration{bottom:-.38em;left:-1%;width:106%;height:.62em}
 .annotation-fragment.annotation-bracket .annotation-decoration{inset:-.18em -.20em;width:calc(100% + .40em);height:calc(100% + .36em)}
 .annotation-fragment.annotation-box .annotation-decoration{inset:-.20em -.22em;width:calc(100% + .44em);height:calc(100% + .40em)}
@@ -318,7 +322,7 @@ html[data-debug="true"] .home-view.is-current .tune-word.is-selected{background:
 }
 .portrait-trigger-group:hover .portrait-cue,.portrait-trigger-group:focus-within .portrait-cue{opacity:.76}
 .portrait-cue-hit:active .portrait-cue{transform:rotate(45deg) scale(.94)}
-html[data-theme="dark"] .portrait-cue-hit{color:#ff96ac}
+html[data-theme="dark"] .portrait-cue-hit{color:rgb(255, 24, 102)}
 
 :root{
   --tilt-perspective:1000px;

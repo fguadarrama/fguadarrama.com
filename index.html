@@ -33,8 +33,8 @@
   <script>
     (() => {
       try {
-        const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4577b5'};
-        const dark = {bg:'#2c292f',text:'#fdfdfc',accent:'#a0b9d9'};
+        const defaults = {bg:'#fdfdfc',text:'#22223b',accent:'#4392ba'};
+        const dark = {bg:'rgb(28, 30, 30)',text:'#fdfdfc',accent:'rgb(84, 187, 238)'};
         const saved = JSON.parse(localStorage.getItem('fg-debug-palette-v6') || 'null') || defaults;
         const palette = saved.bg && saved.text && saved.accent ? saved : defaults;
         const theme = localStorage.getItem('fg-theme-v2') === 'dark' ? 'dark' : 'light';
@@ -47,12 +47,12 @@
       } catch {}
     })();
   </script>
-  <link rel="stylesheet" href="assets/site.css?v=20260827-r2-static1">
+  <link rel="stylesheet" href="assets/site.css?v=20261012-palette1">
   <style>
     /* Palette fallback: the inline script above sets these as inline styles on
        <html> when JS runs (inline styles win over this rule). If JS is off,
        these keep the site from rendering with unresolved custom properties. */
-    :root{--bg:#fdfdfc;--text:#22223b;--accent:#4577b5}
+    :root{--bg:#fdfdfc;--text:#22223b;--accent:#4392ba}
   </style>
   <script type="application/ld+json">
   {
@@ -589,7 +589,7 @@
   <script src="assets/sounds.js?v=20260827-r2-static1" defer></script>
   <script src="assets/smoky-dissolve.js?v=20260827-r2-static1" defer></script>
   <script type="module" src="assets/haptics.js?v=20260827-r2-static1"></script>
-  <script src="assets/site.js?v=20260827-r2-static1" defer></script>
+  <script src="assets/site.js?v=20261012-palette1" defer></script>
 
   <!--
     Text reveals powered by kugiri (MIT), by Edoardo Lunardi.
