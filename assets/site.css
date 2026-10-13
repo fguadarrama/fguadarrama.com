@@ -196,36 +196,40 @@ main{height:100%}
   opacity:1;transform:none;filter:none;
   transition:background-color 220ms var(--ease-out),color 180ms ease;
 }
-.view.is-leaving{opacity:1;transform:none;filter:none}
 .view.is-entering,.view.is-entering.is-entering-active{opacity:1;transform:none;filter:none}
 .view[hidden]{display:none}
 
-/* Text reveal: motion lives on text groups, not on the entire page.
-   This avoids stacked transforms/blur and keeps exits quiet. */
-.t-stagger-line{opacity:1;transform:translateY(0);filter:blur(0)}
+/* Only section navigation opts into native snapshot transitions.
+   Header, footer and portrait remain live outside the captured main. */
+html[data-section-transition="true"]{view-transition-name:none}
+html[data-section-transition="true"] main{view-transition-name:site-content}
+::view-transition-group(site-content){animation-duration:520ms;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+::view-transition-old(site-content){animation:section-out 520ms cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+::view-transition-new(site-content){animation:section-in 520ms cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+@keyframes section-out{from{opacity:1}to{opacity:0}}
+@keyframes section-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-group(site-content),::view-transition-old(site-content),::view-transition-new(site-content){animation:none!important}
+}
+
+/* Texts reveal — transitions.dev. Paragraphs and records share one reveal.
+   Keep its default tokens and decoupled quiet exit. */
+.t-stagger-line{
+  opacity:1;transform:translateY(0);filter:blur(0);
+  transition:opacity var(--stagger-dur) var(--stagger-ease),transform var(--stagger-dur) var(--stagger-ease),filter var(--stagger-dur) var(--stagger-ease);
+  transition-delay:var(--stagger-delay,0ms);
+}
+
 .view.is-entering .t-stagger-line{
-  opacity:0;
-  transform:translateY(var(--stagger-distance));
-  filter:blur(var(--stagger-blur));
+  opacity:0;transform:translateY(var(--stagger-distance));filter:blur(var(--stagger-blur));
   will-change:transform,opacity,filter;
 }
 .view.is-entering.is-entering-active .t-stagger-line{
-  opacity:1;
-  transform:translateY(0);
-  filter:blur(0);
-  transition:
-    opacity var(--stagger-dur) var(--stagger-ease),
-    transform var(--stagger-dur) var(--stagger-ease),
-    filter var(--stagger-dur) var(--stagger-ease);
-  transition-delay:var(--stagger-delay,0ms);
+  opacity:1;transform:translateY(0);filter:blur(0);
 }
-.view.is-leaving .t-stagger-line{
-  opacity:0;
-  transform:translateY(0);
-  filter:blur(0);
-  transition:opacity 200ms ease,transform 0s linear,filter 0s linear;
-  transition-delay:0s;
-}
+.view.is-leaving{pointer-events:none}
+/* The section owns the exit fade; do not fade its text a second time. */
+.view.is-leaving .t-stagger-line{transition:none;transition-delay:0s}
 
 
 .home-view{display:flex;flex-direction:column;overflow:auto;overscroll-behavior:contain;padding:80px 0;scrollbar-width:none}
@@ -234,8 +238,7 @@ main{height:100%}
 .hero-copy::-webkit-scrollbar{display:none}
 .hero-copy p{position:relative;margin:0;max-width:none;font-size:var(--hero-size);font-weight:var(--hero-weight);line-height:var(--hero-line-height);letter-spacing:var(--hero-letter-spacing);word-spacing:var(--hero-word-spacing);text-wrap:pretty;overflow:visible}
 .hero-copy p+p{margin-top:var(--hero-paragraph-gap)}
-.home-view.is-entering .annotation-decoration{opacity:0;transform:scale(.985)}
-.home-view.is-entering.is-entering-active .annotation-decoration{opacity:var(--annotation-opacity,1);transform:scale(1);transition:opacity 240ms ease-out,transform 280ms var(--stagger-ease);transition-delay:var(--annotation-delay,150ms)}
+/* Annotations enter with their paragraph, avoiding nested animated layers. */
 .lang-es{display:none}html[lang="es"] .lang-en{display:none}html[lang="es"] .lang-es{display:block}
 .annotation-layer{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible}
 .annotation-fragment{position:absolute;color:var(--annotation-color-light,var(--accent));pointer-events:none;overflow:visible}
@@ -471,9 +474,9 @@ html[data-theme="dark"] .portrait-cue-hit{color:rgb(255, 24, 102)}
   opacity:1;transform:translateX(0);
   transition:opacity 180ms var(--ease-out) 45ms,transform 220ms var(--ease-out) 45ms,color 145ms ease,background-color 145ms ease;
 }
-.content-view.is-leaving .section-home{opacity:0;transform:translateX(0);transition:opacity 200ms ease,transform 0s linear}
+.content-view.is-leaving .section-home{transition:none}
 .records{border-top:1px solid color-mix(in srgb,var(--text) 72%,transparent)}
-.content-view.is-leaving .records{border-top-color:transparent;transition:border-top-color 200ms ease}
+
 .record{
   display:grid;grid-template-columns:minmax(145px,190px) minmax(0,1fr);
   gap:clamp(28px,5vw,78px);

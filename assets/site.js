@@ -321,41 +321,61 @@
 
     switching = true;
     window.clearTimeout(enterCleanupTimer);
-    finishRevealClasses(current);
-    current?.classList.add('is-leaving');
-
-    const swap = () => {
+    let updated = false;
+    const update = () => {
+      if (updated) return;
+      updated = true;
       if (current) {
         current.hidden = true;
         current.classList.remove('is-current','is-leaving');
+        finishRevealClasses(current);
+        current.inert = false;
       }
       next.hidden = false;
+      next.inert = false;
       next.scrollTop = 0;
-      next.classList.remove('is-leaving','is-entering-active');
-      next.classList.add('is-entering');
+      next.classList.remove('is-leaving','is-entering','is-entering-active');
+      next.classList.add('is-current');
       currentView = nextName;
       root.dataset.view = nextName;
       updateRadialVisibility();
       placeRadialItems();
-      setAnimationIndices();
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          next.classList.add('is-entering-active','is-current');
-          if (reduceMotion.matches) {
-            finishRevealClasses(next);
-            switching = false;
-            return;
-          }
-          /* Interaction is released before the visual reveal finishes;
-             cleanup happens after the last capped stagger (500 + 5×40ms). */
-          window.setTimeout(() => { switching = false; }, 260);
-          enterCleanupTimer = window.setTimeout(() => finishRevealClasses(next), 740);
-        });
-      });
+      if (nextName === 'home') layoutHeroAnnotations(root.lang);
     };
-
-    window.setTimeout(swap, reduceMotion.matches ? 1 : 200);
+    const release = () => {
+      delete root.dataset.sectionTransition;
+      switching = false;
+    };
+    if (reduceMotion.matches) {
+      update();
+      release();
+    } else if (typeof document.startViewTransition === 'function') {
+      root.dataset.sectionTransition = 'true';
+      try {
+        const transition = document.startViewTransition(update);
+        transition.ready.catch(() => {});
+        transition.finished.catch(() => {}).finally(() => { update(); release(); });
+      } catch {
+        update();
+        release();
+      }
+    } else {
+      // A quiet, sequential fade when native snapshot transitions are unavailable.
+      const main = document.querySelector('main');
+      const fade = async () => {
+        try {
+          await main.animate([{opacity:1},{opacity:0}],{duration:180,easing:'ease-out',fill:'forwards'}).finished;
+          update();
+          main.getAnimations().forEach((animation)=>animation.cancel());
+          await main.animate([{opacity:0},{opacity:1}],{duration:360,easing:'ease-out'}).finished;
+        } finally {
+          main.getAnimations().forEach((animation)=>animation.cancel());
+          update();
+          release();
+        }
+      };
+      fade().catch(() => {});
+    }
     return true;
   };
 
@@ -747,6 +767,11 @@
     const copy = heroCopies[lang];
     if (!copy || copy.getClientRects().length === 0) return;
     const paragraphs = Array.from(copy.querySelectorAll('p'));
+    // Measure all words before changing any live DOM.
+    const measurements = paragraphs.map((paragraph) => ({
+      rect:paragraph.getBoundingClientRect(),
+      words:new Map(Array.from(paragraph.querySelectorAll('.tune-word')).map((word)=>[Number(word.dataset.tuneWord),{word,rect:word.getBoundingClientRect()}]))
+    }));
     paragraphs.forEach((paragraph,pIndex) => {
       paragraph.querySelectorAll(':scope > .annotation-layer').forEach((layer)=>layer.remove());
       paragraph.querySelectorAll('.is-highlighted').forEach((word)=>word.classList.remove('is-highlighted'));
@@ -758,22 +783,22 @@
         annotations.push({p:1,start:connectedHighlight.start,end:connectedHighlight.end,style:'highlight',color:'#ffe14d',darkOnly:true});
       }
       if (!annotations.length) return;
-      const paragraphRect=paragraph.getBoundingClientRect(); if(!paragraphRect.width||!paragraphRect.height)return;
+      const paragraphRect=measurements[pIndex].rect; if(!paragraphRect.width||!paragraphRect.height)return;
       const layer=document.createElement('span');layer.className='annotation-layer';layer.setAttribute('aria-hidden','true');paragraph.appendChild(layer);
       let annotationIndex=0;
       annotations.forEach((annotation)=>{
-        const words=[];for(let wi=annotation.start;wi<=annotation.end;wi++){const word=paragraph.querySelector(`.tune-word[data-tune-word="${wi}"]`);if(word)words.push(word)}
+        const words=[];for(let wi=annotation.start;wi<=annotation.end;wi++){const measured=measurements[pIndex].words.get(wi);if(measured)words.push(measured)}
         if(!words.length)return;
-        if(annotation.style === 'highlight') words.forEach((word)=>word.classList.add('is-highlighted'));
+        if(annotation.style === 'highlight') words.forEach(({word})=>word.classList.add('is-highlighted'));
         const groups=[];
-        words.forEach((word)=>{const rect=word.getBoundingClientRect();if(!rect.width||!rect.height)return;const last=groups.at(-1);if(!last||Math.abs(rect.top-last.top)>2.5)groups.push({top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right});else{last.bottom=Math.max(last.bottom,rect.bottom);last.left=Math.min(last.left,rect.left);last.right=Math.max(last.right,rect.right)}});
+        words.forEach(({rect})=>{if(!rect.width||!rect.height)return;const last=groups.at(-1);if(!last||Math.abs(rect.top-last.top)>2.5)groups.push({top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right});else{last.bottom=Math.max(last.bottom,rect.bottom);last.left=Math.min(last.left,rect.left);last.right=Math.max(last.right,rect.right)}});
         groups.forEach((group)=>{const fragment=makeAnnotationFragment(annotation,annotationIndex++);fragment.style.left=`${group.left-paragraphRect.left}px`;fragment.style.top=`${group.top-paragraphRect.top}px`;fragment.style.width=`${Math.max(1,group.right-group.left)}px`;fragment.style.height=`${Math.max(1,group.bottom-group.top)}px`;layer.appendChild(fragment)});
       });
     });
   };
   const scheduleAnnotationLayout = () => {
     window.cancelAnimationFrame(annotationLayoutFrame);
-    annotationLayoutFrame=window.requestAnimationFrame(()=>{layoutHeroAnnotations(root.lang);setAnimationIndices();});
+    annotationLayoutFrame=window.requestAnimationFrame(()=>{layoutHeroAnnotations(root.lang);});
   };
   const renderHero = (lang) => {
     const copy=heroCopies[lang],texts=heroTextSources[lang]; if(!copy||!texts?.length)return;
@@ -784,6 +809,7 @@
   const renderAllHeroes = () => {renderHero('en');renderHero('es');scheduleAnnotationLayout();};
   renderAllHeroes();
   window.addEventListener('resize',scheduleAnnotationLayout,{passive:true});
+  document.fonts?.ready.then(scheduleAnnotationLayout);
 
 
   /* ---------- inline portrait: toast open + Transitions.dev tilt + smoky dissolve close ---------- */

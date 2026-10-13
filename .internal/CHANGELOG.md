@@ -36,3 +36,19 @@ Correcciones visuales autorizadas por el propietario.
 - Sitemap: lastmod actualizado de 2026-09-09 a 2026-10-12 por solicitud explícita del propietario. No se añadieron URLs ni el changelog interno.
 - CSS y JavaScript: versión de caché actualizada de 20261012-palette1 a 20261012-palette2.
 - Verificación: sintaxis JavaScript, XML del sitemap, git diff --check y capturas locales de desktop/mobile.
+
+## Lunes 12 de octubre de 2026, 9:04 p. m. — America/Mexico_City
+
+Agente: Codex, basado en GPT-6. Variante exacta y nivel de esfuerzo no expuestos.
+
+Transiciones entre secciones aprobadas por el propietario.
+
+- Navegación mediante document.startViewTransition: capturas del área main con fundido de 520 ms y desplazamiento de entrada de 8 px. La actualización de la sección ocurre dentro del callback de la API, evitando estados visuales intermedios.
+- Menú, pie de página y retrato quedan fuera de la captura; la API se activa únicamente al navegar entre secciones.
+- Alternativa para navegadores sin soporte: salida con opacidad de 180 ms y entrada de 360 ms mediante Web Animations API.
+- Respeto de prefers-reduced-motion; bloqueo de cambios simultáneos hasta terminar la transición y limpieza al finalizar.
+- Texts reveal de transitions.dev conservado para la entrada inicial, con sus tokens de 500 ms, 12 px, blur de 3 px y stagger de 40 ms. Snippet de referencia descargado con npx transitions-dev add texts-reveal.
+- Mediciones de anotaciones agrupadas antes de las escrituras del DOM; recálculo al regresar a portada y después de cargar las fuentes.
+- Código CSS y JavaScript del retrato comprobado idéntico a la versión anterior. Ninguna palabra del sitio modificada.
+- Versión de caché de CSS/JavaScript actualizada de 20261012-palette2 a 20261012-motion1.
+- Verificación: sintaxis JavaScript, git diff --check, ejecución y finalización de la API nativa al entrar y regresar, sin errores JavaScript en la vista previa local.
