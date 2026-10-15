@@ -1,6 +1,6 @@
 # Librero — fuente de datos
 
-Este directorio contiene los datos que consume `/librero/`.
+Este directorio contiene los datos que consume `/libros/`.
 
 ## Cómo funciona
 
