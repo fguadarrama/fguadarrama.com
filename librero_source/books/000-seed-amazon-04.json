@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "amazon-0502",
+    "title": "The Case of the Toxic Spell Dump",
+    "author": "Harry Turtledove",
+    "genre": "Fantasía",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0503",
+    "title": "Three Parts Dead",
+    "author": "Max Gladstone",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Three Parts Dead: 1"
+  },
+  {
+    "id": "amazon-0504",
+    "title": "Stars in My Pocket Like Grains of Sand",
+    "author": "Samuel R Delany, Carl Freedman",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0505",
+    "title": "The End of Eternity",
+    "author": "Isaac Asimov",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0506",
+    "title": "Kindred",
+    "author": "Octavia E. Butler",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Kindred: The ground-breaking masterpiece from the New York Times bestseller"
+  },
+  {
+    "id": "amazon-0507",
+    "title": "Cyteen",
+    "author": "C J Cherryh",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0508",
+    "title": "Delta-v",
+    "author": "Daniel Suarez",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Delta-v: 1"
+  },
+  {
+    "id": "amazon-0509",
+    "title": "The House in the Cerulean Sea",
+    "author": "Tj Klune",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0510",
+    "title": "Clean Sweep",
+    "author": "Ilona Andrews",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Clean Sweep (Innkeeper Chronicles)"
+  },
+  {
+    "id": "amazon-0511",
+    "title": "A Long Cold Winter",
+    "author": "Lindsay Smith, Max Gladstone",
+    "genre": "Fantasía",
+    "format": "Edición Kindle",
+    "originalTitle": "A Long Cold Winter (The Witch Who Came In From The Cold Season 1 Episode 1)"
+  },
+  {
+    "id": "amazon-0512",
+    "title": "The Magic of Recluce",
+    "author": "L E Modesitt Jr",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Magic of Recluce: 1"
+  },
+  {
+    "id": "amazon-0513",
+    "title": "The Atrocity Archives",
+    "author": "Charles Stross",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Atrocity Archives: Book 1 in The Laundry Files"
+  },
+  {
+    "id": "amazon-0514",
+    "title": "The Rook",
+    "author": "Daniel O'Malley",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Rook: 1"
+  },
+  {
+    "id": "amazon-0515",
+    "title": "The Traitor Baru Cormorant",
+    "author": "Seth Dickinson",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Traitor Baru Cormorant: 1"
+  },
+  {
+    "id": "amazon-0516",
+    "title": "The Folding Knife",
+    "author": "K J Parker",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0517",
+    "title": "Ship of Magic",
+    "author": "Robin Hobb",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Ship of Magic (The Liveship Traders)"
+  },
+  {
+    "id": "amazon-0518",
+    "title": "The Peripheral",
+    "author": "William Gibson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0519",
+    "title": "2066 Election Day",
+    "author": "Michael Shaara",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0520",
+    "title": "Corazón del Cometa",
+    "author": "David Brin, Gregory Benford",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0521",
+    "title": "Half Past Human",
+    "author": "T J Bass",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0522",
+    "title": "Blood Music",
+    "author": "Greg Bear",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0523",
+    "title": "Children of Time",
+    "author": "Adrian Tchaikovsky",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Children of Time: 1"
+  },
+  {
+    "id": "amazon-0524",
+    "title": "The Highest Frontier",
+    "author": "Joan Slonczewski",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0525",
+    "title": "Axiom's End",
+    "author": "Lindsay Ellis",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0526",
+    "title": "Lock In: A Novel of the Near Future",
+    "author": "John Scalzi",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "Lock In: A Novel of the Near Future (Lock In Series Book 1)"
+  },
+  {
+    "id": "amazon-0527",
+    "title": "Avogadro Corp: The Singularity Is Closer Than It Appears",
+    "author": "William Hertling",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0528",
+    "title": "Off to Be the Wizard",
+    "author": "Scott Meyer",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Off to Be the Wizard (Magic 2.0)"
+  },
+  {
+    "id": "amazon-0529",
+    "title": "Ad Limina",
+    "author": "Cy Kellett",
+    "format": "Pasta blanda",
+    "originalTitle": "Ad Limina: A Novella"
+  },
+  {
+    "id": "amazon-0530",
+    "title": "The High Crusade",
+    "author": "Poul Anderson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0531",
+    "title": "The Book of Strange New Things",
+    "author": "Michel Faber",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0532",
+    "title": "The Dazzle of Day",
+    "author": "Molly Gloss",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0533",
+    "title": "Alif the Unseen",
+    "author": "G. Willow Wilson",
+    "genre": "Fantasía",
+    "format": "Edición Kindle",
+    "originalTitle": "Alif the Unseen: A Novel"
+  },
+  {
+    "id": "amazon-0534",
+    "title": "Eifelheim",
+    "author": "Professor Michael Flynn",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0535",
+    "title": "Towing Jehovah",
+    "author": "James Morrow",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0536",
+    "title": "Too Like the Lightning",
+    "author": "Ada Palmer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Too Like the Lightning: Book One of Terra Ignota: 1"
+  },
+  {
+    "id": "amazon-0537",
+    "title": "Shadow & Claw. The First Half Of 'The Book Of The New Sun'",
+    "author": "Gene Wolfe",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Shadow & Claw. The First Half Of 'The Book Of The New Sun': 1"
+  },
+  {
+    "id": "amazon-0538",
+    "title": "Hyperion",
+    "author": "Dan Simmons",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo",
+    "originalTitle": "Hyperion: 1"
+  },
+  {
+    "id": "amazon-0539",
+    "title": "Strange Religion: Speculative Fiction of Spirituality, Belief, & Practice (Strange Concepts: Big Ideas Explored Through Speculative Fiction)",
+    "author": "Andy Dibble, Jibril Stevenson",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0540",
+    "title": "The Algebraist",
+    "author": "Iain M. Banks",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0541",
+    "title": "The Algebraist",
+    "author": "Iain M. Banks",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0542",
+    "title": "The Chanur Saga",
+    "author": "C. J. Cherryh",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0543",
+    "title": "The Multiple Man",
+    "author": "Ben Bova",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0544",
+    "title": "Fifth Sun: A New History of the Aztecs",
+    "author": "Camilla Townsend",
+    "genre": "Historia",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0545",
+    "title": "The Dawn of Everything: A New History of Humanity",
+    "author": "David Graeber, David Wengrow",
+    "genre": "Historia",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0546",
+    "title": "What If?: Serious Scientific Answers to Absurd Hypothetical Questions",
+    "author": "Randall Munroe",
+    "genre": "Divulgación científica",
+    "format": "Pasta dura",
+    "originalTitle": "What If?: Serious Scientific Answers to Absurd Hypothetical Questions ― From the Creator of xkcd"
+  },
+  {
+    "id": "amazon-0547",
+    "title": "El Error De La Luna",
+    "author": "Héctor Aguilar Camín",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0548",
+    "title": "Morir en el Golfo",
+    "author": "Héctor Aguilar Camín",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0549",
+    "title": "Neverwhere Illustrated Edition",
+    "author": "Neil Gaiman",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0550",
+    "title": "War for the Oaks",
+    "author": "Emma Bull",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0551",
+    "title": "Ex Libris: Confessions of a Common Reader",
+    "author": "Anne Fadiman",
+    "genre": "Ensayo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0552",
+    "title": "Dr. Franklin's Island",
+    "author": "Ann Halam",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0553",
+    "title": "Wizard's Hall",
+    "author": "Jane Yolen",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0554",
+    "title": "Wizard's Hall",
+    "author": "Jane Yolen",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0555",
+    "title": "How to Fracture a Fairy Tale",
+    "author": "Jane Yolen",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0556",
+    "title": "Ikenga",
+    "author": "Nnedi Okorafor",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0557",
+    "title": "The Mermaid and the Simpleton: Exceptional Tales for Exceptional Kids",
+    "author": "Barbara Leonie Picard, Philip Gough",
+    "genre": "Infantil / ilustrado",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0558",
+    "title": "The Calculating Stars",
+    "author": "Mary Robinette Kowal",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Calculating Stars: A Lady Astronaut Novel: 1"
+  },
+  {
+    "id": "amazon-0559",
+    "title": "A Memory Called Empire",
+    "author": "Arkady Martine",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "A Memory Called Empire: 1"
+  },
+  {
+    "id": "amazon-0560",
+    "title": "The World on a Plate: 40 Cuisines, 100 Recipes, and the Stories Behind Them",
+    "author": "Mina Holland",
+    "genre": "Cocina / coctelería",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0561",
+    "title": "The Raven Tower",
+    "author": "Ann Leckie",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0562",
+    "title": "Phoenix Extravagant",
+    "author": "Yoon Ha Lee",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0563",
+    "title": "Nadiya Bakes: Over 100 Must-Try Recipes for Breads, Cakes, Biscuits, Pies, and More",
+    "author": "Nadiya Hussain",
+    "genre": "Cocina / coctelería",
+    "format": "Pasta dura",
+    "originalTitle": "Nadiya Bakes: Over 100 Must-Try Recipes for Breads, Cakes, Biscuits, Pies, and More: A Baking Book"
+  },
+  {
+    "id": "amazon-0564",
+    "title": "The Wizard's Cookbook: Magical Recipes Inspired by Harry Potter, Merlin, the Wizard of Oz, and More",
+    "author": "Aurélia Beaupommier",
+    "genre": "Cocina / coctelería",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0565",
+    "title": "The Wizard's Dessert Cookbook: Magical Recipes Inspired by Harry Potter, the Hobbit, Fantastic Beasts, the Chronicles of Narnia, and More",
+    "author": "Aurélia Beaupommier",
+    "genre": "Cocina / coctelería",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0566",
+    "title": "Inmune: un viaje al misterioso sistema que te mantiene vivo",
+    "author": "Philipp Dettmer",
+    "genre": "Divulgación científica",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0567",
+    "title": "My Annihilation",
+    "author": "Fuminori Nakamura, Sam Bett",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0568",
+    "title": "The Decagon House Murders",
+    "author": "Yukito Ayatsuji",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0569",
+    "title": "Masks",
+    "author": "Fumiko Enchi",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0570",
+    "title": "The Black Lizard and Beast in the Shadows",
+    "author": "Edogawa Rampo",
+    "genre": "Novela negra / policiaca",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0571",
+    "title": "A Change of Climate",
+    "author": "Hilary Mantel",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0572",
+    "title": "Mickey7",
+    "author": "Edward Ashton",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Mickey7: 1"
+  },
+  {
+    "id": "amazon-0573",
+    "title": "The Housekeeper and the Professor",
+    "author": "Yoko Ogawa, Stephen Snyder",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0574",
+    "title": "The Memory Police",
+    "author": "Yoko Ogawa, Stephen Snyder",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle",
+    "originalTitle": "The Memory Police: A Novel"
+  },
+  {
+    "id": "amazon-0575",
+    "title": "Revenge: Eleven Dark Tales",
+    "author": "Yoko Ogawa, Stephen Snyder (trad.)",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0576",
+    "title": "The Wine-Dark Sea",
+    "author": "Robert Aickman",
+    "genre": "Terror",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0577",
+    "title": "North American Lake Monsters: Stories",
+    "author": "Nathan Ballingrud",
+    "genre": "Terror",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0578",
+    "title": "Los Lugares Verdaderos",
+    "author": "Gastón García Marinozzi",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0579",
+    "title": "Enlightenment Now: The Case for Reason, Science, Humanism, and Progress",
+    "author": "Steven Pinker",
+    "genre": "Ensayo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0580",
+    "title": "Factfulness: Ten Reasons We're Wrong about the World--And Why Things Are Better Than You Think",
+    "author": "Hans Rosling, Anna Rosling Rönnlund",
+    "genre": "Divulgación científica",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0581",
+    "title": "Blueprint: The Evolutionary Origins of a Good Society",
+    "author": "Nicholas A Christakis",
+    "genre": "Divulgación científica",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0582",
+    "title": "The Overstory",
+    "author": "Richard Powers",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0583",
+    "title": "You Are Eating an Orange. You Are Naked.",
+    "author": "Sheung-King",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0584",
+    "title": "El Gato Que Venía Del Cielo",
+    "author": "Takashi Hiraide",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0585",
+    "title": "La dependienta",
+    "author": "Sayaka Murata",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0586",
+    "title": "The Poppy War",
+    "author": "R. F. Kuang",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Poppy War: An Epic Fantasy of War, Magic, and Mythology in a High-Conflict World from Bestselling Author R. F. Kuang: 1"
+  },
+  {
+    "id": "amazon-0587",
+    "title": "Babel",
+    "author": "R.F. Kuang",
+    "genre": "Fantasía",
+    "format": "Edición Kindle",
+    "originalTitle": "Babel: The SUNDAY TIMES and #1 NEW YORK TIMES bestseller"
+  },
+  {
+    "id": "amazon-0588",
+    "title": "La Bestia",
+    "author": "Carmen Mola",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0589",
+    "title": "Todos los nombres",
+    "author": "José Saramago, Pilar del Río Sánchez",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0590",
+    "title": "Firekeeper's Daughter",
+    "author": "Angeline Boulley",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0591",
+    "title": "Superforecasting: The Art and Science of Prediction",
+    "author": "Philip E. Tetlock, Dan Gardner",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0592",
+    "title": "The Year of Magical Thinking",
+    "author": "Joan Didion",
+    "genre": "Memorias / biografía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Year of Magical Thinking: National Book Award Winner"
+  },
+  {
+    "id": "amazon-0593",
+    "title": "La Casa de la Contradicción",
+    "author": "Jesús Silva-Herzog Márquez",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0594",
+    "title": "El olvido que seremos",
+    "author": "Héctor Abad Faciolince",
+    "genre": "Memorias / biografía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0595",
+    "title": "One Friday in April: A Story of Suicide and Survival",
+    "author": "Donald Antrim",
+    "genre": "Memorias / biografía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0596",
+    "title": "Churchill's Shadow: The Life and Afterlife of Winston Churchill",
+    "author": "Geoffrey Wheatcroft",
+    "genre": "Historia",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0597",
+    "title": "Intimacies",
+    "author": "Katie Kitamura",
+    "genre": "Narrativa literaria",
+    "format": "Pasta dura",
+    "originalTitle": "Intimacies: A Novel"
+  },
+  {
+    "id": "amazon-0598",
+    "title": "Momentos estelares de la humanidad: Catorce miniaturas históricas",
+    "author": "Stefan Zweig, Berta Vias Mahou",
+    "genre": "Historia",
+    "format": "Edición Kindle",
+    "originalTitle": "Momentos estelares de la humanidad: Catorce miniaturas históricas (El Acantilado nº 64)"
+  },
+  {
+    "id": "amazon-0599",
+    "title": "The Collected Stories of Stefan Zweig",
+    "author": "Stefan Zweig, Anthea Bell",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0600",
+    "title": "Factfulness: Ten Reasons We're Wrong about the World--And Why Things Are Better Than You Think",
+    "author": "Hans Rosling, Anna Rosling Rönnlund",
+    "genre": "Divulgación científica",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0601",
+    "title": "Vaughan & Asbury's General Ophthalmology, 19th Edition",
+    "author": "Paul Riordan-Eva, James J Augsburger",
+    "genre": "Medicina (texto clínico)",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0602",
+    "title": "Ideas: A history from fire to Freud",
+    "author": "Peter Watson",
+    "genre": "Historia",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0603",
+    "title": "Understanding Public Policy: Theories and Issues",
+    "author": "Paul Cairney",
+    "genre": "Política / economía",
+    "format": "Pasta blanda",
+    "originalTitle": "Understanding Public Policy: Theories and Issues: 2"
+  },
+  {
+    "id": "amazon-0604",
+    "title": "The Hercules Text",
+    "author": "Jack McDevitt",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0605",
+    "title": "The Engines Of God",
+    "author": "Jack McDevitt",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo",
+    "originalTitle": "The Engines Of God: 1"
+  },
+  {
+    "id": "amazon-0606",
+    "title": "Gateway",
+    "author": "Frederik Pohl",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Gateway: 1"
+  },
+  {
+    "id": "amazon-0607",
+    "title": "Eon",
+    "author": "Greg Bear",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Eon: 1"
+  },
+  {
+    "id": "amazon-0608",
+    "title": "Minor Mage",
+    "author": "T Kingfisher",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0609",
+    "title": "Catastrophe: Risk and Response",
+    "author": "Richard A. Posner",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0610",
+    "title": "Worst-Case Scenarios",
+    "author": "Cass R. Sunstein",
+    "genre": "Ensayo",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0611",
+    "title": "Pathologies of Power: Health, Human Rights, and the New War on the Poor",
+    "author": "Paul Farmer (prólogo de Amartya Sen)",
+    "genre": "Ensayo",
+    "format": "Pasta blanda",
+    "originalTitle": "Pathologies of Power: Health, Human Rights, and the New War on the Poor: 4"
+  },
+  {
+    "id": "amazon-0612",
+    "title": "Men Without Women: Stories",
+    "author": "Haruki Murakami, Philip Gabriel",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0613",
+    "title": "Manana Forever?: Mexico and the Mexicans",
+    "author": "Jorge G. Castañeda",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0614",
+    "title": "The Hidden Girl and Other Stories",
+    "author": "Ken Liu",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0615",
+    "title": "La tienda de los sueños: Un siglo de cuento fantástico mexicano",
+    "author": "Alberto Chimal, Amado Nervo",
+    "genre": "Cuento",
+    "format": "Edición Kindle",
+    "originalTitle": "La tienda de los sueños: Un siglo de cuento fantástico mexicano (Gran Angular)"
+  },
+  {
+    "id": "amazon-0616",
+    "title": "The Way of Kings",
+    "author": "Brandon Sanderson",
+    "genre": "Fantasía",
+    "format": "Libro de bolsillo",
+    "originalTitle": "The Way of Kings: Book One of the Stormlight Archive: 1"
+  },
+  {
+    "id": "amazon-0617",
+    "title": "Ages of Discord: A Structural-Demographic Analysis of American History",
+    "author": "Peter Turchin",
+    "genre": "Historia",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0618",
+    "title": "Civilizaciones",
+    "author": "Laurent Binet, Adolfo García Ortega",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle",
+    "originalTitle": "Civilizaciones (Biblioteca Formentor)"
+  },
+  {
+    "id": "amazon-0619",
+    "title": "Pocket Medicine Board Review",
+    "author": "Marc S. Sabatine",
+    "genre": "Medicina (texto clínico)",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0620",
+    "title": "Senlin Ascends",
+    "author": "Josiah Bancroft",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Senlin Ascends: 1"
+  },
+  {
+    "id": "amazon-0621",
+    "title": "Ansibles, perfiladores y otras máquinas de ingenio",
+    "author": "Andrea Chapela",
+    "genre": "Ensayo",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0622",
+    "title": "Good Morning, Midnight",
+    "author": null,
+    "notes": "Amazon no mostraba autor (artículo no disponible)"
+  },
+  {
+    "id": "amazon-0623",
+    "title": "The Lies of Locke Lamora",
+    "author": "Scott Lynch",
+    "genre": "Fantasía",
+    "format": "Libro de bolsillo",
+    "originalTitle": "The Lies of Locke Lamora: 1"
+  },
+  {
+    "id": "amazon-0624",
+    "title": "The Big Book of Science Fiction",
+    "author": "Jeff VanderMeer, Ann Vandermeer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0625",
+    "title": "American Science Fiction: Nine Classic Novels of the 1950s: A Library of America Boxed Set",
+    "author": "Various, Gary K Wolfe",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0626",
+    "title": "American Science Fiction: Eight Classic Novels Of The 1960s",
+    "author": "Various, Gary K. Wolfe",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0627",
+    "title": "The Science Fiction Hall of Fame, Volume One 1929-1964: The Greatest Science Fiction Stories of All Time Chosen by the Members of the Science Fiction Writers of America",
+    "author": "Robert Silverberg",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Science Fiction Hall of Fame, Volume One 1929-1964: The Greatest Science Fiction Stories of All Time Chosen by the Members of the Science Fiction Writers of America: 1"
+  },
+  {
+    "id": "amazon-0628",
+    "title": "The Science Fiction Hall of Fame, Volume Two a: The Greatest Science Fiction Novellas of All Time Chosen by the Members of the Science Fiction Writers of America",
+    "author": "Ben Bova",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Science Fiction Hall of Fame, Volume Two a: The Greatest Science Fiction Novellas of All Time Chosen by the Members of the Science Fiction Writers of America: 2"
+  },
+  {
+    "id": "amazon-0629",
+    "title": "The Big Book of Classic Fantasy",
+    "author": "Ann Vandermeer, Jeff VanderMeer",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0630",
+    "title": "Doors of Sleep: Journals of Zaxony Delatree",
+    "author": "Tim Pratt",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Doors of Sleep: Journals of Zaxony Delatree: 1"
+  },
+  {
+    "id": "amazon-0631",
+    "title": "Neuromancer",
+    "author": "William Gibson",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo",
+    "originalTitle": "Neuromancer: 1"
+  },
+  {
+    "id": "amazon-0632",
+    "title": "The End of October",
+    "author": "Lawrence Wright",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0633",
+    "title": "Evidence-Based Critical Care",
+    "author": "Paul Ellis Marik",
+    "genre": "Medicina (texto clínico)",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0634",
+    "title": "The City We Became",
+    "author": "N K Jemisin",
+    "genre": "Fantasía",
+    "format": "Pasta dura",
+    "originalTitle": "The City We Became: 1"
+  },
+  {
+    "id": "amazon-0635",
+    "title": "Flour Water Salt Yeast: The Fundamentals of Artisan Bread and Pizza",
+    "author": "Ken Forkish",
+    "genre": "Cocina / coctelería",
+    "format": "Pasta dura",
+    "originalTitle": "Flour Water Salt Yeast: The Fundamentals of Artisan Bread and Pizza [A Cookbook]"
+  },
+  {
+    "id": "amazon-0636",
+    "title": "Lipstick on a Pig: Winning in the No-Spin Era by Someone Who Knows the Game",
+    "author": "Torie Clarke",
+    "genre": "Política / economía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0637",
+    "title": "Las solidaridades misteriosas",
+    "author": "Pascal Quignard, Ignacio Vidal-Folch",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle",
+    "originalTitle": "Las solidaridades misteriosas (Narrativa)"
+  },
+  {
+    "id": "amazon-0638",
+    "title": "The Saga of the Volsungs",
+    "author": "Jesse L. Byock, Anonymous",
+    "genre": "Mitología",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0639",
+    "title": "The Prose Edda: Tales from Norse Mythology",
+    "author": "Snorri Sturluson, Jesse L. Byock",
+    "genre": "Mitología",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0640",
+    "title": "Siete Cuentos Japoneses",
+    "author": "Junichirô Tanizaki",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0641",
+    "title": "The Tale of the Tailor and the Three Dead Kings: A Medieval Ghost Story",
+    "author": "Dan Jones",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0642",
+    "title": "Toda La Soledad Del Centro De La Tierra",
+    "author": "Luis Jorge Boone",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0643",
+    "title": "Paradais",
+    "author": "Fernanda Melchor",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0644",
+    "title": "Decision Making in Perioperative Medicine: Clinical Pearls",
+    "author": "Steven L Cohn",
+    "genre": "Medicina (texto clínico)",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0645",
+    "title": "Averno: Poems",
+    "author": "Louise Glück",
+    "genre": "Poesía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0646",
+    "title": "Annihilation: A Novel",
+    "author": "Jeff VanderMeer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Annihilation: A Novel (The Southern Reach Series, 1)"
+  },
+  {
+    "id": "amazon-0647",
+    "title": "The Time Traveler's Almanac: A Time Travel Anthology",
+    "author": "Ann VanderMeer, Jeff VanderMeer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0648",
+    "title": "The Ministry for the Future",
+    "author": "Kim Stanley Robinson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0649",
+    "title": "Mysterium",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0650",
+    "title": "Burning Paradise",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0651",
+    "title": "The Chronoliths",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0652",
+    "title": "The Chronoliths",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0653",
+    "title": "Proyecto Hail Mary",
+    "author": "Andy Weir",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Proyecto Hail Mary: In Spanish"
+  },
+  {
+    "id": "amazon-0654",
+    "title": "Klara and the Sun",
+    "author": "Kazuo Ishiguro",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Klara and the Sun: A GMA Book Club Pick: A novel"
+  },
+  {
+    "id": "amazon-0655",
+    "title": "The End of Men",
+    "author": "Christina Sweeney-Baird",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0656",
+    "title": "Shards of Earth",
+    "author": "Adrian Tchaikovsky",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Shards of Earth: 1"
+  },
+  {
+    "id": "amazon-0657",
+    "title": "Constance",
+    "author": "Matthew FitzSimmons",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Constance (Constance, 1)"
+  },
+  {
+    "id": "amazon-0658",
+    "title": "Appleseed",
+    "author": "Matt Bell",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Appleseed: A Sweeping Johnny Epic – Climate Change and Manifest Destiny Across Multiple Timelines from the 18th Century to a Post-Apocalyptic Future"
+  },
+  {
+    "id": "amazon-0659",
+    "title": "Under the Whispering Door",
+    "author": "Tj Klune",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0660",
+    "title": "House in the Cerulean Sea",
+    "author": "Tj Klune",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "House in the Cerulean Sea: 1"
+  },
+  {
+    "id": "amazon-0661",
+    "title": "The Witch's Heart",
+    "author": "Genevieve Gornichec",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0662",
+    "title": "Humankind: A Hopeful History",
+    "author": "Rutger Bregman, Erica Moore",
+    "genre": "Ensayo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0663",
+    "title": "Utopia for Realists",
+    "author": "Rutger Bregman",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0664",
+    "title": "We",
+    "author": "Yevgeny Zamyatin",
+    "genre": "Ciencia ficción",
+    "notes": "Amazon no mostraba autor; completado; Título cortado en el PDF"
+  },
+  {
+    "id": "amazon-0665",
+    "title": "Outliers: The Story of Success",
+    "author": "Malcolm Gladwell",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0666",
+    "title": "A Case of Conscience",
+    "author": "James Blish",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0667",
+    "title": "El infinito en un junco: La invención de los libros en el mundo antiguo",
+    "author": "Irene Vallejo",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0668",
+    "title": "Salvar el fuego",
+    "author": "Guillermo Arriaga",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  }
+]

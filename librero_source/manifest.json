@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "files": [
+    "books/000-seed-amazon-01.json",
+    "books/000-seed-amazon-02.json",
+    "books/000-seed-amazon-03.json",
+    "books/000-seed-amazon-04.json",
+    "books/010-additions-2026-10-14.json"
+  ]
+}

@@ -1,0 +1,1238 @@
+[
+  {
+    "id": "amazon-0001",
+    "title": "Waterscapes Innovation",
+    "author": "Herbert Dreiseitl, Dieter Grau",
+    "genre": "Arquitectura / paisajismo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0002",
+    "title": "Recent Waterscapes: Planning, Building and Designing with Water",
+    "author": "Herbert Dreiseitl, Dieter Grau",
+    "genre": "Arquitectura / paisajismo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0003",
+    "title": "The Chicago Way",
+    "author": "Michael Harvey",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda",
+    "originalTitle": "The Chicago Way: 1"
+  },
+  {
+    "id": "amazon-0004",
+    "title": "A Safe Place for Dying",
+    "author": "Jack Fredrickson",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0005",
+    "title": "The Iron Dreamers",
+    "author": "Ashley Christine",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Iron Dreamers: (Fiction with Unique Characters, Dystopian Sci-fi)"
+  },
+  {
+    "id": "amazon-0006",
+    "title": "Los tiempos del esplendor. Relatos",
+    "author": "Lidia Jorge",
+    "genre": "Cuento",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0007",
+    "title": "El dia de los prodigios",
+    "author": "Lídia Jorge",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0008",
+    "title": "Constellation Games",
+    "author": "Leonard Richardson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0009",
+    "title": "Diaspora",
+    "author": "Greg Egan",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Diaspora: A Novel"
+  },
+  {
+    "id": "amazon-0010",
+    "title": "Learning The World",
+    "author": "Ken MacLeod",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0011",
+    "title": "National Security Cinema: The Shocking New Evidence of Government Control in Hollywood",
+    "author": "Matthew Alford, Tom ` Secker",
+    "genre": "Política / economía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0012",
+    "title": "How to Read Donald Duck: Imperialist Ideology in the Disney Comic",
+    "author": "Ariel Dorfman, Armand Mattelart",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0013",
+    "title": "Soft Power: The Means to Success in World Politics",
+    "author": "Joseph S Nye Jr",
+    "genre": "Política / economía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0014",
+    "title": "I Am Pilgrim",
+    "author": "Terry Hayes",
+    "genre": "Thriller / espionaje",
+    "format": "Edición Kindle",
+    "originalTitle": "I Am Pilgrim: A Thriller"
+  },
+  {
+    "id": "amazon-0015",
+    "title": "Red Widow",
+    "author": "Alma Katsu",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura",
+    "originalTitle": "Red Widow: 1"
+  },
+  {
+    "id": "amazon-0016",
+    "title": "An Impossibility of Crows",
+    "author": "Kirsten Kaschock",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0017",
+    "title": "Alien Clay",
+    "author": "Adrian Tchaikovsky",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0018",
+    "title": "Shadow & Claw: The First Half of the Book of the New Sun",
+    "author": "Gene Wolfe, Ada Palmer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Shadow & Claw: The First Half of the Book of the New Sun: 1"
+  },
+  {
+    "id": "amazon-0019",
+    "title": "Roadside Picnic",
+    "author": "Arkadi Strugatsky, Boris Strugatsky",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0020",
+    "title": "The Oxford Handbook of Political Psychology",
+    "author": "Leonie Huddy, David O. Sears",
+    "genre": "Política / economía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0021",
+    "title": "The Travelers",
+    "author": "Chris Pavone",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura",
+    "originalTitle": "The Travelers: A Novel"
+  },
+  {
+    "id": "amazon-0022",
+    "title": "Need to Know",
+    "author": "Karen Cleveland",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "Need to Know: A Novel"
+  },
+  {
+    "id": "amazon-0023",
+    "title": "The Last Mandarin",
+    "author": "Louise Penny, Mellissa Fung",
+    "format": "Edición Kindle",
+    "originalTitle": "The Last Mandarin: A Novel"
+  },
+  {
+    "id": "amazon-0024",
+    "title": "The Interpreter’s Secret",
+    "author": "Andrew Rosenheim",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "The Interpreter's Secret: A Sophisticated Thriller of East Vs West, Secret Summits and the Peril of Knowing Too Much"
+  },
+  {
+    "id": "amazon-0025",
+    "title": "The Persian",
+    "author": "David McCloskey",
+    "genre": "Thriller / espionaje",
+    "format": "Edición Kindle",
+    "originalTitle": "The Persian: The SUNDAY TIMES BESTSELLER from former CIA analyst and The Rest is Classified Podcast Co-Host David McCloskey (David McCloskey spy thriller)"
+  },
+  {
+    "id": "amazon-0026",
+    "title": "The Silver Fish",
+    "author": "Connor Martin",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0027",
+    "title": "The Recruiter",
+    "author": "Gregg Podolski",
+    "genre": "Thriller / espionaje",
+    "format": "Edición Kindle",
+    "originalTitle": "The Recruiter: A Rick Carter Novel"
+  },
+  {
+    "id": "amazon-0028",
+    "title": "A Reluctant Spy",
+    "author": "David Goodman",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "A Reluctant Spy: A Gripping Spy Thriller Debut"
+  },
+  {
+    "id": "amazon-0029",
+    "title": "Attack Surface",
+    "author": "Cory Doctorow",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0030",
+    "title": "The Peak",
+    "author": "Sam Guthrie",
+    "genre": "Thriller / espionaje",
+    "format": "Edición Kindle",
+    "originalTitle": "The Peak: The Jackal meets Black Doves in this Australian bestseller – the most gripping geopolitical thriller debut of 2025",
+    "language": "en",
+    "summary": "Charlie has always protected Sebastian, his closest friend and an Australian parliamentarian. When a whispered phrase in Mandarin prompts Sebastian to do something unthinkable, Charlie tries to understand what happened, tracing their shared past in Hong Kong and Beijing. As communications and essential services begin to fail, intelligence officers arrive with questions of their own.",
+    "summarySource": "https://www.samguthrieauthor.com/"
+  },
+  {
+    "id": "amazon-0031",
+    "title": "The Peacock and the Sparrow",
+    "author": "I. S. Berry",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado",
+    "originalTitle": "The Peacock and the Sparrow: The Times and Sunday Times Thriller of the Year"
+  },
+  {
+    "id": "amazon-0032",
+    "title": "The Collaborators",
+    "author": "Michael Idov",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura",
+    "originalTitle": "The Collaborators: 1"
+  },
+  {
+    "id": "amazon-0033",
+    "title": "House of Leaves",
+    "author": "Mark Z. Danielewski",
+    "genre": "Terror",
+    "format": "Pasta blanda",
+    "originalTitle": "House of Leaves: The Remastered Full-Color Edition"
+  },
+  {
+    "id": "amazon-0034",
+    "title": "Orientalism",
+    "author": "Edward W. Said",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0035",
+    "title": "Bullshit Jobs: A Theory",
+    "author": "David Graeber",
+    "genre": "Ensayo",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0036",
+    "title": "The Bloody Chamber: And Other Stories: 75th-Anniversary Edition",
+    "author": "Angela Carter, Kelly Link",
+    "genre": "Cuento",
+    "format": "Pasta blanda",
+    "originalTitle": "The Bloody Chamber: And Other Stories: 75th-Anniversary Edition (Penguin Classics Deluxe Edition)"
+  },
+  {
+    "id": "amazon-0037",
+    "title": "The Bloody Chamber",
+    "author": "Angela Carter, Bryony Lavery",
+    "genre": "Teatro",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0038",
+    "title": "Sleeping Giants",
+    "author": "Sylvain Neuvel",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Sleeping Giants: 1"
+  },
+  {
+    "id": "amazon-0039",
+    "title": "Folding Knife",
+    "author": "K. J. Parker",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0040",
+    "title": "The Other Side",
+    "author": "Alfred Kubin, Mike Mitchell (trad.)",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0041",
+    "title": "The Man Who Spoke Snakish",
+    "author": "Andrus Kivirähk, Christopher Moseley",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0042",
+    "title": "The Rabbit Back Literature Society",
+    "author": "Pasi Ilmari Jääskeläinen",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0043",
+    "title": "Vita Nostra",
+    "author": "Marina & Sergey Dyachenko",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Vita Nostra: A Novel: 1"
+  },
+  {
+    "id": "amazon-0044",
+    "title": "Malpertuis",
+    "author": "Jean Ray, Hugo Labravo",
+    "genre": "Terror",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0045",
+    "title": "The Anubis Gates",
+    "author": "Tim Powers",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0046",
+    "title": "Some Kind of Fairy Tale",
+    "author": "Graham Joyce",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0047",
+    "title": "The Beast Player",
+    "author": "Nahoko Uehashi, Cathy Hirano",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0048",
+    "title": "Monday Starts on Saturday",
+    "author": "Arkady Strugatsky, Boris Strugatsky",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "Monday Starts on Saturday (S.F. Masterworks)"
+  },
+  {
+    "id": "amazon-0049",
+    "title": "Once Upon a River",
+    "author": "Diane Setterfield",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0050",
+    "title": "Kingdoms of Elfin",
+    "author": "Sylvia Townsend Warner",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0051",
+    "title": "The King of Elfland's Daughter",
+    "author": "Lord Dunsany",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The King of Elfland's Daughter: A Novel"
+  },
+  {
+    "id": "amazon-0052",
+    "title": "The Charwoman's Shadow",
+    "author": "Lord Dunsany",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0053",
+    "title": "Decoded",
+    "author": "Mai Jia",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "Decoded: A Novel"
+  },
+  {
+    "id": "amazon-0054",
+    "title": "The Devotion Of Suspect X: A DETECTIVE GALILEO NOVEL",
+    "author": "Keigo Higashino",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "The Devotion Of Suspect X: A DETECTIVE GALILEO NOVEL (Detective Galileo Series)"
+  },
+  {
+    "id": "amazon-0055",
+    "title": "The Whisperer",
+    "author": "Donato Carrisi",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0056",
+    "title": "The Frozen Dead: A Novel",
+    "author": "Bernard Minier, Alison Anderson",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "The Frozen Dead: A Novel (Commandant Martin Servaz Book 1)"
+  },
+  {
+    "id": "amazon-0057",
+    "title": "Lady Joker: Volume 1",
+    "author": "Kaoru Takamura, Allison Markin Powell",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "Lady Joker: Volume 1: The Million Copy Bestselling 'Masterpiece of Japanese Crime Fiction'"
+  },
+  {
+    "id": "amazon-0058",
+    "title": "Burned: A Novel",
+    "author": "Thomas Enger",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "Burned: A Novel (Henning Juul Book 1)"
+  },
+  {
+    "id": "amazon-0059",
+    "title": "Second Sister",
+    "author": "Chan Ho-Kei",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "language": "en",
+    "summary": "After her younger sister dies by suicide, librarian Nga-Yee searches for an explanation. She turns to an elusive hacker known as N., whose investigation leads through Hong Kong’s online gossip networks and the lives of people connected to the teenager. The mystery explores cyberbullying, revenge, and the consequences of cruelty hidden behind a screen.",
+    "summarySource": "https://groveatlantic.com/book/second-sister/"
+  },
+  {
+    "id": "amazon-0060",
+    "title": "Butterfly on the Storm",
+    "author": "Walter Lucius",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "Butterfly on the Storm: Heartland Trilogy Book 1"
+  },
+  {
+    "id": "amazon-0061",
+    "title": "Noticias de la noche (Serie Kostas Jaritos nº 1)",
+    "author": "Petros Márkaris, Ersi Marina Samará Spiliotopulu",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0062",
+    "title": "Autumn of the Phantoms",
+    "author": "Yasmina Khadra, Aubrey Botsford",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0063",
+    "title": "While Justice Sleeps",
+    "author": "Stacey Abrams",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "While Justice Sleeps: A Thriller: 1"
+  },
+  {
+    "id": "amazon-0064",
+    "title": "The Maltese Version",
+    "author": "Katy Simpson Smith",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0065",
+    "title": "Range",
+    "author": "Dorthe Nors, Caroline Waight",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0066",
+    "title": "The Human Scale",
+    "author": "Lawrence Wright",
+    "format": "Pasta blanda",
+    "originalTitle": "The Human Scale: A Novel"
+  },
+  {
+    "id": "amazon-0067",
+    "title": "Memory of Water",
+    "author": "Emmi Itäranta",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0068",
+    "title": "Quarantine",
+    "author": "Greg Egan",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0069",
+    "title": "Convenience Store Woman",
+    "author": "Sayaka Murata, Ginny Tapley Takemori",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda",
+    "originalTitle": "Convenience Store Woman: A Novel"
+  },
+  {
+    "id": "amazon-0070",
+    "title": "Waste Tide",
+    "author": "Chen Qiufan, Ken Liu",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0071",
+    "title": "Metro 2033",
+    "author": "Dmitry Glukhovsky",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Metro 2033: First U.S. English edition: 1"
+  },
+  {
+    "id": "amazon-0072",
+    "title": "Black Hour",
+    "author": "Lori Rader-Day",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0073",
+    "title": "Darwin's Radio",
+    "author": "Greg Bear",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0074",
+    "title": "AFTERPARTY",
+    "author": "Daryl Gregory",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0075",
+    "title": "The Age of Miracles",
+    "author": "Karen Thompson Walker",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Age of Miracles: A Novel"
+  },
+  {
+    "id": "amazon-0076",
+    "title": "The Employees",
+    "author": "Olga Ravn",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "The Employees: Shortlisted for the International Booker Prize"
+  },
+  {
+    "id": "amazon-0077",
+    "title": "The Vorrh",
+    "author": "Brian Catling",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Vorrh: 1"
+  },
+  {
+    "id": "amazon-0078",
+    "title": "The Folding Knife",
+    "author": "K. J. Parker",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0079",
+    "title": "Last Watch",
+    "author": "J. S. Dewes",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Last Watch (The Divide Series, 1)"
+  },
+  {
+    "id": "amazon-0080",
+    "title": "Novikov Windows",
+    "author": "Chris Cosmain",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Novikov Windows: A Time Travel Novel"
+  },
+  {
+    "id": "amazon-0081",
+    "title": "OCEANUM",
+    "author": "A.B. VIZCAYA",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0082",
+    "title": "One Way",
+    "author": "S J Morden",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0083",
+    "title": "Ancient Shores",
+    "author": "Jack McDevitt",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "Ancient Shores: Ancient Shores-HC"
+  },
+  {
+    "id": "amazon-0084",
+    "title": "Inherit the Stars",
+    "author": "James P. Hogan",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0085",
+    "title": "The Engines of God",
+    "author": "Jack McDevitt",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "The Engines of God (Academy - Book 1)"
+  },
+  {
+    "id": "amazon-0086",
+    "title": "Sleeping Giants",
+    "author": "Sylvain Neuvel",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Sleeping Giants: 1"
+  },
+  {
+    "id": "amazon-0087",
+    "title": "Eifelheim",
+    "author": "Michael Flynn",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0088",
+    "title": "Calculating God",
+    "author": "Robert J. Sawyer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0089",
+    "title": "The Listeners",
+    "author": "James Gunn",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0090",
+    "title": "The Hercules Text",
+    "author": "Jack McDevitt",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0091",
+    "title": "The Giants Novels: Inherit the Stars/the Gentle Giants of Ganymede/Giants' Star/3 Novels in 1",
+    "author": "James P. Hogan",
+    "genre": "Ciencia ficción",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0092",
+    "title": "Cold Allies",
+    "author": "Patricia Anthony",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0093",
+    "title": "In The Country of The Blind",
+    "author": "Michael Flynn",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0094",
+    "title": "The Forge of God",
+    "author": "Greg Bear",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0095",
+    "title": "Saturn Run",
+    "author": "John Sandford, Ctein",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0096",
+    "title": "Rosewater",
+    "author": "Tade Thompson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Rosewater: 1"
+  },
+  {
+    "id": "amazon-0097",
+    "title": "First Contact",
+    "author": "Fredrick Kipkoech Kiplangat",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0098",
+    "title": "Between Two Fires",
+    "author": "Christopher Buehlman",
+    "genre": "Terror",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0099",
+    "title": "The Wood at Midwinter",
+    "author": "Susanna Clarke",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0100",
+    "title": "The Wager: A Tale of Shipwreck, Mutiny and Murder",
+    "author": "David Grann",
+    "genre": "Historia",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0101",
+    "title": "Letter 44 Compendium",
+    "author": "Charles Soule, Alberto Alburquerque",
+    "genre": "Cómic / humor gráfico",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0102",
+    "title": "All of the Above",
+    "author": "Timothy Scott Bennett",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0103",
+    "title": "El Verdugo de Gaudí",
+    "author": "Aro Sáinz de la Maza",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0104",
+    "title": "Mysterium",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0105",
+    "title": "Last Year",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0106",
+    "title": "Blind Lake",
+    "author": "Robert Charles Wilson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0107",
+    "title": "Factoring Humanity",
+    "author": "Robert J. Sawyer",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0108",
+    "title": "Existence",
+    "author": "David Brin",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0109",
+    "title": "Rejoice, a Knife to the Heart",
+    "author": "Steven Erikson",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0110",
+    "title": "Passport to Magonia: From Folklore to Flying Saucers",
+    "author": "Jacques Vallee",
+    "genre": "Ensayo",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0111",
+    "title": "The Dead Hand: The Untold Story of the Cold War Arms Race and Its Dangerous Legacy",
+    "author": "David Hoffman",
+    "genre": "Historia",
+    "format": "Pasta blanda",
+    "originalTitle": "The Dead Hand (Pulitzer Prize Winner): The Untold Story of the Cold War Arms Race and Its Dangerous Legacy"
+  },
+  {
+    "id": "amazon-0112",
+    "title": "La Novia Gitana / The Gypsy Bride",
+    "author": "Carmen Mola",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda",
+    "originalTitle": "La Novia Gitana / The Gypsy Bride: 1"
+  },
+  {
+    "id": "amazon-0113",
+    "title": "Mugre rosa",
+    "author": "Fernanda Trías",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0114",
+    "title": "EL MAR EN CASABLANCA",
+    "author": "Francisco José Viegas",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0115",
+    "title": "Los colores de la muerte",
+    "author": "Patricia Marques",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta dura",
+    "originalTitle": "Los colores de la muerte: una apasionante novela criminal ambientada en el corazón de Lisboa (Inspector Reis)"
+  },
+  {
+    "id": "amazon-0116",
+    "title": "Sandman Slim",
+    "author": "Richard Kadrey",
+    "genre": "Fantasía",
+    "format": "Pasta dura",
+    "originalTitle": "Sandman Slim: A Novel"
+  },
+  {
+    "id": "amazon-0117",
+    "title": "The Little Sleep",
+    "author": "Paul Tremblay",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0118",
+    "title": "La Azotea",
+    "author": "Fernanda Trías",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0119",
+    "title": "Authentic French Noir Box Set: Bird in a Cage, Crush, The Executioner Weeps, The Gravedigger's Bread",
+    "author": "Frédéric Dard, David Bellos",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle",
+    "originalTitle": "Authentic French Noir Box Set: Bird in a Cage, Crush, The Executioner Weeps, The Gravedigger's Bread (Pushkin Vertigo)"
+  },
+  {
+    "id": "amazon-0120",
+    "title": "Saga La Novia Gitana (Cuatro Libros)",
+    "author": "Carmen Mola",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0121",
+    "title": "El Ruletista",
+    "author": "Mircea Cartarescu, Marian Ochoa de Eribe",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle",
+    "originalTitle": "El Ruletista (Impedimenta nº 41)"
+  },
+  {
+    "id": "amazon-0122",
+    "title": "Solenoide",
+    "author": "Mircea Cartarescu",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda",
+    "language": "es",
+    "summary": "Un profesor de rumano y escritor frustrado recuerda su infancia y su adolescencia en una Bucarest gris y devastada. Vive en una casa con forma de barco construida por el inventor de un solenoide, donde encuentra una maquinaria extraña. Su relación con una profesora vinculada a una secta y las alucinaciones que lo asaltan convierten su diario en una exploración de la memoria, los sueños y los límites de la existencia.",
+    "summarySource": "https://impedimenta.es/producto/solenoide"
+  },
+  {
+    "id": "amazon-0123",
+    "title": "Dos días de septiembre",
+    "author": "José Manuel Caballero Bonald",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda",
+    "notes": "Amazon no mostraba autor; completado"
+  },
+  {
+    "id": "amazon-0124",
+    "title": "Titan;NASA Trilogy",
+    "author": "Stephen Baxter",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0125",
+    "title": "They",
+    "author": "Kay Dick",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "They (Faber Editions): The Lost Dystopian 'Masterpiece' (Emily St. John Mandel)"
+  },
+  {
+    "id": "amazon-0126",
+    "title": "Japan Sinks",
+    "author": "Sakyo Komatsu",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0127",
+    "title": "A Sorceress Comes to Call",
+    "author": "T Kingfisher",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0128",
+    "title": "The Mystery of Mrs. Christie",
+    "author": "Marie Benedict",
+    "genre": "Novela histórica",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0129",
+    "title": "The Object: Hard Science Fiction",
+    "author": "Joshua T. Calvert",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0130",
+    "title": "Lake of Darkness",
+    "author": "Adam Roberts",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "Lake of Darkness: The mindbending new science fiction novel from Adam Roberts"
+  },
+  {
+    "id": "amazon-0131",
+    "title": "Ethics in the Real World: 90 Essays on Things That Matter - A Fully Updated and Expanded Edition",
+    "author": "Peter Singer",
+    "genre": "Ensayo",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0132",
+    "title": "A Spell for Chameleon",
+    "author": "Piers Anthony",
+    "genre": "Fantasía",
+    "format": "Libro de bolsillo"
+  },
+  {
+    "id": "amazon-0133",
+    "title": "The Complete Compleat Enchanter",
+    "author": "L. Sprague de Camp, Fletcher Pratt",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0134",
+    "title": "The Complete Gormenghast Novels: Titus Groan, Gormenghast, and Titus Alone",
+    "author": "Mervyn Peake",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0135",
+    "title": "Sword & Citadel: The Second Half of the Book of the New Sun",
+    "author": "Gene Wolfe",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda",
+    "originalTitle": "Sword & Citadel: The Second Half of the Book of the New Sun: 2"
+  },
+  {
+    "id": "amazon-0136",
+    "title": "Orbital",
+    "author": "Samantha Harvey",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda",
+    "originalTitle": "Orbital: A Novel (Booker Prize Winner)"
+  },
+  {
+    "id": "amazon-0137",
+    "title": "Little, Big",
+    "author": "John Crowley",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0138",
+    "title": "Little, Big",
+    "author": "John Crowley",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0139",
+    "title": "The Dragonriders of Pern: Dragonflight, Dragonquest, The White Dragon",
+    "author": "Anne McCaffrey",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0140",
+    "title": "CHRONICLES OF THOMAS COVEN PB",
+    "author": "Stephen Donaldson",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0141",
+    "title": "The Great Book of Amber",
+    "author": "Roger Zelazny",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Great Book of Amber: A Novel"
+  },
+  {
+    "id": "amazon-0142",
+    "title": "Tales of the Dying Earth: The Dying Earth, the Eyes of the Overworld, Cugel's Saga, Rhialto the Marvellous",
+    "author": "Jack Vance",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Tales of the Dying Earth: The Dying Earth, the Eyes of the Overworld, Cugel's Saga, Rhialto the Marvellous: 1"
+  },
+  {
+    "id": "amazon-0143",
+    "title": "The Complete Book of the New Sun",
+    "author": "Gene Wolfe",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "The Complete Book of the New Sun: The Shadow of the Torturer, The Claw of the Conciliator, The Sword of the Lictor, The Citadel of the Autarch, The Urth ... (The Book of the New Sun)"
+  },
+  {
+    "id": "amazon-0144",
+    "title": "Reality",
+    "author": "DC Wince",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0145",
+    "title": "Número Cero",
+    "author": "Umberto Eco, Helena Lozano Miralles",
+    "genre": "Narrativa literaria",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0146",
+    "title": "Elena Sabe",
+    "author": "Claudia Piñeiro",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0147",
+    "title": "Catedrales",
+    "author": "Claudia Piñeiro",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0148",
+    "title": "The Keeper of Lost Causes",
+    "author": "Jussi Adler-Olsen",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0149",
+    "title": "The Black Swan Mystery",
+    "author": "Tetsuya Ayukawa, Bryan Karetnyk",
+    "genre": "Novela negra / policiaca",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0150",
+    "title": "Child 44",
+    "author": "Tom Rob Smith",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta blanda",
+    "originalTitle": "Child 44: 1"
+  },
+  {
+    "id": "amazon-0151",
+    "title": "The Devotion of Suspect X",
+    "author": "Keigo Higashino, Alexander O. Smith",
+    "genre": "Novela negra / policiaca",
+    "format": "Pasta blanda",
+    "originalTitle": "The Devotion of Suspect X: A Detective Galileo Novel: 1"
+  },
+  {
+    "id": "amazon-0152",
+    "title": "Perdido Street Station",
+    "author": "China Miéville",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "Perdido Street Station: 1"
+  },
+  {
+    "id": "amazon-0153",
+    "title": "The Sudden Appearance of Hope",
+    "author": "Claire North",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0154",
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "genre": "Fantasía",
+    "format": "Pasta blanda",
+    "originalTitle": "The Night Circus: A Novel"
+  },
+  {
+    "id": "amazon-0155",
+    "title": "The Ten Thousand Doors of January",
+    "author": "Alix E Harrow",
+    "genre": "Fantasía",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0156",
+    "title": "Death of the Author",
+    "author": "Nnedi Okorafor",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "Death of the Author (Deluxe Limited Edition): A Stunning Africanfuturist Exploration of the Power of Humanity’s Greatest Creation: STORYTELLING"
+  },
+  {
+    "id": "amazon-0157",
+    "title": "The Fourth Consort",
+    "author": "Edward Ashton",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0158",
+    "title": "The Saint of Bright Doors",
+    "author": "Vajra Chandrasekera",
+    "genre": "Fantasía",
+    "format": "Edición Kindle"
+  },
+  {
+    "id": "amazon-0159",
+    "title": "The Mercy of Gods",
+    "author": "James S. A. Corey",
+    "genre": "Ciencia ficción",
+    "format": "Edición Kindle",
+    "originalTitle": "The Mercy of Gods (The Captive's War Book 1)"
+  },
+  {
+    "id": "amazon-0160",
+    "title": "In Ascension",
+    "author": "Martin MacInnes",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0161",
+    "title": "The Rosie Project",
+    "author": "Graeme Simsion",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0162",
+    "title": "Skyfarer",
+    "author": "Joseph Brassey",
+    "genre": "Fantasía",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0163",
+    "title": "The Paradox Hotel",
+    "author": "Rob Hart",
+    "genre": "Ciencia ficción",
+    "format": "Pasta dura",
+    "originalTitle": "The Paradox Hotel: A Novel"
+  },
+  {
+    "id": "amazon-0164",
+    "title": "The Warehouse",
+    "author": "Rob Hart",
+    "genre": "Ciencia ficción",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0165",
+    "title": "The Second Coming",
+    "author": "Walker Percy",
+    "genre": "Narrativa literaria",
+    "format": "Pasta blanda"
+  },
+  {
+    "id": "amazon-0166",
+    "title": "The Rule of Four",
+    "author": "Ian Caldwell, Dustin Thomason",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura"
+  },
+  {
+    "id": "amazon-0167",
+    "title": "The Fifth Gospel",
+    "author": "Ian Caldwell",
+    "genre": "Thriller / espionaje",
+    "format": "Pasta dura"
+  }
+]
