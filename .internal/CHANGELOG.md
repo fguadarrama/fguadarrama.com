@@ -52,3 +52,15 @@ Transiciones entre secciones aprobadas por el propietario.
 - Código CSS y JavaScript del retrato comprobado idéntico a la versión anterior. Ninguna palabra del sitio modificada.
 - Versión de caché de CSS/JavaScript actualizada de 20261012-palette2 a 20261012-motion1.
 - Verificación: sintaxis JavaScript, git diff --check, ejecución y finalización de la API nativa al entrar y regresar, sin errores JavaScript en la vista previa local.
+
+## Jueves 15 de octubre de 2026, 11:25 p. m. — America/Mexico_City
+
+Agente: Claude (Claude Code, Anthropic).
+
+Publicación del Librero en /librero/, solicitada por el propietario.
+
+- Nueva carpeta `librero/`: copia de la versión web (1.6.1) del proyecto Librero, cuyo código fuente vive en el repositorio privado `fguadarrama/Hoomsa`, carpeta `librero/`.
+- Se generó con `librero/tools/publicar_sitio.sh` desde Hoomsa. Solo incluye `index.html`, `css/`, `js/`, `iconos/`, `sonidos/`, `portadas/` y `data/libros.json`; no incluye scripts de datos, la hoja de cálculo ni documentación interna.
+- No se modificó ningún otro archivo del sitio. `/libros/` y `librero_source/` son otro proyecto y no se tocaron. No se añadieron enlaces, sitemap ni robots.
+- Para cambios futuros: editar en Hoomsa y volver a ejecutar el script. Las instrucciones para agentes están en `Hoomsa/librero/AGENTS.md`.
+- Verificación: servidor local en /librero/, sin errores en consola ni archivos 404; lomos, gatos, portadas y favicon cargan.

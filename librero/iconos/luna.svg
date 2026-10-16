@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128"><defs>
+  <filter id="ic-f1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="0.9"/></filter>
+  <filter id="ic-f2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8"/></filter>
+  <filter id="ic-f3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter></defs><defs><radialGradient id="lu-cuerpo" cx="36%" cy="30%" r="78%"><stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/><stop offset="0.3" stop-color="#F6F3EA" stop-opacity="1"/><stop offset="0.72" stop-color="#D9D2C1" stop-opacity="1"/><stop offset="1" stop-color="#A8A08E" stop-opacity="1"/></radialGradient><radialGradient id="lu-hueco" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#A9A08D" stop-opacity="1"/><stop offset="0.65" stop-color="#C9C1AF" stop-opacity="1"/><stop offset="1" stop-color="#DDD6C7" stop-opacity="1"/></radialGradient><radialGradient id="lu-borde" cx="50%" cy="50%" r="50%"><stop offset="0.8" stop-color="#8F8672" stop-opacity="0"/><stop offset="1" stop-color="#7E7562" stop-opacity="0.45"/></radialGradient></defs>
+    <ellipse cx="32" cy="57" rx="17" ry="3" fill="#1D2340" opacity="0.2" filter="url(#ic-f2)"/>
+    <circle cx="32" cy="31" r="20" fill="url(#lu-cuerpo)"/>
+    <ellipse cx="24.64" cy="24.68" rx="4.6" ry="3.8" fill="#FFFFFF" opacity=".9"/>
+   <ellipse cx="24" cy="24" rx="4.6" ry="3.8" fill="url(#lu-hueco)"/>
+    <ellipse cx="38.76" cy="35.79" rx="5.4" ry="4.4" fill="#F3EFE5" opacity=".9"/>
+   <ellipse cx="38" cy="35" rx="5.4" ry="4.4" fill="url(#lu-hueco)"/>
+    <ellipse cx="25.39" cy="39.41" rx="2.8" ry="2.3" fill="#F5F1E8" opacity=".9"/>
+   <ellipse cx="25" cy="39" rx="2.8" ry="2.3" fill="url(#lu-hueco)"/>
+    <ellipse cx="40.31" cy="21.32" rx="2.2" ry="1.8" fill="#FFFFFF" opacity=".9"/>
+   <ellipse cx="40" cy="21" rx="2.2" ry="1.8" fill="url(#lu-hueco)"/>
+    <ellipse cx="32.22" cy="46.22" rx="1.6" ry="1.2" fill="#E9E4D8" opacity=".9"/>
+   <ellipse cx="32" cy="46" rx="1.6" ry="1.2" fill="url(#lu-hueco)"/>
+    <circle cx="32" cy="31" r="20" fill="url(#lu-borde)"/>
+    <ellipse cx="23" cy="19.5" rx="6" ry="2.6" transform="rotate(-35 23 19.5)" fill="#FFFFFF" opacity="0.8" filter="url(#ic-f1)"/></svg>

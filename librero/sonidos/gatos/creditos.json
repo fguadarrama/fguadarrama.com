@@ -1,0 +1,24 @@
+[
+ {
+  "archivo": "ronroneo-1.mp3",
+  "tipo": "ronroneo",
+  "duracion": 4.0,
+  "desde_s": 2.89,
+  "titulo": "File:Purring cat.oga",
+  "autor": "Mysid",
+  "licencia": "Public domain",
+  "licencia_url": "",
+  "fuente": "https://commons.wikimedia.org/wiki/File:Purring_cat.oga"
+ },
+ {
+  "archivo": "ronroneo-2.mp3",
+  "tipo": "ronroneo",
+  "duracion": 4.0,
+  "desde_s": 3.34,
+  "titulo": "File:Whiskers' purr.ogg",
+  "autor": "Adam Cuerden",
+  "licencia": "Public domain",
+  "licencia_url": "",
+  "fuente": "https://commons.wikimedia.org/wiki/File:Whiskers%27_purr.ogg"
+ }
+]

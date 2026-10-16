@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128"><defs>
+  <filter id="ic-f1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="0.9"/></filter>
+  <filter id="ic-f2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8"/></filter>
+  <filter id="ic-f3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter></defs><defs><linearGradient id="em-cuerpo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF2A6" stop-opacity="1"/><stop offset="0.45" stop-color="#FFCF3F" stop-opacity="1"/><stop offset="1" stop-color="#F08A0C" stop-opacity="1"/></linearGradient><linearGradient id="em-cara" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB52E" stop-opacity="1"/><stop offset="1" stop-color="#C8620A" stop-opacity="1"/></linearGradient><radialGradient id="em-aura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD45A" stop-opacity="0.5"/><stop offset="1" stop-color="#FFD45A" stop-opacity="0"/></radialGradient><clipPath id="em-izq"><rect x="-10" y="-10" width="42.4" height="84"/></clipPath></defs>
+    <ellipse cx="26" cy="57" rx="11" ry="2.4" fill="#7A3B00" opacity="0.22" filter="url(#ic-f2)"/>
+    <circle cx="26" cy="31" r="22" fill="url(#em-aura)"/>
+    <g clip-path="url(#em-izq)"><polygon points="32,10 26.47,23.4 12.03,24.51 23.06,33.9 19.66,47.99 32,40.4" fill="url(#em-cuerpo)" stroke="url(#em-cuerpo)" stroke-width="5" stroke-linejoin="round"/></g>
+    <path d="M32.4,8.6 Q35.6,10 35.6,12.4 L35.6,40.6 Q35.6,42.4 32.4,43.4Z" fill="url(#em-cara)"/>
+    <path d="M33.2,11 L33.2,41" stroke="#FFF3C0" stroke-width=".9" opacity=".8"/>
+    <ellipse cx="25" cy="20" rx="3" ry="1.6" transform="rotate(-40 25 20)" fill="#FFFFFF" opacity="0.85" filter="url(#ic-f1)"/>
+    <path d="M46,11Q46.66,13.34 49,14Q46.66,14.66 46,17Q45.34,14.66 43,14Q45.34,13.34 46,11Z" fill="#FFE37A" opacity="1"/><path d="M12,44.6Q12.53,46.47 14.4,47Q12.53,47.53 12,49.4Q11.47,47.53 9.6,47Q11.47,46.47 12,44.6Z" fill="#FFE37A" opacity="0.9"/></svg>

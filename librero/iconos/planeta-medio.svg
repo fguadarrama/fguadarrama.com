@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="128" height="128"><defs>
+  <filter id="ic-f1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="0.9"/></filter>
+  <filter id="ic-f2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8"/></filter>
+  <filter id="ic-f3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3"/></filter></defs><defs><radialGradient id="pm-esfera" cx="34%" cy="28%" r="80%"><stop offset="0" stop-color="#A9CCFF" stop-opacity="1"/><stop offset="0.4" stop-color="#5A8BF2" stop-opacity="1"/><stop offset="0.8" stop-color="#2B4BC0" stop-opacity="1"/><stop offset="1" stop-color="#1A2C82" stop-opacity="1"/></radialGradient><linearGradient id="pm-anillo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFE2A8" stop-opacity="1"/><stop offset="0.5" stop-color="#F5A85E" stop-opacity="1"/><stop offset="1" stop-color="#D46F35" stop-opacity="1"/></linearGradient><radialGradient id="pm-nucleo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF6C9" stop-opacity="1"/><stop offset="0.3" stop-color="#FFD067" stop-opacity="1"/><stop offset="0.55" stop-color="#F08A3C" stop-opacity="1"/><stop offset="0.8" stop-color="#B4441E" stop-opacity="1"/><stop offset="1" stop-color="#3A4FB0" stop-opacity="1"/></radialGradient><clipPath id="pm-izq"><rect x="-10" y="-10" width="42" height="84"/></clipPath><clipPath id="pm-frente"><rect x="-10" y="33" width="42" height="40"/></clipPath></defs>
+    <ellipse cx="27" cy="57" rx="13" ry="2.8" fill="#1D2340" opacity="0.2" filter="url(#ic-f2)"/>
+    <g clip-path="url(#pm-izq)"><g transform="rotate(-17 32 33)" ><ellipse cx="32" cy="33" rx="28" ry="8.2" fill="none" stroke="url(#pm-anillo)" stroke-width="4.6"/></g>
+      <circle cx="32" cy="32" r="17" fill="url(#pm-esfera)"/>
+      <path d="M12,27 Q32,22 52,27 L52,31 Q32,26 12,31Z" fill="#FFFFFF" opacity=".25"/>
+    </g>
+    <ellipse cx="32" cy="32" rx="6.2" ry="17" fill="url(#pm-nucleo)"/>
+    <ellipse cx="32" cy="32" rx="6.2" ry="17" fill="none" stroke="#1A2C82" stroke-width=".8" opacity=".5"/>
+    <g clip-path="url(#pm-izq)"><g clip-path="url(#pm-frente)"><g transform="rotate(-17 32 33)" ><ellipse cx="32" cy="33" rx="28" ry="8.2" fill="none" stroke="url(#pm-anillo)" stroke-width="4.6"/></g></g></g>
+    <ellipse cx="24" cy="23" rx="4.4" ry="2.2" transform="rotate(-35 24 23)" fill="#FFFFFF" opacity="0.8" filter="url(#ic-f1)"/></svg>
