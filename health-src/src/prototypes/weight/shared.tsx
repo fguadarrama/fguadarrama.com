@@ -44,10 +44,10 @@ export function WeightChart({ records, metric, compact = false, referenceWeight,
     <div className="weight-breakdown__plot" role="img" aria-label={isWeight ? 'Peso total y masa libre de grasa a través del tiempo. La franja entre las líneas representa la masa grasa.' : 'Porcentaje de grasa corporal a través del tiempo'}>
     <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 620, height: compact ? 190 : 310 }} onResize={width => setChartWidth(width)}>
       <ComposedChart data={data} margin={{ top: isWeight ? 42 : 16, right: 16, bottom: 0, left: 0 }}>
-        <CartesianGrid vertical={false} stroke="#2d2930" strokeWidth={.4} />
-        <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={data.filter((_,i) => i === 0 || i === data.length-1 || i % Math.ceil(data.length/5) === 0).map(r => r.timestamp)} interval="preserveStartEnd" tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
-        <YAxis tickCount={isWeight ? 8 : 5} domain={isWeight ? [(min: number) => Math.floor((min - 2) / 5) * 5, (max: number) => Math.ceil((max + 1) / 5) * 5] : ['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 12, fill: '#2d2930', fontFamily: 'Albert Sans Variable' }} tickFormatter={v => Number(v).toLocaleString('es-MX', { maximumFractionDigits: 1 })} tickLine={false} axisLine={false} width={38} />
-        <Tooltip cursor={{ stroke: '#2d29302a' }} content={({ active, payload }) => {
+        <CartesianGrid vertical={false} stroke="var(--ink)" strokeWidth={.4} />
+        <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={data.filter((_,i) => i === 0 || i === data.length-1 || i % Math.ceil(data.length/5) === 0).map(r => r.timestamp)} interval="preserveStartEnd" tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: 'var(--ink)', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
+        <YAxis tickCount={isWeight ? 8 : 5} domain={isWeight ? [(min: number) => Math.floor((min - 2) / 5) * 5, (max: number) => Math.ceil((max + 1) / 5) * 5] : ['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 12, fill: 'var(--ink)', fontFamily: 'Albert Sans Variable' }} tickFormatter={v => Number(v).toLocaleString('es-MX', { maximumFractionDigits: 1 })} tickLine={false} axisLine={false} width={38} />
+        <Tooltip cursor={{ stroke: 'var(--border)' }} content={({ active, payload }) => {
           const point = payload?.[0]?.payload as ReturnType<typeof weightTrend>[number] | undefined
           if (!active || !point) return null
           return <div className="weight-tooltip"><span>{formatDate(point.date, true)}</span><strong>{formatWeight(point.weight)} <small>kg</small></strong>
@@ -57,10 +57,10 @@ export function WeightChart({ records, metric, compact = false, referenceWeight,
           </div>
         }} />
         {isWeight && <Area type="monotoneX" dataKey="fatBand" stroke="none" fill={pink} fillOpacity={.13} isAnimationActive={false} connectNulls={false} tooltipType="none" />}
-        {isWeight && <Line type="monotoneX" dataKey="lean" stroke={LEAN_ACCENT} strokeWidth={2.5} connectNulls={false} dot={({ cx, cy, payload }) => payload.lean == null ? <g /> : <rect x={(cx ?? 0)-3} y={(cy ?? 0)-3} width={6} height={6} fill={LEAN_ACCENT} />} activeDot={{ r: 4, fill: LEAN_ACCENT }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />}
+        {isWeight && <Line type="monotoneX" dataKey="lean" stroke={webColor(LEAN_ACCENT)} strokeWidth={2.5} connectNulls={false} dot={({ cx, cy, payload }) => payload.lean == null ? <g /> : <rect x={(cx ?? 0)-3} y={(cy ?? 0)-3} width={6} height={6} fill={webColor(LEAN_ACCENT)} />} activeDot={{ r: 4, fill: webColor(LEAN_ACCENT) }} isAnimationActive={!reduceMotion} animationDuration={320} animationEasing="ease-out" />}
         <Line type="monotoneX" dataKey={isWeight ? 'weight' : 'bodyFat'} stroke={pink} strokeWidth={2.5} dot={({ cx, cy, index, payload }) => <g>
           <circle cx={cx} cy={cy} r={3.5} fill={pink} />
-          {isWeight && labelIndices.has(index!) && <text x={cx} y={(cy ?? 0)-24} textAnchor={index === 0 ? 'start' : index === data.length-1 ? 'end' : 'middle'} fill="#2d2930" fontSize={12} fontFamily="Albert Sans Variable" fontWeight={450}>
+          {isWeight && labelIndices.has(index!) && <text x={cx} y={(cy ?? 0)-24} textAnchor={index === 0 ? 'start' : index === data.length-1 ? 'end' : 'middle'} fill="var(--ink)" fontSize={12} fontFamily="Albert Sans Variable" fontWeight={450}>
             <tspan x={cx}>{formatWeight(payload.weight)} kg</tspan>
             {payload.bodyFat != null && <tspan x={cx} dy={14}>{formatWeight(payload.bodyFat)} %</tspan>}
           </text>}

@@ -1,0 +1,60 @@
+:root { --theme-blue: #3A2EB4; --highlight: #ffe14d; --on-highlight: #1c1e1e; --lean-accent: #5e33fe; }
+/* Exact sRGB swatches from the supplied palette. No P3 reinterpretation. */
+:root[data-theme="dark"] {
+  --bg: #1c1e1e;
+  --surface: #252828;
+  --surface-sunken: #1c1e1e;
+  --surface-hover: #303535;
+  --ink: #fdfdfc;
+  --ink-70: #fdfdfc;
+  --ink-50: #fdfdfc;
+  --ink-30: #fdfdfc;
+  --ink-12: #737b7b;
+  --ink-06: #303535;
+  --muted: #fdfdfc;
+  --border: #737b7b;
+  --border-strong: #b0b8b8;
+  --theme-blue: #54bbee;
+  --watermelon: #ff1866;
+  --weight-accent: #ff1866;
+  --alarm: #ff668a;
+  --alarm-25: #ff668a;
+  --ok: #6bdda2;
+  --lean-accent: #ae9aff;
+  --composition-bone: #6bdda2;
+  --electro-prebeta: #54bbee;
+  --cat-hematologia: #54bbee; --cat-hematologia-title: #54bbee;
+  --cat-hepatica: #6bdda2; --cat-hepatica-title: #6bdda2;
+  --cat-quimica: #ff9b65; --cat-quimica-title: #ff9b65;
+  --cat-lipidos: #d69aff; --cat-lipidos-title: #d69aff;
+  --cat-endocrinologia: #8caeff; --cat-endocrinologia-title: #8caeff;
+  --cat-electrolitos: #ffe14d; --cat-electrolitos-title: #ffe14d;
+  --cat-orina: #68d9d4; --cat-orina-title: #68d9d4;
+  --cat-serologia: #ff668a; --cat-serologia-title: #ff668a;
+  --cat-infecciosos: #ae9aff; --cat-infecciosos-title: #ae9aff;
+  --cat-lcr: #ffc878; --cat-lcr-title: #ffc878;
+}
+html { color-scheme: light; }
+html[data-theme="dark"] { color-scheme: dark; }
+.theme-control-host { margin-left: 4px; }
+html[data-theme="dark"] .rb-page { --rb-ink: var(--ink); --rb-muted: var(--ink); --rb-border: var(--border); --rb-alarm: var(--alarm); --rb-purple: #d69aff; --rb-green: #6bdda2; }
+html[data-theme="dark"] .rb-preview { background: var(--bg); }
+html[data-theme="dark"] :is(input, select, textarea) { background-color: var(--surface); color: var(--ink); }
+html[data-theme="dark"] input::placeholder, html[data-theme="dark"] textarea::placeholder { color: #c0c9c9; opacity: 1; }
+html[data-theme="dark"] :is(.rb-checks label[data-checked], .rb-weight-choice label[data-checked]) > span,
+html[data-theme="dark"] .rb-parameter-groups span:is(.is-full,.is-partial) { color: #1c1e1e !important; background: #ffe14d; border-color: #ffe14d; }
+html[data-theme="dark"] .rb-checks label:not([data-checked]) > span,
+html[data-theme="dark"] .rb-weight-choice label:not([data-checked]) > span { color: transparent !important; }
+html[data-theme="dark"] ::selection { background: #ffe14d; color: #1c1e1e; }
+html[data-theme="dark"] mark, html[data-theme="dark"] mark * { background: #ffe14d; color: #1c1e1e !important; }
+html[data-theme="dark"] :focus-visible { outline-color: #54bbee; }
+html[data-theme="dark"] .weight-key--lean { background: var(--lean-accent); }
+html[data-theme="dark"] .weight-key--fat { background: #4a2735; }
+html[data-theme="dark"] .section-accent-weight { color: #ff668a !important; }
+html[data-theme="dark"] .rb-weight-section>header h3 { color: #ff668a !important; }
+html[data-theme="dark"] .recharts-default-tooltip { background: var(--surface) !important; border-color: var(--border) !important; }
+html[data-theme="dark"] .recharts-tooltip-label, html[data-theme="dark"] .recharts-tooltip-item { color: var(--ink) !important; }
+/* Screen appearance does not change exported PDFs or printed clinical reports. */
+@media print {
+  :root[data-theme] { color-scheme: light; --bg: #fff !important; --surface: #fff !important; --surface-sunken: #fff !important; --surface-hover: #fff !important; --ink: #2d2930 !important; --ink-70: #2d2930 !important; --ink-50: #2d2930 !important; --ink-30: #2d2930 !important; --ink-12: #2d2930 !important; --border: #2d2930 !important; --border-strong: #2d2930 !important; --alarm: #ff1d58 !important; --watermelon: #ff0059 !important; --weight-accent: #ff0059 !important; }
+}

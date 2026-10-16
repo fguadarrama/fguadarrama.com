@@ -8,6 +8,7 @@ import Timeline from './pages/Timeline'
 import Weight from './pages/Weight'
 import { data, shortDate3Letter } from './lib/data'
 import { PATIENT, patientAge, patientDobShort } from './lib/patient'
+import ThemeControl from './components/ThemeControl'
 
 function Header() {
   const age = patientAge()
@@ -20,6 +21,7 @@ function Header() {
             <span className="brand__mark">Historial médico</span>
             <span className="brand__pipe">|</span>
             <span className="brand__initials">FGC</span>
+            <ThemeControl />
           </div>
           <nav className="nav">
             <NavLink to="/" end data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>

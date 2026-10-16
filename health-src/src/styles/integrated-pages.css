@@ -12,10 +12,10 @@
 
 .outline-action,
 .segmented-control button {
-  border: 1px solid #2d2930;
+  border: 1px solid var(--ink);
   border-radius: 999px;
-  background: #fff;
-  color: #2d2930;
+  background: var(--surface);
+  color: var(--ink);
   font-weight: 500;
   transition: transform 140ms cubic-bezier(.23,1,.32,1);
 }
@@ -32,9 +32,9 @@
 .integrated-panel,
 .weight-summary-grid article,
 .timeline-event-card {
-  border: 1px solid #2d2930;
+  border: 1px solid var(--ink);
   border-radius: 14px;
-  background: #fff;
+  background: var(--surface);
   box-shadow: none;
 }
 
@@ -58,7 +58,7 @@
 .weight-summary-grid article > span,
 .weight-summary-grid article > p {
   display: block;
-  color: #2d2930;
+  color: var(--ink);
   font-size: 13px;
 }
 
@@ -69,7 +69,7 @@
 .weight-summary-grid article > strong {
   display: block;
   margin: 7px 0 5px;
-  color: #2d2930;
+  color: var(--ink);
   font-size: clamp(30px, 4vw, 46px);
   font-weight: 450;
   line-height: 1;
@@ -77,7 +77,7 @@
 }
 
 .weight-summary-grid article > strong small {
-  color: #2d2930;
+  color: var(--ink);
   font-size: 15px;
   font-weight: 375;
 }
@@ -88,9 +88,9 @@
   justify-content: space-between;
   gap: 24px;
   padding: 15px 18px;
-  border: 1px solid #2d2930;
+  border: 1px solid var(--ink);
   border-radius: 14px;
-  background: #fff;
+  background: var(--surface);
 }
 
 .weight-overview__current {
@@ -123,14 +123,14 @@
   grid-template-columns: repeat(3, minmax(120px, 1fr));
   width: min(640px, 100%);
   margin: 0;
-  border-left: 1px solid #2d2930;
+  border-left: 1px solid var(--ink);
 }
 .weight-overview__facts > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 4px 18px;
-  border-right: 1px solid #2d2930;
+  border-right: 1px solid var(--ink);
 }
 .weight-overview__facts > div:last-child { border-right: 0; }
 .weight-overview__facts dt,
@@ -169,7 +169,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 16px 18px;
-  border-bottom: 1px solid #2d2930;
+  border-bottom: 1px solid var(--ink);
 }
 
 .integrated-panel > header h2 {
@@ -183,16 +183,16 @@
 }
 
 .weight-toggle {
-  border-color: #2d2930;
+  border-color: var(--ink);
 }
 
 .weight-toggle button,
 .weight-toggle button[data-active],
 .weight-primary,
 .weight-dialog-actions button {
-  border: 1px solid #2d2930 !important;
-  background: #fff !important;
-  color: #2d2930 !important;
+  border: 1px solid var(--ink) !important;
+  background: var(--surface) !important;
+  color: var(--ink) !important;
 }
 
 .weight-toggle button[data-active] {
@@ -213,8 +213,8 @@
 .integrated-table-scroll th,
 .integrated-table-scroll td {
   padding: 11px 14px;
-  border-bottom: 1px solid #2d2930;
-  color: #2d2930;
+  border-bottom: 1px solid var(--ink);
+  color: var(--ink);
   text-align: right;
 }
 
@@ -266,7 +266,7 @@
   bottom: 12px;
   left: 183px;
   width: 1px;
-  background: #2d2930;
+  background: var(--ink);
   content: '';
 }
 
@@ -279,7 +279,7 @@
 
 .real-timeline-event > time {
   padding-top: 18px;
-  color: #2d2930;
+  color: var(--ink);
   font-size: 14px;
   font-family: var(--font-num);
   font-weight: 500;
@@ -291,10 +291,10 @@
   width: 11px;
   height: 11px;
   margin: 22px auto 0;
-  border: 2px solid #f6f7fc;
+  border: 2px solid var(--bg);
   border-radius: 50%;
   background: #714fac;
-  outline: 1px solid #2d2930;
+  outline: 1px solid var(--ink);
 }
 
 .weight-event > i {
@@ -315,7 +315,7 @@
 
 .timeline-event-card > header strong,
 .timeline-event-card > footer {
-  color: #2d2930;
+  color: var(--ink);
   font-size: 13px;
   font-weight: 375;
 }
@@ -325,7 +325,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 20px;
   margin: 12px 0;
-  border-top: 1px solid #2d2930;
+  border-top: 1px solid var(--ink);
 }
 
 .timeline-result-grid button {
@@ -334,8 +334,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid #2d2930;
-  color: #2d2930;
+  border-bottom: 1px solid var(--ink);
+  color: var(--ink);
   text-align: left;
 }
 
@@ -349,7 +349,7 @@
 
 .timeline-result-grid strong {
   flex: 0 0 auto;
-  color: #2d2930;
+  color: var(--ink);
   font-weight: 500;
   font-size: 13px;
   font-family: var(--font-num);
@@ -357,7 +357,7 @@
 
 .timeline-result-grid small,
 .timeline-weight-values small {
-  color: #2d2930;
+  color: var(--ink);
   font-weight: 375;
   font-size: 13px;
   font-family: var(--font-num);
@@ -370,7 +370,7 @@
 }
 
 .timeline-weight-values p {
-  color: #2d2930;
+  color: var(--ink);
   font-size: 27px;
   font-weight: 450;
   font-family: var(--font-num);
@@ -379,7 +379,7 @@
 @media (max-width: 800px) {
   .weight-summary-grid { grid-template-columns: 1fr; }
   .weight-overview { flex-direction: column; gap: 14px; }
-  .weight-overview__facts { border-top: 1px solid #2d2930; border-left: 0; }
+  .weight-overview__facts { border-top: 1px solid var(--ink); border-left: 0; }
   .weight-overview__facts > div { padding-top: 12px; padding-bottom: 0; }
   .weight-data-grid { grid-template-columns: 1fr; }
   .real-timeline::before { left: 9px; }
@@ -404,7 +404,7 @@
   .weight-overview__facts > div {
     min-width: 0;
     padding: 8px 7px 0;
-    border-right: 1px solid #2d2930;
+    border-right: 1px solid var(--ink);
     border-bottom: 0;
   }
   .weight-overview__facts dt { font-size: 10px; }

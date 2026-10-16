@@ -21,7 +21,7 @@ export function TemporalSankey({ first, last }: { first: WeightRecord; last: Wei
       const ly = leftY, ry = rightY, lh = p.initial * scale, rh = p.final * scale
       leftY += lh + gap; rightY += rh + gap
       return <g key={p.key}>
-        <path className="lieflat-fade" style={{ animationDelay: `${.2 + i * .06}s` }} d={`M148 ${ly} C340 ${ly} 360 ${ry} 552 ${ry} L552 ${ry + rh} C360 ${ry + rh} 340 ${ly + lh} 148 ${ly + lh} Z`} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".6"><title>{p.label}: {formatWeight(p.initial)} → {formatWeight(p.final)} kg; cambio {formatWeight(p.delta)} kg</title></path>
+        <path className="lieflat-fade" style={{ animationDelay: `${.2 + i * .06}s` }} d={`M148 ${ly} C340 ${ly} 360 ${ry} 552 ${ry} L552 ${ry + rh} C360 ${ry + rh} 340 ${ly + lh} 148 ${ly + lh} Z`} fill={webColor(p.color)} stroke="var(--ink)" strokeWidth=".6"><title>{p.label}: {formatWeight(p.initial)} → {formatWeight(p.final)} kg; cambio {formatWeight(p.delta)} kg</title></path>
         <text x="138" y={ly + lh / 2 - 3} textAnchor="end" fontSize="13">{p.label}</text><text x="138" y={ly + lh / 2 + 15} textAnchor="end" fontSize="14">{formatWeight(p.initial)} kg</text>
         <text x="562" y={ry + rh / 2 - 3} fontSize="14">{formatWeight(p.final)} kg</text><text x="562" y={ry + rh / 2 + 15} fontSize="13">{p.delta > 0 ? '+' : ''}{formatWeight(p.delta)} kg</text>
       </g>
@@ -35,11 +35,11 @@ export function CompositionSeries({ records, percent = false }: { records: Weigh
   const points = snapshots.map(r => ({ date: new Date(`${r.date}T${r.time || '12:00'}`).getTime(), ...Object.fromEntries(compositionParts(r).map(p => [p.key, percent ? p.percentage : p.mass])) }))
   return <div className="composition-series" aria-label={percent ? 'Evolución de porcentajes reportados' : 'Evolución de masas en kilogramos'}>
     <ResponsiveContainer width="100%" height="100%"><LineChart data={points} margin={{ top: 15, right: 30, left: 0, bottom: 15 }}>
-      <CartesianGrid vertical={false} stroke="#2d2930" strokeWidth={.35} />
-      <XAxis dataKey="date" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={points.map(p => p.date)} tickFormatter={t => formatWeightDate(calendarDate(t))} tick={{ fill: '#2d2930', fontSize: 12 }} minTickGap={12} />
-      <YAxis domain={[0, 'auto']} tick={{ fill: '#2d2930', fontSize: 12 }} width={42} unit={percent ? '%' : ''} />
-      <Tooltip labelFormatter={t => formatWeightDate(calendarDate(Number(t)))} formatter={(v: any, name: any) => [`${formatWeight(Number(v))} ${percent ? '%' : 'kg'}`, parts.find(p => p.key === name)?.label ?? name]} contentStyle={{ color: '#2d2930', border: '1px solid #2d2930', borderRadius: 7, boxShadow: 'none', fontSize: 13 }} itemStyle={{ color: '#2d2930' }} />
-      {parts.map((p, i) => <Line key={p.key} type="linear" dataKey={p.key} stroke={webColor(p.color)} strokeWidth={3} dot={{ r: 4, fill: webColor(p.color), stroke: '#2d2930', strokeWidth: .7 }} activeDot={{ r: 6 }} isAnimationActive={!reducedMotion} animationDuration={900} animationBegin={i * 60} />)}
+      <CartesianGrid vertical={false} stroke="var(--ink)" strokeWidth={.35} />
+      <XAxis dataKey="date" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={points.map(p => p.date)} tickFormatter={t => formatWeightDate(calendarDate(t))} tick={{ fill: 'var(--ink)', fontSize: 12 }} minTickGap={12} />
+      <YAxis domain={[0, 'auto']} tick={{ fill: 'var(--ink)', fontSize: 12 }} width={42} unit={percent ? '%' : ''} />
+      <Tooltip labelFormatter={t => formatWeightDate(calendarDate(Number(t)))} formatter={(v: any, name: any) => [`${formatWeight(Number(v))} ${percent ? '%' : 'kg'}`, parts.find(p => p.key === name)?.label ?? name]} contentStyle={{ color: 'var(--ink)', border: '1px solid var(--ink)', borderRadius: 7, boxShadow: 'none', fontSize: 13 }} itemStyle={{ color: 'var(--ink)' }} />
+      {parts.map((p, i) => <Line key={p.key} type="linear" dataKey={p.key} stroke={webColor(p.color)} strokeWidth={3} dot={{ r: 4, fill: webColor(p.color), stroke: 'var(--ink)', strokeWidth: .7 }} activeDot={{ r: 6 }} isAnimationActive={!reducedMotion} animationDuration={900} animationBegin={i * 60} />)}
     </LineChart></ResponsiveContainer>
   </div>
 }
@@ -47,12 +47,12 @@ export function CompositionSeries({ records, percent = false }: { records: Weigh
 export function CompositionStacks({ records }: { records: WeightRecord[] }) {
   const snapshots = compositionSnapshots(records), max = Math.max(...snapshots.map(r => r.weight))
   return <svg viewBox="0 0 700 330" role="img" aria-label="Masas apiladas por fecha; altura proporcional a kilogramos">
-    {[0,20,40,60,80].filter(v => v <= Math.ceil(max / 20) * 20).map(v => <g key={v}><line x1="48" x2="675" y1={270-v/max*225} y2={270-v/max*225} stroke="#2d2930" strokeWidth=".35" /><text x="37" y={274-v/max*225} textAnchor="end" fontSize="12">{v}</text></g>)}
+    {[0,20,40,60,80].filter(v => v <= Math.ceil(max / 20) * 20).map(v => <g key={v}><line x1="48" x2="675" y1={270-v/max*225} y2={270-v/max*225} stroke="var(--ink)" strokeWidth=".35" /><text x="37" y={274-v/max*225} textAnchor="end" fontSize="12">{v}</text></g>)}
     <text x="18" y="18" fontSize="13">kg</text>
     {snapshots.map((r, i) => {
       const x = 84 + i * (540 / Math.max(1, snapshots.length - 1)); let y = 270
       return <g key={r.id} className="lieflat-fade" style={{ animationDelay: `${i * .1}s` }}>
-        {massParts(r).map(p => { const h = p.mass / max * 225; y -= h; return <rect key={p.key} x={x - 28} y={y} width="56" height={h} fill={webColor(p.color)} stroke="#2d2930" strokeWidth=".5"><title>{p.label}: {formatWeight(p.mass)} kg</title></rect> })}
+        {massParts(r).map(p => { const h = p.mass / max * 225; y -= h; return <rect key={p.key} x={x - 28} y={y} width="56" height={h} fill={webColor(p.color)} stroke="var(--ink)" strokeWidth=".5"><title>{p.label}: {formatWeight(p.mass)} kg</title></rect> })}
         <text x={x} y={y-10} textAnchor="middle" fontSize="14">{formatWeight(r.weight)}</text><text x={x} y="298" textAnchor="middle" fontSize="13">{formatWeightDate(r.date)}</text>
       </g>
     })}
@@ -74,6 +74,6 @@ export default function CompositionTimeline({ records }: { records: WeightRecord
     <figure className="composition-figure"><div className="temporal-chart" tabIndex={0} role="region" aria-label="Gráfica temporal desplazable" key={`${view}-${first.id}-${last.id}`}>
       {view === 'sankey' ? <TemporalSankey first={first} last={last} /> : view === 'stack' ? <CompositionStacks records={snapshots} /> : <CompositionSeries records={snapshots} percent={view === 'percent'} />}
     </div><figcaption>{view === 'sankey' ? 'El grosor en cada extremo representa la masa de esa fecha. Las bandas comparan el mismo componente: no representan transferencia entre tejidos. El ancho cambia cuando cambia la masa.' : view === 'percent' ? 'Porcentajes originales de la báscula. Una proporción puede aumentar aunque su masa en kg disminuya.' : view === 'stack' ? 'Cada barra suma el peso registrado. La franja blanca conserva la masa sin desglosar.' : 'Escala común en kg. Los puntos son mediciones reales; las líneas sólo conectan las fechas disponibles.'}</figcaption></figure>
-    <div className="composition-legend">{parts.map(p => <span key={p.key}><i style={{ background: webColor(p.color) }} />{p.label}</span>)}{view === 'stack' && <span><i style={{ background: '#fff' }} />Sin desglosar</span>}</div>
+    <div className="composition-legend">{parts.map(p => <span key={p.key}><i style={{ background: webColor(p.color) }} />{p.label}</span>)}{view === 'stack' && <span><i style={{ background: 'var(--surface)' }} />Sin desglosar</span>}</div>
   </section>
 }

@@ -8,7 +8,8 @@
 
 import React from 'react'
 import { LAB_ACCENTS, LAB_TITLE_COLORS, pdfColor, WATERMELON_SRGB } from './palette'
-import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Line, Circle, Rect, pdf } from '@react-pdf/renderer'
+import { StyleSheet, Font, pdf } from '@react-pdf/renderer'
+import { Document, Page, Text, View, Svg, Path, Line, Circle, Rect, usePrintPdf } from './pdf-primitives'
 // Latin includes Spanish, digits and basic punctuation. Latin-ext alone omits
 // these glyphs and silently causes the PDF engine to fall back to Helvetica.
 import albertSansRegularUrl from '@fontsource/albert-sans/files/albert-sans-latin-400-normal.woff?url'
@@ -296,6 +297,7 @@ const portraitStyles = StyleSheet.create({
 })
 
 function ParamRow({ p, dates }: { p: Parameter; dates: string[] }) {
+  const monochrome = usePrintPdf()
   const series = seriesFor(p.canonical_id)
   if (series.length === 0) return null
   const latest = series[series.length - 1]
@@ -322,6 +324,7 @@ function ParamRow({ p, dates }: { p: Parameter; dates: string[] }) {
         return (
           <Text key={date} style={[portraitStyles.colValue, ab ? portraitStyles.abnormalValue : {}]}>
             {displayResultValue(r, p)}
+            {monochrome && ab ? '*' : ''}
           </Text>
         )
       })}
@@ -395,6 +398,7 @@ function WeightSection({ records }: { records: WeightRecord[] }) {
 }
 
 export type LabReportOptions = {
+  monochrome?: boolean
   parameterIds?: string[]
   dates?: string[]
   periodLabel?: string
@@ -404,7 +408,7 @@ export type LabReportOptions = {
   onlyCategories?: string[]
 }
 
-export function LabReportDocument({ parameterIds, dates, periodLabel = 'Últimas 5 mediciones', latestPerCategory = false, includeWeight = false, weightRecords = [], onlyCategories }: LabReportOptions = {}) {
+export function LabReportDocument({ monochrome = false, parameterIds, dates, periodLabel = 'Últimas 5 mediciones', latestPerCategory = false, includeWeight = false, weightRecords = [], onlyCategories }: LabReportOptions = {}) {
   const today = new Date()
   const age = ageInYears(PATIENT.dob, today)
   const dobLong = formatDobSpanish(PATIENT.dob)
@@ -419,7 +423,7 @@ export function LabReportDocument({ parameterIds, dates, periodLabel = 'Últimas
   }
 
   return (
-    <Document>
+    <Document monochrome={monochrome}>
       <Page size="A4" style={portraitStyles.page}>
         <View style={portraitStyles.header}>
           <View>
@@ -447,7 +451,7 @@ export function LabReportDocument({ parameterIds, dates, periodLabel = 'Últimas
         <Text style={portraitStyles.footerRule} fixed render={() => ''} />
         <Text style={portraitStyles.footerLeft} fixed render={() => PATIENT.fullName} />
         <Text style={portraitStyles.footerPage} fixed render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
-        <Text style={portraitStyles.footerRight} fixed render={() => 'Valores fuera de rango en rojo'} />
+        <Text style={portraitStyles.footerRight} fixed render={() => monochrome ? '* Valores fuera de rango' : 'Valores fuera de rango en rojo'} />
       </Page>
     </Document>
   )

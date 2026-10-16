@@ -5,5 +5,5 @@
 .json-entry-table tbody td { vertical-align: top; }
 .json-entry-table :is(input,select) { height: 36px; box-sizing: border-box; }
 .json-entry-table th { text-transform: none !important; letter-spacing: normal !important; }
-.json-builder :is(input,select,button):focus-visible { outline: 2px solid #2d2930 !important; outline-offset: 2px; }
+.json-builder :is(input,select,button):focus-visible { outline: 2px solid var(--ink) !important; outline-offset: 2px; }
 @media(max-width:760px) { .json-global-fields { grid-template-columns: 1fr; } .json-global-fields .json-apply { margin-top: 0; justify-self: start; } }

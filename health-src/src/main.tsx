@@ -8,6 +8,15 @@ import './styles/tokens.css'
 import App from './App'
 import { loadDynamicData } from './lib/dynamicData'
 import { bind as bindSounds } from './lib/sounds'
+import { startTheme } from './lib/theme-runtime.mjs'
+import { useTheme } from './lib/useTheme'
+import './styles/theme.css'
+
+startTheme()
+function ThemedToaster() {
+  const theme = useTheme()
+  return <GoeyToaster position="bottom-right" gap={14} offset="24px" theme={theme === 'dark' ? 'dark' : 'light'} toastOptions={{}} />
+}
 
 bindSounds()
 
@@ -24,13 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HashRouter>
       <App />
-      <GoeyToaster
-        position="bottom-right"
-        gap={14}
-        offset="24px"
-        theme="light"
-        toastOptions={{}}
-      />
+      <ThemedToaster />
     </HashRouter>
   </React.StrictMode>,
 )

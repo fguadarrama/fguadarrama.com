@@ -7,14 +7,14 @@ import { CustomChart, type CustomSeriesOption } from 'echarts/charts'
 import { SVGRenderer } from 'echarts/renderers'
 import { bigSliceSegments, type CompositionPart } from '../lib/body-composition'
 import { formatWeight } from '../data/weight-data'
-import { webColor } from '../lib/palette'
+import { useTheme } from '../lib/useTheme'
 
 echarts.use([CustomChart, SVGRenderer])
-const ink = '#2d2930'
 
 export default function BigSlice({ parts, total }: { parts: CompositionPart[]; total: number }) {
   const host = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
+  const theme = useTheme()
   // Values, not array identity: toggling the weight metric must not restart this chart.
   const signature = JSON.stringify(parts)
   useEffect(() => {
@@ -22,6 +22,10 @@ export default function BigSlice({ parts, total }: { parts: CompositionPart[]; t
     const slices = bigSliceSegments(JSON.parse(signature), total)
     const chart = echarts.init(host.current, undefined, { renderer: 'svg' })
     const draw = () => {
+      const css = getComputedStyle(document.documentElement)
+      const ink = css.getPropertyValue('--ink').trim()
+      const surface = css.getPropertyValue('--surface').trim()
+      const color = (value: string) => value === '#eb155c' ? css.getPropertyValue('--watermelon').trim() : value === '#03694c' ? (css.getPropertyValue('--composition-bone').trim() || value) : value
       const width = chart.getWidth(), height = chart.getHeight()
       const scale = Math.min(width/420, height/340), ox = (width-420*scale)/2, oy = (height-340*scale)/2
       const x = (n: number) => ox+n*scale, y = (n: number) => oy+n*scale
@@ -33,7 +37,7 @@ export default function BigSlice({ parts, total }: { parts: CompositionPart[]; t
           const p = slices[params.dataIndex]
           return { type: 'group', children: [
             { type: 'sector', shape: { cx:x(p.cx), cy:y(p.cy), r:p.radius*scale, r0:p.inner*scale, startAngle:p.start, endAngle:p.end, clockwise:true, cornerRadius:4*scale },
-              style: { fill:webColor(p.color), stroke: p.key === 'unassigned' ? ink : '#fff', lineWidth: p.key === 'unassigned' ? .7 : 2.5*scale, opacity:1 },
+              style: { fill:color(p.color), stroke: p.key === 'unassigned' ? ink : surface, lineWidth: p.key === 'unassigned' ? .7 : 2.5*scale, opacity:1 },
               enterFrom: { shape: { r:p.inner*scale } } },
             { type: 'polyline', shape: { points: [[x(p.tip[0]),y(p.tip[1])],[x(p.right ? 316 : 104),y(p.labelY)]] }, style: { stroke:ink, lineWidth:.65, fill:'none' } },
             { type: 'text', style: { x:x(p.labelX), y:y(p.labelY-8), text:p.label, font:`400 ${14*scale}px "Albert Sans Variable"`, fill:ink, align:p.right ? 'left' : 'right', verticalAlign:'middle' }, enterFrom: { style: { opacity:0 } } },
@@ -47,6 +51,6 @@ export default function BigSlice({ parts, total }: { parts: CompositionPart[]; t
     const observer = new ResizeObserver(() => { chart.resize(); draw() })
     observer.observe(host.current)
     return () => { observer.disconnect(); chart.dispose() }
-  }, [signature, total, reduceMotion])
+  }, [signature, total, reduceMotion, theme])
   return <div ref={host} className="composition-big-slice" role="img" aria-label={`Big Slice. ${parts.map(p => `${p.label}: ${formatWeight(p.mass)} kg`).join('. ')}`} />
 }

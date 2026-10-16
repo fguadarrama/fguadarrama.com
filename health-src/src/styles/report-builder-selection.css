@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-  background: #fff;
+  background: var(--surface);
 }
 .rb-parameter-groups > section > header > button {
   display: flex;
@@ -33,7 +33,7 @@
   place-items: center;
   border: 1px solid var(--rb-border);
   border-radius: 4px;
-  color: #fff;
+  color: var(--surface);
   font-size: 10px;
 }
 .rb-parameter-groups > section > header > button > span.is-full { border-color: var(--rb-ink); background: var(--rb-ink); }
@@ -64,7 +64,7 @@
   color: transparent;
   font-size: 9px;
 }
-.rb-weight-choice label[data-checked] > span { border-color: var(--rb-ink); background: var(--rb-ink); color: #fff; }
+.rb-weight-choice label[data-checked] > span { border-color: var(--rb-ink); background: var(--rb-ink); color: var(--surface); }
 .rb-weight-choice label > div { display: flex; flex: 1; justify-content: space-between; gap: 8px; }
 .rb-weight-choice strong { font-size: 10px; font-weight: 500; }
 .rb-weight-choice small { color: var(--rb-muted); font-size: 9px; }

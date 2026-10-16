@@ -16,7 +16,7 @@ const BASELINE_Y = H - 20  // y position of the x-axis
 // Based on standard lipoprotein electrophoresis migration order
 const FRACTIONS = [
   { canonical: 'quilomicrones',          label: 'Quilomicrones', sub: 'Origen',   x: 0.06, color: '#0eb8d9', refLow: null, refHigh: 0 },
-  { canonical: 'electroforesis_prebeta', label: 'Pre-β',         sub: 'VLDL',    x: 0.36, color: '#062540', refLow: 2.0,  refHigh: 31.2 },
+  { canonical: 'electroforesis_prebeta', label: 'Pre-β',         sub: 'VLDL',    x: 0.36, color: 'var(--electro-prebeta, #062540)', refLow: 2.0,  refHigh: 31.2 },
   { canonical: 'electroforesis_beta',    label: 'Beta (β)',      sub: 'LDL',     x: 0.52, color: '#25d266', refLow: 42.3, refHigh: 69.5 },
   { canonical: 'electroforesis_alfa',    label: 'Alfa (α)',      sub: 'HDL',     x: 0.72, color: '#e84ab7', refLow: 15.1, refHigh: 39.9 },
 ]
@@ -200,7 +200,7 @@ export default function ElectrophoresisChart() {
                     textAnchor="middle"
                     fontSize={11}
                     fontWeight="700"
-                    fill={ab ? '#FF1D58' : f.color}
+                    fill={ab ? 'var(--alarm)' : f.color}
                     fontFamily="'Albert Sans Variable', Arial, sans-serif"
                   >
                     {formatValue(r.value)}%

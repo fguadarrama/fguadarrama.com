@@ -36,13 +36,14 @@ export default function Weight() {
   const [targetBmi, setTargetBmi] = useState(22.5)
   const reference = ibwEstimates(profile.heightCm, profile.sex, targetBmi).find(m => m.id === ibwMethod)!
   const composition = descendingWeights(records.filter(r => r.composition))[0]
-  async function downloadReport() {
+  async function downloadReport(monochrome = false) {
+    if (exporting) return
     setExporting(true); setExportError('')
     try {
       const { generateWeightReportBlob } = await import('../lib/weight-pdf')
-      const blob = await generateWeightReportBlob(records)
+      const blob = await generateWeightReportBlob(records, { monochrome })
       const url = URL.createObjectURL(blob), link = document.createElement('a')
-      link.href = url; link.download = `peso-composicion-${new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10)}.pdf`
+      link.href = url; link.download = `peso-composicion-${new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10)}${monochrome ? '-impresion' : ''}.pdf`
       document.body.appendChild(link); link.click(); link.remove()
       setTimeout(() => URL.revokeObjectURL(url), 60_000); play('scan')
     } catch { setExportError('No se pudo generar el PDF. Inténtalo de nuevo.') }
@@ -56,7 +57,7 @@ export default function Weight() {
           <span className="eyebrow section-accent-weight">Seguimiento</span>
           <h1>Peso</h1>
         </div>
-        <div className="weight-page-actions"><button className="outline-action" onClick={downloadReport} disabled={exporting}>{exporting ? 'Generando PDF…' : 'Descargar PDF'}</button><button className="outline-action" onClick={() => setAdding(true)}>Añadir medición</button></div>
+        <div className="weight-page-actions"><button className="outline-action" onClick={() => downloadReport()} disabled={exporting}>{exporting ? 'Generando PDF…' : 'Descargar PDF'}</button><button className="outline-action" onClick={() => downloadReport(true)} disabled={exporting} title="Generar PDF en negro sobre blanco">Imprimir</button><button className="outline-action" onClick={() => setAdding(true)}>Añadir medición</button></div>
       </header>
       {exportError && <p role="alert">{exportError}</p>}
 

@@ -10,7 +10,7 @@ h1,h2,h3,p,dl,dd { margin:0; }
 .weight-brand { display:flex; align-items:center; gap:11px; }
 .weight-brand > span { display:grid; width:34px; height:34px; place-items:center; border-radius:50%; background:var(--ink); color:#fff; font-size:11px; letter-spacing:.08em; }
 .weight-brand strong,.weight-profile strong { font-size:13px; font-weight:500; }
-.weight-app-header nav { display:flex; gap:5px; padding:3px; border:1px solid var(--border); border-radius:999px; background:#fff; color:var(--muted); font-size:12px; }
+.weight-app-header nav { display:flex; gap:5px; padding:3px; border:1px solid var(--border); border-radius:999px; background:var(--surface); color:var(--muted); font-size:12px; }
 .weight-app-header nav span,.weight-app-header nav b { padding:6px 11px; font-weight:375; }
 .weight-app-header nav b { border-radius:999px; background:var(--ink); color:#fff; }
 .weight-profile { display:flex; flex-direction:column; align-items:flex-end; }
@@ -20,19 +20,19 @@ h1,h2,h3,p,dl,dd { margin:0; }
 .weight-primary:active { transform:scale(.97); }
 .weight-page-title { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; }
 .weight-page-title h1 { font-size:clamp(34px,4vw,48px); font-weight:500; line-height:1; letter-spacing:-.045em; }
-.weight-toggle { display:flex; width:max-content; gap:3px; padding:3px; border:1px solid var(--border); border-radius:999px; background:#fff; }
+.weight-toggle { display:flex; width:max-content; gap:3px; padding:3px; border:1px solid var(--border); border-radius:999px; background:var(--surface); }
 .weight-toggle button { padding:6px 10px; border:0; border-radius:999px; background:transparent; color:var(--muted); font-size:11px; cursor:pointer; }
 .weight-toggle button[data-active] { background:var(--ink); color:#fff; }
 .weight-chart { width:100%; height:330px; }
 .weight-chart--compact { height:200px; }
-.weight-tooltip { min-width:145px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,.96); box-shadow:0 8px 24px #2d293014; font-family:'Albert Sans Variable',Arial,sans-serif; }
+.weight-tooltip { min-width:145px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--surface); box-shadow:0 8px 24px #2d293014; font-family:'Albert Sans Variable',Arial,sans-serif; }
 .weight-tooltip > span,.weight-tooltip > p { display:block; color:var(--muted); font-size:10px; }
 .weight-tooltip > strong { display:block; margin:3px 0; font-size:17px; font-weight:500; font-variant-numeric:tabular-nums; }
 .weight-tooltip small { color:var(--muted); font-size:11px; font-weight:375; }
 
 /* Registro clínico */
 .clinical-main { width:min(1440px,100%); margin:0 auto; padding:35px clamp(20px,4vw,58px) 100px; }
-.clinical-card { overflow:hidden; margin-top:25px; border:1px solid var(--border); border-top:4px solid var(--green); border-radius:14px; background:#fff; }
+.clinical-card { overflow:hidden; margin-top:25px; border:1px solid var(--border); border-top:4px solid var(--green); border-radius:14px; background:var(--surface); }
 .clinical-summary { display:grid; grid-template-columns:230px 250px 1fr; align-items:end; gap:26px; padding:20px 22px; border-bottom:1px solid var(--border); }
 .clinical-summary > div > span { color:var(--muted); font-size:11px; }
 .clinical-summary p { margin-top:3px; font-size:29px; font-weight:450; line-height:1; letter-spacing:-.035em; }
@@ -62,7 +62,7 @@ h1,h2,h3,p,dl,dd { margin:0; }
 .progress-stats article:last-child { border:0; }
 .progress-stats span { display:block; color:var(--muted); font-size:11px; }
 .progress-stats strong { display:block; margin-top:3px; font-size:23px; font-weight:450; }
-.progress-chart-card { margin-top:30px; padding:22px 22px 8px; border:1px solid var(--border); border-radius:16px; background:#fff; }
+.progress-chart-card { margin-top:30px; padding:22px 22px 8px; border:1px solid var(--border); border-radius:16px; background:var(--surface); }
 .progress-chart-card > div:first-child { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
 .progress-chart-card h2,.progress-strip h2 { font-size:19px; font-weight:500; }
 .progress-chart-card p { color:var(--muted); font-size:11px; }
@@ -76,7 +76,7 @@ h1,h2,h3,p,dl,dd { margin:0; }
 
 /* Diario */
 .journal-main { display:grid; grid-template-columns:minmax(340px,.75fr) minmax(520px,1.25fr); width:min(1180px,100%); margin:0 auto; padding:42px clamp(20px,4vw,54px) 110px; }
-.journal-summary { position:sticky; top:30px; align-self:start; padding:29px; border:1px solid var(--border); border-radius:18px; background:#fff; }
+.journal-summary { position:sticky; top:30px; align-self:start; padding:29px; border:1px solid var(--border); border-radius:18px; background:var(--surface); }
 .journal-summary h1 { display:flex; align-items:baseline; gap:8px; font-size:66px; font-weight:400; line-height:1; letter-spacing:-.065em; }
 .journal-summary h1 small { color:var(--muted); font-size:15px; font-weight:375; letter-spacing:0; }
 .journal-summary > p { margin-top:7px; color:var(--muted); font-size:12px; }
@@ -106,17 +106,17 @@ h1,h2,h3,p,dl,dd { margin:0; }
 /* Diálogo de captura */
 .weight-dialog-layer { position:fixed; inset:0; z-index:80; display:grid; place-items:center; padding:18px; }
 .weight-dialog-backdrop { position:absolute; inset:0; width:100%; border:0; background:#2d29304c; backdrop-filter:blur(4px); cursor:default; animation:weight-fade 180ms var(--ease) both; }
-.weight-dialog { position:relative; width:min(460px,100%); padding:24px; border-radius:17px; background:#fff; box-shadow:0 30px 80px #2d29302e; animation:weight-pop 210ms var(--ease) both; }
+.weight-dialog { position:relative; width:min(460px,100%); padding:24px; border-radius:17px; background:var(--surface); box-shadow:0 30px 80px #2d29302e; animation:weight-pop 210ms var(--ease) both; }
 .weight-dialog-head { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
 .weight-dialog h2 { font-size:25px; font-weight:500; letter-spacing:-.035em; }
-.weight-close { display:grid; width:34px; height:34px; place-items:center; padding:0 0 2px; border:1px solid var(--border); border-radius:50%; background:#fff; font-size:21px; cursor:pointer; }
+.weight-close { display:grid; width:34px; height:34px; place-items:center; padding:0 0 2px; border:1px solid var(--border); border-radius:50%; background:var(--surface); font-size:21px; cursor:pointer; }
 .weight-dialog form { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px; }
 .weight-dialog label { position:relative; color:var(--muted); font-size:11px; }
 .weight-dialog label span { float:right; }
-.weight-dialog input { width:100%; margin-top:5px; padding:9px 10px; border:1px solid var(--border); border-radius:8px; background:#fff; font-size:14px; font-variant-numeric:tabular-nums; }
+.weight-dialog input { width:100%; margin-top:5px; padding:9px 10px; border:1px solid var(--border); border-radius:8px; background:var(--surface); font-size:14px; font-variant-numeric:tabular-nums; }
 .weight-form-error { grid-column:1/-1; color:var(--alarm); font-size:11px; }
 .weight-dialog-actions { grid-column:1/-1; display:flex; justify-content:flex-end; gap:8px; margin-top:7px; }
-.weight-dialog-actions > button:first-child { padding:9px 12px; border:1px solid var(--border); border-radius:9px; background:#fff; font-size:13px; cursor:pointer; }
+.weight-dialog-actions > button:first-child { padding:9px 12px; border:1px solid var(--border); border-radius:9px; background:var(--surface); font-size:13px; cursor:pointer; }
 
 @keyframes weight-fade { from{opacity:0} to{opacity:1} }
 @keyframes weight-pop { from{opacity:0;transform:scale(.97)} to{opacity:1;transform:scale(1)} }
@@ -143,5 +143,5 @@ h1,h2,h3,p,dl,dd { margin:0; }
 body :where(p,span,small,strong,em,label,button,th,td,dt,dd) { color:var(--ink) !important; }
 .is-abnormal,.is-abnormal *,.weight-form-error { color:var(--alarm) !important; }
 .weight-eyebrow,.clinical-card h2 { color:var(--green) !important; }
-.proto-picker { background:#fff !important; border:1px solid var(--ink); backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+.proto-picker { background:var(--surface) !important; border:1px solid var(--ink); backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
 .proto-picker-highlight { background:transparent !important; border:1px solid var(--ink); }

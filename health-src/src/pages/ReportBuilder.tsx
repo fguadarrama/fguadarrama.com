@@ -7,6 +7,7 @@ import type { Parameter } from '../lib/types'
 import { useWeightStore } from '../stores/weightStore'
 import { play } from '../lib/sounds'
 import { PATIENT, patientDobShort } from '../lib/patient'
+import { LAB_ACCENTS, LAB_TITLE_COLORS, pdfColor } from '../lib/palette'
 import '../styles/report-builder.css'
 import '../styles/report-builder-selection.css'
 
@@ -99,7 +100,7 @@ function LabSection({ group, selected, dates, period }: { group: (typeof categor
   const eligibleDates = period === 'latest' ? data.dates : dates
   const availableDates = eligibleDates.filter((date) => parameters.some((parameter) => (data.byCanonical[parameter.canonical_id] ?? []).some((result) => result.date === date)))
   const categoryDates = period === 'latest' ? availableDates.slice(0, 5) : availableDates
-  return <>{chunkDates(categoryDates).map((dateChunk, index, allChunks) => <section key={`${group.category}-${index}`} className={`rb-lab-section cat-${categorySlug(group.category)}`}><header><h3>{group.name}</h3>{allChunks.length > 1 && <span>{index + 1} / {allChunks.length}</span>}</header><LabTable parameters={parameters} dates={dateChunk} /></section>)}</>
+  return <>{chunkDates(categoryDates).map((dateChunk, index, allChunks) => <section key={`${group.category}-${index}`} className={`rb-lab-section cat-${categorySlug(group.category)}`} style={{ '--cat-accent': pdfColor(LAB_ACCENTS[group.category] || '#2d2930'), '--cat-title': LAB_TITLE_COLORS[group.category] || '#2d2930' } as React.CSSProperties}><header><h3>{group.name}</h3>{allChunks.length > 1 && <span>{index + 1} / {allChunks.length}</span>}</header><LabTable parameters={parameters} dates={dateChunk} /></section>)}</>
 }
 
 function ReportPreview({ selected, period, weightRecords }: { selected: Set<string>; period: Period; weightRecords: WeightRecord[] }) {
@@ -116,6 +117,7 @@ export default function ReportBuilder() {
   const [selected, setSelected] = useState(() => new Set([...defaultParameterIds, 'Peso']))
   const [period, setPeriod] = useState<Period>('latest')
   const [generating, setGenerating] = useState(false)
+  const [exportError, setExportError] = useState('')
   const selectedParameterCount = allParameterIds.filter((id) => selected.has(id)).length
   const toggle = (id: string) => setSelected((current) => { const next = new Set(current); next.has(id) ? next.delete(id) : next.add(id); return next })
   const toggleGroup = (group: (typeof categoryGroups)[number]) => setSelected((current) => {
@@ -129,28 +131,31 @@ export default function ReportBuilder() {
     return data.results.filter((result) => dates.has(result.date) && selected.has(result.parameter_canonical)).length
   }, [period, selected])
 
-  const downloadPdf = async () => {
+  const downloadPdf = async (monochrome = false) => {
     if (generating || (selectedParameterCount === 0 && !selected.has('Peso'))) return
     setGenerating(true)
+    setExportError('')
     try {
       const dates = period === 'latest' ? data.dates : datesForPeriod(period)
       const parameterIds = categoryGroups.flatMap((group) => group.items.filter((item) => selected.has(item.parameterId)).map((item) => item.parameterId))
       const reportWeights = period === 'latest' ? weightRecords.slice(0, 5) : weightRecords
       const { generateReportBlob } = await import('../lib/pdf')
-      const blob = await generateReportBlob({ parameterIds, dates, periodLabel: PERIOD_NAMES[period], latestPerCategory: period === 'latest', includeWeight: selected.has('Peso'), weightRecords: reportWeights })
+      const blob = await generateReportBlob({ monochrome, parameterIds, dates, periodLabel: PERIOD_NAMES[period], latestPerCategory: period === 'latest', includeWeight: selected.has('Peso'), weightRecords: reportWeights })
       play('scan')
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = `reporte-salud-${new Date().toISOString().slice(0, 10)}.pdf`
+      link.download = `reporte-salud-${new Date().toISOString().slice(0, 10)}${monochrome ? '-impresion' : ''}.pdf`
       link.click()
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+      window.setTimeout(() => URL.revokeObjectURL(url), 60_000)
+    } catch {
+      setExportError('No se pudo generar el PDF. Inténtalo de nuevo.')
     } finally {
       setGenerating(false)
     }
   }
 
-  return <div className="rb-page"><header className="rb-title hidden-print"><div><span className="eyebrow">Crear reporte</span><h1>Compositor</h1><p>{selectedParameterCount} parámetros · {selectedResults} resultados</p></div><button className="rb-primary" disabled={generating || (selectedParameterCount === 0 && !selected.has('Peso'))} onClick={downloadPdf}>{generating ? 'Generando PDF…' : 'Descargar PDF'}</button></header><div className="rb-grid"><aside className="hidden-print"><div className="rb-section-title"><h2>Parámetros</h2><p><NumberFlow value={selectedParameterCount} /> de {allParameterIds.length}</p></div><div className="rb-select-actions"><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set([...defaultParameterIds, 'Peso']))}>Mi selección</button><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set([...allParameterIds, 'Peso']))}>Todos</button><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set())}>Ninguno</button></div><div className="rb-parameter-groups">{categoryGroups.map((group) => {
+  return <div className="rb-page"><header className="rb-title hidden-print"><div><span className="eyebrow">Crear reporte</span><h1>Compositor</h1><p>{selectedParameterCount} parámetros · {selectedResults} resultados</p></div><div className="rb-export-actions"><button className="rb-primary" disabled={generating || (selectedParameterCount === 0 && !selected.has('Peso'))} onClick={() => downloadPdf()}>{generating ? 'Generando PDF…' : 'Descargar PDF'}</button><button className="rb-primary" disabled={generating || (selectedParameterCount === 0 && !selected.has('Peso'))} onClick={() => downloadPdf(true)} title="Generar PDF en negro sobre blanco">Imprimir</button></div></header>{exportError && <p role="alert">{exportError}</p>}<div className="rb-grid"><aside className="hidden-print"><div className="rb-section-title"><h2>Parámetros</h2><p><NumberFlow value={selectedParameterCount} /> de {allParameterIds.length}</p></div><div className="rb-select-actions"><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set([...defaultParameterIds, 'Peso']))}>Mi selección</button><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set([...allParameterIds, 'Peso']))}>Todos</button><button data-cuelume-toggle="toggle" onClick={() => setSelected(new Set())}>Ninguno</button></div><div className="rb-parameter-groups">{categoryGroups.map((group) => {
     const selectedInGroup = group.items.filter((item) => selected.has(item.parameterId)).length
     return <section key={group.category}><header><button data-cuelume-toggle="toggle" onClick={() => toggleGroup(group)} aria-label={`Seleccionar ${group.name}`}><span className={selectedInGroup === group.items.length ? 'is-full' : selectedInGroup > 0 ? 'is-partial' : ''}>{selectedInGroup === group.items.length ? '✓' : selectedInGroup > 0 ? '–' : ''}</span><strong>{group.name}</strong></button><small>{selectedInGroup}/{group.items.length}</small></header><div className="rb-checks">{group.items.map((item) => <label key={item.parameterId} data-checked={selected.has(item.parameterId) ? '' : undefined}><input type="checkbox" data-cuelume-toggle="toggle" checked={selected.has(item.parameterId)} onChange={() => toggle(item.parameterId)} /><span>✓</span><div><strong>{item.label}</strong></div></label>)}</div></section>
   })}<section className="rb-weight-choice"><label data-checked={selected.has('Peso') ? '' : undefined}><input type="checkbox" data-cuelume-toggle="toggle" checked={selected.has('Peso')} onChange={() => toggle('Peso')} /><span>✓</span><div><strong>Peso y composición corporal</strong><small>{weightRecords.length} mediciones</small></div></label></section></div><h2 className="rb-period-title">Periodo</h2><div className="rb-period-control">{(Object.keys(PERIOD_NAMES) as Period[]).map((item) => <button key={item} data-cuelume-toggle="toggle" data-active={period === item ? '' : undefined} onClick={() => setPeriod(item)}>{PERIOD_NAMES[item]}</button>)}</div></aside><section className="rb-preview"><span className="hidden-print">Vista previa</span><ReportPreview selected={selected} period={period} weightRecords={weightRecords} /></section></div></div>

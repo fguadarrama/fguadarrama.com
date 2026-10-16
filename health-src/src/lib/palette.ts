@@ -4,7 +4,11 @@
 export const WATERMELON_P3 = 'color(display-p3 0.9215686275 0.0823529412 0.3607843137)'
 export const WATERMELON_SRGB = '#ff0059'
 export const LEAN_ACCENT = '#5e33fe'
-export const webColor = (color: string) => color.toLowerCase() === '#eb155c' ? 'var(--watermelon, #ff0059)' : color
+export const webColor = (color: string) => ({
+  '#eb155c': 'var(--watermelon, #ff0059)',
+  '#5e33fe': 'var(--lean-accent, #5e33fe)',
+  '#03694c': 'var(--composition-bone, #03694c)',
+}[color.toLowerCase()] || color)
 export const pdfColor = (color: string) => color.toLowerCase() === '#eb155c' ? WATERMELON_SRGB : color
 
 // Exact user accents for section markers. Light hues have a separate readable

@@ -52,6 +52,15 @@ duplicados/conflictos. Los borradores y respaldos están excluidos de Git.
 no modifica la contraseña, el Excel de laboratorios ni hace push automáticamente.
 También puedes ejecutar el script con su ruta absoluta desde cualquier carpeta.
 
+## Apariencia
+
+El control junto al logotipo (y arriba a la derecha del login) permite elegir
+Automático, Claro u Oscuro. Automático usa la hora local del dispositivo: oscuro
+de 19:00 a 06:59; claro de 07:00 a 18:59. Se actualiza al volver a la pestaña y
+cada 30 segundos. La elección se conserva localmente y se comparte entre el
+login y la aplicación; no guarda ni modifica datos clínicos. Los PDFs conservan
+su presentación clara. Pruebas: `node scripts/test-theme.mjs`.
+
 ## Release protegido para GitHub Pages
 
 No se debe publicar `dist/`: contiene datos en texto legible. El único flujo autorizado es:
