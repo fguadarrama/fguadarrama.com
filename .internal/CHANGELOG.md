@@ -64,3 +64,15 @@ Publicación del Librero en /librero/, solicitada por el propietario.
 - No se modificó ningún otro archivo del sitio. `/libros/` y `librero_source/` son otro proyecto y no se tocaron. No se añadieron enlaces, sitemap ni robots.
 - Para cambios futuros: editar en Hoomsa y volver a ejecutar el script. Las instrucciones para agentes están en `Hoomsa/librero/AGENTS.md`.
 - Verificación: servidor local en /librero/, sin errores en consola ni archivos 404; lomos, gatos, portadas y favicon cargan.
+
+## Viernes 16 de octubre de 2026, 8:50 p. m. — America/Mexico_City
+
+Agente: Claude (Claude Code, Anthropic).
+
+Actualización del Librero en /librero/ a la versión 1.7.1, solicitada y revisada en vista previa por el propietario.
+
+- La portada se forma al abrir la ficha de un libro (componente «Generate» de Bencho, licencia MIT, traducido a JavaScript sin React). El lomo del libro 3D se forma a la par; sin píldora «Generar».
+- La columna de calificación tiene tamaño fijo: ya no empuja el título ni la sinopsis.
+- Archivos: `librero/js/generar.js` (nuevo), `librero/js/ficha.js`, `librero/css/librero.css`. Copia generada con `librero/tools/publicar_sitio.sh` desde `fguadarrama/Hoomsa` (commit 3f6c7d4).
+- Ningún otro archivo del sitio se modificó.
+- Verificación: servidor local en /librero/, sin errores en consola ni archivos 404; portada y lomo se forman y terminan correctamente.

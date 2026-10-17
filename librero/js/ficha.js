@@ -11,6 +11,7 @@ import { ocultarGlobo } from './globo.js';
 import { abrirMorph, cerrarMorph } from './morph.js';
 import { sonar } from './sonidos.js';
 import { revelarTexto } from './revelar.js';
+import { Generate } from './generar.js';
 
 const FORMATOS = ['Pasta blanda', 'Pasta dura', 'Bolsillo', 'Kindle', 'Folleto', 'Audiolibro (CD)', 'Estuche', 'Juego de mesa', 'Desconocido'];
 // El libro 3D ocupa casi todo el panel izquierdo de la ficha, con un margen
@@ -41,12 +42,9 @@ function libro3d(b) {
   const g = geometria(b, 1);
   const T = Math.round(Math.max(14, Math.min(g.grosor * (H / g.alto), 62)));
   const c = colores(b);
-  const frente = b.portada
-    ? `<img src="${esc(b.portada)}" alt="Portada de ${esc(b.titulo)}" draggable="false">`
-    : portadaGenerada(b);
   const lomoTexto = b.lomo_img ? '' : `<span class="l-titulo">${esc(b.titulo)}</span><span class="l-autor">${esc(apellido(b.autor))}</span>`;
   return `<div class="libro3d-vuelo"><div class="libro3d t-tilt-card" style="--W:${W}px;--H:${H}px;--T:${T}px;--l-fondo:${c.fondo};--l-texto:${c.texto};--l-acento:${c.acento}">
-      <div class="cara frente">${frente}<div class="t-tilt-glare" aria-hidden="true"></div></div>
+      <div class="cara frente"><div class="t-tilt-glare" aria-hidden="true"></div></div>
       <div class="cara lomo3d ${esEspanol(b.titulo) ? 'es' : 'en'}" style="${b.lomo_img ? `background-image:url('${esc(b.lomo_img)}')` : ''}">${lomoTexto}</div>
       <div class="cara cantos"></div>
       <div class="cara cabeza"></div>
@@ -198,6 +196,7 @@ export function abrirFicha(id, desde) {
   const cuerpo = $('.ficha-cuerpo', capa);
   cerrarSelector();
   cuerpo.innerHTML = contenido(b);
+  generarPortada(b);
   activarInclinacion();
   revelarTexto($('.sinopsis-texto', capa), { retraso: yaAbierta ? 0 : 260 });
   setTimeout(() => capa && sonar('revelar', 0.7), yaAbierta ? 0 : 260);
@@ -205,6 +204,27 @@ export function abrirFicha(id, desde) {
 
   if (!yaAbierta) entrar();
   else $('.ficha-cerrar', capa).focus({ preventScroll: true });
+}
+
+// La portada se forma al abrir la ficha (componente Generate, de Bencho):
+// primero las manchas, luego la forma y al final el grano, y el lomo a la
+// par. Arranca en cuanto la imagen está lista. Aquí no hay píldora
+// «Generar»: la portada se forma una vez, al abrir.
+function generarPortada(b) {
+  const cara = $('.cara.frente', capa);
+  if (!cara) return;
+  const g = Generate(cara, {
+    src: b.portada || undefined,
+    html: b.portada ? '' : portadaGenerada(b),
+    alt: `Portada de ${b.titulo}`,
+    corner: 0,
+    caras: [$('.cara.lomo3d', capa)], // el lomo se forma junto con la portada
+  });
+  g.el.dataset.auto = 'true';
+  cara.prepend(g.el); // debajo del brillo de la inclinación
+  const lista = b.portada ? new Image() : null;
+  if (lista) lista.src = b.portada;
+  (lista ? lista.decode() : Promise.resolve()).catch(() => {}).then(() => g.el.isConnected && g.generate());
 }
 
 function entrar() {
