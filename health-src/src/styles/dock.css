@@ -1,0 +1,240 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Bencho's "Magnifying dock" — MIT licensed, bencho.dev/licence.
+   Pasted as supplied, comments included, with one piece removed and one
+   added — see the note just above `.gdock-label` below — and the
+   adaptation layer that maps this project's own tokens onto it, and swaps
+   the glass surface for this site's flat one, marked off at the bottom
+   of the file. See THIRD_PARTY_NOTICES.md.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── glass navigation ──────────────────────────────────────
+   Same recipe as .gcard: 60% white, 2px frost, refraction,
+   lit inner edge. Shapes differ, the material does not. */
+
+/* The bare pane. Same recipe as .gnav and .gdock, with no
+   layout of its own — for components that are just a surface
+   and want to arrange themselves. A card with a title in one
+   corner and a chip in the other is a house style, not a
+   requirement, and most things do not need either. */
+.gpane, .gnav, .gdock {
+  position: relative;
+  background: var(--pane);
+  -webkit-backdrop-filter:
+    blur(var(--g-blur, 2px)) saturate(var(--g-sat, 150%)) brightness(var(--g-bright, 100%));
+  backdrop-filter:
+    blur(var(--g-blur, 2px)) saturate(var(--g-sat, 150%)) brightness(var(--g-bright, 100%));
+  isolation: isolate;
+  color: var(--ink);}
+
+.gpane::before, .gnav::before, .gdock::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* transparent unless Stroke says otherwise — see the
+     stroke block below */
+  border: 1px solid transparent;
+  pointer-events: none;
+  z-index: 3;}
+
+/* dock */
+.gdock {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  /* top padding is not decorative — see the note above
+     `.gdock-item`'s own top padding: the two of them together
+     are the room the magnified, lifted glyph needs so it never
+     crosses this bar's own border. */
+  padding: 10px 10px 8px;
+  border-radius: 20px;
+  /* sideways is the dock's, up and down stays the page's — a
+     finger passing over this on the way down the wall is
+     scrolling, not picking. See .tick-row. */
+  touch-action: pan-y;}
+
+/* no tile behind the icon: scaling a translucent rectangle over
+   glass is what made this look cheap. The glyph scales instead,
+   and SVG scales cleanly at any size.
+
+   THE TOP PADDING IS SIZED TO THE WORST CASE, not to taste. The
+   hovered glyph both lifts (translateY, up to `lift`px) and grows
+   from a bottom-anchored transform-origin (so scaling only ever
+   pushes its TOP edge up, never its bottom). At the defaults —
+   lift 5, magnify 1.32, a 20px glyph — the top edge can rise
+   (1.32-1)*20 + 5 ≈ 11.4px above its resting place. This item's
+   6px plus the dock's own 10px above give it 16px: contained with
+   room to spare, rather than the glyph crossing the dock's own
+   border on the closest icon, which is what a tighter pad did. */
+.gdock-item {
+  position: relative;
+  min-width: 44px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  opacity: 0.42;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px 5px;
+  cursor: pointer;
+  transition: opacity 220ms ease;}
+
+/* the magnification lives here, so the label keeps its own
+   size and its own distance from the icon */
+.gdock-glyph {
+  display: grid; place-items: center;
+  transform-origin: center bottom;
+  transition: transform 420ms cubic-bezier(0.24, 1.34, 0.38, 1);}
+
+.gdock-item[data-near="1"] { opacity: 0.66; }
+
+.gdock-item[data-near="0"] { opacity: 1; }
+
+.gdock-item[data-active="true"] { opacity: 1; }
+
+.gdock-item:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 3px; border-radius: 10px; }
+
+/* fguadarrama.com addition, replacing Bencho's travelling tooltip — see
+   the note on the adaptation layer at the bottom of this file for why. */
+.gdock-label {
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: font-weight 160ms ease;}
+
+.gdock-item[data-active="true"] .gdock-label { font-weight: 650; }
+
+/* ── the rim ─────────────────────────────────────────────────
+   Every glass surface already drew a 1px ring in one flat
+   colour. A flat rim is the single clearest tell that a thing
+   is a rectangle with a border rather than a pane with
+   thickness: real edges are lit unevenly, and evenly lit ones
+   read as ink.
+
+   So the ring becomes a gradient — bright at the corner
+   facing the light, almost nothing along the sides that run
+   edge-on to it, and a second weaker catch at the far corner
+   where the light has come through the pane and out again.
+
+   Only under glass — see the adaptation layer below, which
+   keeps this project on its flat hairline instead. */
+[data-surface="glass"] .gpane::before,
+[data-surface="glass"] .gnav::before,
+[data-surface="glass"] .gdock::before {
+  border-color: transparent;
+  background:
+    linear-gradient(
+      142deg,
+      rgba(255, 255, 255, var(--g-edge-hi, 0)) 0%,
+      rgba(255, 255, 255, var(--g-edge-lo, 0)) 26%,
+      rgba(255, 255, 255, var(--g-edge-lo, 0)) 62%,
+      rgba(255, 255, 255, var(--g-edge-far, 0)) 100%
+    ) border-box;
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;}
+
+/* ── thickness ───────────────────────────────────────────────
+   Three marks that say a pane is above the page rather than
+   painted onto it. Gated to [data-surface="glass"] like the
+   rim above — this project never sets that attribute, so this
+   block is inert by design (and `* { box-shadow: none !important }`
+   in tokens.css would void it even if it weren't). */
+[data-surface="glass"] .gpane,
+[data-surface="glass"] .gnav,
+[data-surface="glass"] .gdock {
+  box-shadow: var(--g-shadow,
+    inset 0 1px 0 rgba(255, 255, 255, var(--g-spec, 0)),
+    0 10px 40px rgba(var(--shadow-rgb, 0 0 0), var(--g-lift, 0)));}
+
+[data-surface="flat"] .gnav,
+[data-surface="flat"] .gdock {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   fguadarrama.com adaptation
+
+   THE PART THAT NEEDED JUDGEMENT (surface): Bencho's dock is glass — a
+   frosted, translucent pane with a lit rim and a soft cast shadow. This
+   site is the opposite on purpose (tokens.css, verbatim: "Structure comes
+   from lines, never shadows", backed by a global
+   `* { box-shadow: none !important }`). Importing the glass treatment
+   unchanged would have been invisible at best (the shadow rules are
+   already voided) and off-brand at worst (the rim gradient still paints
+   without `box-shadow`).
+
+   So the dock keeps Bencho's motion — the distance-based magnify, the
+   touch-vs-mouse pointer handling — and wears this site's own flat
+   surface instead of glass: a solid panel in the page's surface colour
+   with a 1px ink hairline, the same idiom every other panel on this site
+   already uses (.card, .cat-panel, .btn). This is Bencho's own
+   [data-surface="flat"][data-stroke="on"] combination, applied directly
+   to `.gdock` rather than through those attributes, since this project
+   only ever wants the flat variant.
+
+   THE PART THAT NEEDED JUDGEMENT (labelling): Bencho's dock names the
+   icon under the cursor in a tooltip that only exists on hover — right
+   for a floating action dock, where the bar's job is small glyphs and a
+   label is a hint you ask for. This bar IS the site's primary nav, and
+   primary nav names itself without being asked, the way the six-item
+   nav it replaced always did (plain text, no hover required). So the
+   travelling tooltip (`.gdock-tip`, `DockTip` in the component) is gone,
+   and `.gdock-label` below sits under every icon permanently instead —
+   this changed the component's own code too, not just this stylesheet.
+
+   Token mapping (Bencho token → this project's equivalent):
+     --pane       → var(--surface)   the site's card/panel background
+     --pane-edge  → var(--border)    the site's 1px ink hairline
+     --g-blur, --g-sat, --g-bright, --g-edge-hi, --g-edge-lo, --g-edge-far,
+     --g-lift, --g-shadow, --g-spec → left undefined. Their CSS defaults
+     are already 0/none, which is correct for a flat surface; the rules
+     that would turn them on are gated behind [data-surface="glass"]
+     above, which this project never sets.
+     (--fill-on, --fill-slab, --on-ink, --font-ui, --ink-rgb, --shadow-rgb
+     were only ever needed by the removed tooltip and are gone with it.)
+   ═══════════════════════════════════════════════════════════════════════ */
+.gdock {
+  --pane: var(--surface);
+  --pane-edge: var(--border);
+  border: 1px solid var(--pane-edge);
+}
+.gdock::before {
+  border-color: var(--pane-edge);
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+}
+
+/* Sits in the header's flow, not fixed to the viewport — Bencho's own
+   markup carries no position rule, so this is the site's call: a dock as
+   the primary nav bar rather than a floating action dock. */
+.site-header__inner .gdock {
+  margin-left: auto;
+}
+@media (max-width: 980px) {
+  .site-header__inner .gdock {
+    margin-left: 0;
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+/* Below this, six words next to six icons stop fitting the bar on one
+   line without wrapping or forcing a horizontal scroll this dock's own
+   touch gesture already claims (`touch-action: pan-y` above is the
+   magnify sweep, not a scroll) — so the labels step aside and the dock
+   goes back to icon-only, same as it was before this was asked for. */
+@media (max-width: 640px) {
+  .gdock-label { display: none; }
+  .gdock-item { min-width: 38px; padding: 6px 6px; }
+}

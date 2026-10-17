@@ -53,7 +53,46 @@ const wrapper = `<!doctype html>
 ${favicon}
 ${gate.style}
 </head><body>${gate.body}
-<script>const payload=${JSON.stringify(payload)};const encoder=new TextEncoder,decoder=new TextDecoder,b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));async function openPrivatePage(password){const material=await crypto.subtle.importKey('raw',encoder.encode(password),'PBKDF2',false,['deriveKey']);const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(payload.salt),iterations:payload.iterations,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['decrypt']);const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(payload.iv)},key,b64(payload.data));document.open();document.write(decoder.decode(bytes));document.close()}document.getElementById('form').addEventListener('submit',async event=>{event.preventDefault();const button=document.getElementById('submit'),input=document.getElementById('password'),error=document.getElementById('error');button.disabled=true;error.textContent='';try{await openPrivatePage(input.value)}catch{error.textContent='Contraseña incorrecta.';button.disabled=false;input.select()}});</script>
+<script>
+const payload=${JSON.stringify(payload)};
+const encoder=new TextEncoder,decoder=new TextDecoder,b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function decryptPage(password){
+const material=await crypto.subtle.importKey('raw',encoder.encode(password),'PBKDF2',false,['deriveKey']);
+const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(payload.salt),iterations:payload.iterations,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['decrypt']);
+const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(payload.iv)},key,b64(payload.data));
+return decoder.decode(bytes);
+}
+const form=document.getElementById('form'),button=document.getElementById('submit'),input=document.getElementById('password'),error=document.getElementById('error');
+const submitLabel=button.textContent;
+const CHECK_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MIN_CHECK_MS=reduceMotion?0:360;
+form.addEventListener('submit',async event=>{
+event.preventDefault();
+form.classList.remove('is-no','is-ok');
+form.classList.add('is-checking');
+button.disabled=true;
+error.textContent='';
+const started=performance.now();
+let html=null,ok=true;
+try{html=await decryptPage(input.value)}catch{ok=false}
+const wait=MIN_CHECK_MS-(performance.now()-started);
+if(wait>0)await new Promise(r=>setTimeout(r,wait));
+form.classList.remove('is-checking');
+if(ok){
+form.classList.add('is-ok');
+button.innerHTML='<span class="gate-ok-check">'+CHECK_SVG+'Verificado</span>';
+await new Promise(r=>setTimeout(r,reduceMotion?80:420));
+document.open();document.write(html);document.close();
+}else{
+form.classList.add('is-no');
+error.textContent='Contraseña incorrecta.';
+button.disabled=false;
+input.value='';
+setTimeout(()=>{form.classList.remove('is-no');button.textContent=submitLabel;input.focus()},reduceMotion?0:560);
+}
+});
+</script>
 </body></html>`
 
 rmSync(outputDir, { recursive: true, force: true })

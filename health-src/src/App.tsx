@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Dashboard from './pages/Dashboard'
 import Browse from './pages/Browse'
@@ -9,6 +9,8 @@ import Weight from './pages/Weight'
 import { data, shortDate3Letter } from './lib/data'
 import { PATIENT, patientAge, patientDobShort } from './lib/patient'
 import ThemeControl from './components/ThemeControl'
+import { MagnifyingDock } from './components/MagnifyingDock'
+import './styles/dock.css'
 
 function Header() {
   const age = patientAge()
@@ -23,26 +25,7 @@ function Header() {
             <span className="brand__initials">FGC</span>
             <ThemeControl />
           </div>
-          <nav className="nav">
-            <NavLink to="/" end data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Laboratorios
-            </NavLink>
-            <NavLink to="/timeline" data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Cronología
-            </NavLink>
-            <NavLink to="/browse" data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Explorar
-            </NavLink>
-            <NavLink to="/weight" data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Peso
-            </NavLink>
-            <NavLink to="/report" data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Reportes
-            </NavLink>
-            <NavLink to="/crear" data-cuelume-toggle="page" className={({ isActive }) => 'nav__item' + (isActive ? ' nav__item--active' : '')}>
-              Datos
-            </NavLink>
-          </nav>
+          <MagnifyingDock />
         </div>
         <div className="patient-strip">
           <span className="patient-strip__name">{PATIENT.fullName}</span>

@@ -98,8 +98,8 @@ function CategoryPanel({
               </tr>
             </thead>
             <tbody>
-              {params.map((p) => (
-                <ParamRow key={p.canonical_id} p={p} dates={dates} onPick={onPick} />
+              {params.map((p, i) => (
+                <ParamRow key={p.canonical_id} p={p} dates={dates} onPick={onPick} index={i} />
               ))}
             </tbody>
           </table>
@@ -163,13 +163,25 @@ function ParamRow({
   p,
   dates,
   onPick,
+  index,
 }: {
   p: Parameter
   dates: string[]
   onPick: (cid: string) => void
+  index: number
 }) {
   return (
-    <tr
+    <motion.tr
+      /* Same entrance the weight history table already uses
+         (prototypes/weight/shared.tsx) — a short fade-and-rise,
+         staggered a little per row and capped so a long table
+         settles quickly rather than visibly queuing. Row identity
+         is the parameter id (see the `key` where this is mapped),
+         so toggling a filter only animates rows that are newly
+         mounting, not ones that were already on screen. */
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, delay: Math.min(index * 0.025, 0.15), ease: [0.23, 1, 0.32, 1] }}
       data-cuelume-hover="tick"
       data-cuelume-toggle="page"
       onClick={() => onPick(p.canonical_id)}
@@ -195,7 +207,7 @@ function ParamRow({
           </td>
         )
       })}
-    </tr>
+    </motion.tr>
   )
 }
 
