@@ -10,13 +10,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8f8f8;--ink:#2c292f;--acc:#5037f9;--muted:rgba(44,41,47,.62);--line:rgba(44,41,47,.10)}
-@supports (color: color(display-p3 1 1 1)){:root{--acc:color(display-p3 .31 .2 1)}}
+:root{--bg:#f8f8f8;--ink:#2c292f;--acc:#5037f9;--blue:#54BBEE;--pink:#FF1866;--yellow:#FFE14D;--muted:rgba(44,41,47,.62);--line:rgba(44,41,47,.10);--ease-out:cubic-bezier(.23,1,.32,1)}
+@supports (color: color(display-p3 1 1 1)){:root{--acc:color(display-p3 .31 .2 1);--blue:color(display-p3 .38 .73 .94);--pink:color(display-p3 1 .14 .42);--yellow:color(display-p3 1 .89 .32)}}
+@view-transition{navigation:auto}
+::view-transition-group(trip-ico){animation-duration:520ms;animation-timing-function:cubic-bezier(.32,.72,0,1)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Albert Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 .wrap{max-width:880px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 48px) 20px 64px}
 h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin:0;line-height:1.02}
-.by{color:var(--muted);margin:10px 0 40px}
+.by{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-size:1.1rem;font-weight:500;text-decoration:none;margin:12px 0 40px}
+.by .n{text-decoration:underline double var(--pink);text-decoration-thickness:2px;text-underline-offset:.24em}
+.by svg{width:28px;height:16px;stroke:var(--pink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s var(--ease-out)}
+.by:hover svg{transform:translateX(3px)}
 .trips{display:grid;gap:16px}
 @media (min-width:720px){.trips{grid-template-columns:1fr 1fr}}
 .trip{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .15s}
@@ -26,7 +31,12 @@ h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin
 .trip .icons svg{width:72px;height:72px}
 .trip h2{font-weight:580;font-size:1.5rem;margin:0}
 .trip p{margin:6px 0 0;color:var(--muted)}
-.trip .open{display:inline-block;margin-top:16px;color:var(--acc);font-weight:600}
+.trip .open{display:inline-block;margin-top:16px;color:var(--ink);font-weight:600;text-decoration:underline var(--blue);text-decoration-thickness:2px;text-underline-offset:.24em}
+.trip:active{transform:scale(.98)}
+h1 .hl{background:linear-gradient(transparent 62%, var(--yellow) 62%);padding:0 .06em}
+@keyframes rise{from{opacity:0;transform:translateY(10px);filter:blur(4px)}}
+h1,.by,.trip,.soon{animation:rise 620ms var(--ease-out) both}.by{animation-delay:60ms}.trip{animation-delay:120ms}.soon{animation-delay:170ms}
+@media (prefers-reduced-motion:reduce){h1,.by,.trip,.soon{animation:none}}
 .soon{border:1.5px dashed var(--line);border-radius:22px;padding:22px;color:var(--muted);display:flex;align-items:center}
 @media (prefers-reduced-motion:reduce){.trip{transition:none}}
 </style>
@@ -34,6 +44,12 @@ h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
 <defs>
+  <linearGradient id="g-squid-fin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f59a87"/><stop offset="1" stop-color="#d9604f"/></linearGradient>
+  <radialGradient id="g-squid" cx=".35" cy=".28" r=".85"><stop offset="0" stop-color="#ffb3a3"/><stop offset=".55" stop-color="#f27f6b"/><stop offset="1" stop-color="#c9503f"/></radialGradient>
+  <linearGradient id="g-squid-arm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ee7966"/><stop offset="1" stop-color="#d65a48"/></linearGradient>
+  <radialGradient id="g-octo-head" cx=".38" cy=".25" r=".85"><stop offset="0" stop-color="#e9b5dc"/><stop offset=".5" stop-color="#a27ad6"/><stop offset="1" stop-color="#6f49b8"/></radialGradient>
+  <linearGradient id="g-octo-arm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a67ad8"/><stop offset="1" stop-color="#6a6ee0"/></linearGradient>
+  <radialGradient id="g-eye-rim" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#ffe6d2"/><stop offset="1" stop-color="#d9a487"/></radialGradient>
   <radialGradient id="g-shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2c292f" stop-opacity=".28"/><stop offset="1" stop-color="#2c292f" stop-opacity="0"/></radialGradient>
   <linearGradient id="g-white" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9dbe8"/></linearGradient>
   <linearGradient id="g-white-side" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6e7f1"/><stop offset="1" stop-color="#b9bcd2"/></linearGradient>
@@ -61,12 +77,32 @@ h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin
   <linearGradient id="g-cucumber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7f0a0"/><stop offset="1" stop-color="#8cc152"/></linearGradient>
   <linearGradient id="g-screen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a8bff"/><stop offset="1" stop-color="#5037f9"/></linearGradient>
   <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fd38a"/><stop offset="1" stop-color="#1f9e55"/></linearGradient>
+  <linearGradient id="g-fried" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9cf6b"/><stop offset="1" stop-color="#c9771c"/></linearGradient>
+  <linearGradient id="g-octo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2668b"/><stop offset="1" stop-color="#8e2149"/></linearGradient>
+  <linearGradient id="g-shrimp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb08a"/><stop offset="1" stop-color="#e5502c"/></linearGradient>
+  <linearGradient id="g-fishbody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d8fae"/><stop offset=".55" stop-color="#c9d4e6"/><stop offset="1" stop-color="#eef2f8"/></linearGradient>
+  <linearGradient id="g-meat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8693a"/><stop offset="1" stop-color="#7a3a17"/></linearGradient>
+  <linearGradient id="g-leaf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fa548"/><stop offset="1" stop-color="#3f6a24"/></linearGradient>
+  <linearGradient id="g-greens" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8f3a"/><stop offset="1" stop-color="#1f5a26"/></linearGradient>
+  <linearGradient id="g-fava" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe48a"/><stop offset="1" stop-color="#f2c445"/></linearGradient>
+  <linearGradient id="g-sauce" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0743f"/><stop offset="1" stop-color="#c63e1d"/></linearGradient>
+  <linearGradient id="g-bean" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#e6d6bc"/></linearGradient>
+  <linearGradient id="g-bread" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9a95a"/><stop offset="1" stop-color="#a8611f"/></linearGradient>
+  <linearGradient id="g-water" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bfe6fa"/><stop offset=".4" stop-color="#e9f7fe"/><stop offset="1" stop-color="#8fd0f2"/></linearGradient>
+  <linearGradient id="g-copper" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a8481f"/><stop offset=".4" stop-color="#f09a62"/><stop offset="1" stop-color="#8f3613"/></linearGradient>
+  <linearGradient id="g-olive" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b4a78"/><stop offset="1" stop-color="#2b1733"/></linearGradient>
+  <linearGradient id="g-terracotta" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b9532a"/><stop offset=".45" stop-color="#ee9a62"/><stop offset="1" stop-color="#a5441f"/></linearGradient>
+  <linearGradient id="g-taxi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffec85"/><stop offset="1" stop-color="#f2c21a"/></linearGradient>
+  <linearGradient id="g-blue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fd6f7"/><stop offset="1" stop-color="#2f9ed6"/></linearGradient>
+  <linearGradient id="g-blue-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f9ed6"/><stop offset="1" stop-color="#1b74a6"/></linearGradient>
+  <linearGradient id="g-yogurt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eceee4"/></linearGradient>
+  <linearGradient id="g-runway" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f7387"/><stop offset="1" stop-color="#42455a"/></linearGradient>
+  <clipPath id="cp-ur" clipPathUnits="userSpaceOnUse"><polygon points="-10,-10 106,-10 106,106"/></clipPath>
+  <clipPath id="cp-ll" clipPathUnits="userSpaceOnUse"><polygon points="-10,-10 -10,106 106,106"/></clipPath>
 </defs>
 
 <!-- Avión -->
-<symbol id="i-plane" viewBox="0 0 96 96">
-  <ellipse cx="50" cy="84" rx="30" ry="5" fill="url(#g-shadow)"/>
-  <g transform="rotate(-32 48 50)">
+<symbol id="i-planebody" viewBox="0 0 96 96">
     <path d="M44 48 L58 48 L50 18 L43 18 Z" fill="url(#g-white-side)"/>
     <path d="M16 48 L24 48 L18 37 L13 37 Z" fill="url(#g-white-side)"/>
     <rect x="12" y="42" width="74" height="15" rx="7.5" fill="url(#g-white)"/>
@@ -79,7 +115,10 @@ h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin
     <path d="M42 52 L58 52 L57 55 L42 55 Z" fill="#c4c8dc"/>
     <rect x="45" y="60" width="10" height="5" rx="2.5" fill="url(#g-white-side)" transform="rotate(-72 50 62)"/>
     <path d="M14 55 L23 55 L17 63 L12 63 Z" fill="url(#g-white)"/>
-  </g>
+  </symbol>
+<symbol id="i-plane" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="84" rx="30" ry="5" fill="url(#g-shadow)"/>
+  <use href="#i-planebody" transform="rotate(-32 48 50)"/>
 </symbol>
 
 <!-- Cama / hotel -->
@@ -271,21 +310,356 @@ h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin
   </g>
 </symbol>
 
-<!-- Sin lácteos -->
-<symbol id="i-nodairy" viewBox="0 0 96 96">
-  <g transform="translate(40 12) scale(.5)"><use href="#i-milk"/></g>
-  <g transform="translate(14 34) scale(.56)"><use href="#i-cheese"/></g>
-  <circle cx="48" cy="49" r="38" fill="none" stroke="#8f0b1c" stroke-width="9" opacity=".35" transform="translate(1.5 2.5)"/>
+
+<!-- Base: plato y tazón -->
+<symbol id="i-dish" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="76" rx="38" ry="6" fill="url(#g-shadow)"/>
+  <ellipse cx="48" cy="63" rx="40" ry="15" fill="#c4c8dc"/>
+  <ellipse cx="48" cy="60.5" rx="40" ry="15" fill="url(#g-white)"/>
+  <ellipse cx="48" cy="60.5" rx="33" ry="11.5" fill="none" stroke="#5037f9" stroke-width="1.4" opacity=".55"/>
+  <ellipse cx="48" cy="61.5" rx="27" ry="8.5" fill="#eceef6"/>
+</symbol>
+<symbol id="i-bowl" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="80" rx="34" ry="6" fill="url(#g-shadow)"/>
+  <path d="M12 46 Q14 76 48 76 Q82 76 84 46 Z" fill="url(#g-bowl)"/>
+  <path d="M15 58 Q48 68 81 58" fill="none" stroke="#54bbee" stroke-width="2.4"/>
+  <path d="M17 64 Q48 73 79 64" fill="none" stroke="#54bbee" stroke-width="1.2" opacity=".7"/>
+  <ellipse cx="48" cy="46" rx="36" ry="12" fill="#ffffff"/>
+  <ellipse cx="48" cy="47" rx="31" ry="9" fill="#e7ebf4"/>
+</symbol>
+<symbol id="i-lemon" viewBox="0 0 20 12">
+  <path d="M1 2 A9 9 0 0 0 19 2 Z" fill="#f5d33c"/>
+  <path d="M3.5 2.6 A6.5 6.5 0 0 0 16.5 2.6 Z" fill="#fff4a8"/>
+  <path d="M10 2.6 L10 9 M10 2.6 L5.5 7.4 M10 2.6 L14.5 7.4" stroke="#f0c62a" stroke-width=".8"/>
+</symbol>
+
+<!-- Calamares -->
+<symbol id="i-calamari" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="90" rx="20" ry="3.6" fill="url(#g-shadow)"/>
+  <g fill="none" stroke-linecap="round"><path d="M41 61 C30 65 23 74 26 85" stroke="#b84535" stroke-width="4.4"/><path d="M41 61 C30 65 23 74 26 85" stroke="url(#g-squid-arm)" stroke-width="2.8"/><path d="M55 61 C66 65 73 74 70 85" stroke="#b84535" stroke-width="4.4"/><path d="M55 61 C66 65 73 74 70 85" stroke="url(#g-squid-arm)" stroke-width="2.8"/><path d="M42 62 C33 68 30 76 32 83" stroke="#b84535" stroke-width="5.800000000000001"/><path d="M42 62 C33 68 30 76 32 83" stroke="url(#g-squid-arm)" stroke-width="4.2"/><path d="M54 62 C63 68 66 76 64 83" stroke="#b84535" stroke-width="5.800000000000001"/><path d="M54 62 C63 68 66 76 64 83" stroke="url(#g-squid-arm)" stroke-width="4.2"/><path d="M44 63 C38 70 36 78 38 86" stroke="#b84535" stroke-width="6.0"/><path d="M44 63 C38 70 36 78 38 86" stroke="url(#g-squid-arm)" stroke-width="4.4"/><path d="M52 63 C58 70 60 78 58 86" stroke="#b84535" stroke-width="6.0"/><path d="M52 63 C58 70 60 78 58 86" stroke="url(#g-squid-arm)" stroke-width="4.4"/><path d="M46.5 63 C44.5 71 43.5 79 44.5 88" stroke="#b84535" stroke-width="6.199999999999999"/><path d="M46.5 63 C44.5 71 43.5 79 44.5 88" stroke="url(#g-squid-arm)" stroke-width="4.6"/><path d="M49.5 63 C51.5 71 52.5 79 51.5 88" stroke="#b84535" stroke-width="6.199999999999999"/><path d="M49.5 63 C51.5 71 52.5 79 51.5 88" stroke="url(#g-squid-arm)" stroke-width="4.6"/></g>
+  <ellipse cx="26" cy="85" rx="2.6" ry="4.2" fill="#d65a48" stroke="#b84535" stroke-width=".8" transform="rotate(14 26 85)"/>
+  <ellipse cx="70" cy="85" rx="2.6" ry="4.2" fill="#d65a48" stroke="#b84535" stroke-width=".8" transform="rotate(-14 70 85)"/>
+  <g fill="#b84535" opacity=".7"><circle cx="34" cy="73" r=".85"/><circle cx="32.8" cy="77.5" r=".85"/><circle cx="39.2" cy="75" r=".85"/><circle cx="38.6" cy="80" r=".85"/><circle cx="45" cy="77" r=".85"/><circle cx="44.8" cy="82" r=".85"/><circle cx="51" cy="77" r=".85"/><circle cx="51.2" cy="82" r=".85"/><circle cx="56.8" cy="75" r=".85"/><circle cx="57.4" cy="80" r=".85"/><circle cx="62" cy="73" r=".85"/><circle cx="63.2" cy="77.5" r=".85"/></g>
+  <path d="M48 5 C55 9 66 17 67 24 C63 27 57 27 55 25 L41 25 C39 27 33 27 29 24 C30 17 41 9 48 5 Z" fill="url(#g-squid-fin)"/>
+  <path d="M48 7 C55.5 13 58 28 58 46 C58 50.5 54 53 48 53 C42 53 38 50.5 38 46 C38 28 40.5 13 48 7 Z" fill="url(#g-squid)"/>
+  <path d="M44 14 C42 22 41.5 32 42 42" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".45"/>
+  <ellipse cx="48" cy="58" rx="10.5" ry="7" fill="url(#g-squid)"/>
+  <ellipse cx="48" cy="51.5" rx="10" ry="2.2" fill="#d65a48" opacity=".55"/>
+  <circle cx="42.6" cy="57.5" r="3.4" fill="#ffffff"/><circle cx="53.4" cy="57.5" r="3.4" fill="#ffffff"/>
+  <circle cx="43" cy="57.8" r="1.9" fill="#2c292f"/><circle cx="53" cy="57.8" r="1.9" fill="#2c292f"/>
+  <circle cx="42.4" cy="57" r=".6" fill="#ffffff"/><circle cx="52.4" cy="57" r=".6" fill="#ffffff"/>
+</symbol>
+
+<!-- Pulpo -->
+<symbol id="i-octopus" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="89" rx="30" ry="4" fill="url(#g-shadow)"/>
+  <g fill="none" stroke="url(#g-octo-arm)" stroke-linecap="round" stroke-width="7">
+    <path d="M40 50 C28 51 17 46 16 35 C15.5 29 22 27.5 23.5 32"/>
+    <path d="M56 50 C68 51 79 46 80 35 C80.5 29 74 27.5 72.5 32"/>
+    <path d="M40 56 C27 59 15 61 12 69 C10 75 17 77 18 72"/>
+    <path d="M56 56 C69 59 81 61 84 69 C86 75 79 77 78 72"/>
+    <path d="M43 60 C36 69 27 75 28 83 C29 88 35.5 87 34.5 82.5"/>
+    <path d="M53 60 C60 69 69 75 68 83 C67 88 60.5 87 61.5 82.5"/>
+    <path d="M46 61 C44 71 41 78 44 85"/>
+    <path d="M50 61 C52 71 55 78 52 85"/>
+  </g>
+  <g fill="#c7a2ec"><circle cx="19" cy="34" r="1.3"/><circle cx="21" cy="39.5" r="1.3"/><circle cx="77" cy="34" r="1.3"/><circle cx="75" cy="39.5" r="1.3"/><circle cx="14.6" cy="72" r="1.3"/><circle cx="17.5" cy="66.5" r="1.3"/><circle cx="81.4" cy="72" r="1.3"/><circle cx="78.5" cy="66.5" r="1.3"/><circle cx="31.5" cy="84" r="1.3"/><circle cx="32" cy="78.5" r="1.3"/><circle cx="64.5" cy="84" r="1.3"/><circle cx="64" cy="78.5" r="1.3"/><circle cx="44.5" cy="81" r="1.1"/><circle cx="51.5" cy="81" r="1.1"/></g>
+  <ellipse cx="48" cy="55" rx="12" ry="7.5" fill="#8a62cc"/>
+  <ellipse cx="48" cy="34" rx="17" ry="21.5" fill="url(#g-octo-head)"/>
+  <ellipse cx="42" cy="21" rx="5" ry="7" fill="#ffffff" opacity=".22" transform="rotate(-18 42 21)"/>
+  <circle cx="41" cy="45" r="6" fill="url(#g-eye-rim)"/><circle cx="55" cy="45" r="6" fill="url(#g-eye-rim)"/>
+  <circle cx="41.4" cy="45.4" r="3.9" fill="#1e1a24"/><circle cx="54.6" cy="45.4" r="3.9" fill="#1e1a24"/>
+  <circle cx="40.2" cy="44" r="1.1" fill="#ffffff"/><circle cx="53.4" cy="44" r="1.1" fill="#ffffff"/>
+</symbol>
+
+<!-- Camarones -->
+<symbol id="i-shrimp1" viewBox="0 0 40 30">
+  <path d="M8 22 C3 12 14 4 22 10" fill="none" stroke="url(#g-shrimp)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M22 10 L31 5 L30 15 Z" fill="#e5502c"/>
+  <g stroke="#ffffff" stroke-width="1.1" opacity=".75" fill="none"><path d="M5 15 l6 1"/><path d="M7 10 l5 3"/><path d="M12 7 l3 4"/><path d="M17 6 l1 5"/></g>
+  <circle cx="9" cy="20" r="1.2" fill="#2c292f"/>
+</symbol>
+<symbol id="i-shrimp" viewBox="0 0 96 96">
+  <use href="#i-dish"/>
+  <use href="#i-shrimp1" x="20" y="44" width="36" height="27"/>
+  <use href="#i-shrimp1" x="42" y="40" width="36" height="27" transform="rotate(12 60 54)"/>
+  <use href="#i-shrimp1" x="32" y="54" width="36" height="27" transform="rotate(-8 50 68)"/>
+  <g fill="#3f8c34"><circle cx="28" cy="66" r="1.3"/><circle cx="70" cy="64" r="1.3"/></g>
+  <use href="#i-lemon" x="66" y="58" width="16" height="10"/>
+</symbol>
+
+<!-- Pescado -->
+<symbol id="i-fish" viewBox="0 0 96 96">
+  <use href="#i-dish"/>
+  <path d="M18 60 Q36 44 62 53 Q68 56 72 51 L80 44 L78 59 L81 72 L72 65 Q68 61 62 65 Q36 76 18 60 Z" fill="url(#g-fishbody)"/>
+  <path d="M22 62 Q40 72 62 64" fill="none" stroke="#ffffff" stroke-width="1.6" opacity=".8"/>
+  <path d="M30 51 Q34 58 30 66" fill="none" stroke="#5d6a8f" stroke-width="1.4" opacity=".7"/>
+  <g stroke="#3c2a20" stroke-width="2.2" stroke-linecap="round" opacity=".55"><path d="M40 50 l-4 14"/><path d="M50 51 l-4 15"/><path d="M60 54 l-3 11"/></g>
+  <circle cx="24" cy="57" r="2.6" fill="#ffffff"/><circle cx="24" cy="57" r="1.3" fill="#2c292f"/>
+  <use href="#i-lemon" x="56" y="66" width="18" height="11"/>
+  <g fill="#3f8c34"><circle cx="44" cy="70" r="1.3"/><circle cx="48" cy="72" r="1"/></g>
+</symbol>
+
+<!-- Souvlaki -->
+<symbol id="i-souvlaki" viewBox="0 0 96 96">
+  <use href="#i-dish"/>
+  <g>
+    <line x1="18" y1="66" x2="80" y2="40" stroke="#c8a27a" stroke-width="2.4" stroke-linecap="round"/>
+    <g fill="url(#g-meat)">
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(30 61) rotate(-23)"/>
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(41 56.4) rotate(-23)"/>
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(52 51.8) rotate(-23)"/>
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(63 47.2) rotate(-23)"/>
+    </g>
+    <g fill="#3a1a08" opacity=".55"><rect x="-4" y="-4.5" width="8" height="1.6" rx=".8" transform="translate(30 60) rotate(-23)"/><rect x="-4" y="-4.5" width="8" height="1.6" rx=".8" transform="translate(52 50.8) rotate(-23)"/></g>
+  </g>
+  <g transform="translate(4 11)">
+    <line x1="18" y1="66" x2="80" y2="40" stroke="#c8a27a" stroke-width="2.4" stroke-linecap="round"/>
+    <g fill="url(#g-meat)">
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(30 61) rotate(-23)"/>
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(41 56.4) rotate(-23)"/>
+      <rect x="-5.5" y="-5" width="11" height="10" rx="3" transform="translate(52 51.8) rotate(-23)"/>
+    </g>
+    <rect x="-3.5" y="-3.5" width="7" height="7" rx="2" fill="#5fae3a" transform="translate(62.5 47.4) rotate(-23)"/>
+  </g>
+  <use href="#i-lemon" x="64" y="34" width="16" height="10"/>
+</symbol>
+
+<!-- Dolmadakia -->
+<symbol id="i-dolmades" viewBox="0 0 96 96">
+  <use href="#i-dish"/>
+  <g>
+    <g transform="translate(34 56) rotate(-14)"><rect x="-11" y="-5.5" width="22" height="11" rx="5.5" fill="url(#g-leaf)"/><path d="M-6 -5 v10 M0 -5.5 v11 M6 -5 v10" stroke="#a9cc72" stroke-width="1" opacity=".8"/></g>
+    <g transform="translate(55 53) rotate(-10)"><rect x="-11" y="-5.5" width="22" height="11" rx="5.5" fill="url(#g-leaf)"/><path d="M-6 -5 v10 M0 -5.5 v11 M6 -5 v10" stroke="#a9cc72" stroke-width="1" opacity=".8"/></g>
+    <g transform="translate(42 66) rotate(-14)"><rect x="-11" y="-5.5" width="22" height="11" rx="5.5" fill="url(#g-leaf)"/><path d="M-6 -5 v10 M0 -5.5 v11 M6 -5 v10" stroke="#a9cc72" stroke-width="1" opacity=".8"/></g>
+    <g transform="translate(62 64) rotate(-12)"><rect x="-11" y="-5.5" width="22" height="11" rx="5.5" fill="url(#g-leaf)"/><path d="M-6 -5 v10 M0 -5.5 v11 M6 -5 v10" stroke="#a9cc72" stroke-width="1" opacity=".8"/></g>
+  </g>
+  <use href="#i-lemon" x="20" y="64" width="16" height="10"/>
+</symbol>
+
+<!-- Papas fritas -->
+<symbol id="i-fries" viewBox="0 0 96 96">
+  <use href="#i-dish"/>
+  <g fill="url(#g-fried)">
+    <rect x="30" y="46" width="4.5" height="20" rx="2" transform="rotate(-30 32 56)"/>
+    <rect x="38" y="44" width="4.5" height="22" rx="2" transform="rotate(-8 40 55)"/>
+    <rect x="46" y="45" width="4.5" height="21" rx="2" transform="rotate(14 48 55)"/>
+    <rect x="54" y="46" width="4.5" height="20" rx="2" transform="rotate(36 56 56)"/>
+    <rect x="42" y="50" width="4.5" height="19" rx="2" transform="rotate(62 44 59)"/>
+    <rect x="50" y="52" width="4.5" height="18" rx="2" transform="rotate(-58 52 61)"/>
+    <rect x="34" y="54" width="4.5" height="17" rx="2" transform="rotate(80 36 62)"/>
+    <rect x="58" y="54" width="4.5" height="16" rx="2" transform="rotate(-80 60 62)"/>
+    <rect x="46" y="56" width="4.5" height="15" rx="2" transform="rotate(2 48 63)"/>
+  </g>
+  <g fill="#ffffff" opacity=".85"><circle cx="40" cy="52" r=".7"/><circle cx="50" cy="56" r=".7"/><circle cx="56" cy="50" r=".7"/><circle cx="45" cy="62" r=".7"/></g>
+</symbol>
+
+<!-- Fava -->
+<symbol id="i-fava" viewBox="0 0 96 96">
+  <use href="#i-bowl"/>
+  <ellipse cx="48" cy="47.5" rx="30" ry="8.4" fill="url(#g-fava)"/>
+  <path d="M33 47 q8 -5 15 0 t15 0" fill="none" stroke="#a7b52a" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+  <g fill="#9b4a8f"><rect x="40" y="43" width="3" height="2" rx=".6"/><rect x="55" y="49" width="3" height="2" rx=".6"/><rect x="47" y="50" width="2.6" height="2" rx=".6"/></g>
+  <g fill="#476b2c"><circle cx="36" cy="49" r="1.5"/><circle cx="58" cy="44" r="1.5"/><circle cx="51" cy="45" r="1.3"/></g>
+</symbol>
+
+<!-- Horta -->
+<symbol id="i-horta" viewBox="0 0 96 96">
+  <use href="#i-bowl"/>
+  <ellipse cx="48" cy="47.5" rx="30" ry="8.4" fill="#2f5e25"/>
+  <g fill="url(#g-greens)">
+    <ellipse cx="36" cy="43" rx="10" ry="5" transform="rotate(-20 36 43)"/>
+    <ellipse cx="50" cy="39" rx="11" ry="5.5" transform="rotate(8 50 39)"/>
+    <ellipse cx="62" cy="44" rx="10" ry="5" transform="rotate(24 62 44)"/>
+    <ellipse cx="44" cy="47" rx="9" ry="4.5" transform="rotate(-6 44 47)"/>
+    <ellipse cx="56" cy="48" rx="9" ry="4.5" transform="rotate(12 56 48)"/>
+  </g>
+  <g stroke="#8fc46a" stroke-width="1" fill="none" opacity=".8"><path d="M30 44 q6 -3 12 -2"/><path d="M44 39 q6 -2 12 1"/><path d="M57 42 q6 1 10 5"/></g>
+  <path d="M34 40 q10 -6 22 -2" fill="none" stroke="#c9b13a" stroke-width="1.6" opacity=".7"/>
+  <use href="#i-lemon" x="62" y="30" width="16" height="10" transform="rotate(20 70 35)"/>
+</symbol>
+
+<!-- Gigantes -->
+<symbol id="i-gigantes" viewBox="0 0 96 96">
+  <use href="#i-bowl"/>
+  <ellipse cx="48" cy="47.5" rx="30" ry="8.4" fill="url(#g-sauce)"/>
+  <g fill="url(#g-bean)" stroke="#d2bd98" stroke-width=".6">
+    <ellipse cx="34" cy="46" rx="6" ry="3.6" transform="rotate(-14 34 46)"/>
+    <ellipse cx="46" cy="43" rx="6" ry="3.6" transform="rotate(10 46 43)"/>
+    <ellipse cx="58" cy="45" rx="6" ry="3.6" transform="rotate(-20 58 45)"/>
+    <ellipse cx="41" cy="50" rx="6" ry="3.6" transform="rotate(18 41 50)"/>
+    <ellipse cx="54" cy="51" rx="6" ry="3.6" transform="rotate(-6 54 51)"/>
+    <ellipse cx="65" cy="49" rx="5.4" ry="3.3" transform="rotate(14 65 49)"/>
+  </g>
+  <g fill="#3f8c34"><circle cx="40" cy="44" r="1.1"/><circle cx="52" cy="47" r="1.1"/><circle cx="60" cy="50" r="1"/><circle cx="35" cy="50" r="1"/></g>
+</symbol>
+
+<!-- Aceitunas -->
+<symbol id="i-olives" viewBox="0 0 96 96">
+  <use href="#i-bowl"/>
+  <ellipse cx="48" cy="47.5" rx="30" ry="8.4" fill="#3c2244"/>
+  <g fill="url(#g-olive)">
+    <ellipse cx="36" cy="44" rx="6" ry="4.6"/><ellipse cx="48" cy="41" rx="6" ry="4.6"/><ellipse cx="60" cy="44" rx="6" ry="4.6"/>
+    <ellipse cx="42" cy="49" rx="6" ry="4.6"/><ellipse cx="55" cy="49" rx="6" ry="4.6"/>
+  </g>
+  <ellipse cx="66" cy="50" rx="5.4" ry="4.2" fill="#7d9a3a"/>
+  <g fill="#ffffff" opacity=".55"><ellipse cx="34" cy="42.5" rx="2" ry="1.1"/><ellipse cx="46" cy="39.5" rx="2" ry="1.1"/><ellipse cx="58" cy="42.5" rx="2" ry="1.1"/><ellipse cx="40" cy="47.5" rx="2" ry="1.1"/><ellipse cx="53" cy="47.5" rx="2" ry="1.1"/><ellipse cx="64.5" cy="48.6" rx="1.8" ry="1"/></g>
+  <path d="M60 36 q10 -8 20 -4 q-8 8 -20 4 Z" fill="url(#g-leaf)"/>
+  <path d="M60 36 q10 -4 20 -4" fill="none" stroke="#a9cc72" stroke-width=".8"/>
+</symbol>
+
+<!-- Tzatziki -->
+<symbol id="i-tzatziki" viewBox="0 0 96 96">
+  <use href="#i-bowl"/>
+  <ellipse cx="48" cy="47.5" rx="30" ry="8.4" fill="url(#g-yogurt)"/>
+  <path d="M36 46 q6 -4 12 -1 q6 3 12 -1" fill="none" stroke="#e1e3d7" stroke-width="2.4" stroke-linecap="round"/>
+  <g fill="#5e9a3c"><circle cx="38" cy="49" r=".9"/><circle cx="44" cy="44" r=".9"/><circle cx="52" cy="50" r=".9"/><circle cx="58" cy="45" r=".9"/><circle cx="62" cy="49" r=".8"/><circle cx="34" cy="45" r=".8"/><circle cx="48" cy="47" r=".8"/></g>
+  <ellipse cx="54" cy="46.5" rx="3.6" ry="1.6" fill="#d7b33a" opacity=".85"/>
+  <g transform="translate(66 38)"><ellipse rx="8" ry="5" fill="#5f9b3a"/><ellipse rx="6.6" ry="3.9" fill="#e9f6c9"/><g fill="#c9de9a"><circle cx="-2.5" cy="0" r=".8"/><circle cx="0" cy="-1.4" r=".8"/><circle cx="2.5" cy="0" r=".8"/><circle cx="0" cy="1.4" r=".8"/></g></g>
+  <ellipse cx="42" cy="44" rx="2.8" ry="2.1" fill="#2d2433"/>
+</symbol>
+
+<!-- Pan -->
+<symbol id="i-bread" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="76" rx="36" ry="6" fill="url(#g-shadow)"/>
+  <path d="M12 62 Q12 34 48 32 Q84 34 84 62 Q84 72 74 72 L22 72 Q12 72 12 62 Z" fill="url(#g-bread)"/>
+  <path d="M14 64 Q48 74 82 64 Q82 72 74 72 L22 72 Q14 72 14 64 Z" fill="#8a4a14" opacity=".55"/>
+  <g fill="none" stroke="#f9d9a1" stroke-width="3.2" stroke-linecap="round"><path d="M27 48 Q33 40 40 44"/><path d="M42 41 Q48 34 55 38"/><path d="M57 44 Q63 39 70 46"/></g>
+  <g fill="#fff3d6"><ellipse cx="30" cy="56" rx="1.3" ry=".8"/><ellipse cx="46" cy="52" rx="1.3" ry=".8"/><ellipse cx="62" cy="55" rx="1.3" ry=".8"/><ellipse cx="38" cy="60" rx="1.3" ry=".8"/><ellipse cx="54" cy="60" rx="1.3" ry=".8"/><ellipse cx="70" cy="60" rx="1.3" ry=".8"/></g>
+  <path d="M24 42 Q34 34 46 33" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity=".35"/>
+</symbol>
+
+<!-- Agua -->
+<symbol id="i-water" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="84" rx="20" ry="4.5" fill="url(#g-shadow)"/>
+  <path d="M40 14 L56 14 L56 24 Q66 30 66 42 L66 76 Q66 82 60 82 L36 82 Q30 82 30 76 L30 42 Q30 30 40 24 Z" fill="url(#g-water)"/>
+  <rect x="38.5" y="8" width="19" height="8" rx="2.5" fill="url(#g-blue)"/>
+  <rect x="31" y="50" width="34" height="14" rx="1" fill="#ffffff" opacity=".95"/>
+  <path d="M37 59 q3.5 -5 7 0 t7 0 t7 0" fill="none" stroke="#54bbee" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M35 30 Q33 38 34 46" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+  <path d="M31 70 h34" stroke="#ffffff" stroke-width="1" opacity=".6"/>
+</symbol>
+
+<!-- Vino de la casa (jarra de cobre) -->
+<symbol id="i-wine" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="84" rx="32" ry="5" fill="url(#g-shadow)"/>
+  <path d="M60 40 C76 40 76 66 60 66" fill="none" stroke="#b95a2a" stroke-width="4.4" stroke-linecap="round"/>
+  <path d="M26 30 L60 30 L64 74 Q64 81 57 81 L31 81 Q24 81 24 74 Z" fill="url(#g-copper)"/>
+  <path d="M26 30 L18 25 L24 34 Z" fill="#c76a3a"/>
+  <ellipse cx="43" cy="30" rx="17" ry="4" fill="#7a2a0e"/>
+  <ellipse cx="43" cy="30" rx="15" ry="3" fill="#6e1426"/>
+  <g fill="#ffd3b0" opacity=".35"><circle cx="34" cy="44" r="1.6"/><circle cx="40" cy="52" r="1.6"/><circle cx="34" cy="62" r="1.6"/><circle cx="46" cy="40" r="1.6"/><circle cx="48" cy="60" r="1.6"/><circle cx="40" cy="70" r="1.6"/></g>
+  <path d="M30 38 Q28 56 30 72" fill="none" stroke="#ffd3b0" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>
+  <path d="M68 54 L84 54 L82 81 L70 81 Z" fill="url(#g-bottle-glass)"/>
+  <path d="M69.2 63 L82.8 63 L82 80 L70 80 Z" fill="#8a1830"/>
+  <ellipse cx="76" cy="63" rx="6.8" ry="1.4" fill="#b02a45"/>
+</symbol>
+
+<!-- Avión despegando -->
+<symbol id="i-planeup" viewBox="0 0 96 96">
+  <ellipse cx="34" cy="86" rx="18" ry="3.5" fill="url(#g-shadow)" opacity=".7"/>
+  <g stroke="#54bbee" stroke-width="2.4" stroke-linecap="round" opacity=".75"><path d="M10 74 l14 -8"/><path d="M16 84 l12 -7"/><path d="M6 62 l10 -6"/></g>
+  <use href="#i-planebody" transform="translate(4 -4) rotate(-40 48 50)"/>
+</symbol>
+
+<!-- Avión aterrizando -->
+<symbol id="i-planedown" viewBox="0 0 96 96">
+  <path d="M6 82 L58 66 L92 72 L40 90 Z" fill="url(#g-runway)"/>
+  <g stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"><path d="M28 80 l8 -2.4"/><path d="M44 75.2 l8 -2.4"/><path d="M60 72.8 l7 1.2" opacity="0"/></g>
+  <path d="M6 82 L40 90" stroke="#ffe14d" stroke-width="1.6"/>
+  <path d="M58 66 L92 72" stroke="#ffe14d" stroke-width="1.6"/>
+  <ellipse cx="54" cy="78" rx="16" ry="3" fill="#2c292f" opacity=".22"/>
+  <use href="#i-planebody" transform="translate(0 -6) rotate(14 48 50) translate(48 50) scale(.8) translate(-48 -50)"/>
+</symbol>
+
+<!-- Metro -->
+<symbol id="i-metro" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="84" rx="36" ry="5" fill="url(#g-shadow)"/>
+  <g stroke="#8a8ea3" stroke-width="2.4" stroke-linecap="round"><path d="M14 82 L4 92"/><path d="M58 82 L66 92"/></g>
+  <path d="M60 30 L84 38 L84 70 L60 74 Z" fill="url(#g-white-side)"/>
+  <path d="M63 40 L81 45 L81 55 L63 52 Z" fill="url(#g-glass)"/>
+  <path d="M60 62 L84 60 L84 64 L60 67 Z" fill="#54bbee"/>
+  <rect x="12" y="24" width="50" height="56" rx="12" fill="url(#g-white)"/>
+  <rect x="18" y="31" width="38" height="22" rx="6" fill="url(#g-glass)"/>
+  <path d="M20 34 L32 34 L22 50 Z" fill="#ffffff" opacity=".2"/>
+  <rect x="26" y="25.5" width="22" height="4" rx="2" fill="#2c292f"/>
+  <rect x="12" y="58" width="50" height="5" fill="#54bbee"/>
+  <circle cx="21" cy="70" r="3.2" fill="#ffe14d"/><circle cx="53" cy="70" r="3.2" fill="#ffe14d"/>
+  <rect x="31" y="67" width="12" height="6" rx="2" fill="#c9cde0"/>
+</symbol>
+
+<!-- Taxi -->
+<symbol id="i-taxi" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="78" rx="38" ry="5" fill="url(#g-shadow)"/>
+  <path d="M10 62 Q10 52 20 51 L30 50 L38 37 Q40 35 44 35 L62 35 Q66 35 68 38 L77 50 L80 50.5 Q86 52 86 59 L86 66 Q86 70 82 70 L14 70 Q10 70 10 66 Z" fill="url(#g-taxi)"/>
+  <path d="M33 50 L40 39 L52 39 L52 50 Z" fill="url(#g-glass)"/>
+  <path d="M55 39 L65 39 L72 50 L55 50 Z" fill="url(#g-glass)"/>
+  <rect x="45" y="28" width="16" height="7" rx="2" fill="#2c292f"/>
+  <text x="53" y="33.6" font-family="Arial, sans-serif" font-size="5" font-weight="700" fill="#ffe14d" text-anchor="middle">TAXI</text>
+  <path d="M12 60 L84 60" stroke="#c99a0c" stroke-width="1.2" opacity=".7"/>
+  <rect x="10" y="56" width="5" height="3" rx="1.5" fill="#ffffff"/><rect x="81" y="55" width="5" height="3.5" rx="1.5" fill="#e8574a"/>
+  <circle cx="28" cy="70" r="8" fill="#22232c"/><circle cx="28" cy="70" r="3.4" fill="#a7abbe"/>
+  <circle cx="70" cy="70" r="8" fill="#22232c"/><circle cx="70" cy="70" r="3.4" fill="#a7abbe"/>
+  <path d="M22 51 Q40 48 50 49" fill="none" stroke="#ffffff" stroke-width="1.6" opacity=".6"/>
+</symbol>
+
+<!-- Ánfora / museo -->
+<symbol id="i-amphora" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="84" rx="22" ry="4.5" fill="url(#g-shadow)"/>
+  <g fill="none" stroke="#b9532a" stroke-width="4.4" stroke-linecap="round"><path d="M42 26 C30 22 28 38 34 42"/><path d="M54 26 C66 22 68 38 62 42"/></g>
+  <rect x="41" y="16" width="14" height="13" fill="url(#g-terracotta)"/>
+  <ellipse cx="48" cy="16" rx="10" ry="3" fill="#d77a45"/>
+  <ellipse cx="48" cy="16" rx="7" ry="1.8" fill="#6e2a12"/>
+  <path d="M41 28 C22 34 22 60 40 74 L56 74 C74 60 74 34 55 28 Z" fill="url(#g-terracotta)"/>
+  <path d="M26.6 44 Q48 49 69.4 44 L70.4 56 Q48 61 25.6 56 Z" fill="#2c1a12"/>
+  <path d="M30 52 l3 -4 3 4 3 -4 3 4 3 -4 3 4 3 -4 3 4 3 -4 3 4 3 -4 3 4" fill="none" stroke="#e48a55" stroke-width="1.3"/>
+  <path d="M40 74 L56 74 L60 82 L36 82 Z" fill="#a5441f"/>
+  <path d="M33 36 Q30 46 33 58" fill="none" stroke="#ffd3b0" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+</symbol>
+
+<!-- Maleta -->
+<symbol id="i-suitcase" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="86" rx="26" ry="4.5" fill="url(#g-shadow)"/>
+  <rect x="39" y="12" width="3.6" height="22" rx="1.5" fill="#a7abbe"/><rect x="55" y="12" width="3.6" height="22" rx="1.5" fill="#a7abbe"/>
+  <rect x="37" y="9" width="24" height="5" rx="2.5" fill="#2c292f"/>
+  <path d="M28 34 L34 30 L74 30 L68 34 Z" fill="#9fdcf8"/>
+  <path d="M68 34 L74 30 L74 76 L68 80 Z" fill="url(#g-blue-dark)"/>
+  <rect x="28" y="34" width="40" height="46" rx="7" fill="url(#g-blue)"/>
+  <g stroke="#ffffff" stroke-width="2" opacity=".45" stroke-linecap="round"><path d="M38 40 v34"/><path d="M48 40 v34"/><path d="M58 40 v34"/></g>
+  <circle cx="34" cy="83" r="3.4" fill="#2c292f"/><circle cx="62" cy="83" r="3.4" fill="#2c292f"/>
+  <rect x="60" y="40" width="12" height="9" rx="2" fill="#ffe14d" transform="rotate(8 66 44)"/>
+  <text x="66" y="47" font-family="Arial, sans-serif" font-size="5.4" font-weight="700" fill="#2c292f" text-anchor="middle" transform="rotate(8 66 44)">8 kg</text>
+</symbol>
+
+<!-- Prohibido: base reutilizable -->
+<symbol id="i-forbid" viewBox="0 0 96 96">
+  <line x1="21" y1="21" x2="75" y2="75" stroke="#ffffff" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="#ffffff" stroke-width="14"/>
+  <g transform="translate(1.6 2.6)" opacity=".3"><circle cx="48" cy="48" r="38" fill="none" stroke="#8f0b1c" stroke-width="9"/><line x1="21.2" y1="21.2" x2="74.8" y2="74.8" stroke="#8f0b1c" stroke-width="9"/></g>
   <circle cx="48" cy="48" r="38" fill="none" stroke="url(#g-red)" stroke-width="9"/>
-  <line x1="21.5" y1="21.5" x2="74.5" y2="74.5" stroke="#8f0b1c" stroke-width="9" opacity=".35" transform="translate(1.5 2.5)"/>
-  <line x1="21.5" y1="21.5" x2="74.5" y2="74.5" stroke="url(#g-red)" stroke-width="9"/>
-  <path d="M22 30 A36 36 0 0 1 44 12.4" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+  <line x1="21.2" y1="21.2" x2="74.8" y2="74.8" stroke="url(#g-red)" stroke-width="9"/>
+  <path d="M19 32 A38 38 0 0 1 40 11" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>
+  <path d="M24 21 L72 69" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity=".45"/>
+</symbol>
+
+<!-- Sin lácteos: el queso partido por la barra -->
+<symbol id="i-nodairy" viewBox="0 0 96 96">
+  <g clip-path="url(#cp-ur)"><g transform="translate(3.2 -3.2)"><use href="#i-cheese" transform="translate(48 50) scale(.96) translate(-48 -48)"/></g></g>
+  <g clip-path="url(#cp-ll)"><g transform="translate(-3.2 3.2)"><use href="#i-cheese" transform="translate(48 50) scale(.96) translate(-48 -48)"/></g></g>
+  <use href="#i-forbid"/>
+</symbol>
+
+<!-- Sin tzatziki -->
+<symbol id="i-notzatziki" viewBox="0 0 96 96">
+  <g clip-path="url(#cp-ur)"><g transform="translate(3.2 -3.2)"><use href="#i-tzatziki" transform="translate(48 50) scale(.86) translate(-48 -57)"/></g></g>
+  <g clip-path="url(#cp-ll)"><g transform="translate(-3.2 3.2)"><use href="#i-tzatziki" transform="translate(48 50) scale(.86) translate(-48 -57)"/></g></g>
+  <use href="#i-forbid"/>
 </symbol>
 </svg>
 
 <div class="wrap">
-  <h1>Vacaciones</h1>
-  <p class="by">Francisco Guadarrama</p>
+  <h1><span class="hl">Vacaciones</span></h1>
+  <a class="by" href="/"><span class="n">Francisco</span><svg viewBox="0 0 28 16" aria-hidden="true"><path d="M2 8 Q12 5 24 8 M18 3 L25 8 L18 13"/></svg></a>
   <div class="trips" id="trips"></div>
 </div>
 <script>
@@ -294,7 +668,7 @@ const viajes = [
   { carpeta: "atenas", titulo: "Grecia", año: "2026", lugares: "Atenas, Delfos, Nafplio y Egina", iconos: ["temple", "ferry", "umbrella"] }
 ];
 document.getElementById("trips").innerHTML =
-  viajes.map(v => `<a class="trip" href="${v.carpeta}/"><div class="icons">${v.iconos.map(i => `<svg aria-hidden="true"><use href="#i-${i}"/></svg>`).join("")}</div><h2>${v.titulo} ${v.año}</h2><p>${v.lugares}</p><span class="open">Abrir el viaje</span></a>`).join("")
+  viajes.map(v => `<a class="trip" href="${v.carpeta}/"><div class="icons">${v.iconos.map((i,k) => `<svg aria-hidden="true"${k===0&&v.carpeta==="atenas"?' style="view-transition-name:trip-ico"':''}><use href="#i-${i}"/></svg>`).join("")}</div><h2>${v.titulo} ${v.año}</h2><p>${v.lugares}</p><span class="open">Abrir el viaje</span></a>`).join("")
   + `<div class="soon">Los próximos viajes aparecerán aquí.</div>`;
 </script>
 </body>
