@@ -32140,8 +32140,23 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/682.webp",
+   "anio": 2007,
+   "paginas": 896,
+   "isbn": "9780061803956",
+   "editorial": "HarperCollins Publishers",
+   "temas": [
+    "Fiction, thrillers, suspense"
+   ],
+   "lomo_colores": {
+    "fondo": "#066387",
+    "texto": "#F7F7F7",
+    "acento": "#04A3CA",
+    "claro": false,
+    "de": "portadas/682.webp"
+   },
+   "portada_proporcion": 1.53
   },
   {
    "id": "683",
@@ -32170,8 +32185,20 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/683.webp",
+   "anio": 2008,
+   "paginas": 1184,
+   "isbn": "9788408096252",
+   "editorial": "Booket",
+   "lomo_colores": {
+    "fondo": "#030303",
+    "texto": "#F7F7F7",
+    "acento": "#1A3B5C",
+    "claro": false,
+    "de": "portadas/683.webp"
+   },
+   "portada_proporcion": 1.52
   },
   {
    "id": "684",
@@ -32200,8 +32227,24 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/684.webp",
+   "anio": 2019,
+   "paginas": 384,
+   "isbn": "9780316419574",
+   "editorial": "Orbit",
+   "temas": [
+    "Fiction, science fiction, general",
+    "American literature"
+   ],
+   "lomo_colores": {
+    "fondo": "#051728",
+    "texto": "#5BA2A3",
+    "acento": "#356871",
+    "claro": false,
+    "de": "portadas/684.webp"
+   },
+   "portada_proporcion": 1.543
   },
   {
    "id": "685",
@@ -32260,8 +32303,27 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/686.webp",
+   "anio": 2025,
+   "isbn": "9781529436457",
+   "sinopsis": "The extraordinary speculative novel of past, present and future, by the Clarke Award-shortlisted author of THE CORAL BONES.\r\n\r\nDecades from now, two women sit around a fire on Beltane, May Eve, and reflect on their life stories.\r\n\r\nActivist Lucy's earliest memories are of living with her grandparents during the 2020 pandemic, and discovering her grandmother's love of birds. Filmmaker Hester, born on the day of the Chornobyl explosion, visits the plant in 2021 to film its feral dog population, and encounters the wilded Exclusion Zone - and a wolf-dog.\r\n\r\nOver half a century, their journeys take them from London to Balmoral to Somerset, through protests, family rifts, and personal tragedy. Lucy's path leads to the fight to restore Britain's depleted natural habitats and bring back the species who once shared the island, whilst Hester strives to give a voice to those who cannot speak for themselves. Both dream of a time when there are wolves again.\r\n\r\nA novel of life and of hope, WHEN THERE ARE WOLVES AGAIN is perfect for fans of Clade by James Bradley, The Wolf Border by Sarah Hall, and The Ministry for the Future by Kim Stanley Robinson.",
+   "sinopsis_fuente": {
+    "nombre": "Open Library",
+    "url": "https://openlibrary.org/works/OL45180993W",
+    "idioma": null
+   },
+   "temas": [
+    "Climate change"
+   ],
+   "lomo_colores": {
+    "fondo": "#F2E4D3",
+    "texto": "#303840",
+    "acento": "#78827E",
+    "claro": true,
+    "de": "portadas/686.webp"
+   },
+   "portada_proporcion": 1.54
   },
   {
    "id": "687",
@@ -32290,8 +32352,23 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/687.webp",
+   "anio": 2025,
+   "paginas": 320,
+   "isbn": "9780593701409",
+   "editorial": "Knopf Doubleday Publishing Group",
+   "temas": [
+    "American literature"
+   ],
+   "lomo_colores": {
+    "fondo": "#A2BBA1",
+    "texto": "#303840",
+    "acento": "#4C7C78",
+    "claro": true,
+    "de": "portadas/687.webp"
+   },
+   "portada_proporcion": 1.5
   },
   {
    "id": "688",
@@ -32320,8 +32397,25 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/688.webp",
+   "anio": 2001,
+   "paginas": 176,
+   "isbn": "9781902301921",
+   "editorial": "Politico's Publishing",
+   "temas": [
+    "Fiction, thrillers, suspense",
+    "Fiction, political",
+    "Great britain, fiction"
+   ],
+   "lomo_colores": {
+    "fondo": "#49332D",
+    "texto": "#EBBF7B",
+    "acento": "#D26044",
+    "claro": false,
+    "de": "portadas/688.webp"
+   },
+   "portada_proporcion": 1.4
   },
   {
    "id": "689",
@@ -32350,8 +32444,28 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/689.webp",
+   "anio": 1984,
+   "paginas": 487,
+   "isbn": "9780091586300",
+   "editorial": "Hutchinson",
+   "temas": [
+    "Large type books",
+    "Fiction, espionage",
+    "Fiction, thrillers, general",
+    "English fiction",
+    "English Fantasy fiction",
+    "Fiction, thrillers, espionage"
+   ],
+   "lomo_colores": {
+    "fondo": "#050505",
+    "texto": "#A4916E",
+    "acento": "#514336",
+    "claro": false,
+    "de": "portadas/689.webp"
+   },
+   "portada_proporcion": 1.567
   },
   {
    "id": "690",
@@ -32380,8 +32494,27 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/690.webp",
+   "anio": 1989,
+   "paginas": 410,
+   "isbn": "9780553053616",
+   "editorial": "Bantam Books",
+   "temas": [
+    "Fiction",
+    "Kidnapping",
+    "Political crimes and offenses",
+    "Large type books",
+    "Fiction, thrillers, espionage"
+   ],
+   "lomo_colores": {
+    "fondo": "#FFFFFF",
+    "texto": "#424242",
+    "acento": "#929192",
+    "claro": true,
+    "de": "portadas/690.webp"
+   },
+   "portada_proporcion": 1.586
   },
   {
    "id": "691",
@@ -32410,8 +32543,31 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/691.webp",
+   "anio": 2015,
+   "paginas": 302,
+   "isbn": "9782070147861",
+   "editorial": "Gallimard",
+   "sinopsis": "Favori à l'élection présidentielle, Launay a scellé pendant la campagne un pacte avec son plus farouche adversaire, Lubiak, issu du même parti que lui. Mais Launay rêve de s'inscrire dans la postérité. Alors il change la donne en soumettant au référendum une nouvelle constitution. Une lutte à mort débute entre les deux hommes. Launay décide de se défaire de l'emprise que les services américains ont sur lui. Les alliances de circonstance, soudées avant l'élection, se renversent, et la lutte entre services de renseignement s'intensifie. Dans cette intrigue vertigineuse et actuelle, Marc Dugain réussit à entrer au plus profond de l'intimité psychologique de ses personnages et de la réalité tragique du pouvoir, là où les raisons de la lutte n'importent plus et où l'élimination de l'autre devient un objectif en soi.",
+   "sinopsis_fuente": {
+    "nombre": "Open Library",
+    "url": "https://openlibrary.org/works/OL32866864W",
+    "idioma": null
+   },
+   "temas": [
+    "Presidents",
+    "Fiction",
+    "Secret service"
+   ],
+   "lomo_colores": {
+    "fondo": "#0D0B0F",
+    "texto": "#F7F7F7",
+    "acento": "#1E3F70",
+    "claro": false,
+    "de": "portadas/691.webp"
+   },
+   "portada_proporcion": 1.487
   },
   {
    "id": "692",
@@ -32440,8 +32596,26 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/692.webp",
+   "anio": 2014,
+   "paginas": 312,
+   "isbn": "9782070141906",
+   "editorial": "Gallimard",
+   "temas": [
+    "Presidents",
+    "Secret service",
+    "Election",
+    "Fiction"
+   ],
+   "lomo_colores": {
+    "fondo": "#1A1F1B",
+    "texto": "#A59985",
+    "acento": "#A59985",
+    "claro": false,
+    "de": "portadas/692.webp"
+   },
+   "portada_proporcion": 1.457
   },
   {
    "id": "694",
@@ -32470,8 +32644,33 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/694.webp",
+   "anio": 2014,
+   "paginas": 589,
+   "isbn": "9780307377470",
+   "temas": [
+    "Death",
+    "Investigation",
+    "Prime ministers",
+    "Assassination",
+    "Cold cases (Criminal investigation)",
+    "Fiction",
+    "Motiv i litteraturen",
+    "Statsministrar",
+    "Mord",
+    "Fiction, mystery & detective, general",
+    "Crime, fiction",
+    "Sweden, fiction"
+   ],
+   "lomo_colores": {
+    "fondo": "#0A0B0F",
+    "texto": "#F7F7F7",
+    "acento": "#2B575A",
+    "claro": false,
+    "de": "portadas/694.webp"
+   },
+   "portada_proporcion": 1.557
   },
   {
    "id": "695",
@@ -32531,7 +32730,11 @@
    "comentarios": "",
    "sinopsis_propia": null,
    "revisar": true,
-   "portada": null
+   "portada": null,
+   "anio": 2011,
+   "paginas": 567,
+   "isbn": "9782709637077",
+   "editorial": "Lattès"
   },
   {
    "id": "697",
@@ -32560,8 +32763,40 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/697.webp",
+   "anio": 2014,
+   "paginas": 425,
+   "isbn": "9781443433693",
+   "editorial": "HarperCollins",
+   "sinopsis": "A deep-cover CIA agent races across Europe to save the daughter he never knew... In the end, you cannot hide who you are. Klara Walldéen was raised by her grandparents on a remote archipelago in the Baltic Sea, learning to fish and hunt and sail a boat through a storm. Now, as an EU Parliament aide in Brussels, she is learning how to navigate the treacherous currents of international politics: the lines between friend and enemy, truth and lies. But Klara has accidentally seen something she shouldn't have: a laptop containing information so sensitive that someone will kill to keep hidden. Suddenly, she is thrown into a terrifying chase across Europe, with no idea who is hunting her or why. Meanwhile, in Virginia, an old spy hides from his past. Once, he was a man of action, an operative so dedicated that he abandoned his infant daughter to keep his cover. Now, he is the only man who can save Klara . . . and she is the only woman who can allow him to lay old ghosts to rest",
+   "sinopsis_fuente": {
+    "nombre": "Open Library",
+    "url": "https://openlibrary.org/works/OL19993248W",
+    "idioma": null
+   },
+   "temas": [
+    "Fathers and daughters",
+    "Young women",
+    "Fiction",
+    "Orphans",
+    "Swimming",
+    "Fiction, espionage",
+    "Fiction, thrillers, general",
+    "United States",
+    "Intelligence officers",
+    "United States. Central Intelligence Agency",
+    "Fiction, thrillers",
+    "Intelligence service"
+   ],
+   "lomo_colores": {
+    "fondo": "#320402",
+    "texto": "#F7F7F7",
+    "acento": "#6A3F36",
+    "claro": false,
+    "de": "portadas/697.webp"
+   },
+   "portada_proporcion": 1.52
   },
   {
    "id": "698",
@@ -32590,8 +32825,38 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/698.webp",
+   "anio": 2015,
+   "paginas": 416,
+   "isbn": "9780544705050",
+   "editorial": "Houghton Mifflin Harcourt Publishing Company",
+   "sinopsis": "\"What will the next global conflict look like? Find out in this ripping, near-futuristic thriller. The United States, China, and Russia eye each other across a twenty-first century version of the Cold War, which suddenly heats up at sea, on land, in the air, in outer space, and in cyberspace. The fighting involves everything from stealthy robotic-drone strikes to old warships from the navy's \"ghost fleet.\" Fighter pilots unleash a Pearl Harbor-style attack; American veterans become low-tech insurgents; teenage hackers battle in digital playgrounds; Silicon Valley billionaires mobilize for cyber-war; and a serial killer carries out her own vendetta. Ultimately, victory will depend on blending the lessons of the past with the weapons of the future. Ghost Fleet is a page-turning speculative thriller in the spirit of The Hunt for Red October. The debut novel by two leading experts on the cutting edge of national security, it is unique in that every trend and technology featured in the novel -- no matter how sci-fi it may seem -- is real, or could be soon.\"",
+   "sinopsis_fuente": {
+    "nombre": "Open Library",
+    "url": "https://openlibrary.org/works/OL20003047W",
+    "idioma": null
+   },
+   "temas": [
+    "Fiction",
+    "World War III",
+    "Asymmetric warfare",
+    "Operational art (Military science)",
+    "World war iii, fiction",
+    "FICTION / Technological",
+    "FICTION / Political",
+    "FICTION",
+    "Technological",
+    "Political"
+   ],
+   "lomo_colores": {
+    "fondo": "#2B546D",
+    "texto": "#F7F7F7",
+    "acento": "#3C94A7",
+    "claro": false,
+    "de": "portadas/698.webp"
+   },
+   "portada_proporcion": 1.507
   },
   {
    "id": "699",
@@ -32631,7 +32896,11 @@
     }
    ],
    "revisar": true,
-   "portada": null
+   "portada": null,
+   "anio": 2019,
+   "paginas": 414,
+   "isbn": "9782709663175",
+   "editorial": "JC Lattès"
   },
   {
    "id": "700",
@@ -32690,8 +32959,19 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/701.webp",
+   "anio": 2021,
+   "isbn": "9782354088408",
+   "editorial": "MNEMOS",
+   "lomo_colores": {
+    "fondo": "#C24937",
+    "texto": "#F7F7F7",
+    "acento": "#571715",
+    "claro": false,
+    "de": "portadas/701.webp"
+   },
+   "portada_proporcion": 1.51
   },
   {
    "id": "702",
@@ -32720,8 +33000,20 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/702.webp",
+   "anio": 2020,
+   "paginas": 182,
+   "isbn": "9780995135505",
+   "editorial": "Paper Road Press",
+   "lomo_colores": {
+    "fondo": "#C7B7AE",
+    "texto": "#303840",
+    "acento": "#8B5146",
+    "claro": true,
+    "de": "portadas/702.webp"
+   },
+   "portada_proporcion": 1.543
   },
   {
    "id": "703",
@@ -32750,8 +33042,36 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/703.webp",
+   "anio": 2020,
+   "paginas": 284,
+   "isbn": "9781913348854",
+   "editorial": "Scribe UK",
+   "sinopsis": "When the animals start talking, we're not ready for what we'll learn. Hard-drinking, foul-mouthed, and allergic to bullshit, Jean is not your usual grandma. She's never been good at getting on with other humans, apart from her beloved granddaughter, Kimberly. Instead, she surrounds herself with animals, working as a guide in an outback wildlife park. And although Jean talks to all her charges, she has a particular soft spot for a young dingo called Sue. Then one day, disturbing news arrives of a pandemic sweeping the country. This is no ordinary flu- its chief symptom is that its victims begin to understand the language of animals - first mammals, then birds and insects, too. But as the flu progresses, the unstoppable voices become overwhelming, and many people begin to lose their minds. When Jean's infected son, Lee, takes off with Kimberly, heading south, Jean feels the pull to follow her kin. Setting off on their trail, with Sue the dingo riding shotgun, they find themselves in a stark, strange world in which the animal apocalypse has only further isolated people from other species. Bold, exhilarating, and wholly original, The Animals in That Country asks what it means to be human - and what would happen, for better or worse, if we finally understood what animals were saying.",
+   "sinopsis_fuente": {
+    "nombre": "Open Library",
+    "url": "https://openlibrary.org/works/OL21914406W",
+    "idioma": null
+   },
+   "temas": [
+    "English literature",
+    "Grandmothers",
+    "Fiction",
+    "Animals",
+    "Human-animal communication",
+    "Human-animal relationships",
+    "Influenza",
+    "Epidemics"
+   ],
+   "lomo_colores": {
+    "fondo": "#D04C9D",
+    "texto": "#F7F7F7",
+    "acento": "#EFCACF",
+    "claro": false,
+    "de": "portadas/703.webp"
+   },
+   "portada_proporcion": 1.533
   },
   {
    "id": "704",
@@ -32810,8 +33130,20 @@
    "calificacion": null,
    "comentarios": "",
    "sinopsis_propia": null,
-   "revisar": true,
-   "portada": null
+   "revisar": false,
+   "portada": "portadas/705.webp",
+   "anio": 2025,
+   "paginas": 304,
+   "isbn": "9781250353535",
+   "editorial": "St. Martin's Press",
+   "lomo_colores": {
+    "fondo": "#116992",
+    "texto": "#F7F7F7",
+    "acento": "#064268",
+    "claro": false,
+    "de": "portadas/705.webp"
+   },
+   "portada_proporcion": 1.547
   }
  ],
  "eliminados": [
@@ -32848,5 +33180,5 @@
   "660",
   "693"
  ],
- "actualizado": "2026-10-25T19:36:50"
+ "actualizado": "2026-10-25T20:33:27"
 }

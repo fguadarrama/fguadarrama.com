@@ -87,3 +87,9 @@ Actualización del Librero en /librero/ a la versión 1.8.0, solicitada por el p
 - Nueva función: Exportar PDF por repisa (menú ≡).
 - Archivos: `librero/data/libros.json`, `librero/index.html`, `librero/js/app.js`, `librero/js/exportar.js` (nuevo), `librero/css/librero.css` y 12 portadas nuevas en `librero/portadas/`. Copia generada con `librero/tools/publicar_sitio.sh` desde `fguadarrama/Hoomsa` (commit 82b481e).
 - Ningún otro archivo del sitio se modificó.
+
+## Domingo 25 de octubre de 2026 — America/Mexico_City
+
+Agente: Claude (Claude Code, Anthropic).
+
+Portadas de los libros nuevos del Librero (/librero/), encontradas por el robot de datos de Hoomsa (commit dabb236) y revisadas una por una: 17 portadas nuevas en `librero/portadas/` y `librero/data/libros.json` actualizado. Sin cambios de código ni en otros archivos del sitio.
