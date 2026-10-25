@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f8f8f8">
+<title>Vacaciones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8f8f8;--ink:#2c292f;--acc:#5037f9;--muted:rgba(44,41,47,.62);--line:rgba(44,41,47,.10)}
+@supports (color: color(display-p3 1 1 1)){:root{--acc:color(display-p3 .31 .2 1)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Albert Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 48px) 20px 64px}
+h1{font-weight:580;font-size:clamp(2.4rem,8vw,4rem);letter-spacing:-.02em;margin:0;line-height:1.02}
+.by{color:var(--muted);margin:10px 0 40px}
+.trips{display:grid;gap:16px}
+@media (min-width:720px){.trips{grid-template-columns:1fr 1fr}}
+.trip{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .15s}
+.trip:hover{transform:translateY(-2px)}
+.trip:focus-visible{outline:2.5px solid var(--acc);outline-offset:3px}
+.trip .icons{display:flex;gap:4px;margin:-6px 0 14px -6px}
+.trip .icons svg{width:72px;height:72px}
+.trip h2{font-weight:580;font-size:1.5rem;margin:0}
+.trip p{margin:6px 0 0;color:var(--muted)}
+.trip .open{display:inline-block;margin-top:16px;color:var(--acc);font-weight:600}
+.soon{border:1.5px dashed var(--line);border-radius:22px;padding:22px;color:var(--muted);display:flex;align-items:center}
+@media (prefers-reduced-motion:reduce){.trip{transition:none}}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+<defs>
+  <radialGradient id="g-shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2c292f" stop-opacity=".28"/><stop offset="1" stop-color="#2c292f" stop-opacity="0"/></radialGradient>
+  <linearGradient id="g-white" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9dbe8"/></linearGradient>
+  <linearGradient id="g-white-side" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6e7f1"/><stop offset="1" stop-color="#b9bcd2"/></linearGradient>
+  <linearGradient id="g-accent" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8572ff"/><stop offset="1" stop-color="#4126e0"/></linearGradient>
+  <linearGradient id="g-accent-dark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a31e6"/><stop offset="1" stop-color="#2a179a"/></linearGradient>
+  <linearGradient id="g-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d6a8f"/><stop offset=".55" stop-color="#2e3550"/><stop offset="1" stop-color="#3c4766"/></linearGradient>
+  <linearGradient id="g-wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c98a52"/><stop offset="1" stop-color="#8a5229"/></linearGradient>
+  <linearGradient id="g-wood-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfa66c"/><stop offset="1" stop-color="#b9783f"/></linearGradient>
+  <linearGradient id="g-marble" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d6c6a9"/><stop offset=".45" stop-color="#fbf5ea"/><stop offset="1" stop-color="#cbb995"/></linearGradient>
+  <linearGradient id="g-marble-v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf5ea"/><stop offset="1" stop-color="#d9c8a7"/></linearGradient>
+  <linearGradient id="g-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3f4"/><stop offset="1" stop-color="#2f8fd0"/></linearGradient>
+  <linearGradient id="g-navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4bb8"/><stop offset="1" stop-color="#1c2470"/></linearGradient>
+  <linearGradient id="g-sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dfb0"/><stop offset="1" stop-color="#d9b06a"/></linearGradient>
+  <linearGradient id="g-cheese-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#f7c331"/></linearGradient>
+  <linearGradient id="g-cheese-front" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f9c93a"/><stop offset="1" stop-color="#e3a312"/></linearGradient>
+  <linearGradient id="g-cheese-rind" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9a420"/><stop offset="1" stop-color="#c97f0c"/></linearGradient>
+  <linearGradient id="g-hole" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c88a0a"/><stop offset="1" stop-color="#eab32c"/></linearGradient>
+  <linearGradient id="g-milk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e4e7f2"/><stop offset=".35" stop-color="#ffffff"/><stop offset="1" stop-color="#c9cde0"/></linearGradient>
+  <linearGradient id="g-bottle-glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfe6f6" stop-opacity=".9"/><stop offset=".4" stop-color="#ffffff" stop-opacity=".5"/><stop offset="1" stop-color="#a9c6de" stop-opacity=".9"/></linearGradient>
+  <linearGradient id="g-red" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5266"/><stop offset="1" stop-color="#d0122b"/></linearGradient>
+  <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".5" stop-color="#e7b43c"/><stop offset="1" stop-color="#b9821a"/></linearGradient>
+  <linearGradient id="g-drink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb35c"/><stop offset="1" stop-color="#e2502f"/></linearGradient>
+  <linearGradient id="g-bowl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d7dcec"/><stop offset=".4" stop-color="#ffffff"/><stop offset="1" stop-color="#b8bed6"/></linearGradient>
+  <linearGradient id="g-tomato" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b57"/><stop offset="1" stop-color="#d5281c"/></linearGradient>
+  <linearGradient id="g-cucumber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7f0a0"/><stop offset="1" stop-color="#8cc152"/></linearGradient>
+  <linearGradient id="g-screen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a8bff"/><stop offset="1" stop-color="#5037f9"/></linearGradient>
+  <linearGradient id="g-green" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5fd38a"/><stop offset="1" stop-color="#1f9e55"/></linearGradient>
+</defs>
+
+<!-- Avión -->
+<symbol id="i-plane" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="84" rx="30" ry="5" fill="url(#g-shadow)"/>
+  <g transform="rotate(-32 48 50)">
+    <path d="M44 48 L58 48 L50 18 L43 18 Z" fill="url(#g-white-side)"/>
+    <path d="M16 48 L24 48 L18 37 L13 37 Z" fill="url(#g-white-side)"/>
+    <rect x="12" y="42" width="74" height="15" rx="7.5" fill="url(#g-white)"/>
+    <path d="M78 42.5 a7.5 7.5 0 0 1 0 14 l-4 0 0-14z" fill="#c9cde0"/>
+    <path d="M14 43 L25 43 L19 27 L11 27 Z" fill="url(#g-accent)"/>
+    <rect x="12" y="51" width="62" height="2.4" rx="1.2" fill="url(#g-accent)"/>
+    <g fill="#3c4766"><circle cx="34" cy="47.5" r="1.4"/><circle cx="39" cy="47.5" r="1.4"/><circle cx="44" cy="47.5" r="1.4"/><circle cx="49" cy="47.5" r="1.4"/><circle cx="54" cy="47.5" r="1.4"/><circle cx="59" cy="47.5" r="1.4"/><circle cx="64" cy="47.5" r="1.4"/></g>
+    <path d="M70 45 q5 -1 9 1.5 l0 2 -9 0z" fill="#2e3550"/>
+    <path d="M42 52 L58 52 L48 84 L39 84 Z" fill="url(#g-white)"/>
+    <path d="M42 52 L58 52 L57 55 L42 55 Z" fill="#c4c8dc"/>
+    <rect x="45" y="60" width="10" height="5" rx="2.5" fill="url(#g-white-side)" transform="rotate(-72 50 62)"/>
+    <path d="M14 55 L23 55 L17 63 L12 63 Z" fill="url(#g-white)"/>
+  </g>
+</symbol>
+
+<!-- Cama / hotel -->
+<symbol id="i-bed" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="80" rx="34" ry="7" fill="url(#g-shadow)"/>
+  <path d="M52 30 L78 43 L78 26 L52 13 Z" fill="url(#g-wood)"/>
+  <path d="M52 13 L78 26 L79.5 25.2 L53.5 12.2 Z" fill="#e3ad75"/>
+  <path d="M18 52 L46 66 L46 76 L18 62 Z" fill="url(#g-wood)"/>
+  <path d="M46 66 L80 49 L80 59 L46 76 Z" fill="#8a5229"/>
+  <path d="M18 52 L52 35 L80 49 L46 66 Z" fill="url(#g-wood-light)"/>
+  <path d="M20 47 L50 32 L77 45 L47 60 Z" fill="url(#g-white)"/>
+  <path d="M20 47 L47 60 L47 65 L20 52 Z" fill="#e4e6f0"/>
+  <path d="M47 60 L77 45 L77 50 L47 65 Z" fill="#c9cde0"/>
+  <path d="M48 36.5 Q50 33 56 33 L68 39 Q69 43 64 44.5 L52 39 Q47 39 48 36.5 Z" fill="url(#g-white-side)"/>
+  <path d="M20 47 L38 38 L65 51 L47 60 Z" fill="url(#g-accent)"/>
+  <path d="M20 47 L47 60 L47 67 L20 54 Z" fill="url(#g-accent-dark)"/>
+  <path d="M47 60 L65 51 L65 58 L47 67 Z" fill="#311bb5"/>
+  <path d="M38 38 L65 51 L63 52 L36 39 Z" fill="#a597ff" opacity=".7"/>
+</symbol>
+
+<!-- Ferry -->
+<symbol id="i-ferry" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="74" rx="40" ry="9" fill="url(#g-sea)"/>
+  <path d="M14 72 q8 -3 16 0 t16 0 t16 0 t16 0" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
+  <path d="M12 54 L84 54 L76 70 L22 70 Z" fill="url(#g-navy)"/>
+  <path d="M12 54 L84 54 L82.4 57.5 L13.6 57.5 Z" fill="#ffffff"/>
+  <rect x="24" y="42" width="48" height="12" rx="2" fill="url(#g-white)"/>
+  <rect x="32" y="32" width="30" height="10" rx="2" fill="url(#g-white)"/>
+  <g fill="url(#g-glass)"><rect x="27" y="45.5" width="5" height="4" rx="1"/><rect x="35" y="45.5" width="5" height="4" rx="1"/><rect x="43" y="45.5" width="5" height="4" rx="1"/><rect x="51" y="45.5" width="5" height="4" rx="1"/><rect x="59" y="45.5" width="5" height="4" rx="1"/><rect x="35" y="35" width="24" height="3.6" rx="1"/></g>
+  <rect x="64" y="45.5" width="5" height="4" rx="1" fill="url(#g-glass)"/>
+  <path d="M50 20 L58 20 L59 32 L49 32 Z" fill="url(#g-accent)"/>
+  <rect x="49.4" y="20" width="9.2" height="2.6" fill="#2a179a"/>
+  <g fill="#ffffff" opacity=".85"><circle cx="20" cy="62" r="1.2"/><circle cx="27" cy="62" r="1.2"/><circle cx="34" cy="62" r="1.2"/></g>
+</symbol>
+
+<!-- Autobús / traslado -->
+<symbol id="i-bus" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="80" rx="36" ry="6" fill="url(#g-shadow)"/>
+  <path d="M14 42 L58 31 L80 39 L36 50 Z" fill="#eef0f8"/>
+  <path d="M36 50 L80 39 L80 66 L36 77 Z" fill="url(#g-white)"/>
+  <path d="M14 42 L36 50 L36 77 L14 69 Z" fill="url(#g-white-side)"/>
+  <path d="M38 55 L78 45 L78 54 L38 64 Z" fill="url(#g-glass)"/>
+  <path d="M38 55 L78 45 L78 47 L38 57 Z" fill="#7d89ad" opacity=".6"/>
+  <path d="M16.5 47 L33.5 53 L33.5 63 L16.5 57 Z" fill="url(#g-glass)"/>
+  <path d="M36 68 L80 57 L80 61 L36 72 Z" fill="url(#g-accent)"/>
+  <path d="M14 61 L36 69 L36 72 L14 64 Z" fill="#3a22c9"/>
+  <ellipse cx="47" cy="75" rx="4.6" ry="5.6" fill="#22232c"/><ellipse cx="47" cy="75" rx="2" ry="2.4" fill="#8a8ea3"/>
+  <ellipse cx="71" cy="69" rx="4.6" ry="5.6" fill="#22232c"/><ellipse cx="71" cy="69" rx="2" ry="2.4" fill="#8a8ea3"/>
+  <ellipse cx="20" cy="65" rx="2" ry="1.6" fill="#ffe08a"/><ellipse cx="31" cy="69" rx="2" ry="1.6" fill="#ffe08a"/>
+</symbol>
+
+<!-- Templo -->
+<symbol id="i-temple" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="82" rx="38" ry="5" fill="url(#g-shadow)"/>
+  <rect x="12" y="72" width="72" height="7" rx="1.2" fill="#cdbb98"/>
+  <rect x="12" y="70" width="72" height="3" rx="1" fill="#f3eadb"/>
+  <rect x="15" y="65" width="66" height="6" rx="1.2" fill="#d6c6a9"/>
+  <rect x="15" y="63.5" width="66" height="2.5" rx="1" fill="#fbf5ea"/>
+  <rect x="18" y="59" width="60" height="5.5" rx="1.2" fill="#ddcdb0"/>
+  <rect x="18" y="57.5" width="60" height="2.5" rx="1" fill="#fffaf1"/>
+  <g fill="url(#g-marble)">
+    <rect x="21" y="33" width="8" height="25" rx="1"/><rect x="33" y="33" width="8" height="25" rx="1"/><rect x="45" y="33" width="8" height="25" rx="1"/><rect x="57" y="33" width="8" height="25" rx="1"/><rect x="69" y="33" width="8" height="25" rx="1"/>
+  </g>
+  <g fill="#e8dcc4"><rect x="20" y="31" width="10" height="3" rx="1"/><rect x="32" y="31" width="10" height="3" rx="1"/><rect x="44" y="31" width="10" height="3" rx="1"/><rect x="56" y="31" width="10" height="3" rx="1"/><rect x="68" y="31" width="10" height="3" rx="1"/></g>
+  <rect x="16" y="24" width="66" height="8" rx="1.2" fill="url(#g-marble-v)"/>
+  <rect x="16" y="28.5" width="66" height="1.4" fill="#d3c19f"/>
+  <path d="M13 25 L49 9 L85 25 Z" fill="url(#g-marble-v)"/>
+  <path d="M22 23 L49 12 L76 23 Z" fill="#e3d4b7"/>
+  <path d="M13 25 L85 25 L85 26.5 L13 26.5 Z" fill="#c4b18c"/>
+</symbol>
+
+<!-- Coctel -->
+<symbol id="i-cocktail" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="84" rx="20" ry="4.5" fill="url(#g-shadow)"/>
+  <ellipse cx="48" cy="81" rx="15" ry="3.6" fill="#d9e6f2"/>
+  <ellipse cx="48" cy="80" rx="15" ry="3.2" fill="#f4f9fd"/>
+  <rect x="46" y="50" width="4" height="30" rx="2" fill="url(#g-bottle-glass)"/>
+  <path d="M16 26 Q18 52 48 52 Q78 52 80 26 Z" fill="url(#g-bottle-glass)"/>
+  <path d="M19 31 Q22 49 48 49 Q74 49 77 31 Z" fill="url(#g-drink)"/>
+  <ellipse cx="48" cy="31" rx="29" ry="5.5" fill="#ffc77d"/>
+  <ellipse cx="48" cy="26" rx="32" ry="6" fill="none" stroke="#e7f1f8" stroke-width="2"/>
+  <path d="M24 33 Q27 44 36 47" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+  <circle cx="71" cy="21" r="10" fill="#f5d33c"/><circle cx="71" cy="21" r="8" fill="#fff3a6"/>
+  <g stroke="#f0c62a" stroke-width="1.2"><line x1="71" y1="13.5" x2="71" y2="28.5"/><line x1="63.5" y1="21" x2="78.5" y2="21"/><line x1="65.7" y1="15.7" x2="76.3" y2="26.3"/><line x1="65.7" y1="26.3" x2="76.3" y2="15.7"/></g>
+  <circle cx="34" cy="27" r="5" fill="url(#g-tomato)"/>
+  <path d="M34 22 Q36 14 42 11" fill="none" stroke="#5a3a22" stroke-width="1.4" stroke-linecap="round"/>
+  <circle cx="32.5" cy="25.5" r="1.4" fill="#ffffff" opacity=".7"/>
+</symbol>
+
+<!-- Plato (ensalada griega) -->
+<symbol id="i-plate" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="80" rx="34" ry="6" fill="url(#g-shadow)"/>
+  <path d="M12 46 Q14 76 48 76 Q82 76 84 46 Z" fill="url(#g-bowl)"/>
+  <path d="M15 58 Q48 68 81 58" fill="none" stroke="#5037f9" stroke-width="2.4"/>
+  <path d="M17 64 Q48 73 79 64" fill="none" stroke="#5037f9" stroke-width="1.2" opacity=".6"/>
+  <ellipse cx="48" cy="46" rx="36" ry="12" fill="#ffffff"/>
+  <ellipse cx="48" cy="47" rx="31" ry="9" fill="#e7ebf4"/>
+  <path d="M24 46 Q30 32 42 38 Q46 30 56 35 Q66 30 72 42 Q74 50 48 52 Q22 52 24 46 Z" fill="#7fbf4a"/>
+  <g>
+    <ellipse cx="34" cy="43" rx="6" ry="4" fill="url(#g-cucumber)"/><ellipse cx="34" cy="43" rx="4" ry="2.5" fill="#f1fbd9"/>
+    <ellipse cx="60" cy="41" rx="6" ry="4" fill="url(#g-cucumber)"/><ellipse cx="60" cy="41" rx="4" ry="2.5" fill="#f1fbd9"/>
+    <path d="M42 46 Q46 36 54 44 Z" fill="url(#g-tomato)"/>
+    <path d="M62 49 Q68 40 72 47 Z" fill="url(#g-tomato)"/>
+    <path d="M27 48 Q31 40 37 48 Z" fill="url(#g-tomato)"/>
+    <ellipse cx="48" cy="40" rx="3" ry="2.2" fill="#2d2433"/><ellipse cx="47.2" cy="39.4" rx="1" ry=".7" fill="#7a6b85"/>
+    <ellipse cx="68" cy="44" rx="3" ry="2.2" fill="#2d2433"/>
+    <ellipse cx="40" cy="49" rx="3" ry="2.2" fill="#2d2433"/>
+    <ellipse cx="53" cy="48" rx="5" ry="2" fill="none" stroke="#c9a3d9" stroke-width="1.2"/>
+  </g>
+</symbol>
+
+<!-- Sombrilla de playa -->
+<symbol id="i-umbrella" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="76" rx="40" ry="10" fill="url(#g-sea)" opacity=".85"/>
+  <path d="M10 76 Q30 62 54 66 Q76 68 86 78 Q60 86 34 84 Q16 82 10 76 Z" fill="url(#g-sand)"/>
+  <rect x="47" y="30" width="3" height="44" rx="1.5" fill="#b9bcd2" transform="rotate(8 48 52)"/>
+  <path d="M18 36 Q46 0 80 30 Q72 27 66 32 Q58 25 49 31 Q40 25 31 32 Q25 29 18 36 Z" fill="url(#g-accent)"/>
+  <path d="M49 13 Q45 21 40 28.4 Q45 26.5 49 31 Q53 26.5 58 28.4 Q53 21 49 13 Z" fill="#f2f3fa"/>
+  <path d="M49 13 Q30 16 18 36 Q22 31 26 31 Q36 18 49 13 Z" fill="#a597ff" opacity=".55"/>
+  <circle cx="49" cy="13.5" r="2" fill="#2a179a"/>
+  <rect x="58" y="70" width="18" height="7" rx="2" fill="#ff7a6b" transform="rotate(-8 67 73)"/>
+  <rect x="58" y="72" width="18" height="1.6" fill="#ffffff" transform="rotate(-8 67 73)"/>
+</symbol>
+
+<!-- Queso -->
+<symbol id="i-cheese" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="76" rx="34" ry="6" fill="url(#g-shadow)"/>
+  <path d="M14 44 L82 52 L82 70 L14 62 Z" fill="url(#g-cheese-front)"/>
+  <path d="M14 44 L52 26 L82 52 Z" fill="url(#g-cheese-top)"/>
+  <path d="M14 44 L52 26 L52 30 L14 48 Z" fill="url(#g-cheese-rind)" opacity=".9"/>
+  <path d="M52 26 L82 52 L82 56 L52 30 Z" fill="#f5c443" opacity=".0"/>
+  <ellipse cx="30" cy="54" rx="5" ry="4" fill="url(#g-hole)"/>
+  <ellipse cx="52" cy="60" rx="7" ry="5" fill="url(#g-hole)"/>
+  <ellipse cx="70" cy="62" rx="3.5" ry="3" fill="url(#g-hole)"/>
+  <ellipse cx="40" cy="64" rx="2.8" ry="2.2" fill="url(#g-hole)"/>
+  <ellipse cx="52" cy="40" rx="5" ry="2.6" fill="url(#g-hole)"/>
+  <ellipse cx="66" cy="47" rx="3" ry="1.6" fill="url(#g-hole)"/>
+  <path d="M14 44 L82 52" stroke="#fff1b0" stroke-width="1.4"/>
+</symbol>
+
+<!-- Leche -->
+<symbol id="i-milk" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="84" rx="20" ry="4.5" fill="url(#g-shadow)"/>
+  <path d="M38 14 L58 14 L58 26 Q66 32 66 42 L66 76 Q66 82 60 82 L36 82 Q30 82 30 76 L30 42 Q30 32 38 26 Z" fill="url(#g-bottle-glass)"/>
+  <path d="M32 46 L64 46 L64 76 Q64 80 60 80 L36 80 Q32 80 32 76 Z" fill="url(#g-milk)"/>
+  <ellipse cx="48" cy="46" rx="16" ry="3" fill="#ffffff"/>
+  <rect x="36.5" y="9" width="23" height="8" rx="3" fill="url(#g-accent)"/>
+  <rect x="36.5" y="15" width="23" height="2" fill="#2a179a"/>
+  <rect x="34" y="56" width="28" height="12" rx="2" fill="#5037f9" opacity=".92"/>
+  <path d="M40 64 q4 -6 8 0 t8 0" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M35 30 Q33 40 34 48" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+</symbol>
+
+<!-- Marcador -->
+<symbol id="i-pin" viewBox="0 0 96 96">
+  <ellipse cx="48" cy="82" rx="16" ry="4.5" fill="url(#g-shadow)"/>
+  <path d="M48 82 C40 66 24 54 24 36 A24 24 0 0 1 72 36 C72 54 56 66 48 82 Z" fill="url(#g-accent)"/>
+  <path d="M48 82 C56 66 72 54 72 36 A24 24 0 0 0 60 15 C66 24 66 42 48 82 Z" fill="#2a179a" opacity=".45"/>
+  <circle cx="48" cy="36" r="10" fill="url(#g-white)"/>
+  <path d="M34 26 Q38 18 46 16" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+</symbol>
+
+<!-- Llave -->
+<symbol id="i-key" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="80" rx="30" ry="5" fill="url(#g-shadow)"/>
+  <circle cx="30" cy="40" r="15" fill="url(#g-gold)"/>
+  <circle cx="30" cy="40" r="6" fill="#f8f8f8"/>
+  <circle cx="30" cy="40" r="6" fill="none" stroke="#a7731a" stroke-width="1.4"/>
+  <rect x="40" y="36" width="42" height="8" rx="2" fill="url(#g-gold)"/>
+  <rect x="64" y="44" width="5" height="9" rx="1" fill="#d8a232"/>
+  <rect x="74" y="44" width="5" height="12" rx="1" fill="#d8a232"/>
+  <path d="M22 30 Q26 26 32 26" fill="none" stroke="#fff3c4" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M18 52 L30 66 L22 74 L10 60 Z" fill="url(#g-accent)"/>
+  <circle cx="16" cy="58" r="1.8" fill="#ffffff"/>
+  <path d="M17 57 Q20 50 24 52" fill="none" stroke="#b9bcd2" stroke-width="1.4"/>
+</symbol>
+
+<!-- Teléfono -->
+<symbol id="i-phone" viewBox="0 0 96 96">
+  <ellipse cx="50" cy="82" rx="26" ry="5" fill="url(#g-shadow)"/>
+  <g transform="rotate(-12 48 48)">
+    <rect x="28" y="12" width="40" height="70" rx="9" fill="#2c292f"/>
+    <rect x="31" y="15" width="34" height="64" rx="7" fill="url(#g-screen)"/>
+    <rect x="42" y="18" width="12" height="3" rx="1.5" fill="#2c292f"/>
+    <circle cx="48" cy="58" r="9" fill="url(#g-green)"/>
+    <path d="M44.5 54.5 q1.5-1.5 2.5 0 l1 2 q.3 .8-.5 1.4 l-.8 .6 q1 2 2.8 2.8 l.6-.8 q.6-.8 1.4-.5 l2 1 q1.5 1 0 2.5 q-1.6 1.6-4 .6 q-4-1.8-5.6-5.6 q-1-2.4 .6-4 z" fill="#ffffff"/>
+    <rect x="37" y="30" width="22" height="3" rx="1.5" fill="#ffffff" opacity=".85"/>
+    <rect x="40" y="36" width="16" height="2.4" rx="1.2" fill="#ffffff" opacity=".55"/>
+  </g>
+</symbol>
+
+<!-- Sin lácteos -->
+<symbol id="i-nodairy" viewBox="0 0 96 96">
+  <g transform="translate(40 12) scale(.5)"><use href="#i-milk"/></g>
+  <g transform="translate(14 34) scale(.56)"><use href="#i-cheese"/></g>
+  <circle cx="48" cy="49" r="38" fill="none" stroke="#8f0b1c" stroke-width="9" opacity=".35" transform="translate(1.5 2.5)"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="url(#g-red)" stroke-width="9"/>
+  <line x1="21.5" y1="21.5" x2="74.5" y2="74.5" stroke="#8f0b1c" stroke-width="9" opacity=".35" transform="translate(1.5 2.5)"/>
+  <line x1="21.5" y1="21.5" x2="74.5" y2="74.5" stroke="url(#g-red)" stroke-width="9"/>
+  <path d="M22 30 A36 36 0 0 1 44 12.4" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+</symbol>
+</svg>
+
+<div class="wrap">
+  <h1>Vacaciones</h1>
+  <p class="by">Francisco Guadarrama</p>
+  <div class="trips" id="trips"></div>
+</div>
+<script>
+// Para añadir un viaje: agrega un objeto a esta lista con su carpeta.
+const viajes = [
+  { carpeta: "atenas", titulo: "Grecia", año: "2026", lugares: "Atenas, Delfos, Nafplio y Egina", iconos: ["temple", "ferry", "umbrella"] }
+];
+document.getElementById("trips").innerHTML =
+  viajes.map(v => `<a class="trip" href="${v.carpeta}/"><div class="icons">${v.iconos.map(i => `<svg aria-hidden="true"><use href="#i-${i}"/></svg>`).join("")}</div><h2>${v.titulo} ${v.año}</h2><p>${v.lugares}</p><span class="open">Abrir el viaje</span></a>`).join("")
+  + `<div class="soon">Los próximos viajes aparecerán aquí.</div>`;
+</script>
+</body>
+</html>
