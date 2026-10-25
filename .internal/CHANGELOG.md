@@ -76,3 +76,14 @@ Actualización del Librero en /librero/ a la versión 1.7.1, solicitada y revisa
 - Archivos: `librero/js/generar.js` (nuevo), `librero/js/ficha.js`, `librero/css/librero.css`. Copia generada con `librero/tools/publicar_sitio.sh` desde `fguadarrama/Hoomsa` (commit 3f6c7d4).
 - Ningún otro archivo del sitio se modificó.
 - Verificación: servidor local en /librero/, sin errores en consola ni archivos 404; portada y lomo se forman y terminan correctamente.
+
+## Domingo 25 de octubre de 2026, 1:45 p. m. — America/Mexico_City
+
+Agente: Claude (Claude Code, Anthropic).
+
+Actualización del Librero en /librero/ a la versión 1.8.0, solicitada por el propietario.
+
+- Libros: 637 → 673. Se añaden los 13 libros pedidos el 25 de octubre (entre ellos *An Instance of the Fingerpost*, que el propietario no encontraba porque el sitio no se había vuelto a publicar) y 23 de su lista de deseos de Amazon. Las series quedan juntas y en orden de lectura.
+- Nueva función: Exportar PDF por repisa (menú ≡).
+- Archivos: `librero/data/libros.json`, `librero/index.html`, `librero/js/app.js`, `librero/js/exportar.js` (nuevo), `librero/css/librero.css` y 12 portadas nuevas en `librero/portadas/`. Copia generada con `librero/tools/publicar_sitio.sh` desde `fguadarrama/Hoomsa` (commit 82b481e).
+- Ningún otro archivo del sitio se modificó.

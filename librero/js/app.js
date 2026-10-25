@@ -14,6 +14,7 @@ import { abrirMorph, cerrarMorph, estaAbierto } from './morph.js';
 import { sonar, sonidoActivo, alternarSonido } from './sonidos.js';
 import { limpiarConDisolucion, sincronizarClear } from './limpiar.js';
 import { gatosActivos, alternarGatos } from './gatos.js';
+import { abrirExportar } from './exportar.js';
 
 const VISTAS = ['librero', 'sala', 'portadas', 'arbol', 'tablero'];
 let vistaActual = null;
@@ -138,6 +139,10 @@ function prepararMenu() {
   });
   addEventListener('keydown', (e) => {
     if (e.key === 'Escape') abrir(false);
+  });
+  $('[data-exportar]').addEventListener('click', () => {
+    abrir(false);
+    abrirExportar();
   });
   const son = $('[data-sonido]');
   son.setAttribute('aria-pressed', String(sonidoActivo()));

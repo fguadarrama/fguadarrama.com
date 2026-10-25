@@ -1583,3 +1583,41 @@ textarea, .form-editar input, .form-editar select, .nuevo-libro input, .nuevo-li
   .ficha-cab { grid-template-columns: 1fr; }
   .ficha-cal { width: auto; justify-items: start; }
 }
+
+/* =====================================================================
+   1.8 · Exportar PDF por repisa (js/exportar.js)
+   Una ventana para elegir repisas; el documento se arma en un iframe
+   oculto y se imprime («Guardar como PDF»).
+   ===================================================================== */
+.exportar-boton { display: inline-flex; align-items: center; gap: 8px; }
+.exportar-boton svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+dialog.exportar {
+  width: min(760px, calc(100vw - 32px)); max-height: min(88dvh, 820px); overflow: auto;
+  padding: 26px 26px 22px; border: var(--borde) solid var(--tinta); border-radius: var(--r-l);
+  background: var(--fondo); color: var(--tinta);
+}
+dialog.exportar[open] { animation: aparecer 200ms var(--salida); }
+dialog.exportar::backdrop { background: rgba(28, 30, 30, .42); }
+dialog.exportar h2 { margin: 0; font: italic 400 34px/1 var(--serif); }
+.exportar-ayuda { margin: 10px 0 0; font-size: 14px; line-height: 1.45; }
+.exportar-atajos { display: flex; gap: 16px; margin: 16px 0 8px; font-size: 13px; }
+.exportar-repisas { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.exportar-repisa {
+  display: grid; grid-template-columns: auto 28px 1fr auto; align-items: center; gap: 8px;
+  padding: 6px 10px 6px 8px; border: 1.5px solid var(--tinta); border-radius: var(--r-m); cursor: pointer;
+  font-size: 13.5px; font-weight: 500; transition: background-color 140ms ease, color 140ms ease;
+}
+.exportar-repisa em { font: italic 400 16px/1 var(--serif); }
+.exportar-repisa input { accent-color: var(--tinta); width: 16px; height: 16px; margin: 0; }
+.exportar-repisa.activa { background: var(--tinta); color: var(--fondo); }
+.exportar-repisa.activa input { accent-color: var(--fondo); }
+.exportar-repisa:has(input:focus-visible) { outline: 2px solid var(--nakabeni); outline-offset: 2px; }
+.exportar-opcion { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; }
+.exportar-pie {
+  position: sticky; bottom: -22px; margin: 14px -26px -22px; padding: 12px 26px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--fondo); border-top: 1.5px solid var(--tinta);
+}
+.exportar-resumen { margin: 0; font: italic 400 18px/1.2 var(--serif); }
+dialog.exportar .fila-botones { margin: 0; justify-content: flex-end; }
+.exportar-marco { position: fixed; right: 0; bottom: 0; width: 0; height: 0; border: 0; opacity: 0; pointer-events: none; }
