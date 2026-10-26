@@ -1,5 +1,5 @@
 // Guarda la página para usarla sin conexión. Cambia VERSION cada vez que subas una versión nueva.
-const VERSION = "grecia-2026-v4";
+const VERSION = "grecia-2026-v5";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(["./", "./index.html"])).then(() => self.skipWaiting()));
 });

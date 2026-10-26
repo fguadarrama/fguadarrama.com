@@ -121,3 +121,12 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Reservas ampliada para transporte, entradas, tours y tipos adicionales. Service worker actualizado a grecia-2026-v4.
 - Fuentes, documentos sin cifrar y changelog detallado conservados en el repositorio privado vacaciones-fuente.
 - Validación: construcción y sintaxis, rechazo de clave anterior, integridad de PDFs, referencias de 11 reservas, ventanas de tiempo en tres zonas de dispositivo e inspección visual local.
+
+
+## Lunes 26 de octubre de 2026 — Boletos KTEL
+
+- Añadidos cuatro boletos de autobús: ida y regreso a Delfos, Atenas → Nafplio y Nafplio → Atenas.
+- Itinerario ajustado a las salidas confirmadas; indicaciones de embarque con 15 minutos de anticipación y llegadas expresamente orientativas. Corregido el destino de regreso a la terminal Kifissos.
+- PDF originales y vistas de sus páginas incluidos en el contenido cifrado. Ahora destaca los autobuses próximos y sus asientos.
+- Tabla completa de 15 reservas y códigos guardada en las fuentes privadas y entregada al propietario como Markdown; no se publica en el sitio.
+- Caché actualizada a grecia-2026-v5. Verificación de cifrado, comprobantes, referencias, tabla y ventanas horarias en tres zonas del dispositivo.
