@@ -139,3 +139,10 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Añadido el traslado reservado del último alojamiento al aeropuerto, el 13 de noviembre a las 03:00, incluido en la estancia y enlazado al plan y Ahora.
 - Tabla privada actualizada con 16 reservas y ciudad de pernocta por fecha. Fuentes y códigos permanecen en el repositorio privado.
 - Caché grecia-2026-v6. Verificación ampliada de pagos, listado, traslado, ciudades y horarios del dispositivo.
+
+
+## Lunes 26 de octubre de 2026 — Agrupación de transporte
+
+- Autobuses, traslados y ferries se agrupan en Transporte, sin nuevas secciones, por preferencia del propietario.
+- El traslado aeropuerto → Mirabello figura confirmado y pagado.
+- Caché actualizada a grecia-2026-v7; comprobadas construcción y reservas.
