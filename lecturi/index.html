@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es" data-theme="nyuhaku">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Lecturi</title>
+    <meta name="description" content="Lector EPUB con justificación Knuth–Plass y microtipografía." />
+    <meta name="theme-color" content="#F3F3F3" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+  </head>
+  <body>
+    <!-- Portada: soltar un archivo -->
+    <section id="landing" class="landing">
+      <div class="landing-inner">
+        <h1 class="wordmark">Lecturi</h1>
+        <p class="tagline">Lector de EPUB · composición Knuth–Plass</p>
+
+        <label id="dropzone" class="dropzone" tabindex="0">
+          <input id="file-input" type="file" accept=".epub,application/epub+zip" hidden />
+          <span class="dz-title">Suelta aquí un archivo <em>.epub</em></span>
+          <span class="dz-sub">o haz clic para elegirlo</span>
+        </label>
+
+        <button id="resume" class="resume" hidden>
+          <span class="resume-label">Continuar leyendo</span>
+          <span id="resume-title" class="resume-title"></span>
+          <span id="resume-meta" class="resume-meta"></span>
+        </button>
+
+        <p id="landing-msg" class="landing-msg" role="status"></p>
+        <p class="fineprint">El archivo se lee en tu navegador; no se sube a ningún servidor.</p>
+      </div>
+    </section>
+
+    <!-- Lector -->
+    <section id="app" class="app" hidden>
+      <header class="bar top">
+        <button id="btn-toc" class="icon-btn" aria-label="Índice" title="Índice (T)">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10" /></svg>
+        </button>
+        <div class="book-title"><span id="book-title"></span><span id="book-author"></span></div>
+        <div class="bar-right">
+          <button id="btn-open" class="icon-btn" aria-label="Abrir otro libro" title="Abrir otro libro">
+            <svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5M5 19h14" /></svg>
+          </button>
+          <button id="btn-settings" class="icon-btn aa" aria-label="Tipografía" title="Tipografía (A)">Aa</button>
+        </div>
+      </header>
+
+      <main id="stage" class="stage">
+        <button id="btn-prev" class="edge prev" aria-label="Página anterior">
+          <svg viewBox="0 0 24 24"><path d="M14.5 6 8.5 12l6 6" /></svg>
+        </button>
+        <div id="viewer" class="viewer"></div>
+        <button id="btn-next" class="edge next" aria-label="Página siguiente">
+          <svg viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" /></svg>
+        </button>
+        <div id="loading" class="loading" hidden>Componiendo…</div>
+      </main>
+
+      <footer class="bar bottom">
+        <div class="progress"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="chapter-label" class="chapter-label"></span>
+        <span id="percent" class="percent"></span>
+      </footer>
+
+      <!-- Índice -->
+      <aside id="toc" class="drawer left" aria-label="Índice" inert>
+        <div class="drawer-head">
+          <h2>Índice</h2>
+          <button class="icon-btn" data-close aria-label="Cerrar">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+        <nav id="toc-list" class="toc-list"></nav>
+      </aside>
+
+      <!-- Tipografía -->
+      <aside id="settings" class="drawer right" aria-label="Tipografía" inert>
+        <div class="drawer-head">
+          <h2>Tipografía</h2>
+          <button class="icon-btn" data-close aria-label="Cerrar">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg>
+          </button>
+        </div>
+
+        <div class="group">
+          <h3>Fuente</h3>
+          <div id="font-list" class="font-list"></div>
+        </div>
+
+        <div class="group">
+          <h3>Color</h3>
+          <div id="theme-list" class="theme-list"></div>
+        </div>
+
+        <div class="group">
+          <h3>Medida</h3>
+          <div class="control">
+            <span>Tamaño</span>
+            <div class="stepper">
+              <button id="size-down" aria-label="Reducir tamaño">−</button>
+              <output id="size-val"></output>
+              <button id="size-up" aria-label="Aumentar tamaño">+</button>
+            </div>
+          </div>
+          <label class="control">
+            <span>Interlineado <output id="lh-val"></output></span>
+            <input id="lh" type="range" />
+          </label>
+          <label class="control">
+            <span>Márgenes <output id="margin-val"></output></span>
+            <input id="margin" type="range" />
+          </label>
+        </div>
+
+        <div class="group">
+          <h3>Composición</h3>
+          <p class="hint">Todo el texto lo compone <strong>Justif</strong> (Knuth–Plass): cortes de línea por párrafo completo, sílabas de Hyphenopoly y puntuación colgante en el margen.</p>
+          <p class="hint" id="justif-status"></p>
+        </div>
+      </aside>
+    </section>
+
+    <div id="drop-overlay" class="drop-overlay" hidden><span>Suelta para abrir</span></div>
+    <div class="vt-line" aria-hidden="true"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
