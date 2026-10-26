@@ -146,3 +146,11 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Autobuses, traslados y ferries se agrupan en Transporte, sin nuevas secciones, por preferencia del propietario.
 - El traslado aeropuerto → Mirabello figura confirmado y pagado.
 - Caché actualizada a grecia-2026-v7; comprobadas construcción y reservas.
+
+
+## Lunes 26 de octubre de 2026 — Ferries de Egina
+
+- Añadidos los ferries pagados de ida y regreso a Egina dentro de Transporte, con sus horarios confirmados, códigos de reserva y acceso dentro de los datos cifrados.
+- Plan ajustado: ida el 9 nov, 12:30–13:10; regreso el 12 nov, 13:50–14:30. Retiradas las notas de compra pendiente.
+- Confirmación de reserva y pago disponible cifrada para consulta sin conexión; no se presenta como tarjeta de embarque.
+- Tabla privada actualizada a 18 reservas con ciudades de pernocta. Caché grecia-2026-v8; comprobados documentos, horarios, duración y referencias.
