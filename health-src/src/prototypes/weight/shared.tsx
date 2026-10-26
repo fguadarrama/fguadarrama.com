@@ -41,22 +41,11 @@ export function WeightChart({ records, metric, compact = false, referenceWeight,
   const data = weightTrend(records).filter(r => isWeight || r.bodyFat != null)
   const labelIndices = new Set(chartWidth >= 600 ? [0, Math.floor(data.length / 3), Math.floor(data.length * 2 / 3), data.length - 1] : [0, data.length - 1])
   const pink = webColor(WEIGHT_ACCENT)
-  /* Running a finger or a cursor along the curve ticks once per reading
-     crossed, not once per pixel — the same "crossing a glyph, not hovering
-     it" idea the dock's icons use, reusing the house tick from lib/sounds
-     instead of a bespoke tone. */
-  const scrubIndex = useRef<number | string | null>(null)
-  const onChartMove = (state: { activeTooltipIndex?: number | string | null }) => {
-    const i = state?.activeTooltipIndex
-    if (i == null || i === scrubIndex.current) return
-    scrubIndex.current = i
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) play('tick')
-  }
-  const onChartLeave = () => { scrubIndex.current = null }
+  // Curve hover audio is owned by the shared Bencho chart-hover runtime.
   return <div className={compact ? 'weight-chart weight-chart--compact weight-breakdown' : 'weight-chart weight-breakdown'}>
     <div className="weight-breakdown__plot" role="img" aria-label={isWeight ? 'Peso total y masa libre de grasa a través del tiempo. La franja entre las líneas representa la masa grasa.' : 'Porcentaje de grasa corporal a través del tiempo'}>
     <ResponsiveContainer width="100%" height="100%" initialDimension={{ width: 620, height: compact ? 190 : 310 }} onResize={width => setChartWidth(width)}>
-      <ComposedChart data={data} margin={{ top: isWeight ? 42 : 16, right: 16, bottom: 0, left: 0 }} onMouseMove={onChartMove} onMouseLeave={onChartLeave}>
+      <ComposedChart data={data} margin={{ top: isWeight ? 42 : 16, right: 16, bottom: 0, left: 0 }} onMouseMove={state => window.__healthChartPoint?.(state)} onMouseLeave={() => window.__healthChartLeave?.()}>
         <CartesianGrid vertical={false} stroke="var(--ink)" strokeWidth={.4} />
         <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']} ticks={data.filter((_,i) => i === 0 || i === data.length-1 || i % Math.ceil(data.length/5) === 0).map(r => r.timestamp)} interval="preserveStartEnd" tickFormatter={(value) => { const d = new Date(value); return formatDate(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`) }} tick={{ fontSize: 11, fill: 'var(--ink)', fontFamily: 'Albert Sans Variable' }} tickLine={false} axisLine={false} minTickGap={22} />
         <YAxis tickCount={isWeight ? 8 : 5} domain={isWeight ? [(min: number) => Math.floor((min - 2) / 5) * 5, (max: number) => Math.ceil((max + 1) / 5) * 5] : ['dataMin - 1', 'dataMax + 1']} tick={{ fontSize: 12, fill: 'var(--ink)', fontFamily: 'Albert Sans Variable' }} tickFormatter={v => Number(v).toLocaleString('es-MX', { maximumFractionDigits: 1 })} tickLine={false} axisLine={false} width={38} />

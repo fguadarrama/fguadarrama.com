@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Personal lab results visualizer — reads lab_data.xlsx and renders trends, abnormalities, and PDF reports.",
+  "description": "Personal lab results visualizer \u2014 reads lab_data.xlsx and renders trends, abnormalities, and PDF reports.",
   "scripts": {
     "weight:import": "node scripts/import-weight-image.mjs",
     "prebuild:data": "node scripts/build-data.mjs",
@@ -13,8 +13,9 @@
     "preview": "vite preview",
     "lint": "tsc --noEmit",
     "audit:privacy": "node scripts/audit-git-privacy.mjs",
-    "protect": "node scripts/protect-index.mjs && node scripts/audit-release.mjs",
-    "build:protected": "npm run prebuild:data && tsc --noEmit && vite build --config vite.protected.config.ts && npm run protect"
+    "protect": "npm run build:gate && node scripts/protect-index.mjs && node scripts/audit-release.mjs",
+    "build:protected": "npm run prebuild:data && tsc --noEmit && vite build --config vite.protected.config.ts && npm run protect",
+    "build:gate": "node scripts/build-gate.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -26,7 +27,7 @@
     "echarts": "^6.1.0",
     "framer-motion": "^11.11.0",
     "goey-toast": "^0.1.0",
-    "lucide-react": "^1.58.0",
+    "lucide-react": "^1.61.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",

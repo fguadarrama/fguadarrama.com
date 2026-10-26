@@ -37,3 +37,6 @@ output/
 .env
 .env.local
 .env.*.local
+
+# Bundled public access gate (embedded in encrypted release wrapper).
+dist-gate/

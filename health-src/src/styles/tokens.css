@@ -3,7 +3,7 @@
  * ---------------------------------------------------------------------------*/
 :root {
   /* --- Core palette --- */
-  --bg: #f6f7fc;                /* page background */
+  --bg: #f6f7f9;                /* page background */
   --ink: #2d2930;
   --ink-70: #2d2930;
   --ink-50: #2d2930;
@@ -45,8 +45,8 @@
 
   /* --- Surfaces --- */
   --surface: #ffffff;
-  --surface-sunken: #ffffff;
-  --surface-hover: #ffffff;
+  --surface-sunken: #f6f7f9;
+  --surface-hover: #ecebe7;
 
   /* --- Borders --- */
   --border: #2d2930;

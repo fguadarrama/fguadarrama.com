@@ -8,15 +8,15 @@ import { webcrypto } from 'node:crypto'
 import { loginTemplate } from './login-template.mjs'
 
 const password = process.env.LABS_PASSWORD || ''
-if (password.length < 16) {
-  throw new Error('LABS_PASSWORD must contain at least 16 characters. Use a unique passphrase and do not commit it.')
+if (!/^\d{7}$/.test(password) && password.length < 16) {
+  throw new Error('LABS_PASSWORD must contain seven digits or at least 16 characters. Do not commit it.')
 }
 
 const root = resolve(process.cwd())
 const sourcePath = resolve(root, 'dist-protected/index.html')
 const outputDir = resolve(root, '../health')
 const outputPath = resolve(outputDir, 'index.html')
-const originalHtml = readFileSync(sourcePath, 'utf8')
+const originalHtml = readFileSync(process.env.LABS_SOURCE_STDIN === '1' ? 0 : sourcePath, 'utf8')
 // Reuse only the self-contained favicon from the app, including on the locked gate.
 const favicon = originalHtml.match(/<link\b(?=[^>]*\brel="icon")(?=[^>]*\bhref="data:image\/svg\+xml,)[^>]*>/i)?.[0] || ''
 const gate = loginTemplate(favicon, root)
@@ -62,36 +62,7 @@ const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(payload.salt),it
 const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(payload.iv)},key,b64(payload.data));
 return decoder.decode(bytes);
 }
-const form=document.getElementById('form'),button=document.getElementById('submit'),input=document.getElementById('password'),error=document.getElementById('error');
-const submitLabel=button.textContent;
-const CHECK_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
-const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MIN_CHECK_MS=reduceMotion?0:360;
-form.addEventListener('submit',async event=>{
-event.preventDefault();
-form.classList.remove('is-no','is-ok');
-form.classList.add('is-checking');
-button.disabled=true;
-error.textContent='';
-const started=performance.now();
-let html=null,ok=true;
-try{html=await decryptPage(input.value)}catch{ok=false}
-const wait=MIN_CHECK_MS-(performance.now()-started);
-if(wait>0)await new Promise(r=>setTimeout(r,wait));
-form.classList.remove('is-checking');
-if(ok){
-form.classList.add('is-ok');
-button.innerHTML='<span class="gate-ok-check">'+CHECK_SVG+'Verificado</span>';
-await new Promise(r=>setTimeout(r,reduceMotion?80:420));
-document.open();document.write(html);document.close();
-}else{
-form.classList.add('is-no');
-error.textContent='Contraseña incorrecta.';
-button.disabled=false;
-input.value='';
-setTimeout(()=>{form.classList.remove('is-no');button.textContent=submitLabel;input.focus()},reduceMotion?0:560);
-}
-});
+window.decryptPage=decryptPage;
 </script>
 </body></html>`
 

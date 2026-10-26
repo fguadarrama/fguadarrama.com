@@ -14,7 +14,7 @@ export function startTheme() {
     root.dataset.themeMode = mode
     root.style.colorScheme = theme
     window.__healthThemeMode = mode
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#1C1E1E' : '#f6f7fc')
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#1C1E1E' : '#f6f7f9')
     const favicon = document.querySelector('link[rel="icon"]')
     if (favicon?.href.startsWith('data:image/svg+xml,')) {
       favicon.dataset.lightIcon ||= favicon.href
@@ -22,7 +22,7 @@ export function startTheme() {
       const svg = decodeURIComponent(light.slice(light.indexOf(',') + 1))
       const dark = svg.replace(/<style>[\s\S]*?<\/style>/g, '')
         .replace(/#3A2EB4/gi, '#54bbee').replace(/#ff0059/gi, '#ff1866')
-        .replace(/rgb\(246,247,252\)/g, '#1c1e1e')
+        .replace(/rgb\((?:246,247,252|246,247,249)\)/g, '#1c1e1e')
       const icon = theme === 'dark' ? `data:image/svg+xml,${encodeURIComponent(dark)}` : light
       favicon.href = icon
       document.querySelectorAll('.gate__logo, .brand__icon').forEach(img => { img.src = icon })
@@ -73,7 +73,7 @@ export const themeControlCss = `
 .theme-control summary::-webkit-details-marker{display:none}
 .theme-control summary:focus-visible,.theme-menu button:focus-visible{outline:2px solid var(--theme-blue,#3A2EB4);outline-offset:2px}
 .theme-control summary:active{transform:scale(.97)}
-.theme-menu{position:absolute;right:0;top:calc(100% + 8px);width:225px;z-index:100;padding:6px;border:1px solid var(--border,#3A2EB4);border-radius:12px;background:var(--surface,#f6f7fc)}
+.theme-menu{position:absolute;right:0;top:calc(100% + 8px);width:225px;z-index:100;padding:6px;border:1px solid var(--border,#3A2EB4);border-radius:12px;background:var(--surface,#ffffff)}
 .theme-menu button{display:block;width:100%;min-height:44px;margin:0;padding:10px 12px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--ink,#3A2EB4);font:inherit;font-size:14px;text-align:left;cursor:pointer}
 .theme-menu button[aria-pressed="true"]{border-color:var(--theme-blue,#3A2EB4)}
 .theme-menu small{display:block;font-size:12px;color:inherit}

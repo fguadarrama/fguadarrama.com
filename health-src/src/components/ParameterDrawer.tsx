@@ -71,17 +71,7 @@ export default function ParameterDrawer({ cid, onClose }: Props) {
   const onCloseRef = useRef(onClose)
   onCloseRef.current = onClose
 
-  /* One tick per reading crossed while scrubbing the trend line, not one
-     per pixel — same idea as the dock's icon-crossing tick, reusing the
-     house sound from lib/sounds rather than a bespoke tone. */
-  const scrubIndex = useRef<number | string | null>(null)
-  const onChartMove = (state: { activeTooltipIndex?: number | string | null }) => {
-    const i = state?.activeTooltipIndex
-    if (i == null || i === scrubIndex.current) return
-    scrubIndex.current = i
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) play('tick')
-  }
-  const onChartLeave = () => { scrubIndex.current = null }
+  // Curve hover audio is owned by the shared Bencho chart-hover runtime.
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
@@ -229,7 +219,7 @@ export default function ParameterDrawer({ cid, onClose }: Props) {
                     <SinglePointView point={chartData[0]} />
                   ) : (
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData} margin={{ top: 20, right: 20, left: 8, bottom: 30 }} onMouseMove={onChartMove} onMouseLeave={onChartLeave}>
+                      <LineChart data={chartData} margin={{ top: 20, right: 20, left: 8, bottom: 30 }} onMouseMove={state => window.__healthChartPoint?.(state)} onMouseLeave={() => window.__healthChartLeave?.()}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--ink-12)" />
                         <XAxis
                           dataKey="dateLabel"

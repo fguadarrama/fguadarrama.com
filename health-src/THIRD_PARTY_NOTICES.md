@@ -44,3 +44,28 @@ https://bencho.dev/licence) are adapted into this app:
 
 License: MIT (https://bencho.dev/licence). Keep these notices with
 redistributions of the adapted code.
+
+## Bencho One-time code — original seven-cell adaptation
+
+The gate now uses the actual MIT One-time code source supplied by the owner,
+including the goo filter, spring caret, digit swell, merge and rejection drain.
+Original explanatory comments are retained in src/components/OneTimeCode.tsx
+and src/styles/one-time-code.css. Adaptations: seven digits, corner 14, actual
+AES-GCM verification, Albert Sans/local theme tokens, and Spanish labels.
+Bencho deny and perk Web Audio presets use their original published values.
+https://bencho.dev/licence
+
+## Bencho Wake slider and Generate
+
+MIT: https://bencho.dev/licence. Login entry uses the original notch preset
+and positional pitch mapping from Wake slider. Generate's supplied source
+is adapted to SVG charts: three-second reveal, ripple 50, PAPER 0.9, blur
+20 to 1.6, three appearance windows, no percentage or decorative flower.
+Comments and attribution are retained in src/lib/chart-reveal.ts.
+
+## Bencho Pull — chart hover audio
+
+MIT: https://bencho.dev/licence. Replaces the previously tested Generate
+chart reveal. Uses Pull's exact drag preset, positional pitch scaling and
+150ms rate limit. Rendered line height determines the pitch; no chart
+loading filter, delay or animation is added.

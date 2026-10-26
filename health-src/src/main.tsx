@@ -1,3 +1,4 @@
+import { startChartHover } from './lib/chart-hover'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
@@ -13,6 +14,7 @@ import { useTheme } from './lib/useTheme'
 import './styles/theme.css'
 
 startTheme()
+startChartHover()
 function ThemedToaster() {
   const theme = useTheme()
   return <GoeyToaster position="bottom-right" gap={14} offset="24px" theme={theme === 'dark' ? 'dark' : 'light'} toastOptions={{}} />

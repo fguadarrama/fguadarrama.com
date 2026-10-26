@@ -1,0 +1,11 @@
+import {build} from 'esbuild';import assert from 'node:assert/strict';
+const listeners={},oscillators=[],filters=[],delays=[];const param=()=>({value:0,setValueAtTime(){},linearRampToValueAtTime(){},exponentialRampToValueAtTime(){}});const node=()=>({connect(){return arguments[0]},disconnect(){}});
+class AudioContext{currentTime=10;state='running';destination=node();createOscillator(){const o={...node(),frequency:param(),start(t){this.started=t},stop(){}};oscillators.push(o);return o}createGain(){return {...node(),gain:param()}}createBiquadFilter(){const f={...node(),frequency:param(),Q:param()};filters.push(f);return f}createDelay(){const d={...node(),delayTime:param()};delays.push(d);return d}}
+globalThis.AudioContext=AudioContext;globalThis.window={};globalThis.document={hidden:false,documentElement:{dataset:{}},addEventListener(type,fn){(listeners[type]??=[]).push(fn)}};globalThis.setTimeout=()=>0;
+class Element{constructor(disabled=false){this.disabled=disabled}closest(selector){return selector.includes('[disabled]')?(this.disabled?this:null):this}matches(){return true}}globalThis.Element=Element;
+const bundle=await build({entryPoints:['src/lib/action-sounds.ts'],bundle:true,write:false,format:'esm'});const api=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
+api.bindActionSounds();api.bindActionSounds();assert.equal(listeners.click.length,1);
+const click=listeners.click[0];click({isTrusted:true,target:new Element()});assert.equal(oscillators.length,4,'two tap layers and their two FM oscillators');assert.equal(oscillators[2].started,10+.030109162949378543);
+click({isTrusted:false,target:new Element()});click({isTrusted:true,target:new Element(true)});assert.equal(oscillators.length,4,'no synthetic download click or disabled control sounds');
+window.__healthPdfSuccess();assert.equal(oscillators.length,7);assert.equal(delays.length,3);assert.equal(oscillators[5].started,10+.06155623729071858);assert.equal(delays[0].delayTime.value,.135);assert.equal(api.successNf0fw.layers[0].source.frequency,448.69467717933264);assert.equal(api.tap2wkhm.layers[0].source.fm.depth,50);
+console.log('PASS: one tap per click; exact layers, FM, timing and PDF delay effects; synthetic downloads and disabled controls silent.');

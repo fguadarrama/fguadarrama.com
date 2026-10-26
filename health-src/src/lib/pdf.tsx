@@ -142,15 +142,18 @@ export function PdfUnit({ unit, style, fontSize = 8 }: { unit: string; style?: a
 const MONTHS_PDF = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
 
 function formatShortDate(iso: string): string {
-  if (!iso || iso.length < 10) return iso || '—'
+  if (!iso || !/^\d{4}-\d{2}-\d{2}/.test(iso)) return iso || '—'
   const [y, m, d] = iso.slice(0, 10).split('-')
   const mo = MONTHS_PDF[Number(m) - 1] || m
   return `${d.padStart(2, '0')} ${mo} ${y.slice(-2)}`
 }
 
 /** Format a numeric value to exactly 1 decimal place for chart axis labels */
-function formatValueOneDec(v: number): string {
-  return v.toFixed(1)
+function formatValueOneDec(v: number, step = 1): string {
+  if (!Number.isFinite(v)) return '-'
+  if (v !== 0 && (Math.abs(v) < 0.0001 || Math.abs(v) >= 1e7)) return v.toExponential(1)
+  const decimals=Math.min(6,Math.max(0,1-Math.floor(Math.log10(Math.abs(step)||1))))
+  return v.toFixed(decimals)
 }
 
 // --- Portrait main report ----------------------------------------------------
@@ -502,7 +505,9 @@ const landscapeStyles = StyleSheet.create({
     gap: 20,
   },
   chartArea: {
-    flex: 1.6,
+    width: 426,
+    flexShrink: 0,
+    alignSelf: 'flex-start',
     borderWidth: 0.5,
     borderColor: COLORS.ink12,
     borderRadius: 6,
@@ -510,7 +515,7 @@ const landscapeStyles = StyleSheet.create({
   },
   chartTitle: { fontSize: 10, color: COLORS.ink70, fontStyle: 'italic', marginBottom: 6 },
   refText: { fontSize: 8.5, color: COLORS.ink50, fontStyle: 'italic', marginTop: 8, textAlign: 'center' },
-  tableArea: { flex: 1 },
+  tableArea: { width: 324, flexShrink: 0 },
   tableHead: {
     flexDirection: 'row',
     borderBottomWidth: 0.8,
@@ -527,21 +532,22 @@ const landscapeStyles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: 'row',
-    height: 28,
+    minHeight: 24,
+    paddingVertical: 5,
     alignItems: 'center',
     borderBottomWidth: 0.25,
     borderBottomColor: COLORS.ink12,
   },
-  tDate: { width: 70, fontSize: 8.5, fontFamily: 'AlbertSans', color: COLORS.ink70 },
-  tLab: { flex: 1, fontSize: 9, fontFamily: 'AlbertSans', color: COLORS.ink70, paddingRight: 6 },
+  tDate: { width: 54, fontSize: 8, fontFamily: 'AlbertSans', color: COLORS.ink70 },
+  tLab: { flex: 1, fontSize: 8, fontFamily: 'AlbertSans', color: COLORS.ink70, paddingRight: 6 },
   tValue: {
-    width: 50,
-    fontSize: 10,
+    width: 60,
+    fontSize: 8,
     fontFamily: 'AlbertSans',
     fontWeight: 400,
     textAlign: 'right',
   },
-  tRef: { width: 70, fontSize: 8, fontFamily: 'AlbertSans', color: COLORS.ink50, textAlign: 'right' },
+  tRef: { width: 70, fontSize: 7.5, fontFamily: 'AlbertSans', color: COLORS.ink50, textAlign: 'right' },
   footerRule: {
     position: 'absolute',
     bottom: 32,
@@ -628,20 +634,13 @@ function InlineChart({
   const yTicks: { y: number; label: string }[] = []
   for (let i = 0; i <= Y_TICK_COUNT; i++) {
     const v = yMin + ((yMax - yMin) * i) / Y_TICK_COUNT
-    yTicks.push({ y: yOf(v), label: formatValueOneDec(v) })
+    yTicks.push({ y: yOf(v), label: formatValueOneDec(v, (yMax-yMin)/Y_TICK_COUNT) })
   }
 
-  // X ticks: all points if ≤ 8, else sample 6
-  const xTickIdxs: number[] =
-    points.length <= 8
-      ? points.map((_, i) => i)
-      : (() => {
-          const step = Math.max(1, Math.floor((points.length - 1) / 5))
-          const idx: number[] = []
-          for (let i = 0; i < points.length; i += step) idx.push(i)
-          if (idx[idx.length - 1] !== points.length - 1) idx.push(points.length - 1)
-          return idx
-        })()
+  // Evenly distributed indices include both endpoints without a near-duplicate
+  // last tick. The old floor(step) sampler put the final two dates together.
+  const tickCount = Math.min(points.length, Math.max(2, Math.floor(chartW / 65)))
+  const xTickIdxs = Array.from({length:tickCount},(_,i)=>Math.round(i*(points.length-1)/Math.max(1,tickCount-1)))
 
   return (
     <View style={{ flexDirection: 'column', width, height }}>
@@ -738,105 +737,94 @@ function InlineChart({
 
 function ParameterReportDoc({ cid }: { cid: string }) {
   const p = data.paramsById[cid]
-  if (!p) return null as any
+  if (!p) throw new Error('Parámetro desconocido: ' + cid)
   const today = new Date()
   const age = ageInYears(PATIENT.dob, today)
   const series = seriesFor(cid)
   const chartPoints = series
-    .filter((r) => r.value_numeric !== null)
+    .filter((r) => typeof r.value_numeric === 'number' && Number.isFinite(r.value_numeric))
     .map((r) => ({ date: r.date, value: r.value_numeric as number }))
 
   const accent = LAB_TITLE_COLORS[p.category] || COLORS.ink
-  const refLow = p.lab_ref_low ?? p.guideline_target_low
-  const refHigh = p.lab_ref_high ?? p.guideline_target_high
+  const refLow = p.lab_ref_low ?? p.guideline_target_low ?? null
+  const refHigh = p.lab_ref_high ?? p.guideline_target_high ?? null
   const refText = formatRef(refLow, refHigh, p.lab_ref_operator)
 
-  // Landscape page: 842 × 595 pt, with 36 padding → ~770 × 523 usable
-  // Chart area: ~460 × 300
+  // Explicit pages keep the chart intact and repeat the table heading. Estimate
+  // wrapped row height conservatively; never let a two-column body auto-split.
+  const records = series.slice().reverse()
+  const groups: Result[][] = [[]]
+  let used = 24
+  for (const r of records) {
+    const full = groups.length > 1
+    const valueLines = Math.ceil(displayResultValue(r,p).length / (full ? 30 : 12))
+    const labLines = Math.ceil((r.lab || '—').length / (full ? 85 : 27))
+    const height = Math.max(24, Math.max(valueLines,labLines) * 11 + 10)
+    if (used + height > 400 && groups[groups.length-1].length) { groups.push([]); used = 24 }
+    groups[groups.length-1].push(r)
+    used += height
+  }
+  if (groups.length > 1 && groups[groups.length-1].length < 3) {
+    const previous = groups[groups.length-2], last = groups[groups.length-1]
+    while(last.length < 3 && previous.length > 3)last.unshift(previous.pop()!)
+  }
   return (
     <Document>
-      <Page size="A4" orientation="landscape" style={landscapeStyles.page}>
-        <View style={landscapeStyles.header}>
-          <View>
+      {groups.map((rows,pageIndex) => <Page key={pageIndex} size="A4" orientation="landscape" style={landscapeStyles.page}>
+        <View style={landscapeStyles.header} wrap={false}>
+          <View style={{maxWidth:550}}>
             <Text style={landscapeStyles.eyebrow}>{p.category}</Text>
             <Text style={[landscapeStyles.paramName, { color: accent }]}>{p.display_name_es}</Text>
             <PdfUnit style={landscapeStyles.paramUnit} unit={p.unit_mx} fontSize={10} />
             <Text style={landscapeStyles.patientLine}>
-              {PATIENT.fullName}  ·  <Text style={landscapeStyles.monoInline}>{formatDobSpanish(PATIENT.dob)}</Text>  ·  <Text style={landscapeStyles.monoInline}>{age}</Text> años  ·  CURP: <Text style={landscapeStyles.monoInline}>{PATIENT.curp}</Text>
+              {PATIENT.fullName} · {formatDobSpanish(PATIENT.dob)} · {age} años · CURP: {PATIENT.curp}
             </Text>
           </View>
           <View style={landscapeStyles.rightBlock}>
-            <Text style={landscapeStyles.printMeta}>
-              <Text style={landscapeStyles.monoInline}>{chartPoints.length}</Text> mediciones · Impreso <Text style={landscapeStyles.monoInline}>{formatShortDate(today.toISOString())}</Text>
-            </Text>
+            <Text style={landscapeStyles.printMeta}>{series.length} mediciones · Impreso {formatShortDate(today.toISOString())}</Text>
+            {pageIndex > 0 && <Text style={landscapeStyles.printMeta}>Resultados · continuación</Text>}
           </View>
         </View>
-
-        <View style={landscapeStyles.body}>
-          <View style={landscapeStyles.chartArea}>
+        <View style={landscapeStyles.body} wrap={false}>
+          {pageIndex === 0 && <View style={landscapeStyles.chartArea} wrap={false}>
             <Text style={landscapeStyles.chartTitle}>Evolución temporal</Text>
-            <InlineChart
-              points={chartPoints}
-              refLow={refLow}
-              refHigh={refHigh}
-              accent={accent}
-              width={450}
-              height={280}
-            />
-            {refText !== '-' && (
-              <View style={{ alignItems: 'center' }}>
-                <Text style={landscapeStyles.refText}>Rango de referencia:</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
-                  <PdfReference fontSize={8.5} text={refText} />
-                  {p.unit_mx && <PdfUnit unit={` ${p.unit_mx}`} fontSize={8.5} />}
-                </View>
+            {chartPoints.length ? <InlineChart points={chartPoints} refLow={refLow} refHigh={refHigh} accent={accent} width={400} height={250} />
+              : <Text style={{fontSize:10,marginVertical:30}}>Sin resultados numéricos para graficar.</Text>}
+            {refText !== '-' && <View style={{alignItems:'center'}}>
+              <Text style={landscapeStyles.refText}>Rango de referencia:</Text>
+              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:2}}>
+                <PdfReference fontSize={8.5} text={refText}/>
+                {!!p.unit_mx && <View style={{marginLeft:4}}><PdfUnit unit={p.unit_mx} fontSize={8.5}/></View>}
               </View>
-            )}
-          </View>
-
-          <View style={landscapeStyles.tableArea}>
-            <View style={landscapeStyles.tableHead}>
-              <Text style={[landscapeStyles.tableHeadCell, { width: 70 }]}>Fecha</Text>
-              <Text style={[landscapeStyles.tableHeadCell, { flex: 1 }]}>Laboratorio</Text>
-              <Text style={[landscapeStyles.tableHeadCell, { width: 50, textAlign: 'right' }]}>Valor</Text>
-              <Text style={[landscapeStyles.tableHeadCell, { width: 70, textAlign: 'right' }]}>Referencia</Text>
+            </View>}
+          </View>}
+          <View style={[landscapeStyles.tableArea, pageIndex > 0 ? {width:770} : {}]}>
+            <View style={landscapeStyles.tableHead} wrap={false}>
+              <Text style={[landscapeStyles.tableHeadCell,{width:54}]}>Fecha</Text>
+              <Text style={[landscapeStyles.tableHeadCell,{flex:1}]}>Laboratorio</Text>
+              <Text style={[landscapeStyles.tableHeadCell,{width:pageIndex > 0 ? 130 : 60,textAlign:'right'}]}>Valor</Text>
+              <Text style={[landscapeStyles.tableHeadCell,{width:70,textAlign:'right'}]}>Referencia</Text>
             </View>
-            {series
-              .slice()
-              .reverse()
-              .map((r) => {
-                const ab = isOutOfRange(r, p)
-                return (
-                  <View key={r.result_id} style={landscapeStyles.tableRow} wrap={false}>
-                    <Text style={landscapeStyles.tDate}>{formatShortDate(r.date)}</Text>
-                    <Text style={landscapeStyles.tLab}>{r.lab || '—'}</Text>
-                    <Text style={[landscapeStyles.tValue, ab ? { color: COLORS.alarm } : {}]}>
-                      {displayResultValue(r, p)}
-                    </Text>
-                    <PdfReference style={landscapeStyles.tRef} text={formatRef(
-                        r.ref_low ?? p.lab_ref_low,
-                        r.ref_high ?? p.lab_ref_high,
-                        r.ref_operator || p.lab_ref_operator,
-                      )} />
-                  </View>
-                )
-              })}
+            {!rows.length && <Text style={{fontSize:9,marginTop:12}}>Sin resultados disponibles.</Text>}
+            {rows.map(r=><View key={r.result_id} style={landscapeStyles.tableRow} wrap={false}>
+              <Text style={landscapeStyles.tDate}>{formatShortDate(r.date)}</Text>
+              <Text style={landscapeStyles.tLab}>{r.lab || '—'}</Text>
+              <Text style={[landscapeStyles.tValue,pageIndex > 0 ? {width:130} : {},isOutOfRange(r,p)?{color:COLORS.alarm}:{}]}>{displayResultValue(r,p)}</Text>
+              <PdfReference style={landscapeStyles.tRef} text={formatRef(r.ref_low ?? p.lab_ref_low,r.ref_high ?? p.lab_ref_high,r.ref_operator || p.lab_ref_operator)}/>
+            </View>)}
           </View>
         </View>
-
-        <Text style={landscapeStyles.footerRule} fixed render={() => ''} />
-        <Text style={landscapeStyles.footerLeft} fixed render={() => PATIENT.fullName} />
-        <Text style={landscapeStyles.footerPage} fixed render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
-        <Text style={landscapeStyles.footerRight} fixed render={() => 'Valores fuera de rango en rojo'} />
-      </Page>
+        <Text style={landscapeStyles.footerRule} fixed render={()=>''}/>
+        <Text style={landscapeStyles.footerLeft} fixed render={()=>PATIENT.fullName}/>
+        <Text style={landscapeStyles.footerPage} fixed render={({pageNumber,totalPages})=>`${pageNumber} / ${totalPages}`}/>
+        <Text style={landscapeStyles.footerRight} fixed render={()=>'Valores fuera de rango en rojo'}/>
+      </Page>)}
     </Document>
   )
 }
 
-export async function generateParameterReportBlob(cid: string): Promise<Blob> {
-  const instance = pdf(<ParameterReportDoc cid={cid} />)
-  return instance.toBlob()
+export async function generateParameterReportBlob(cid:string):Promise<Blob>{
+  if(!data.paramsById[cid])throw new Error('Parámetro desconocido: '+cid)
+  return pdf(<ParameterReportDoc cid={cid}/>).toBlob()
 }
-
-// Re-export noop for any legacy code
 export { isCollapsibleCategory }

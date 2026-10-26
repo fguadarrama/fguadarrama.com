@@ -93,3 +93,16 @@ Actualización del Librero en /librero/ a la versión 1.8.0, solicitada por el p
 Agente: Claude (Claude Code, Anthropic).
 
 Portadas de los libros nuevos del Librero (/librero/), encontradas por el robot de datos de Hoomsa (commit dabb236) y revisadas una por una: 17 portadas nuevas en `librero/portadas/` y `librero/data/libros.json` actualizado. Sin cambios de código ni en otros archivos del sitio.
+
+## Domingo 25 de octubre de 2026 — America/Mexico_City
+
+Agente: Codex (OpenAI).
+
+Actualización de /health aprobada por el propietario:
+
+- Login con siete casillas, caracteres ocultos progresivamente y sonidos de dígitos ascendentes con mayor volumen. Campo silencioso al hacer clic.
+- Textos «Escribe el código», «Código incorrecto» y «Código correcto». Error y puntos en #ff0059; éxito en rgb(45, 103, 78) con sombra rgb(102, 219, 108). Acentos del login neutros.
+- Fondo light rgb(246, 247, 249), tarjetas blancas y conservación de acentos de la aplicación.
+- Sonidos de clic tap2wkhm y de descarga PDF successNf0fw. Hover sonoro sólo en gráficas, con deduplicación por punto.
+- Corrección de paginación, tablas, unidades y etiquetas de los PDF de parámetros. Verificación de 181 parámetros y 961 resultados durante el desarrollo.
+- Publicación del artefacto cifrado, sin contraseñas ni datos clínicos en texto plano. Pruebas de eventos, audio y tema aprobadas. La compilación completa y las auditorías que requieren archivos privados ausentes no pudieron ejecutarse en esta copia.
