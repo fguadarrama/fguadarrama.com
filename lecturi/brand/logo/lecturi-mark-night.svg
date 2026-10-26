@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="lecturi">
+  <!-- Símbolo lecturi · versión oscura · para fondo #303840 · usar a 96 px o más -->
+  <path d="M123 26 H109 V112 Q109 152 50 174" fill="none" stroke="#FDFBF7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M91 66 V112 Q91 152 150 174" fill="none" stroke="#4392BA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="91" cy="44" r="7" fill="#4392BA"/>
+</svg>

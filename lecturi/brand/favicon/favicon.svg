@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="lecturi">
+  <!-- Favicon principal · cuadro #303840 · funciona en pestañas claras y oscuras · NO usar el símbolo normal como favicon (su trazo desaparece a 16–32 px) -->
+  <rect width="200" height="200" rx="44" fill="#303840"/>
+  <g transform="translate(100 100) scale(0.7) translate(-87 -104)">
+    <path d="M130 28 H108 V106 Q108 150 44 174" fill="none" stroke="#FDFBF7" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M66 78 V106 Q66 150 130 174" fill="none" stroke="#EB155C" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="66" cy="40" r="15" fill="#EB155C"/>
+  </g>
+</svg>

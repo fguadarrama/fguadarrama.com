@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Tamaño de texto">
+  <!-- Tamaño de texto · versión estática para fondo claro -->
+  <path d="M7 13 V20 M16 9 V20" stroke="#303840"/>
+  <circle cx="7" cy="9.5" r="1.4" fill="#EB155C" stroke="none"/>
+  <circle cx="16" cy="4.6" r="1.8" fill="#EB155C" stroke="none"/>
+</svg>

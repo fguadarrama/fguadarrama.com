@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" role="img" aria-label="lecturi">
+  <!-- Logotipo con palabra · fondo claro · el texto usa Manrope 500: cargar la fuente o convertir el texto a trazos antes de usar fuera de la web -->
+  <svg x="0" y="4" width="52" height="52" viewBox="0 0 200 200">
+    <path d="M123 26 H109 V112 Q109 152 50 174" fill="none" stroke="#303840" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M91 66 V112 Q91 152 150 174" fill="none" stroke="#EB155C" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="91" cy="44" r="9.5" fill="#EB155C"/>
+  </svg>
+  <text x="64" y="42" font-family="Manrope, sans-serif" font-weight="500" font-size="34" letter-spacing="-0.34" fill="#303840">lecturi</text>
+</svg>

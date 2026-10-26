@@ -1,30 +1,50 @@
 <!doctype html>
-<html lang="es" data-theme="nyuhaku">
+<html lang="es" data-theme="shironeri" data-intro="loading">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Lecturi</title>
     <meta name="description" content="Lector EPUB con justificación Knuth–Plass y microtipografía." />
-    <meta name="theme-color" content="#F3F3F3" />
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#FDFBF6" />
+    <link rel="icon" href="./brand/favicon/favicon-light.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./brand/app-icon/apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap"
     />
+    <script type="module" crossorigin src="/lecturi/assets/index-BYC6QHK0.js"></script>
+    <link rel="stylesheet" crossorigin href="/lecturi/assets/index-BdSXWxP7.css">
   </head>
   <body>
     <!-- Portada: soltar un archivo -->
     <section id="landing" class="landing">
       <div class="landing-inner">
-        <h1 class="wordmark">Lecturi</h1>
-        <p class="tagline">Lector de EPUB · composición Knuth–Plass</p>
+        <div id="brand-intro" class="brand-intro">
+          <img class="brand-mark" data-brand-mark src="./brand/logo/lecturi-mark.svg" alt="" width="104" height="104" />
+          <div class="wordmark-tooltip t-tt-group">
+          <h1 class="wordmark"><button id="brand-name" aria-expanded="false" aria-controls="brand-note" aria-describedby="brand-note" aria-label="lecturi"><img class="brand-wordmark" data-brand-wordmark src="./brand/logo/lecturi-wordmark.svg" alt="lecturi" width="216" height="82" /></button></h1>
+          <div id="brand-note" class="brand-note t-tt" role="tooltip" aria-hidden="true" data-show="false">
+            <div class="t-tt-text">
+            <p class="pronunciation"><strong>[ˈlek.tu.ɾi]</strong></p>
+            <p>Pierre de Fermat no reveló su teorema por culpa de un margen estrecho; <em>lecturi</em> existe para que ninguna idea brillante sufra el mismo destino</p>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div id="landing-content" class="landing-content" inert>
+        <p class="tagline">Un margen no basta</p>
 
-        <label id="dropzone" class="dropzone" tabindex="0">
+        <label id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Abrir un libro EPUB">
           <input id="file-input" type="file" accept=".epub,application/epub+zip" hidden />
-          <span class="dz-title">Suelta aquí un archivo <em>.epub</em></span>
-          <span class="dz-sub">o haz clic para elegirlo</span>
+          <svg class="dz-border" width="100%" height="100%" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="22" /></svg>
+          <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v4h16v-4" /></svg></span>
+          <span class="dz-title">Arrastra tu libro aquí</span>
+          <span class="dz-sub">EPUB · o elige un archivo</span>
+          <span id="upload-file" class="upload-file" hidden></span>
+          <span class="upload-track" aria-hidden="true"><span id="upload-progress"></span></span>
         </label>
 
         <button id="resume" class="resume" hidden>
@@ -34,7 +54,8 @@
         </button>
 
         <p id="landing-msg" class="landing-msg" role="status"></p>
-        <p class="fineprint">El archivo se lee en tu navegador; no se sube a ningún servidor.</p>
+        <footer class="site-footer">Diseñado por Francisco Guadarrama; algunos derechos reservados</footer>
+        </div>
       </div>
     </section>
 
@@ -49,7 +70,7 @@
           <button id="btn-open" class="icon-btn" aria-label="Abrir otro libro" title="Abrir otro libro">
             <svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5M5 19h14" /></svg>
           </button>
-          <button id="btn-settings" class="icon-btn aa" aria-label="Tipografía" title="Tipografía (A)">Aa</button>
+          <button id="btn-settings" class="icon-btn aa" aria-label="Tipografía" title="Tipografía (A)"></button>
         </div>
       </header>
 
@@ -91,46 +112,26 @@
         </div>
 
         <div class="group">
-          <h3>Fuente</h3>
-          <div id="font-list" class="font-list"></div>
+          <h3><span data-icon="font"></span>Fuente de lectura</h3>
+          <div id="font-list" class="font-list" role="radiogroup" aria-label="Fuente de lectura"></div>
         </div>
 
         <div class="group">
           <h3>Color</h3>
-          <div id="theme-list" class="theme-list"></div>
-        </div>
+          <div id="theme-list" class="theme-list" role="radiogroup" aria-label="Fondo de lectura"></div>
 
+        </div>
         <div class="group">
           <h3>Medida</h3>
-          <div class="control">
-            <span>Tamaño</span>
-            <div class="stepper">
-              <button id="size-down" aria-label="Reducir tamaño">−</button>
-              <output id="size-val"></output>
-              <button id="size-up" aria-label="Aumentar tamaño">+</button>
-            </div>
-          </div>
-          <label class="control">
-            <span>Interlineado <output id="lh-val"></output></span>
-            <input id="lh" type="range" />
-          </label>
-          <label class="control">
-            <span>Márgenes <output id="margin-val"></output></span>
-            <input id="margin" type="range" />
-          </label>
+          <div id="size-scrubber"></div>
+          <div id="lh-scrubber"></div>
+          <div id="margin-scrubber"></div>
         </div>
-
-        <div class="group">
-          <h3>Composición</h3>
-          <p class="hint">Todo el texto lo compone <strong>Justif</strong> (Knuth–Plass): cortes de línea por párrafo completo, sílabas de Hyphenopoly y puntuación colgante en el margen.</p>
-          <p class="hint" id="justif-status"></p>
-        </div>
+        <div class="group sound-control"><span>Sonidos de los controles</span><button id="sound-toggle" role="switch" aria-checked="true"></button></div>
       </aside>
     </section>
 
     <div id="drop-overlay" class="drop-overlay" hidden><span>Suelta para abrir</span></div>
-    <div class="vt-line" aria-hidden="true"></div>
 
-    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
