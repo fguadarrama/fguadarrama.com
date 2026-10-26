@@ -106,3 +106,18 @@ Actualización de /health aprobada por el propietario:
 - Sonidos de clic tap2wkhm y de descarga PDF successNf0fw. Hover sonoro sólo en gráficas, con deduplicación por punto.
 - Corrección de paginación, tablas, unidades y etiquetas de los PDF de parámetros. Verificación de 181 parámetros y 961 resultados durante el desarrollo.
 - Publicación del artefacto cifrado, sin contraseñas ni datos clínicos en texto plano. Pruebas de eventos, audio y tema aprobadas. La compilación completa y las auditorías que requieren archivos privados ausentes no pudieron ejecutarse en esta copia.
+
+
+## Lunes 26 de octubre de 2026 — America/Mexico_City
+
+Agente: Codex.
+
+Actualización de /vacaciones/atenas/, solicitada por el propietario.
+
+- Integradas cuatro entradas y un traslado confirmado, con sus comprobantes cifrados y vistas de las páginas para consulta sin conexión.
+- Actualizado el itinerario a los horarios de reserva y diferenciados horarios confirmados de estimaciones del plan.
+- Ahora prioriza entradas y recogidas próximas o en curso usando el reloj del dispositivo; refresca al volver a la app y conserva las zonas de cada evento.
+- Acceso actualizado al componente compartido de cuatro dígitos, basado en One-time code de Bencho, con ocultación inmediata mediante puntos y apertura automática. Clave rotada sin incluir su valor en código ni documentación públicos.
+- Reservas ampliada para transporte, entradas, tours y tipos adicionales. Service worker actualizado a grecia-2026-v4.
+- Fuentes, documentos sin cifrar y changelog detallado conservados en el repositorio privado vacaciones-fuente.
+- Validación: construcción y sintaxis, rechazo de clave anterior, integridad de PDFs, referencias de 11 reservas, ventanas de tiempo en tres zonas de dispositivo e inspección visual local.
