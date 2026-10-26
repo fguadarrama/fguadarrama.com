@@ -497,3 +497,12 @@ html[data-intro=loading] #brand-note { display:none; }
 .brand-note.t-tt[data-placement=below] { top:calc(100% + 8px); bottom:auto; transform-origin:50% 0; }
 .t-tt-text { white-space:normal; width:100%; }
 @media (prefers-reduced-motion:reduce) { .brand-note.t-tt { transition:none !important; } }
+.home-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:44px; padding:0 10px; font-size:13px; }
+.home-btn svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.bar.top { grid-template-columns:132px minmax(0,1fr) 132px; }
+@media (hover:hover) and (pointer:fine) { .home-btn:hover { color:var(--accent); } }
+@media (max-width:640px) {
+  .bar.top { grid-template-columns:48px minmax(0,1fr) 88px; }
+  .home-btn { width:44px; padding:0; }
+  .home-label { display:none; }
+}

@@ -90,3 +90,9 @@ El contraste del loader ya no pivota sobre un único papel `.9`: utiliza los tre
 Antes de comenzar se esperan los recursos de marca, la fuente de interfaz y el bloque de reanudación, para evitar que su llegada cambie la geometría durante el loader. La entrada decorativa no bloquea los controles una vez revelados. Con movimiento reducido, no hay desplazamientos ni escalonamiento: solo un fundido breve. Al finalizar se cancelan los efectos y se retiran los filtros y capas temporales.
 
 Fuentes: https://emilkowal.ski/ui/great-animations · https://emilkowal.ski/ui/good-vs-great-animations · https://transitions.dev/ · https://bencho.dev/?c=generate
+
+### Corrección de audio y vuelta al inicio
+
+La apertura de EPUB no emite los timbres genéricos `drop` y `hover`: reproduce únicamente `notificationkndwr` al finalizar correctamente. El contexto se activa silenciosamente durante la interacción real y se recupera tanto desde `suspended` como desde `interrupted`; si el navegador no permite reproducir, se informa en consola en vez de omitirlo silenciosamente. Las cuatro capas conservan sus frecuencias, ganancias, envolventes y retardos; se planifican con 20 ms de margen para no perder el ataque de 2 ms. El interruptor de silencio se respeta. La programación correcta queda registrada en el nivel debug de la consola.
+
+El botón «Inicio» de la cabecera usa una casa y una etiqueta visible en escritorio; en móvil conserva el icono y su nombre accesible. Vuelve a la portada sin repetir el loader, mantiene el progreso y permite elegir otro libro, limpiando el nombre y la barra del archivo anterior.

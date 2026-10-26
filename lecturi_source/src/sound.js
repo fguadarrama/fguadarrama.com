@@ -3,23 +3,49 @@
 let context;
 let enabled = true;
 let last = 0;
+let primed = false;
 const tones = {
   tock: [[250, 28, .045, 'triangle', 1700, 10]],
   notch: [[230, 49, .048, 'sine', 820, 6]],
   expand: [[196, 360, .042, 'sine', 880, 36, 174], [294, 300, .014, 'sine', 1100, 48, 262, 24]],
-  drop: [[196, 150, .07, 'sine', 900, 5, 130]],
-  hover: [[232, 360, .038, 'sine', 560, 66]],
   deny: [[208, 120, .03, 'sine', 520, 10, 165]],
 };
 export function setSound(on) { enabled = on; }
-export function sound(name, gap = 0) {
-  if (!enabled || performance.now() - last < gap) return;
+function audioContext() {
+  if (!context || context.state === 'closed') {
+    const Context = window.AudioContext || window.webkitAudioContext || globalThis.AudioContext;
+    context = new Context();
+    primed = false;
+  }
+  return context;
+}
+export async function unlockAudio() {
+  if (!enabled) return false;
   try {
-    context ||= new AudioContext();
-    if (context.state === 'suspended') context.resume().catch(() => {});
-    if (context.state !== 'running') return;
+    const audio = audioContext();
+    // Safari puede volver del selector con "interrupted", no solo "suspended".
+    if (audio.state !== 'running') { await audio.resume(); primed = false; }
+    if (audio.state !== 'running' || !enabled) return false;
+    if (!primed) {
+      // Activar la salida durante el gesto real, antes del procesamiento asíncrono.
+      const silent = audio.createBufferSource();
+      silent.buffer = audio.createBuffer(1,1,audio.sampleRate);
+      silent.connect(audio.destination);
+      silent.onended = () => silent.disconnect();
+      silent.start(); primed = true;
+    }
+    return true;
+  } catch (error) {
+    console.warn('[lecturi] No se pudo activar el audio:',error);
+    return false;
+  }
+}
+export async function sound(name, gap = 0) {
+  if (!tones[name] || !enabled || performance.now() - last < gap) return;
+  try {
+    if (!await unlockAudio()) return;
     last = performance.now();
-    for (const [hz, ms, level, wave, cut, attack, to, delay = 0] of tones[name] || tones.tock) {
+    for (const [hz, ms, level, wave, cut, attack, to, delay = 0] of tones[name]) {
       const osc = context.createOscillator(), gain = context.createGain(), filter = context.createBiquadFilter();
       const start = context.currentTime + delay / 1000, end = start + ms / 1000;
       osc.type = wave; osc.frequency.setValueAtTime(hz, start);
@@ -34,11 +60,10 @@ export function sound(name, gap = 0) {
     }
   } catch { /* Audio no disponible: el control sigue funcionando. */ }
 }
-// Desbloqueo de audio únicamente tras una interacción real del lector.
-for (const event of ['pointerdown', 'keydown']) window.addEventListener(event, () => {
-  if (!enabled) return;
-  try { context ||= new AudioContext(); context.resume().catch(() => {}); } catch {}
-}, { passive: true });
+// Captura el gesto antes de que se abra el selector nativo; sin emitir un timbre.
+for (const event of ['pointerdown','keydown','touchend','click']) window.addEventListener(event, e => {
+  if (e.isTrusted) void unlockAudio();
+}, {passive:true, capture:true});
 
 // Notificación de apertura exitosa proporcionada por el usuario.
 // Frecuencias, ganancias y tiempos en segundos sin filtros ni variaciones.
@@ -51,12 +76,14 @@ export const notificationkndwr = {
   ],
 };
 export async function playSound(definition) {
-  if (!enabled) return;
+  if (!enabled) return false;
   try {
-    context ||= new AudioContext();
-    if (context.state === 'suspended') await context.resume();
-    if (!enabled || context.state !== 'running') return;
-    const origin = context.currentTime;
+    if (!await unlockAudio()) {
+      if (enabled) console.warn('[lecturi] Notificación de apertura omitida: audio no disponible.');
+      return false;
+    }
+    // Un pequeño margen de planificación evita perder el ataque inicial de 2 ms.
+    const origin = context.currentTime + 0.02;
     for (const layer of definition.layers) {
       const {attack, decay, release} = layer.envelope;
       const start = origin + (layer.delay || 0);
@@ -72,5 +99,10 @@ export async function playSound(definition) {
       oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
       oscillator.start(start); oscillator.stop(end);
     }
-  } catch { /* Sin audio disponible, la apertura del libro continúa. */ }
+    console.debug('[lecturi] Notificación EPUB programada: 4 capas (390.208 / 780.416 Hz).');
+    return true;
+  } catch (error) {
+    console.warn('[lecturi] No se pudo reproducir la notificación de apertura:',error);
+    return false;
+  }
 }

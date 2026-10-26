@@ -6,7 +6,7 @@ import { startBrandIntro } from "./brand-intro.js";
 import { transitionFont } from "./font-transition.js";
 import { createScrubber } from "./controls.js";
 import { icon } from "./brand.js";
-import { sound, setSound, playSound, notificationkndwr } from "./sound.js";
+import { sound, setSound, unlockAudio, playSound, notificationkndwr } from "./sound.js";
 import * as store from "./storage.js";
 
 const $ = (id) => document.getElementById(id);
@@ -243,7 +243,7 @@ async function openFile(file) {
   }
   if (opening) return;
   opening = true;
-  sound('drop');
+  void unlockAudio();
   $("dropzone").classList.add('busy');
   $("dropzone").setAttribute('aria-busy','true');
   $("upload-file").hidden = false;
@@ -267,7 +267,7 @@ async function openFile(file) {
       return store.loadProgress(id);
     });
     $("upload-progress").style.transform = "scaleX(1)";
-    playSound(notificationkndwr);
+    void playSound(notificationkndwr);
     showApp(true);
     wire(reader);
     const meta = reader.metadata;
@@ -336,9 +336,15 @@ async function refreshResume() {
 /* ——— Entrada: archivo, arrastrar y soltar, teclado ——— */
 $("file-input").onchange = (e) => { const file = e.target.files[0]; e.target.value = ""; if (file) openFile(file); };
 $("btn-open").onclick = () => {
+  closeDrawers();
   reader?.destroy();
-  reader = null;
+  reader = window.__lecturi.reader = null;
+  currentBookId = null;
+  $("upload-file").hidden = true;
+  $("upload-file").textContent = '';
+  $("upload-progress").style.transform = 'scaleX(0)';
   showApp(false);
+  $("dropzone").focus({preventScroll:true});
 };
 $("dropzone").addEventListener("keydown", (e) => {
   if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file-input").click(); }
@@ -351,7 +357,6 @@ window.addEventListener("dragenter", (e) => {
   e.preventDefault();
   dragDepth++;
   if (!$("app").hidden) $("drop-overlay").hidden = false;
-  if (dragDepth === 1) sound("hover");
   $("dropzone").classList.add("over");
 });
 window.addEventListener("dragover", (e) => isFileDrag(e) && e.preventDefault());
