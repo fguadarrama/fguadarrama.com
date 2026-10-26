@@ -130,3 +130,12 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - PDF originales y vistas de sus páginas incluidos en el contenido cifrado. Ahora destaca los autobuses próximos y sus asientos.
 - Tabla completa de 15 reservas y códigos guardada en las fuentes privadas y entregada al propietario como Markdown; no se publica en el sitio.
 - Caché actualizada a grecia-2026-v5. Verificación de cifrado, comprobantes, referencias, tabla y ventanas horarias en tres zonas del dispositivo.
+
+
+## Lunes 26 de octubre de 2026 — Pagos y traslado de salida
+
+- Autobuses aparece como sección propia al principio de Reservas; los cuatro boletos se conservan y Traslados se muestra por separado.
+- Todos los hoteles y el traslado aeropuerto → Mirabello se marcan Pagado según confirmación del propietario, retirando notas pendientes incompatibles.
+- Añadido el traslado reservado del último alojamiento al aeropuerto, el 13 de noviembre a las 03:00, incluido en la estancia y enlazado al plan y Ahora.
+- Tabla privada actualizada con 16 reservas y ciudad de pernocta por fecha. Fuentes y códigos permanecen en el repositorio privado.
+- Caché grecia-2026-v6. Verificación ampliada de pagos, listado, traslado, ciudades y horarios del dispositivo.
