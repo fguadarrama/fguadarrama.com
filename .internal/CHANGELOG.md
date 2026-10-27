@@ -164,3 +164,12 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Comer incorpora la propuesta opcional del lunes 2 para coctelería, con Line como primera opción y alternativas, información de mesas y enlaces oficiales. No se ha efectuado ninguna reserva de bar.
 - Completada la información de las 18 reservas desde los documentos privados, sin publicar sus códigos en texto abierto. Caché grecia-2026-v9.
 - Verificación de datos y horarios, render de Plan y Comer e inspección visual en móvil y escritorio.
+
+
+## Lunes 26 de octubre de 2026 — Plan original conciliado con los tickets
+
+- Recuperados Kerameikos el 3, Palamidi y Tirinto el 8, y los bloques largos de comida, playa y descanso del plan original.
+- Conservadas sin cambios las 18 reservas; los tickets prevalecen sobre horarios tentativos del borrador para autobuses, ferries, entradas y vuelos. Se mantiene el traslado de las 03:00 confirmado por el propietario.
+- Tour del 7 todavía pendiente; horarios de visita y transporte local no reservado identificados como orientativos.
+- Cocteles del lunes opcionales y temprano, actualizando la nota para reflejar Kerameikos a las 10:00 del martes.
+- Pruebas de reservas intactas y actividades restauradas; inspección visual de Plan. Caché grecia-2026-v10.
