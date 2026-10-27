@@ -154,3 +154,13 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Plan ajustado: ida el 9 nov, 12:30–13:10; regreso el 12 nov, 13:50–14:30. Retiradas las notas de compra pendiente.
 - Confirmación de reserva y pago disponible cifrada para consulta sin conexión; no se presenta como tarjeta de embarque.
 - Tabla privada actualizada a 18 reservas con ciudades de pernocta. Caché grecia-2026-v8; comprobados documentos, horarios, duración y referencias.
+
+
+## Lunes 26 de octubre de 2026 — Plan equilibrado y coctelería
+
+- Plan actualizado con días ligeros, moderados e intensos y ciudad de pernocta. Las actividades se distinguen entre con reserva, orientativas, opcionales y pendientes.
+- Retiradas visitas duplicadas y respetados los días de descanso. Micenas + Epidauro del 7 queda como única reserva pendiente, sin códigos ni confirmaciones inventados.
+- Conservados los horarios reservados y el traslado de salida de las 03:00 ya confirmado por el propietario. Añadidos enlaces y ventanas oficiales de web check-in de ferries.
+- Comer incorpora la propuesta opcional del lunes 2 para coctelería, con Line como primera opción y alternativas, información de mesas y enlaces oficiales. No se ha efectuado ninguna reserva de bar.
+- Completada la información de las 18 reservas desde los documentos privados, sin publicar sus códigos en texto abierto. Caché grecia-2026-v9.
+- Verificación de datos y horarios, render de Plan y Comer e inspección visual en móvil y escritorio.
