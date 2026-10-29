@@ -291,7 +291,7 @@ async function openFile(file) {
     $("loading").hidden = true;
     $("dropzone").classList.remove('busy');
     $("dropzone").removeAttribute('aria-busy');
-    $("dropzone").querySelector('.dz-title').textContent = 'Arrastra tu libro aquí';
+    $("dropzone").querySelector('.dz-title').textContent = 'Abrir un EPUB';
   }
 }
 

@@ -506,3 +506,43 @@ html[data-intro=loading] #brand-note { display:none; }
   .home-btn { width:44px; padding:0; }
   .home-label { display:none; }
 }
+/* Two quiet, equally clear entrances: reading and writing. */
+.landing { align-items:safe center; padding:36px 24px; }
+.landing-inner { width:min(760px,100%); }
+.landing-content > .tagline { margin:14px 0 48px; opacity:1; font-size:16px; }
+.landing-paths { display:grid; grid-template-columns:1fr 1fr; gap:64px; text-align:left; }
+.landing-path { min-width:0; }
+.landing-path h2 { margin:0 0 10px; font-size:28px; line-height:1.15; font-weight:450; letter-spacing:-.035em; }
+.path-description { margin:0 0 22px; max-width:280px; min-height:44px; font-size:14px; line-height:1.6; }
+.landing-paths .dropzone,.editor-link { position:relative; display:grid; grid-template-columns:40px minmax(0,1fr) 20px; column-gap:12px; row-gap:3px; align-content:center; align-items:center; justify-items:start; min-height:88px; padding:14px 0; margin:0; border:0; border-bottom:1px solid var(--fg); border-radius:0; outline:0; background:none; color:var(--fg); text-decoration:none; opacity:1; transform:none; }
+.landing-paths .dz-border { display:none; }
+.landing-paths .dz-icon,.path-icon { grid-column:1; grid-row:1 / span 2; display:grid; place-items:center; width:36px; height:40px; margin:0; border-radius:0; background:none; color:var(--fg); }
+.path-icon svg { width:23px; height:23px; fill:none; stroke:currentColor; stroke-width:1.35; stroke-linecap:round; stroke-linejoin:round; }
+.landing-paths .dz-title,.path-link-title { grid-column:2; grid-row:1; font-size:16px; font-weight:500; }
+.landing-paths .dz-sub,.path-link-detail { grid-column:2; grid-row:2; font-size:12px; line-height:1.5; opacity:1; }
+.path-arrow { grid-column:3; grid-row:1 / span 2; justify-self:end; font-size:22px; color:var(--accent); transition:transform 180ms var(--ease); }
+.landing-paths .upload-file { grid-column:2; grid-row:3; }
+.landing-paths .upload-track { grid-column:1 / -1; grid-row:4; }
+.landing-paths .dropzone:focus-visible,.editor-link:focus-visible { outline:1px solid var(--accent); outline-offset:6px; }
+.landing-paths .dropzone.over { border-color:var(--accent); background:none; transform:none; }
+.landing-paths .resume { margin-top:18px; padding:0 0 0 12px; gap:4px; }
+.landing-paths .resume-label { font-size:10px; text-transform:none; letter-spacing:0; }
+.landing-paths .resume-title { font-size:15px; font-weight:500; }
+.landing-paths .resume-meta { font-size:11px; }
+.landing-content > .site-footer { margin-top:42px; }
+@media(hover:hover) and (pointer:fine) {
+  .editor-link:hover .path-arrow,.landing-paths .dropzone:hover .path-arrow { transform:translate(2px,-2px); }
+  .editor-link:hover .path-link-title { text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; }
+  .landing-paths .dropzone:hover { background:none; }
+}
+@media(max-width:600px) {
+  .landing { padding:32px 24px; }
+  .landing-inner { width:min(380px,100%); }
+  .landing-content > .tagline { margin-bottom:34px; }
+  .landing-paths { grid-template-columns:1fr; gap:30px; }
+  .landing-path h2 { font-size:25px; margin-bottom:8px; }
+  .path-description { margin-bottom:10px; max-width:none; min-height:0; font-size:13px; }
+  .landing-paths .dropzone,.editor-link { min-height:76px; }
+  .landing-content > .site-footer { margin-top:30px; }
+}
+@media(prefers-reduced-motion:reduce) { .path-arrow { transition:none; } }

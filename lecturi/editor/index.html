@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fdfbf6">
+  <title>Escribir · lecturi</title>
+  <link rel="icon" href="../brand/favicon/favicon-light.svg" type="image/svg+xml">
+  <script type="module" crossorigin src="/lecturi/assets/editor-NZEp09O6.js"></script>
+  <link rel="modulepreload" crossorigin href="/lecturi/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/lecturi/assets/_commonjsHelpers-Cpj98o6Y.js">
+  <link rel="modulepreload" crossorigin href="/lecturi/assets/fontkit.es-PstzMsWF.js">
+  <link rel="stylesheet" crossorigin href="/lecturi/assets/editor-qeulRxG4.css">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="../" aria-label="Volver a lecturi"><img src="../brand/logo/lecturi-wordmark.svg" alt="lecturi"><span>/ escribir</span></a>
+    <span id="save-state" role="status">Un espacio para tus palabras</span>
+    <button id="export" class="primary" disabled>Descargar PDF <span aria-hidden="true">↗</span></button>
+  </header>
+  <main>
+    <section class="writing-panel" aria-label="Editor de texto">
+      <div class="document-heading"><span class="eyebrow">DOCUMENTO</span><button id="new-document" class="quiet">Nuevo documento</button></div>
+      <label class="sr-only" for="document-title">Nombre del documento</label>
+      <input id="document-title" value="Una carta" maxlength="120" placeholder="Documento sin título">
+      <div class="toolbar" role="toolbar" aria-label="Formato del texto">
+        <div class="tool-group">
+          <button data-command="bold" title="Negrita (⌘/Ctrl+B)" aria-label="Negrita" aria-pressed="false"><b>N</b></button>
+          <button data-command="italic" title="Cursiva (⌘/Ctrl+I)" aria-label="Cursiva" aria-pressed="false"><i>C</i></button>
+          <button data-command="underline" title="Subrayado rosa (⌘/Ctrl+U)" aria-label="Subrayado" aria-pressed="false"><u>S</u></button>
+          <div class="color-picker">
+            <button id="text-color" class="color-tool" title="Color del texto" aria-label="Color del texto" aria-expanded="false" aria-controls="color-palette"><span aria-hidden="true">A</span></button>
+            <div id="color-palette" class="color-palette" role="group" aria-label="Colores del texto" hidden></div>
+          </div>
+        </div>
+        <div class="tool-group" aria-label="Alineación">
+          <button data-command="justifyLeft" aria-label="Alinear a la izquierda" title="Izquierda"><svg viewBox="0 0 20 20"><path d="M3 4h14M3 8h9M3 12h14M3 16h9"/></svg></button>
+          <button data-command="justifyCenter" aria-label="Centrar" title="Centrar"><svg viewBox="0 0 20 20"><path d="M3 4h14M6 8h8M3 12h14M6 16h8"/></svg></button>
+          <button data-command="justifyRight" aria-label="Alinear a la derecha" title="Derecha"><svg viewBox="0 0 20 20"><path d="M3 4h14M8 8h9M3 12h14M8 16h9"/></svg></button>
+          <button data-command="justifyFull" aria-label="Justificar con Justif" title="Justificar con Justif"><svg viewBox="0 0 20 20"><path d="M3 4h14M3 8h14M3 12h14M3 16h14"/></svg></button>
+        </div>
+        <div class="tool-group"><button data-command="undo" aria-label="Deshacer" title="Deshacer">↶</button><button data-command="redo" aria-label="Rehacer" title="Rehacer">↷</button></div>
+        <div class="tool-group selection-size"><label for="selection-size">Tamaño</label><input id="selection-size" type="number" min="8" max="72" step="1" value="12" aria-label="Tamaño del texto seleccionado"><span>pt</span><button id="reset-size" title="Usar tamaño base" aria-label="Restablecer tamaño de selección">↺</button></div>
+        <div class="tool-group"><button data-command="bulletList" aria-label="Lista con viñetas" title="Lista con viñetas (⌘/Ctrl+Mayús+8)">•≡</button><button data-command="orderedList" aria-label="Lista numerada" title="Lista numerada (⌘/Ctrl+Mayús+7)">1.</button><button data-command="liftListItem" aria-label="Disminuir nivel de lista" title="Disminuir nivel (Mayús+Tab)">⇤</button><button data-command="sinkListItem" aria-label="Aumentar nivel de lista" title="Aumentar nivel (Tab)">⇥</button></div>
+        <div class="tool-group"><button id="insert-table" aria-label="Insertar tabla" title="Insertar tabla"><svg viewBox="0 0 20 20"><path d="M3 3h14v14H3zM3 8h14M3 12h14M10 3v14"/></svg></button><button id="markdown" class="markdown-button" title="Editar Markdown" aria-label="Editar Markdown">M↓</button></div>
+      </div>
+      <div class="editor-options"><label class="indent-label"><button id="paragraph-indent" role="switch" aria-checked="false" aria-label="Sangría de primera línea"><span></span></button>Sangría de primera línea</label><span>⌘ / Ctrl + B, I, U</span></div>
+      <div id="table-tools" class="table-tools" role="toolbar" aria-label="Editar tabla" hidden><button data-table="addRowAfter">+ Fila</button><button data-table="addColumnAfter">+ Columna</button><button data-table="deleteRow">− Fila</button><button data-table="deleteColumn">− Columna</button><button data-table="toggleHeaderRow">Encabezado</button><button data-table="deleteTable">Quitar tabla</button></div>
+      <div id="editor" data-placeholder="Empieza a escribir…"></div>
+      <div class="writing-footer"><span id="word-count">0 palabras</span><span>Space Grotesk · español</span></div>
+    </section>
+    <section class="preview-panel" aria-label="Vista previa del PDF">
+      <div class="preview-controls">
+        <div><span class="eyebrow">VISTA PREVIA</span><span id="page-count">1 página</span></div>
+        <button id="toggle-settings" class="quiet" aria-expanded="true" aria-controls="page-settings">Ajustes de página</button>
+      </div>
+      <div id="page-settings">
+        <label>Tipografía<select id="font-family"><option value="coelacanth">Coelacanth</option><option value="ysabeau">Ysabeau</option></select></label>
+        <label>Papel<select id="paper"><option value="letter">Carta</option><option value="a4">A4</option></select></label>
+        <label>Tamaño<select id="font-size"><option>10</option><option>11</option><option selected>12</option><option>13</option><option>14</option><option>16</option><option>18</option><option>24</option></select></label>
+        <label>Interlineado<select id="line-height"><option value="1.25">1.25</option><option value="1.45" selected>1.45</option><option value="1.6">1.6</option><option value="2">2</option></select></label>
+        <label>Márgenes<select id="margin"><option value="42.52">1.5 cm</option><option value="56.69">2 cm</option><option value="70.87" selected>2.5 cm</option><option value="85.04">3 cm</option></select></label>
+      </div>
+      <p id="message" role="status" aria-live="polite">Preparando la composición…</p>
+      <div id="page-viewport" class="page-viewport"><div id="pages" aria-busy="true"></div></div>
+      <footer class="preview-footer">Un margen no basta. <span>Compuesto con Justif.</span></footer>
+    </section>
+  </main>
+  <dialog id="new-dialog"><h2>¿Empezar de nuevo?</h2><p>Se borrará el borrador actual. Descarga primero el PDF si quieres conservarlo.</p><form method="dialog"><button value="cancel">Conservar borrador</button><button value="new" class="primary">Nuevo documento</button></form></dialog>
+  <dialog id="table-dialog"><h2>Una tabla sencilla</h2><form id="table-form"><div class="table-fields"><label>Filas<input id="table-rows" type="number" min="1" max="30" value="3" required></label><label>Columnas<input id="table-columns" type="number" min="1" max="8" value="2" required></label></div><label class="header-choice"><input id="table-header" type="checkbox" checked> Primera fila como encabezado</label><p>Tab avanza entre celdas y añade una fila al final. Mayús+Tab vuelve a la anterior.</p><div class="dialog-actions"><button type="button" data-close="table-dialog">Cancelar</button><button type="submit" class="primary">Insertar tabla</button></div></form></dialog>
+  <dialog id="markdown-dialog"><h2>Editar Markdown</h2><p>Admite títulos, negritas, cursivas, listas y tablas. Al aplicar cambios, los colores y tamaños personalizados se restablecen.</p><textarea id="markdown-source" aria-label="Código Markdown" spellcheck="false"></textarea><div class="dialog-actions"><button data-close="markdown-dialog">Cancelar</button><button id="apply-markdown" class="primary">Aplicar Markdown</button></div></dialog>
+</body>
+</html>

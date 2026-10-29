@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Lecturi</title>
-    <meta name="description" content="Lector EPUB con justificación Knuth–Plass y microtipografía." />
+    <meta name="description" content="Un margen no basta. Lee tus EPUB o escribe documentos y expórtalos a PDF con lecturi." />
     <meta name="theme-color" content="#FDFBF6" />
     <link rel="icon" href="./brand/favicon/favicon-light.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="./brand/app-icon/apple-touch-icon.png" />
@@ -15,8 +15,10 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Space+Grotesk:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap"
     />
-    <script type="module" crossorigin src="/lecturi/assets/index-B5h2EWlw.js"></script>
-    <link rel="stylesheet" crossorigin href="/lecturi/assets/index-D28SCECe.css">
+    <script type="module" crossorigin src="/lecturi/assets/reader-BkDgXNSd.js"></script>
+    <link rel="modulepreload" crossorigin href="/lecturi/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/lecturi/assets/_commonjsHelpers-Cpj98o6Y.js">
+    <link rel="stylesheet" crossorigin href="/lecturi/assets/reader-eTU7kud6.css">
   </head>
   <body>
     <!-- Portada: soltar un archivo -->
@@ -36,13 +38,17 @@
         </div>
         <div id="landing-content" class="landing-content" inert>
         <p class="tagline">Un margen no basta</p>
-
+        <div class="landing-paths">
+        <section class="landing-path" aria-labelledby="read-heading">
+        <h2 id="read-heading">Leer</h2>
+        <p class="path-description">Abre tu EPUB y continúa donde te quedaste.</p>
         <label id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Abrir un libro EPUB">
           <input id="file-input" type="file" accept=".epub,application/epub+zip" hidden />
           <svg class="dz-border" width="100%" height="100%" aria-hidden="true"><rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="22" /></svg>
           <span class="dz-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 16v4h16v-4" /></svg></span>
-          <span class="dz-title">Arrastra tu libro aquí</span>
-          <span class="dz-sub">EPUB · o elige un archivo</span>
+          <span class="dz-title">Abrir un EPUB</span>
+          <span class="dz-sub">O arrástralo aquí</span>
+          <span class="path-arrow" aria-hidden="true">↗</span>
           <span id="upload-file" class="upload-file" hidden></span>
           <span class="upload-track" aria-hidden="true"><span id="upload-progress"></span></span>
         </label>
@@ -52,7 +58,18 @@
           <span id="resume-title" class="resume-title"></span>
           <span id="resume-meta" class="resume-meta"></span>
         </button>
-
+        </section>
+        <section class="landing-path" aria-labelledby="write-heading">
+          <h2 id="write-heading">Escribir</h2>
+          <p class="path-description">Da forma a tus palabras y llévalas a un PDF.</p>
+          <a href="./editor/" class="editor-link" aria-label="Abrir el editor de documentos">
+            <span class="path-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H5v18h14V8l-5-5Zm0 0v5h5M8 12h8M8 16h6" /></svg></span>
+            <span class="path-link-title">Abrir el editor</span>
+            <span class="path-link-detail">Texto, Markdown y PDF</span>
+            <span class="path-arrow" aria-hidden="true">↗</span>
+          </a>
+        </section>
+        </div>
         <p id="landing-msg" class="landing-msg" role="status"></p>
         <footer class="site-footer">Diseñado por Francisco Guadarrama; algunos derechos reservados</footer>
         </div>
