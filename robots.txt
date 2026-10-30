@@ -5,49 +5,61 @@ Disallow: /.internal/
 User-agent: GPTBot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: anthropic-ai
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: CCBot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: meta-externalagent
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: AmazonBot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: cohere-ai
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 User-agent: Diffbot
 Allow: /
 Disallow: /.internal/
+Disallow: /rcp
 
 Sitemap: https://fguadarrama.com/sitemap.xml
