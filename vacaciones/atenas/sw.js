@@ -1,5 +1,5 @@
 // Guarda la página para usarla sin conexión. Cambia VERSION cada vez que subas una versión nueva.
-const VERSION = "grecia-2026-v20";
+const VERSION = "grecia-2026-v21";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(["./", "./index.html", "./vendor/leaflet/leaflet.js", "./vendor/leaflet/leaflet.css", "./vendor/fonts/SpaceGrotesk-Regular.ttf", "./vendor/fonts/SpaceGrotesk-Bold.ttf"])).then(() => self.skipWaiting()));
 });
