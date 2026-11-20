@@ -173,3 +173,11 @@ Actualización de /vacaciones/atenas/, solicitada por el propietario.
 - Tour del 7 todavía pendiente; horarios de visita y transporte local no reservado identificados como orientativos.
 - Cocteles del lunes opcionales y temprano, actualizando la nota para reflejar Kerameikos a las 10:00 del martes.
 - Pruebas de reservas intactas y actividades restauradas; inspección visual de Plan. Caché grecia-2026-v10.
+
+## Viernes 20 de noviembre de 2026 — America/Mexico_City
+
+Agente: Codex (OpenAI).
+
+Actualización de los registros de peso de /health a partir de las capturas proporcionadas por el propietario. Se incorporan tres mediciones faltantes, conservando el esquema existente y sus datos de composición corporal. La cuarta medición ya estaba registrada y se verificó sin duplicarla. Se conserva íntegramente el historial previo y se publica únicamente el artefacto cifrado; no se incluyen datos clínicos en texto plano.
+
+Validación: registros nuevos cotejados con las capturas y validados con el validador existente; segunda ejecución sin nuevas inserciones; descifrado de comprobación idéntico a la aplicación previa salvo por el arreglo de peso actualizado. El test antiguo de importación contiene una expectativa obsoleta del color del login y no pasa esa comprobación de estilo, ajena a esta actualización de datos.
