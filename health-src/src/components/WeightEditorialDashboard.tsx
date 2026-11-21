@@ -1,11 +1,141 @@
-import {createElement,useEffect,useMemo,useRef,useState,type PointerEvent} from 'react'
-import {RotateCcw} from 'lucide-react'
-import type{WeightRecord}from'../data/weight-data'
-import{weightDays,weightSoundGate}from'../lib/weight-editorial'
-import{weightScene,bmiScene,chartDate,dailyWeightLabel,type SceneNode}from'../lib/weight-editorial-geometry'
-import'../styles/weight-editorial.css'
-export type WeightEditorialProps={records:WeightRecord[];heightCm:number;referenceWeight?:number;referenceLabel?:string}
-declare global{interface Window{__healthChartTone?:(at:number)=>boolean;__healthChartToneCancel?:()=>void}}
-function Nodes({nodes}:{nodes:SceneNode[]}){return <>{nodes.map((node,i)=>createElement(node.tag,{...node.attrs,key:i,className:[node.motion?'wed-'+node.motion:'',node.halo?'wed-halo':''].join(' '),...(node.motion==='draw'?{pathLength:1}:{}),style:{animationDelay:(node.delay??0)+'ms'}},node.text))}</>}
-export default function WeightEditorialDashboard({records,heightCm,referenceWeight}:WeightEditorialProps){const days=useMemo(()=>weightDays(records),[records]),outer=useRef<HTMLDivElement>(null),widthRef=useRef<HTMLDivElement>(null),[visible,setVisible]=useState(false),[width,setWidth]=useState(1000),[replay,setReplay]=useState(0),[active,setActive]=useState<{index:number;chart:'weight'|'bmi'}|null>(null),mainGate=useRef(weightSoundGate()),fanGate=useRef(weightSoundGate());useEffect(()=>{if(!outer.current)return;const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){setVisible(true);observer.disconnect()}},{threshold:.05});observer.observe(outer.current);return()=>observer.disconnect()},[]);useEffect(()=>{if(!widthRef.current)return;const observer=new ResizeObserver(([e])=>setWidth(Math.max(900,Math.round(e.contentRect.width))));observer.observe(widthRef.current);return()=>observer.disconnect()},[]);const reference=Number.isFinite(referenceWeight)?Math.round(referenceWeight!*10)/10:64.5,main=useMemo(()=>weightScene(days,width,400,reference),[days,width,reference]),fan=useMemo(()=>bmiScene(days,heightCm,reference),[days,heightCm,reference]);if(!days.length)return null;const weights=days.map(d=>d.weight),lo=Math.min(...weights),hi=Math.max(...weights),signature=days.map(d=>d.date+d.weight).join('|');function select(index:number,chart:'weight'|'bmi'){const i=Math.max(0,Math.min(days.length-1,index));setActive(old=>old?.index===i&&old.chart===chart?old:{index:i,chart});if((chart==='weight'?mainGate.current:fanGate.current).accept(days[i].date))window.__healthChartTone?.((days[i].weight-lo)/(hi-lo||1))}function leave(){setActive(null);window.__healthChartToneCancel?.()}function move(e:PointerEvent<SVGSVGElement>){if(e.type==='pointermove'&&e.pointerType==='touch')return;const matrix=e.currentTarget.getScreenCTM();if(!matrix)return;const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse()),step=(main.width-72)/days.length;if(p.x>=48&&p.x<=main.width-24&&p.y>=25&&p.y<=main.height-32)select(Math.floor((p.x-48)/step),'weight')}const chosen=active?days[active.index]:null;function tooltip(chart:'weight'|'bmi'){const section=outer.current?.querySelector<HTMLElement>(chart==='weight'?'.wed-weight':'.wed-bmi'),svg=section?.querySelector('svg'),scene=chart==='weight'?main:fan,point=active?.chart===chart?scene.points[active.index]:null;let position={left:0,top:0};if(section&&svg&&point){const box=section.getBoundingClientRect(),rect=svg.getBoundingClientRect(),scale=chart==='bmi'?Math.min(rect.width/600,rect.height/450):rect.width/scene.width,x=rect.left-box.left+(chart==='bmi'?(rect.width-600*scale)/2:0)+point.x*scale,y=rect.top-box.top+(chart==='bmi'?(rect.height-450*scale)/2:0)+(point.y-(chart==='bmi'?35:0))*scale;position={left:Math.max(6,Math.min(box.width-206,x-100)),top:y>=78?y-74:y+16}}return <div style={position} className={'wed-tooltip '+(active?.chart===chart?'is-open':'')} role="status" aria-live="polite">{chosen&&active?.chart===chart&&<><strong>{dailyWeightLabel(chosen)} kg</strong><span>{chartDate(chosen.date,true)}</span></>}</div>}
-return <div ref={outer} data-weight-editorial-version="6" data-sonification={typeof window.__healthChartTone==='function'?'ready':'unavailable'} className={'weight-editorial-root wed-exact '+(visible?'wed-visible':'')}><button type="button" className="wed-replay" title="Repetir animación" aria-label="Repetir animación de las gráficas" onClick={()=>setReplay(n=>n+1)}><RotateCcw size={17}/></button><div className="wed-grid"><section className="wed-weight" aria-label="Peso a través del tiempo"><div ref={widthRef} className="wed-scroll" onScroll={leave}><svg key={'weight-'+replay+'-'+signature} className="wed-main-svg" viewBox={`0 0 ${main.width} ${main.height}`} role="group" aria-label="Peso diario, tendencia suavizada y peso ideal" tabIndex={0} onPointerMove={move} onPointerDown={move} onPointerLeave={leave} onKeyDown={e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();select((active?.chart==='weight'?active.index:0)+(e.key==='ArrowRight'?1:-1),'weight')}}}><Nodes nodes={main.nodes}/>{main.points.map((p,i)=><circle key={p.date} cx={p.x} cy={p.y} r={9} fill="transparent" role="graphics-symbol" tabIndex={0} aria-label={`${dailyWeightLabel(days[i])} kg · ${chartDate(p.date,true)}`} onFocus={()=>select(i,'weight')}/>)}{active?.chart==='weight'&&<circle cx={main.points[active.index].x} cy={main.points[active.index].y} r={7.2} className="wed-active"/>}</svg></div>{tooltip('weight')}</section><section className="wed-bmi" aria-label="Abanico de índice de masa corporal"><svg key={'fan-'+replay+'-'+signature} className="wed-fan-svg" viewBox="0 35 600 450" role="group" aria-label="Abanico de IMC con referencias de IMC ideal y sobrepeso" onPointerLeave={leave}><Nodes nodes={fan.nodes}/>{fan.points.map((p,i)=><line key={p.date} x1={150} y1={450} x2={p.x} y2={p.y} stroke="transparent" strokeWidth={11} tabIndex={0} role="graphics-symbol" aria-label={`${dailyWeightLabel(days[i])} kg · ${chartDate(p.date,true)}`} onPointerEnter={()=>select(i,'bmi')} onPointerDown={()=>select(i,'bmi')} onFocus={()=>select(i,'bmi')}/>)}{active?.chart==='bmi'&&<circle cx={fan.points[active.index].x} cy={fan.points[active.index].y} r={7} className="wed-active"/>}</svg>{tooltip('bmi')}</section></div></div>}
+import { createElement, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
+import { Minus, Plus, RotateCcw } from 'lucide-react'
+import type { WeightRecord } from '../data/weight-data'
+import { weightDays, type WeightDay } from '../lib/weight-editorial'
+import { weightScene, bmiScene, chartDate, dailyWeightLabel, type ChartScene, type SceneNode } from '../lib/weight-editorial-geometry'
+import '../styles/weight-editorial.css'
+
+export type WeightEditorialProps = { records: WeightRecord[]; heightCm: number; referenceWeight?: number; referenceLabel?: string }
+declare global { interface Window { __healthChartTone?: (at: number) => boolean; __healthChartToneCancel?: () => void } }
+
+function Readout({ node, ready }: { node: SceneNode; ready: boolean }) {
+  const { x, y, fontSize, fontWeight } = node.attrs
+  const chars = Array.from(node.text ?? '')
+  const digits = chars.map((ch, i) => /\d/.test(ch) ? i : -1).filter(i => i >= 0)
+  const stagger = digits.length ? digits.slice(-2) : [chars.length - 2, chars.length - 1]
+  return <foreignObject className="wed-readout" x={Number(x)-130} y={Number(y)-Number(fontSize)}
+    width={260} height={Number(fontSize)*1.65} pointerEvents="none">
+    <div className={'t-digit-group' + (ready ? ' is-animating' : '')} aria-label={node.text}
+      style={{fontSize: Number(fontSize), fontWeight}}>
+      {chars.map((ch,i) => <span key={i} aria-hidden="true" className="t-digit" data-stagger={stagger.includes(i) ? stagger.indexOf(i)+1 : undefined}>{ch === ' ' ? '\u00a0' : ch}</span>)}
+    </div>
+  </foreignObject>
+}
+
+type ChartKind = 'weight' | 'bmi'
+type Tip = { index: number; x: number; y: number; above: boolean }
+
+function ChartPanel({kind,days,scene,visible,expanded,onExpand,measure}:{
+  kind: ChartKind; days: WeightDay[]; scene: ChartScene; visible: boolean; expanded: boolean
+  onExpand: () => void; measure?: (width: number) => void
+}) {
+  const section=useRef<HTMLElement>(null), svg=useRef<SVGSVGElement>(null), drawing=useRef<SVGGElement>(null)
+  const selected=useRef<number|null>(null), [tip,setTip]=useState<Tip|null>(null), [open,setOpen]=useState(false)
+  const [ready,setReady]=useState(false)
+  const isWeight=kind==='weight'
+  const label=isWeight?'Peso a través del tiempo':'Abanico de índice de masa corporal'
+  const close=useCallback(()=>{
+    if(selected.current!==null) window.__healthChartToneCancel?.()
+    selected.current=null
+    setOpen(false)
+  },[])
+  useEffect(()=>{
+    const el=svg.current
+    if(!el)return
+    const resize=new ResizeObserver(()=>{close(); if(measure && el.clientWidth)measure(Math.max(680,el.clientWidth))})
+    resize.observe(el)
+    window.addEventListener('blur',close)
+    document.addEventListener('visibilitychange',close)
+    return ()=>{resize.disconnect();window.removeEventListener('blur',close);document.removeEventListener('visibilitychange',close)}
+  },[measure,close])
+  useLayoutEffect(()=>{
+    if(!visible || !drawing.current)return
+    let current=true
+    // This includes the last staggered spoke, point and annotation in each chart.
+    const animations=drawing.current.getAnimations({subtree:true})
+    Promise.allSettled(animations.map(a=>a.finished)).then(()=>{if(current)setReady(true)})
+    return ()=>{current=false}
+  },[visible])
+  function choose(index:number){
+    if(selected.current===index || !section.current || !svg.current)return
+    const matrix=svg.current.getScreenCTM()
+    if(!matrix)return
+    const p=scene.points[index], location=new DOMPoint(p.x,p.y).matrixTransform(matrix)
+    const box=section.current.getBoundingClientRect(), x=location.x-box.left,y=location.y-box.top
+    const above=y>=70, tipWidth=Math.min(200,box.width-12)
+    setTip({index,x:Math.max(6, Math.min(box.width-tipWidth-6,x-tipWidth/2)),y:above?y-10:y+10,above})
+    setOpen(true)
+    selected.current=index
+    const weights=days.map(d=>d.weight), low=Math.min(...weights), high=Math.max(...weights)
+    window.__healthChartTone?.((p.weight-low)/(high-low||1))
+  }
+  function track(e:PointerEvent<SVGSVGElement>){
+    if(e.pointerType==='touch' && e.type==='pointermove')return
+    const matrix=e.currentTarget.getScreenCTM()
+    if(!matrix)return
+    let nearest=-1, distance=e.pointerType==='touch'?24:15
+    scene.points.forEach((p,i)=>{
+      const pt=new DOMPoint(p.x,p.y).matrixTransform(matrix)
+      const d=Math.hypot(pt.x-e.clientX,pt.y-e.clientY)
+      if(d<distance){nearest=i;distance=d}
+    })
+    if(nearest<0)close();else choose(nearest)
+  }
+  const plot=<svg ref={svg} role="group" aria-label={label} data-chart-audio-owner="point"
+    className={isWeight?'wed-main-svg':'wed-fan-svg'} viewBox={isWeight?`0 0 ${scene.width} ${scene.height}`:'0 35 600 450'}
+    onPointerMove={track} onPointerDown={track} onPointerLeave={close} onPointerCancel={close}
+    onPointerUp={e=>{if(e.pointerType==='touch')close()}}
+    onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node|null))close()}}
+    onKeyDown={e=>{
+      if(e.key==='Escape'){close();return}
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return
+      e.preventDefault()
+      const i=Math.min(days.length-1,Math.max(0,(selected.current??0)+(e.key==='ArrowRight'?1:-1)))
+      e.currentTarget.querySelector<SVGElement>(`[data-reading="${i}"]`)?.focus()
+    }}>
+    <g ref={drawing} pointerEvents="none">{scene.nodes.map((n,i)=>n.readout?null:createElement(n.tag,{
+      ...n.attrs,key:i,className:[n.motion?'wed-'+n.motion:'',n.halo?'wed-halo':''].join(' '),
+      ...(n.motion==='draw'?{pathLength:1}:{}),style:{animationDelay:(n.delay??0)+'ms'}
+    },n.text))}</g>
+    {scene.nodes.filter(n=>n.readout).map((n,i)=><Readout key={i} node={n} ready={ready}/>)}
+    {scene.points.map((p,i)=><circle key={p.date} data-reading={i} cx={p.x} cy={p.y} r={5} fill="transparent" pointerEvents="none"
+      role="graphics-symbol" tabIndex={0} aria-label={dailyWeightLabel(days[i])+' kg · '+chartDate(p.date,true)}
+      onFocus={e=>{if(e.currentTarget.matches(':focus-visible'))choose(i)}}/>)}
+    {open&&tip&&<circle className="wed-active" cx={scene.points[tip.index].x} cy={scene.points[tip.index].y} r={7}/>}
+  </svg>
+  return <section ref={section} className={isWeight?'wed-weight':'wed-bmi'} aria-label={label}>
+    <button type="button" className="wed-expand" aria-label={(expanded?'Reducir ':'Ampliar ')+label} aria-expanded={expanded} onClick={()=>{close();onExpand()}}>
+      {expanded?<Minus size={15}/>:<Plus size={15}/>}
+    </button>
+    {isWeight?<div className="wed-scroll" onScroll={close}>{plot}</div>:plot}
+    {tip&&<div className={'wed-tip-anchor'+(tip.above?' above':'')} style={{left:tip.x,top:tip.y}}>
+      <div className={'wed-tip-content'+(open?' is-open':'')} aria-hidden={!open} role="status">
+        <strong>{dailyWeightLabel(days[tip.index])} kg</strong><span>{chartDate(days[tip.index].date,true)}</span>
+      </div>
+    </div>}
+  </section>
+}
+
+export default function WeightEditorialDashboard({records,heightCm,referenceWeight}:WeightEditorialProps){
+  const days=useMemo(()=>weightDays(records),[records]), outer=useRef<HTMLDivElement>(null)
+  const [visible,setVisible]=useState(false),[width,setWidth]=useState(900),[replay,setReplay]=useState(0)
+  const [expanded,setExpanded]=useState<ChartKind|null>(null)
+  useEffect(()=>{
+    if(!outer.current)return
+    const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){setVisible(true);observer.disconnect()}})
+    observer.observe(outer.current);return ()=>observer.disconnect()
+  },[])
+  const reference=Number.isFinite(referenceWeight)?Math.round(referenceWeight!*10)/10:64.5
+  const main=useMemo(()=>weightScene(days,width,expanded==='weight'?520:480,reference),[days,width,expanded,reference])
+  const fan=useMemo(()=>bmiScene(days,heightCm,reference),[days,heightCm,reference])
+  const signature=days.map(d=>d.date+d.weight).join('|')
+  if(!days.length)return null
+  return <div ref={outer} data-weight-editorial-version="7" data-expanded={expanded??undefined}
+    className={'weight-editorial-root wed-exact '+(visible?'wed-visible':'')}
+    onKeyDown={e=>{if(e.key==='Escape'&&expanded)setExpanded(null)}}>
+    <button type="button" className="wed-replay" title="Repetir animación" aria-label="Repetir animación de las gráficas" onClick={()=>setReplay(n=>n+1)}><RotateCcw size={15}/></button>
+    <div className="wed-grid">{(['weight','bmi'] as const).map(kind=>expanded&&expanded!==kind?null:
+      <ChartPanel key={kind+signature+replay} kind={kind} days={days} scene={kind==='weight'?main:fan} measure={kind==='weight'?setWidth:undefined}
+        visible={visible} expanded={expanded===kind} onExpand={()=>setExpanded(old=>old===kind?null:kind)}/>)}</div>
+  </div>
+}

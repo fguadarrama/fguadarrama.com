@@ -36,3 +36,47 @@
 }
 
 .wed-exact svg text[fill="#4392ba"]{fill:#4392ba!important}
+
+/* Keep actions beside the patient identity, leaving the working area to the plots. */
+.patient-strip .weight-page-actions { margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px; }
+.patient-strip .weight-page-actions .outline-action {width:30px;height:30px;min-width:30px;padding:4px!important;}
+.patient-strip .weight-page-actions :is(svg,.outline-action::before){width:15px;height:15px}
+.patient-strip .runtime-weight-icons .outline-action::before{width:15px;height:15px}
+.integrated-weight>.weight-chart-actions-row:has(.weight-heading-accessible:only-child),
+.integrated-weight.weight-editorial-runtime>.page-heading:not(:has(.weight-page-actions)){display:none}
+.wed-exact .wed-expand {position:absolute;right:8px;top:7px;z-index:3;width:32px;height:32px;display:grid;place-items:center;border:0;background:transparent;color:var(--wed-muted);cursor:pointer;border-radius:50%}
+.wed-expand:focus-visible {outline:1px solid var(--wed-blue)}
+@media(hover:hover){.wed-expand:hover{color:var(--wed-ink);background:#f6f7f9}}
+.wed-exact[data-expanded] .wed-grid{grid-template-columns:minmax(0,1fr)}
+.wed-exact[data-expanded] :is(.wed-weight,.wed-bmi){width:100%;max-width:none;justify-self:stretch}
+.wed-exact[data-expanded] .wed-fan-svg {max-width:none}
+@media(min-width:1101px) {
+ .wed-exact .wed-weight,.wed-exact .wed-bmi{height:clamp(390px,46vh,460px);padding:19px 12px 10px}
+ .wed-exact .wed-scroll,.wed-exact .wed-fan-svg,.wed-exact .wed-main-svg{height:100%}
+ .wed-exact[data-expanded] :is(.wed-weight,.wed-bmi){height:clamp(490px,68vh,760px)}
+}
+@media(max-width:1100px){.wed-exact[data-expanded] .wed-main-svg {min-width:0}.wed-exact[data-expanded] .wed-fan-svg{width:100%;height:auto}}
+.wed-tip-anchor {position:absolute;width:200px;max-width:calc(100% - 12px);z-index:4;pointer-events:none}
+.wed-tip-anchor.above {transform:translateY(-100%)}
+.wed-tip-content {opacity:0;visibility:hidden;transform:translateY(-3px) scale(.97);transform-origin:center top;
+ background:#fff;color:#20231f;border:1px solid var(--wed-grid);border-radius:7px;padding:9px 12px;font:11px/1.5 'Albert Sans Variable',sans-serif;
+ transition:opacity 125ms var(--wed-ease),transform 125ms var(--wed-ease),visibility 0s 125ms}
+.wed-tip-anchor.above .wed-tip-content{transform:translateY(3px) scale(.97);transform-origin:center bottom}
+.wed-tip-anchor .wed-tip-content.is-open{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+@starting-style{.wed-tip-anchor .wed-tip-content.is-open{opacity:0;transform:scale(.97)}}
+.wed-tip-content strong,.wed-tip-content span{display:block}
+.wed-tip-content span{color:#646a65}
+.wed-readout {overflow:visible}
+.wed-readout .t-digit-group {--digit-dur:500ms;--digit-distance:8px;--digit-stagger:70ms;--digit-blur:2px;
+ --digit-ease:cubic-bezier(.34,1.45,.64,1);--digit-dir-x:0;--digit-dir-y:1;
+ display:flex;align-items:baseline;justify-content:center;color:var(--wed-blue);line-height:1.2;white-space:pre;font-family:'Albert Sans Variable',sans-serif;font-variant-numeric:tabular-nums}
+.wed-readout .t-digit {display:inline-block;opacity:0}
+.wed-readout .is-animating .t-digit {animation:t-digit-pop-in var(--digit-dur) var(--digit-ease) both}
+.wed-readout .t-digit[data-stagger="1"]{animation-delay:var(--digit-stagger)}
+.wed-readout .t-digit[data-stagger="2"]{animation-delay:calc(var(--digit-stagger)*2)}
+@keyframes t-digit-pop-in {
+ from{transform:translate(calc(var(--digit-distance)*var(--digit-dir-x)),calc(var(--digit-distance)*var(--digit-dir-y)));opacity:0;filter:blur(var(--digit-blur))}
+ to{transform:translate(0,0);opacity:1;filter:blur(0)}
+}
+@media(prefers-reduced-motion:reduce){.wed-readout .t-digit{animation:none!important;opacity:1}.wed-tip-anchor .wed-tip-content{transform:none;transition:opacity 80ms linear,visibility 0s 80ms}}
+html .wed-exact .wed-readout :is(.t-digit-group,.t-digit){color:#4392ba!important}

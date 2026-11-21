@@ -1,5 +1,6 @@
 import WeightEditorialDashboard from '../components/WeightEditorialDashboard'
 import { FileDown, Printer, Plus } from 'lucide-react'
+import { createPortal } from 'react-dom'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
@@ -46,11 +47,13 @@ export default function Weight() {
     finally { setExporting(false) }
   }
 
+  const strip=document.querySelector(".patient-strip")
+  const actions=<div className="weight-page-actions"><button className="outline-action weight-icon-action" aria-label="Descargar PDF" title="Descargar PDF" onClick={() => downloadReport()} disabled={exporting}><FileDown aria-hidden="true"/><span className="weight-action-label">{exporting ? 'Generando PDF…' : 'Descargar PDF'}</span></button><button className="outline-action weight-icon-action" aria-label="Imprimir" onClick={() => downloadReport(true)} disabled={exporting} title="Generar PDF en negro sobre blanco"><Printer aria-hidden="true"/><span className="weight-action-label">Imprimir</span></button><button className="outline-action weight-icon-action" aria-label="Añadir medición" title="Añadir medición" onClick={() => setAdding(true)}><Plus aria-hidden="true"/><span className="weight-action-label">Añadir medición</span></button></div>
   return (
     <div className="integrated-weight">
       <header className="page-heading weight-chart-actions-row">
         <div className="weight-heading-accessible"><h1>Peso</h1></div>
-        <div className="weight-page-actions"><button className="outline-action weight-icon-action" aria-label="Descargar PDF" title="Descargar PDF" onClick={() => downloadReport()} disabled={exporting}><FileDown aria-hidden="true"/><span className="weight-action-label">{exporting ? 'Generando PDF…' : 'Descargar PDF'}</span></button><button className="outline-action weight-icon-action" aria-label="Imprimir" onClick={() => downloadReport(true)} disabled={exporting} title="Generar PDF en negro sobre blanco"><Printer aria-hidden="true"/><span className="weight-action-label">Imprimir</span></button><button className="outline-action weight-icon-action" aria-label="Añadir medición" title="Añadir medición" onClick={() => setAdding(true)}><Plus aria-hidden="true"/><span className="weight-action-label">Añadir medición</span></button></div>
+        {strip ? createPortal(actions,strip) : actions}
       </header>
       {exportError && <p role="alert">{exportError}</p>}
 

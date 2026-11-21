@@ -55,6 +55,7 @@ export function startChartHover(){
   document.addEventListener('pointermove',event=>{
     if(event.pointerType==='touch'||!matchMedia('(hover:hover) and (pointer:fine)').matches)return
     const target=event.target instanceof Element?event.target:null
+    if(target?.closest('[data-chart-audio-owner]')){current=null;return}
     const wrapper=target?.closest('.recharts-wrapper')
     const svg=wrapper?.querySelector<SVGSVGElement>('svg.recharts-surface')||target?.closest<SVGSVGElement>(CHART_SURFACE)||null
     if(!svg){current=null;return}
