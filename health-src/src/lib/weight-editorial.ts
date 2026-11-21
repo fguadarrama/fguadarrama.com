@@ -1,0 +1,10 @@
+import type { WeightRecord } from '../data/weight-data'
+export type WeightDay={date:string;weight:number;samples:WeightRecord[]}
+export const elapsedDays=(a:string,b:string)=>Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/86400000)
+/** Presentation only. Original records are neither rounded nor rewritten. */
+export function weightDays(records:WeightRecord[]):WeightDay[]{const groups=new Map<string,WeightRecord[]>();for(const r of records){if(!Number.isFinite(r.weight)||!/^\d{4}-\d{2}-\d{2}$/.test(r.date))continue;groups.set(r.date,[...(groups.get(r.date)??[]),r])}return [...groups].sort(([a],[b])=>a.localeCompare(b)).map(([date,samples])=>({date,samples:[...samples].sort((a,b)=>a.time.localeCompare(b.time)),weight:samples.reduce((sum,r)=>sum+r.weight,0)/samples.length}))}
+export function biggestGap(days:WeightDay[]){let after=-1,duration=0;for(let i=0;i<days.length-1;i++){const n=elapsedDays(days[i].date,days[i+1].date);if(n>duration){duration=n;after=i}}return{after,duration}}
+/** Local linear LOESS, tricube weights, span .6, using elapsed dates rather than drawing slots. */
+export function weightLoess(days:WeightDay[]){if(!days.length)return[];const gap=biggestGap(days),start=gap.duration>=60?gap.after+1:0,series=days.slice(start),xs=series.map(d=>elapsedDays(series[0].date,d.date)),n=series.length,k=Math.min(n,Math.max(3,Math.ceil(.6*n)));return series.map((d,index)=>{if(n<3)return{index:start+index,value:d.weight};const x0=xs[index],dist=xs.map(x=>Math.abs(x-x0)),h=[...dist].sort((a,b)=>a-b)[k-1]||1;let sw=0,sx=0,sy=0,sxx=0,sxy=0;series.forEach((p,j)=>{const u=dist[j]/h,w=u<1?(1-u**3)**3:0,x=xs[j]-x0;sw+=w;sx+=w*x;sy+=w*p.weight;sxx+=w*x*x;sxy+=w*x*p.weight});const den=sw*sxx-sx*sx;return{index:start+index,value:sw===0?d.weight:Math.abs(den)<1e-10?sy/sw:(sy*sxx-sx*sxy)/den}})}
+export const calculatedBmi=(weight:number,heightCm:number)=>weight/(heightCm/100)**2
+export function weightSoundGate(){let last:string|null=null;return{accept(key:string){if(key===last)return false;last=key;return true}}}

@@ -69,3 +69,14 @@ MIT: https://bencho.dev/licence. Replaces the previously tested Generate
 chart reveal. Uses Pull's exact drag preset, positional pitch scaling and
 150ms rate limit. Rendered line height determines the pitch; no chart
 loading filter, delay or animation is added.
+
+## Lieflat Charts — editorial weight and BMI fan
+
+Design grammar and template reference: https://github.com/larashero3-dotcom/lieflat-charts,
+by 躺在废墟里. Adapts the user-supplied F2/B3 daily-weight and L1/B7-b-BMI
+examples: daily means, date-based local-linear LOESS, monotone paths, fan
+spokes with squared BMI lengths, and draw/fade/pop entrance choreography.
+Body-composition visualisations retain their existing implementation.
+
+D3 Shape 3.2.0 (ISC license) supplies the monotone curve generator.
+The application retains Albert Sans and its existing Bencho point audio.

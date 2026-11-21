@@ -181,3 +181,27 @@ Agente: Codex (OpenAI).
 Actualización de los registros de peso de /health a partir de las capturas proporcionadas por el propietario. Se incorporan tres mediciones faltantes, conservando el esquema existente y sus datos de composición corporal. La cuarta medición ya estaba registrada y se verificó sin duplicarla. Se conserva íntegramente el historial previo y se publica únicamente el artefacto cifrado; no se incluyen datos clínicos en texto plano.
 
 Validación: registros nuevos cotejados con las capturas y validados con el validador existente; segunda ejecución sin nuevas inserciones; descifrado de comprobación idéntico a la aplicación previa salvo por el arreglo de peso actualizado. El test antiguo de importación contiene una expectativa obsoleta del color del login y no pasa esa comprobación de estilo, ajena a esta actualización de datos.
+
+## Viernes 20 de noviembre de 2026 — vista previa local, pendiente de aprobación
+
+Agente: Codex (OpenAI).
+
+Rediseño local del encabezado de peso en /health: gráfica editorial diaria sobre blanco, textos en español, tendencia LOESS y referencia de peso, con abanico de IMC a la derecha en escritorio. Se conservan las mediciones originales y los componentes de composición corporal. Los promedios diarios y el IMC calculado se identifican como derivados; no modifican datos registrados. Se reutiliza el sintetizador de sonificación existente y se deduplican selecciones por día. Iconos de PDF, impresión y nueva medición conservan sus acciones originales.
+
+Vista previa animada con draw/fade/pop, soporte de movimiento reducido y botón de repetición. Pruebas específicas de agregación, tendencia, IMC y sonido aprobadas; compilación y comprobación TypeScript del nuevo componente aprobadas. Sin commit ni push de esta vista previa.
+
+## Viernes 20 de noviembre de 2026 — corrección de la vista previa, sin publicar
+
+Agente: Codex (OpenAI).
+
+La vista de peso sigue la referencia B3-equal-height y el abanico B7-b-BMI-2 revisados por el propietario. Se retira la franja superior de cifras y la copia explicativa añadida. El eje vertical usa 60–85 kg en intervalos iguales de 5 kg; la unidad aparece una sola vez y cada fecha tiene etiqueta. Las lecturas máxima y reciente llevan líneas guía finas con fecha completa en español. La referencia se rotula «Peso ideal», sin método. Los tooltips muestran exclusivamente peso y fecha. El abanico tiene referencia azul de IMC ideal y rosa de IMC 25, rotulada «Sobrepeso».
+
+Pantalla y PDF comparten la misma geometría vectorial. La descarga en color y la versión de impresión se comprobaron desde los botones reales; se conserva el resto del informe y las mediciones individuales. Se conserva la sonificación por punto y las animaciones con movimiento reducido. Sin commit ni push de esta vista previa.
+
+## Viernes 20 de noviembre de 2026 — rediseño aprobado para publicación
+
+Agente: Codex (OpenAI).
+
+El propietario aprueba publicar las gráficas editoriales de peso e IMC y el exportador actualizado. Tarjetas dentro de la columna del sitio con esquinas de 16 px; gráfica de peso aproximadamente 20 % más estrecha y abanico ampliado manteniendo 350 px de alto. Albert Sans en todos los textos, valores actuales en azul #4392ba («Peso actual» e «IMC actual», unidad kg/m²) y corrección del contraste de etiquetas en tema oscuro. Tooltips junto al punto seleccionado, sólo con peso y fecha. PDF A4 vertical con peso arriba e IMC abajo, conservando el resto del informe.
+
+Validación: agregación diaria, geometría compartida, sonificación y desbloqueo de audio aprobados; TypeScript de los componentes nuevos aprobado. Auditorías del artefacto cifrado y privacidad Git aprobadas. Descarga real y render del PDF inspeccionados. The Lab, capturas, informes de prueba y datos privados locales quedan fuera de la publicación.

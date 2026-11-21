@@ -1,3 +1,5 @@
+import {PdfEditorialWeight,PdfEditorialBmi} from './weight-editorial-pdf'
+import profile from '../data/body-profile.local.json'
 import React from 'react'
 import { pdf, StyleSheet } from '@react-pdf/renderer'
 import { Document, Page, Text as PdfText, View, Svg, Path, Line, Circle, Rect, usePrintPdf } from './pdf-primitives'
@@ -68,19 +70,24 @@ function Header({ printed }: { printed: string }) {
 }
 function Footer() { return <Text fixed style={s.footer} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} /> }
 
-export function WeightReportDocument({ records, monochrome = false, printed = new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10) }: { records: WeightRecord[]; printed?: string; monochrome?: boolean }) {
+export function WeightReportDocument({ records, monochrome = false, heightCm = profile.heightCm, referenceWeight = 64.5, printed = new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10) }: { records: WeightRecord[]; printed?: string; monochrome?: boolean; heightCm?: number; referenceWeight?: number }) {
   const sorted = ascendingWeights(records), latest = sorted[sorted.length-1], snapshots = compositionSnapshots(records), recent = snapshots[snapshots.length-1]
   if (!latest) throw new Error('No hay registros de peso para exportar.')
-  const change = latest.weight-Math.max(...sorted.map(r => r.weight))
   // Explicit batches keep reports readable as future measurements are added.
   const batches = Array.from({ length: Math.ceil(records.length/16) }, (_,i) => descendingWeights(records).slice(i*16,(i+1)*16))
   const snapshotBatches = Array.from({ length: Math.ceil(snapshots.length/4) }, (_,i) => snapshots.slice(i*4,(i+1)*4))
   return <Document monochrome={monochrome} title="Peso y composición corporal" author={PATIENT.fullName}>
+    <Page size="A4" style={s.page}>
+      <Header printed={printed}/>
+      <View wrap={false} style={{flexDirection:'column',gap:22,marginTop:18,alignItems:'center'}}>
+        <PdfEditorialWeight records={records} referenceWeight={referenceWeight} width={523}/>
+        <PdfEditorialBmi records={records} heightCm={heightCm} referenceWeight={referenceWeight} width={490}/>
+      </View>
+      <Footer/>
+    </Page>
     {batches.map((batch,bi) => <Page key={`weight-${bi}`} size="A4" style={s.page}>
       <Header printed={printed} />
-      {bi === 0 && <><View style={s.summary}><View style={s.fact}><Text>Peso actual · {formatWeightDate(latest.date)}</Text><Text style={s.number}>{formatWeight(latest.weight)} kg</Text></View><View style={s.fact}><Text>Cambio desde el máximo</Text><Text style={s.number}>{change > 0 ? '+' : ''}{formatWeight(change)} kg</Text></View><View style={s.fact}><Text>Grasa corporal actual</Text><Text style={s.number}>{latest.bodyFat == null ? '—' : `${formatWeight(latest.bodyFat)} %`}</Text></View></View>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}><View style={{ width: 305 }}><Text style={s.heading}>Evolución del peso · kg</Text><PdfTrend records={records} width={295} height={220} /></View>{recent && <View style={{ width: 225 }}><Text style={s.heading}>Composición · {formatWeightDate(recent.date)}</Text><PdfBigSlice record={recent} /></View>}</View>
-      </>}
+      {bi === 0 && recent && <View wrap={false}><Text style={s.heading}>Composición · {formatWeightDate(recent.date)}</Text><PdfBigSlice record={recent}/></View>}
       <Text style={s.heading}>Mediciones de peso{bi ? ' · continuación' : ''}</Text>
       <View style={s.row}>{['Fecha','Peso · kg','Grasa corporal · %'].map(t => <Text key={t} style={[s.cell,{ width: '33.33%' }]}>{t}</Text>)}</View>
       {batch.map(r => <View key={r.id} wrap={false} style={s.row}><Text style={[s.cell,{ width: '33.33%' }]}>{formatWeightDate(r.date)}</Text><Text style={[s.cell,{ width: '33.33%' }]}>{formatWeight(r.weight)}</Text><Text style={[s.cell,{ width: '33.33%' }]}>{r.bodyFat == null ? '—' : formatWeight(r.bodyFat)}</Text></View>)}
@@ -111,6 +118,6 @@ export function WeightReportDocument({ records, monochrome = false, printed = ne
   </Document>
 }
 
-export async function generateWeightReportBlob(records: WeightRecord[], options: { monochrome?: boolean } = {}) {
+export async function generateWeightReportBlob(records: WeightRecord[], options: { monochrome?: boolean; heightCm?:number; referenceWeight?:number } = {}) {
   return pdf(<WeightReportDocument records={records} {...options} />).toBlob()
 }

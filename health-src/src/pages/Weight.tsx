@@ -1,12 +1,10 @@
+import WeightEditorialDashboard from '../components/WeightEditorialDashboard'
+import { FileDown, Printer, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   AddWeightDialog,
-  AnimatedNumber,
-  MetricToggle,
-  WeightChart,
   useWeightSummary,
-  type Metric,
 } from '../prototypes/weight/shared'
 import { descendingWeights, formatWeight, formatWeightDate } from '../data/weight-data'
 import { useWeightStore } from '../stores/weightStore'
@@ -17,7 +15,7 @@ import WeightHealth from '../components/WeightHealth'
 import WeightReference from '../components/WeightReference'
 import InBodyReadings from '../components/InBodyReadings'
 import profile from '../data/body-profile.local.json'
-import { ibwEstimates, weightHealth, type IbwMethod } from '../lib/weight-health'
+import { ibwEstimates, type IbwMethod } from '../lib/weight-health'
 import { massParts } from '../lib/body-composition'
 import { play } from '../lib/sounds'
 import '../prototypes/weight/weight.css'
@@ -26,9 +24,7 @@ import '../styles/integrated-pages.css'
 export default function Weight() {
   const records = useWeightStore((state) => state.records)
   const addRecord = useWeightStore((state) => state.addRecord)
-  const { latest, fromPeak } = useWeightSummary(records)
-  const bmi = weightHealth(latest.weight, profile.heightCm, null, profile.sex).bmi
-  const [metric, setMetric] = useState<Metric>('weight')
+  const { latest } = useWeightSummary(records)
   const [adding, setAdding] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [exportError, setExportError] = useState('')
@@ -41,7 +37,7 @@ export default function Weight() {
     setExporting(true); setExportError('')
     try {
       const { generateWeightReportBlob } = await import('../lib/weight-pdf')
-      const blob = await generateWeightReportBlob(records, { monochrome })
+      const blob = await generateWeightReportBlob(records, { monochrome, heightCm: profile.heightCm, referenceWeight: reference.value ?? undefined })
       const url = URL.createObjectURL(blob), link = document.createElement('a')
       link.href = url; link.download = `peso-composicion-${new Date(Date.now()-new Date().getTimezoneOffset()*60_000).toISOString().slice(0,10)}${monochrome ? '-impresion' : ''}.pdf`
       document.body.appendChild(link); link.click(); link.remove()
@@ -52,36 +48,14 @@ export default function Weight() {
 
   return (
     <div className="integrated-weight">
-      <header className="page-heading">
-        <div>
-          <span className="eyebrow section-accent-weight">Seguimiento</span>
-          <h1>Peso</h1>
-        </div>
-        <div className="weight-page-actions"><button className="outline-action" onClick={() => downloadReport()} disabled={exporting}>{exporting ? 'Generando PDF…' : 'Descargar PDF'}</button><button className="outline-action" onClick={() => downloadReport(true)} disabled={exporting} title="Generar PDF en negro sobre blanco">Imprimir</button><button className="outline-action" onClick={() => setAdding(true)}>Añadir medición</button></div>
+      <header className="page-heading weight-chart-actions-row">
+        <div className="weight-heading-accessible"><h1>Peso</h1></div>
+        <div className="weight-page-actions"><button className="outline-action weight-icon-action" aria-label="Descargar PDF" title="Descargar PDF" onClick={() => downloadReport()} disabled={exporting}><FileDown aria-hidden="true"/><span className="weight-action-label">{exporting ? 'Generando PDF…' : 'Descargar PDF'}</span></button><button className="outline-action weight-icon-action" aria-label="Imprimir" onClick={() => downloadReport(true)} disabled={exporting} title="Generar PDF en negro sobre blanco"><Printer aria-hidden="true"/><span className="weight-action-label">Imprimir</span></button><button className="outline-action weight-icon-action" aria-label="Añadir medición" title="Añadir medición" onClick={() => setAdding(true)}><Plus aria-hidden="true"/><span className="weight-action-label">Añadir medición</span></button></div>
       </header>
       {exportError && <p role="alert">{exportError}</p>}
 
-      <section className="weight-overview" aria-label="Resumen de peso">
-        <div className="weight-overview__current">
-          <span>Peso actual</span>
-          <strong><AnimatedNumber value={latest.weight} /> <small>kg</small></strong>
-          <p>{formatWeightDate(latest.date, true)}</p>
-        </div>
-        <dl className="weight-overview__facts">
-          <div><dt>Cambio desde el máximo</dt><dd><AnimatedNumber value={fromPeak} /> kg</dd></div>
-          <div><dt>Grasa corporal</dt><dd>{latest.bodyFat == null ? '—' : <><AnimatedNumber value={latest.bodyFat} /> %</>}</dd></div>
-          <div><dt>IMC actual</dt><dd><AnimatedNumber value={bmi} /> kg/m²</dd></div>
-        </dl>
-      </section>
-
-      <div className="weight-data-grid weight-dashboard-grid">
-        <section className="integrated-panel weight-trend-panel">
-          <header>
-            <h2>Tendencia</h2>
-            <MetricToggle metric={metric} onChange={setMetric} />
-          </header>
-          <WeightChart records={records} metric={metric} referenceWeight={reference.value ?? undefined} referenceLabel={reference.name} />
-        </section>
+      <WeightEditorialDashboard records={records} heightCm={profile.heightCm} referenceWeight={reference.value ?? undefined} referenceLabel={reference.name} />
+      <div className="weight-data-grid weight-dashboard-grid weight-composition-only">
         {composition && <section className="integrated-panel weight-composition-panel"><header><h2>Composición actual</h2><span>{formatWeightDate(composition.date)}</span></header><div className="weight-composition-chart"><BigSlice parts={massParts(composition)} total={composition.weight} /></div></section>}
       </div>
       <WeightHealth latest={latest} />

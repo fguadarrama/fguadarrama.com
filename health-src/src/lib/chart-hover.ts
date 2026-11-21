@@ -4,10 +4,15 @@ import { bindHoverRouting, CHART_SURFACE, getHoverAudio } from './hover-audio'
 type ChartState={activeTooltipIndex?:string|number|null;isTooltipActive?:boolean}
 declare global{interface Window{__healthChartPoint?:(state:ChartState)=>void;__healthChartLeave?:()=>void}}
 const clamp=(v:number)=>Math.max(0,Math.min(1,v))
+let soundSequence=0
+let soundRequest=0
+export function cancelPendingChartTone(){soundRequest++}
 let voice:{osc:OscillatorNode;gain:GainNode}|null=null
 export function chartHoverTone(at:number){
-  if(document.hidden)return
-  const audio=getHoverAudio();if(!audio||audio.state!=='running')return
+  if(document.hidden)return false
+  const audio=getHoverAudio();if(!audio)return false
+  const request=++soundRequest
+  if(audio.state!=='running'){void audio.resume().then(()=>{if(request===soundRequest&&audio.state==='running'&&!document.hidden)chartHoverTone(at)}).catch(()=>{});return true}
   const t=audio.currentTime,pitch=.75+clamp(at)*.75
   // One voice. Crossing quickly to another reading cuts the previous tail.
   if(voice){voice.gain.gain.cancelScheduledValues(t);voice.gain.gain.setTargetAtTime(.0001,t,.002);try{voice.osc.stop(t+.008)}catch{}}
@@ -15,7 +20,8 @@ export function chartHoverTone(at:number){
   osc.type='sine';osc.frequency.setValueAtTime(174*pitch,t);osc.frequency.exponentialRampToValueAtTime(155*pitch,t+.25)
   filter.type='lowpass';filter.frequency.value=640
   gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.034,t+.028);gain.gain.exponentialRampToValueAtTime(.0001,t+.25)
-  osc.connect(filter).connect(gain).connect(audio.destination);osc.start(t);osc.stop(t+.27);voice={osc,gain}
+  osc.connect(filter).connect(gain).connect(audio.destination);osc.start(t);osc.stop(t+.27);voice={osc,gain};document.documentElement.dataset.healthChartSoundCount=String(++soundSequence)
+  return true
 }
 /** Shared by the tooltip hook and the DOM fallback. No timers or queued notes. */
 export function createPointGate(){
@@ -31,6 +37,8 @@ function dots(svg:SVGSVGElement){
   })).filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)).sort((a,b)=>a.x-b.x)
 }
 export function startChartHover(){
+  window.__healthChartTone=chartHoverTone
+  window.__healthChartToneCancel=cancelPendingChartTone
   if(document.documentElement.dataset.chartHover)return
   document.documentElement.dataset.chartHover='true';bindHoverRouting()
   let current:SVGSVGElement|null=null
