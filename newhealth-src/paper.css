@@ -1,0 +1,97 @@
+/* Shared paper and ink, applied to both the lock screen and unlocked application. */
+@media screen {
+  html:root, html:root[data-theme] {
+    --paper: rgb(253, 251, 246);
+    --type: rgb(28, 30, 30);
+    --other-paper: rgb(243, 243, 243);
+    --blue: rgb(67, 146, 186);
+    --rose: rgb(255, 4, 110);
+    --indigo: rgb(67, 61, 186);
+    --success: rgb(35, 111, 89);
+    --hair: 1px;
+    --heading: 'Faculty Glyphic', 'Albert Sans Variable', sans-serif;
+    --ink: var(--type); --muted: var(--type); --accent: var(--type);
+    --bg: var(--paper); --surface: var(--paper); --surface-sunken: var(--paper);
+    --surface-hover: var(--other-paper); --theme-blue: var(--type);
+    --ink-70: var(--type); --ink-50: var(--type); --ink-30: var(--type);
+    --ink-12: var(--type); --ink-06: var(--paper);
+    --border: var(--type); --border-strong: var(--type);
+    --alarm: var(--rose); --watermelon: var(--rose); --weight-accent: var(--blue);
+    --ok: var(--success); --r-lg: 0; --r-md: 2px; --r-sm: 2px;
+  }
+  html:root[data-theme=dark] {
+    --paper: rgb(28, 30, 30); --type: rgb(253, 251, 246);
+    --other-paper: rgb(17, 32, 34); --success: rgb(27, 191, 102);
+  }
+  @media (min-resolution: 2dppx) { html:root[data-theme] { --hair: .5px } }
+  html, body, .shell { background: var(--paper); color: var(--type); font-variant-numeric: tabular-nums }
+  .gate { width: min(100%, 590px); text-align: left; border-block: var(--hair) solid var(--type); padding: 48px 0 }
+  .gate .gate__logo { width: 34px; height: 34px; margin: 0 0 24px }
+  .gate h1, .shell .brand__mark { font: 400 clamp(33px,4.4vw,55px)/1.12 var(--heading); letter-spacing: -.045em }
+  .gate h1 { margin: 0 0 40px }
+  .gate .otp { --fill-slab: var(--other-paper); --fill-on: var(--type); --gate-error: var(--rose); width: fit-content; max-width: 100% }
+  .gate .otp-ok { color: var(--success); text-shadow: none }
+  .gate .otp-cell { border-radius: 2px }
+  .shell .container { width: min(100%, 1248px); margin-inline: auto; padding-inline: clamp(16px,4vw,48px) }
+  .shell .site-header { position: relative; background: var(--paper); border: 0; box-shadow: none }
+  .shell .site-header__inner { display: flex; flex-direction: column; align-items: stretch; gap: 24px; padding-block: clamp(28px,5vw,64px) 0 }
+  .brand { width: 100%; align-items: baseline; gap: 12px }
+  .brand .brand__icon { width: 25px; height: 25px; flex-basis: 25px; align-self: center }
+  .brand .brand__pipe { display: none }
+  .brand .brand__initials { font: 500 13px var(--font-ui); color: var(--type) }
+  .brand .theme-control-host, .brand > .theme-control { margin-left: auto; align-self: center }
+  .shell .gdock { width: 100%; justify-content: flex-start; gap: clamp(6px,2vw,24px); border: 0; border-radius: 0; border-bottom: var(--hair) solid var(--type); background: var(--paper); padding: 0; box-shadow: none; backdrop-filter: none }
+  .gdock::before, .gdock::after { display: none }
+  .shell .gdock-item { flex-direction: row; gap: 7px; width: auto; padding: 8px 1px; min-height: 44px; border-bottom: 2px solid transparent; border-radius: 0; color: var(--type); opacity: 1 }
+  .gdock-item svg { width: 17px; height: 17px; stroke-width: 1.4 }
+  .shell .gdock-item[aria-current=page] { border-bottom-color: var(--blue) }
+  .shell .gdock-label { color: var(--type); opacity: 1; font: 500 13px var(--font-ui) }
+  .shell .patient-strip { border: 0; padding-block: 12px; font-size: 13px }
+  .shell main.container { padding-top: 36px!important }
+  .shell :is(h1,h2,.cat-panel__title,.card__title,.drawer-header__title) {
+    font-family: var(--heading); font-weight: 400; text-transform: none; letter-spacing: -.025em; color: var(--type)!important;
+  }
+  .shell :is(h2,.cat-panel__title,.card__title) { font-size: clamp(21px,2.2vw,29px); line-height: 1.22 }
+  .shell :is(.eyebrow,.drawer-header__eyebrow,th) { text-transform: none; letter-spacing: normal }
+  .shell :is(.cat-panel,.card,.timeline-event-card,.integrated-panel,.weight-health,.composition,.rb-preview,.rb-grid>section,.weight-summary-grid article,.rb-sheet,.weight-composition-panel) {
+    border: 0; border-top: var(--hair) solid var(--type); border-radius: 0;
+    background: var(--paper); box-shadow: none;
+  }
+  .shell :is(.cat-panel,.card,.integrated-panel,.composition,.weight-health,.timeline-event-card,.rb-page) {
+    --cat-title: var(--type); --cat-accent: var(--type); --cat-accent-bg: var(--paper);
+    --rb-ink: var(--type); --rb-muted: var(--type); --rb-border: var(--type);
+  }
+  .shell :is(.cat-panel__header,.card__head,.integrated-panel>header) { border: 0; background: var(--paper); padding: 23px 0 16px }
+  .shell :is(.card__body,.composition,.weight-health,.timeline-event-card) { padding-inline: 0 }
+  .shell :is(.ctable,.data-table,.integrated-table-scroll,.json-entry-table) :is(td,th) {
+    background: var(--paper); border-inline: 0!important; border-bottom-width: var(--hair); font-variant-numeric: tabular-nums;
+  }
+  .shell .ctable tbody tr:hover td { background: var(--other-paper) }
+  .shell .ctable td.num,.shell .ctable th.ctable__date { text-align: right }
+  .shell :is(.btn,.outline-action,.theme-menu,.segmented-control,.weight-toggle,.weight-dialog,.drawer-panel,.chip,.rb-primary,select,input,textarea) { border-radius: 2px; box-shadow: none }
+  .shell :is(.theme-menu,.weight-dialog,.drawer-panel) { background: var(--paper) }
+  .shell .segmented-control { padding: 0; border: 0; gap: 12px; background: var(--paper) }
+  .shell .segmented-control button { border-radius: 0; border-bottom: 1px solid transparent }
+  .shell .segmented-control button[data-active=true] { border-bottom-color: var(--blue) }
+  .shell .real-timeline::before { width: var(--hair); background: var(--type) }
+  .shell .rb-page .rb-lab-section>header { border-top: var(--hair) solid var(--type) }
+  .shell .wed-exact :is(.wed-weight,.wed-bmi) { border: 0; border-top: var(--hair) solid var(--type); border-radius: 0; background: var(--paper) }
+  .shell .wed-exact { --wed-white: var(--paper); --wed-ink: var(--type); --wed-muted: var(--type); --wed-blue: var(--blue) }
+  .shell .wed-exact svg text { fill: var(--type)!important }
+  .shell .wed-exact svg text[fill="#4392ba"] { fill: var(--blue)!important }
+  .wed-exact svg [stroke="#20231f"], .wed-exact svg [stroke="#777d78"] { stroke: var(--type) }
+  .wed-exact svg [fill="#20231f"] { fill: var(--type) }
+  .wed-exact svg [fill="#ffffff"] { fill: var(--paper) }
+  .wed-exact svg [stroke="#ffffff"] { stroke: var(--paper) }
+  .wed-exact svg [stroke="#e4e5df"] { stroke: var(--type); stroke-width: .35 }
+  .shell .wed-tooltip { background: var(--paper)!important; border: var(--hair) solid var(--type); border-radius: 2px }
+  .shell .wed-tooltip :is(strong,span) { color: var(--type)!important }
+  :focus-visible { outline: 2px solid var(--type); outline-offset: 3px }
+  @media(max-width:760px) {
+    .shell .gdock { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 0 }
+    .shell .gdock-item { width: 100%; flex-direction: column; min-width: 0; gap: 3px; padding-inline: 0 }
+    .shell .gdock-label { font-size: clamp(9px,2.55vw,12px) }
+    .shell .site-header__inner { align-items: stretch; gap: 16px }
+    .gate { padding-block: 32px }
+  }
+}
