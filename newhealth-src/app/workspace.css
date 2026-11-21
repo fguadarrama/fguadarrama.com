@@ -1,0 +1,76 @@
+.atlas { width: min(100%,1490px); margin: 0 auto; padding: 0 clamp(16px,4.5vw,76px); font-family: var(--font-ui); }
+.atlas a {color:var(--type)}
+.atlas-top {display:flex;align-items:center;gap:20px;border-bottom:var(--hair) solid var(--type);min-height:72px;position:relative;z-index:12}
+.atlas-top>a {font:400 22px var(--heading);text-decoration:none;margin-right:auto}
+.atlas-top details {position:relative;font-size:14px}
+.atlas-top details>p {position:absolute;right:0;width:max-content;max-width:80vw;background:var(--paper);padding:18px;border:var(--hair) solid var(--type);z-index:4}
+.atlas summary,.atlas button,.atlas select {cursor:pointer}
+.atlas-layout {display:grid;grid-template-columns:170px minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+.atlas-nav {position:sticky;top:18px;display:grid;padding-top:43px}
+.atlas-nav a {display:flex;align-items:center;gap:12px;text-decoration:none;min-height:47px;line-height:1.25;font-size:15px}
+.atlas-nav a:nth-child(5){margin-top:25px;border-top:var(--hair) solid var(--type);padding-top:10px}
+.atlas-nav a[aria-current=page] svg {color:var(--blue);stroke-width:2}
+.atlas-nav a[aria-current=page] {font-weight:650}
+.atlas main {min-width:0;padding:48px 0 65px}
+.atlas .atlas-title {font:400 clamp(36px,4.2vw,62px)/1.06 var(--heading);letter-spacing:-.045em;margin:0 0 30px}
+.atlas-section-head,.atlas-segments {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.atlas-section-head {margin:20px 0}
+.atlas-section-head h2,.atlas-section-head h3 {margin:0}
+.atlas select,.atlas-finder input {color:var(--type);background:var(--paper);font:inherit;border:0;border-bottom:var(--hair) solid var(--type);padding:8px 0}
+.atlas-finder {display:grid;grid-template-columns:minmax(120px,.6fr) minmax(140px,1fr);align-items:baseline;gap:10px 22px;padding:15px 0 24px}
+.atlas-finder label {font-size:20px}
+.atlas-finder input {width:100%}
+.atlas-finder ul {grid-column:1/-1;padding:0;list-style:none;max-height:45vh;overflow:auto}
+.atlas-finder li button,.atlas-results button {width:100%;display:flex;align-items:baseline;justify-content:space-between;gap:16px;text-align:left;padding:14px 0;border:0;border-bottom:var(--hair) solid var(--type);border-radius:0;color:var(--type);background:var(--paper);font:inherit}
+.atlas-results b {white-space:nowrap;font-weight:550}
+.atlas-results small,.atlas-finder small {font-size:13px}
+.atlas-visits {border-top:var(--hair) solid var(--type)}
+.atlas-strip svg {display:block;width:100%;height:55px}
+.atlas-strip>div {display:flex;justify-content:space-between;font-size:12px}
+.atlas-strip {margin:16px 0 32px}
+.atlas-segments {justify-content:start;border-bottom:var(--hair) solid var(--type);margin:0 0 24px;gap:4px 18px}
+.atlas-segments button {border:0;background:none;color:var(--type);padding:8px 0 10px;font:inherit}
+.atlas-segments button[aria-pressed=true] {box-shadow:inset 0 -2px var(--blue);font-weight:600}
+.atlas-year {display:flex;align-items:baseline;gap:12px}
+.atlas .timeline-heading>div:first-child,.atlas .rb-title>div:first-child :is(h1,.eyebrow),.atlas .json-builder>section:first-child {display:none}
+.atlas .rb-grid {display:block}
+.atlas .rb-grid>aside {width:100%;position:static;max-height:none;overflow:visible}
+.atlas-modes[data-mode="0"] :is(.rb-preview,.rb-export-actions),.atlas-modes[data-mode="1"] .rb-grid>aside {display:none}
+.atlas-modes[data-mode="0"] .json-builder>section:nth-last-child(-n+2),.atlas-modes[data-mode="1"] .json-builder>section:nth-child(-n+3){display:none}
+.atlas-modes:not([data-mode="0"]) .weight-editorial-root,
+.atlas-modes:not([data-mode="1"]) :is(.weight-composition-only,.composition,.inbody-readings),
+.atlas-modes:not([data-mode="2"]) .weight-history-panel,
+.atlas-modes:not([data-mode="3"]) .weight-health {display:none!important}
+.atlas>footer {font-size:13px;padding:18px 0;border-top:var(--hair) solid var(--type)}
+@media(max-width:800px){
+ .atlas-layout{display:block}.atlas-nav{position:static;padding:10px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:var(--hair) solid var(--type)}
+ .atlas-nav a,.atlas-nav a:nth-child(5){font-size:13px;gap:5px;padding:0;border:0;margin:0;min-height:36px}
+ .atlas-nav svg{width:20px}.atlas main{padding-top:28px}.atlas-top{gap:8px;min-height:58px}
+ .atlas-finder{grid-template-columns:1fr}.atlas-results b{white-space:normal}
+}
+@media print{.atlas-nav,.atlas-top,.atlas-title,.atlas-segments,.atlas>footer{display:none}.atlas-layout{display:block}}
+.atlas-group{border-top:var(--hair) solid var(--type)}
+.atlas-group summary{display:flex;align-items:baseline;gap:12px;padding:16px 0;list-style:none}
+.atlas-group summary small{margin-left:auto;font-variant-numeric:tabular-nums}
+.atlas-group summary::after{content:'+';width:1em;text-align:center;color:var(--blue)}
+.atlas-group[open] summary::after{content:'−'}
+.atlas-group summary::-webkit-details-marker{display:none}
+.atlas-group .atlas-results{padding:0 0 16px 18px}
+.atlas-date-controls{display:flex;align-items:center;gap:8px}
+.atlas-date-controls button{background:none;color:var(--type);border:0;padding:10px}
+.atlas-date-controls button:disabled{visibility:hidden}
+.atlas-strip svg{height:78px}
+.atlas .weight-heading-accessible{display:none}
+.atlas .rb-export-actions{margin-left:auto}
+.atlas .atlas-segments button[aria-pressed=true]{border-bottom:2px solid var(--blue);box-shadow:none}
+.atlas-key {display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.atlas-key span::before {content:'';display:inline-block;background:currentColor;width:2px;height:.9em;vertical-align:baseline;margin-right:6px}
+.atlas-key span+span::before {background:var(--blue)}
+.atlas-years {display:flex;gap:4px;overflow-x:auto;border-block:var(--hair) solid var(--type);padding:12px 0}
+.atlas-years button {flex:1 0 45px;display:grid;justify-items:center;gap:4px;border:0;background:var(--paper);color:var(--type);font:inherit;font-size:13px;font-variant-numeric:tabular-nums}
+.atlas-years button[aria-pressed=true] {text-decoration:underline;text-underline-offset:4px}
+.atlas-years svg {width:28px;height:40px}
+@media (prefers-reduced-motion:no-preference){
+ .atlas-nav a svg {transition:transform .19s cubic-bezier(.2,.8,.2,1)}
+ .atlas-nav a:is(:hover,:focus-visible) svg {transform:translateX(2px) scale(1.12)}
+}
