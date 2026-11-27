@@ -52,17 +52,20 @@ const wrapper = `<!doctype html>
 <title>Historial médico | Acceso privado</title>
 ${favicon}
 ${gate.style}
-</head><body>${gate.body}
-<script>
-const payload=${JSON.stringify(payload)};
+</head><body><script>
 const encoder=new TextEncoder,decoder=new TextDecoder,b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 async function decryptPage(password){
+if(document.readyState==='loading') await new Promise(resolve=>document.addEventListener('DOMContentLoaded',resolve,{once:true}));
 const material=await crypto.subtle.importKey('raw',encoder.encode(password),'PBKDF2',false,['deriveKey']);
 const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(payload.salt),iterations:payload.iterations,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['decrypt']);
 const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(payload.iv)},key,b64(payload.data));
 return decoder.decode(bytes);
 }
 window.decryptPage=decryptPage;
+</script>
+${gate.body}
+<script>
+const payload=${JSON.stringify(payload)};
 </script>
 </body></html>`
 
